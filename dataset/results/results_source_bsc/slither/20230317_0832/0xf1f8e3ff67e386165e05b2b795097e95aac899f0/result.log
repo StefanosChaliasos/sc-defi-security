@@ -1,0 +1,473 @@
+Compilation warnings/errors on /sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol:
+Warning: Visibility for constructor is ignored. If you want the contract to be non-deployable, making it "abstract" is sufficient.
+    --> /sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol:1561:5:
+     |
+1561 |     constructor(
+     |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+MasterChef.safeGenTransfer(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797-1804) ignores return value by gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+MasterChef.safeGenTransfer(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797-1804) ignores return value by gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+MasterChef.updatePool(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650) performs a multiplication on the result of a division:
+	-genReward = blockAmount.mul(genPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1645)
+	-pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+MasterChef._pendingGen(uint256,address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1770-1794) performs a multiplication on the result of a division:
+	-genReward = blockAmount.mul(genPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1779)
+	-accGenPerPower = accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1780)
+MasterChef._pendingGen(uint256,address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1770-1794) performs a multiplication on the result of a division:
+	-truePower = user.amount.mul(powerBonus).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1789)
+	-user.power.mul(accGenPerPower).div(1e12).sub(user.rewardDebt) * truePower / user.power (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1790)
+MasterChef.updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846) performs a multiplication on the result of a division:
+	-priceCents = busd.balanceOf(busdGenLP).mul(100).div(genBalance) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1831)
+	-genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)
+MasterChef.updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846) performs a multiplication on the result of a division:
+	-priceCents = busd.balanceOf(busdGenLP).mul(100).div(genBalance) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1831)
+	-genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Reentrancy in MasterChef.add(uint256,IERC20,uint16,bool) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592-1608):
+	External calls:
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1595)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- poolInfo.push(PoolInfo(0,_lpToken,_allocPoint,lastRewardBlock,0,_depositFeeBP)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1600-1607)
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1599)
+Reentrancy in MasterChef.claim(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1755-1768):
+	External calls:
+	- safeGenTransfer(msg.sender,pending) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1764)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+	- updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1767)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1767)
+		- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)
+		- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)
+		- genPerBlock = 1e18 (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)
+	- updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1767)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)
+		- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+Reentrancy in MasterChef.deposit(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)
+		- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)
+		- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)
+		- genPerBlock = 1e18 (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)
+		- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)
+		- user.lastClaimedBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1758)
+Reentrancy in MasterChef.deposit(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1660)
+	- pool.lpToken.safeTransfer(feeAddress,depositFee) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1663)
+	State variables written after the call(s):
+	- updatePower(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1670)
+		- pool.totalPower = pool.totalPower.add(user.power).sub(currentPower) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1737)
+	- user.amount = user.amount.add(_amount).sub(depositFee) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1664)
+	- updatePower(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1670)
+		- user.power = user.amount.mul(powerBonus).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1735)
+Reentrancy in MasterChef.deposit(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1660)
+	State variables written after the call(s):
+	- user.amount = user.amount.add(_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1666)
+Reentrancy in MasterChef.powerUpWithNFTs(uint256,uint256[]) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1700)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)
+		- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)
+		- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)
+		- genPerBlock = 1e18 (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)
+		- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+	- updatePower(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1717)
+		- pool.totalPower = pool.totalPower.add(user.power).sub(currentPower) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1737)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)
+		- user.lastClaimedBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1758)
+	- user.lastPoweredBlock += proxy.getNFTPowerBonusBlocks(nftId) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1707)
+	- user.lastPoweredBlock = block.number + proxy.getNFTPowerBonusBlocks(nftId) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1709)
+	- updatePower(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1717)
+		- user.power = user.amount.mul(powerBonus).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1735)
+	- user.rewardDebt = user.power.mul(pool.accGenPerPower).div(1e12) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1719)
+Reentrancy in MasterChef.set(uint256,uint256,uint16,bool) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611-1619):
+	External calls:
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1614)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- poolInfo[_pid].allocPoint = _allocPoint (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1617)
+	- poolInfo[_pid].depositFeeBP = _depositFeeBP (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1618)
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1616)
+Reentrancy in MasterChef.updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846):
+	External calls:
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1830)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1835)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1835)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)
+		- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+Reentrancy in MasterChef.updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846):
+	External calls:
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1830)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1839)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1839)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)
+		- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+Reentrancy in MasterChef.updateEmissionIfNeeded() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846):
+	External calls:
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1830)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1842)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- genPerBlock = 1e18 (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1842)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)
+		- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+Reentrancy in MasterChef.updateEmissionRate(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818-1821):
+	External calls:
+	- massUpdatePools() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1819)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- genPerBlock = _genPerBlock (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1820)
+Reentrancy in MasterChef.updatePool(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650):
+	External calls:
+	- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+	- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+	- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1682)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	State variables written after the call(s):
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)
+		- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)
+		- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)
+		- genPerBlock = 1e18 (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)
+		- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)
+		- pool.lastRewardBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)
+		- user.lastClaimedBlock = block.number (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1758)
+	- user.amount = user.amount.sub(_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1686)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1682)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1687)
+	State variables written after the call(s):
+	- updatePower(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1690)
+		- pool.totalPower = pool.totalPower.add(user.power).sub(currentPower) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1737)
+	- updatePower(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1690)
+		- user.power = user.amount.mul(powerBonus).div(100) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1735)
+	- user.rewardDebt = user.power.mul(pool.accGenPerPower).div(1e12) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1692)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+OwnableToken.constructor(string,string).name (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1476) shadows:
+	- ERC20.name() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#555-557) (function)
+OwnableToken.constructor(string,string).symbol (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1476) shadows:
+	- ERC20.symbol() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#563-565) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+MasterChef.add(uint256,IERC20,uint16,bool) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592-1608) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1599) 
+MasterChef.set(uint256,uint256,uint16,bool) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611-1619) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1616) 
+MasterChef.updateEmissionRate(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818-1821) should emit an event for: 
+	- genPerBlock = _genPerBlock (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1820) 
+MasterChef.updateEmissionParameters(uint256,uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848-1852) should emit an event for: 
+	- topPrice = _topPrice (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1849) 
+	- bottomPrice = _bottomPrice (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1850) 
+	- emissionUpdateInterval = _emissionUpdateInterval (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1851) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+MasterChef.constructor(GenToken,IERC20,IGenNFT,address,IProxy,address,address,uint256,uint256)._busdGenLP (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1565) lacks a zero-check on :
+		- busdGenLP = _busdGenLP (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1578)
+MasterChef.dev(address)._devaddr (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1807) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1809)
+MasterChef.setFeeAddress(address)._feeAddress (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1812) lacks a zero-check on :
+		- feeAddress = _feeAddress (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1814)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+MasterChef.updatePool(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650) has external calls inside a loop: gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+MasterChef.updatePool(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650) has external calls inside a loop: gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+MasterChef.powerUpWithNFTs(uint256,uint256[]) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: nft.ownerOf(nftId) == msg.sender (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1705)
+MasterChef.powerUpWithNFTs(uint256,uint256[]) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: user.lastPoweredBlock += proxy.getNFTPowerBonusBlocks(nftId) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1707)
+MasterChef.powerUpWithNFTs(uint256,uint256[]) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: nft.changeType(nftId,0) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1712)
+MasterChef.powerUpWithNFTs(uint256,uint256[]) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: user.lastPoweredBlock = block.number + proxy.getNFTPowerBonusBlocks(nftId) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1709)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in MasterChef.deposit(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1660)
+	- pool.lpToken.safeTransfer(feeAddress,depositFee) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1663)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,_pid,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1673)
+Reentrancy in MasterChef.emergencyWithdraw(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1741-1753):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1751)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(msg.sender,_pid,amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1752)
+Reentrancy in MasterChef.powerUpWithNFTs(uint256,uint256[]) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1700)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,_pid,1) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1720)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694):
+	External calls:
+	- updatePool(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1682)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- claim(_pid) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)
+		- gen.transfer(_to,genBal) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)
+		- gen.transfer(_to,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)
+		- gen.mint(devaddr,genReward.div(10)) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)
+		- gen.mint(address(this),genReward) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1687)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_pid,_amount) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1693)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#832-841) uses assembly
+	- INLINE ASM (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#839)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#977-994) uses assembly
+	- INLINE ASM (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#986-989)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#885-887) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#910-912) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#959-961) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#969-975) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#935-937) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#945-951) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#859-865) is never used and should be removed
+Context._msgData() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#121-124) is never used and should be removed
+EnumerableSet._add(EnumerableSet.Set,bytes32) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#183-193) is never used and should be removed
+EnumerableSet._at(EnumerableSet.Set,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#259-262) is never used and should be removed
+EnumerableSet._contains(EnumerableSet.Set,bytes32) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#238-240) is never used and should be removed
+EnumerableSet._length(EnumerableSet.Set) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#245-247) is never used and should be removed
+EnumerableSet._remove(EnumerableSet.Set,bytes32) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#201-233) is never used and should be removed
+EnumerableSet.add(EnumerableSet.AddressSet,address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#330-332) is never used and should be removed
+EnumerableSet.add(EnumerableSet.Bytes32Set,bytes32) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#276-278) is never used and should be removed
+EnumerableSet.add(EnumerableSet.UintSet,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#385-387) is never used and should be removed
+EnumerableSet.at(EnumerableSet.AddressSet,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#368-370) is never used and should be removed
+EnumerableSet.at(EnumerableSet.Bytes32Set,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#314-316) is never used and should be removed
+EnumerableSet.at(EnumerableSet.UintSet,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#423-425) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.AddressSet,address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#347-349) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.Bytes32Set,bytes32) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#293-295) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#402-404) is never used and should be removed
+EnumerableSet.length(EnumerableSet.AddressSet) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#354-356) is never used and should be removed
+EnumerableSet.length(EnumerableSet.Bytes32Set) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#300-302) is never used and should be removed
+EnumerableSet.length(EnumerableSet.UintSet) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#409-411) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.AddressSet,address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#340-342) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.Bytes32Set,bytes32) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#286-288) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#395-397) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1025-1034) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1041-1048) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1036-1039) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1433-1438) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1393-1395) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1455-1460) is never used and should be removed
+SafeMath.sub(uint256,uint256,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1410-1415) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1264-1270) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1306-1311) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1318-1323) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1289-1299) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1277-1282) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.8.0 (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#3) allows old versions
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#859-865):
+	- (success) = recipient.call{value: amount}() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#863)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#920-927):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#925)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#945-951):
+	- (success,returndata) = target.staticcall(data) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#949)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#969-975):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#973)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter MasterChef.add(uint256,IERC20,uint16,bool)._allocPoint (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint16,bool)._lpToken (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint16,bool)._depositFeeBP (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint16,bool)._withUpdate (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint16,bool)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint16,bool)._allocPoint (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint16,bool)._depositFeeBP (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint16,bool)._withUpdate (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase
+Parameter MasterChef.pendingGen(uint256,address)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1622) is not in mixedCase
+Parameter MasterChef.pendingGen(uint256,address)._user (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1622) is not in mixedCase
+Parameter MasterChef.updatePool(uint256)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256)._amount (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._amount (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677) is not in mixedCase
+Parameter MasterChef.powerUpWithNFTs(uint256,uint256[])._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696) is not in mixedCase
+Parameter MasterChef.powerUpWithNFTs(uint256,uint256[])._nftIds (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696) is not in mixedCase
+Parameter MasterChef.updatePower(uint256)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1723) is not in mixedCase
+Parameter MasterChef.emergencyWithdraw(uint256)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1741) is not in mixedCase
+Parameter MasterChef.claim(uint256)._pid (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1755) is not in mixedCase
+Parameter MasterChef.safeGenTransfer(address,uint256)._to (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797) is not in mixedCase
+Parameter MasterChef.safeGenTransfer(address,uint256)._amount (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797) is not in mixedCase
+Parameter MasterChef.dev(address)._devaddr (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1807) is not in mixedCase
+Parameter MasterChef.setFeeAddress(address)._feeAddress (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1812) is not in mixedCase
+Parameter MasterChef.updateEmissionRate(uint256)._genPerBlock (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818) is not in mixedCase
+Parameter MasterChef.updateEmissionParameters(uint256,uint256,uint256)._topPrice (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848) is not in mixedCase
+Parameter MasterChef.updateEmissionParameters(uint256,uint256,uint256)._bottomPrice (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848) is not in mixedCase
+Parameter MasterChef.updateEmissionParameters(uint256,uint256,uint256)._emissionUpdateInterval (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848) is not in mixedCase
+Parameter MasterChef.setProxy(IProxy)._proxy (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1854) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#122)" inContext (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#116-125)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#481-484)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#490-494)
+name() should be declared external:
+	- ERC20.name() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#555-557)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#563-565)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#580-582)
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#587-589)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#594-596)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#606-609)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#614-616)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#625-628)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#643-651)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#665-668)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#684-690)
+onERC721Received(address,address,uint256,bytes) should be declared external:
+	- ERC721Holder.onERC721Received(address,address,uint256,bytes) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1109-1111)
+mint(address,uint256) should be declared external:
+	- OwnableToken.mint(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1478-1480)
+burn(address,uint256) should be declared external:
+	- OwnableToken.burn(address,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1482-1484)
+add(uint256,IERC20,uint16,bool) should be declared external:
+	- MasterChef.add(uint256,IERC20,uint16,bool) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592-1608)
+set(uint256,uint256,uint16,bool) should be declared external:
+	- MasterChef.set(uint256,uint256,uint16,bool) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611-1619)
+deposit(uint256,uint256) should be declared external:
+	- MasterChef.deposit(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674)
+withdraw(uint256,uint256) should be declared external:
+	- MasterChef.withdraw(uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694)
+powerUpWithNFTs(uint256,uint256[]) should be declared external:
+	- MasterChef.powerUpWithNFTs(uint256,uint256[]) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721)
+emergencyWithdraw(uint256) should be declared external:
+	- MasterChef.emergencyWithdraw(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1741-1753)
+dev(address) should be declared external:
+	- MasterChef.dev(address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1807-1810)
+setFeeAddress(address) should be declared external:
+	- MasterChef.setFeeAddress(address) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1812-1815)
+updateEmissionRate(uint256) should be declared external:
+	- MasterChef.updateEmissionRate(uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818-1821)
+updateEmissionParameters(uint256,uint256,uint256) should be declared external:
+	- MasterChef.updateEmissionParameters(uint256,uint256,uint256) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848-1852)
+setProxy(IProxy) should be declared external:
+	- MasterChef.setProxy(IProxy) (../../sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1854-1856)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol analyzed (17 contracts with 78 detectors), 145 result(s) found

@@ -1,0 +1,607 @@
+{
+    "errors": [
+        "EXIT_CODE_65"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_update",
+            "impact": "High",
+            "line": 671,
+            "line_end": 689,
+            "message": "DemaxPair._update(uint256,uint256,uint112,uint112) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#671-689) uses a weak PRNG: \"blockTimestamp = uint32(block.timestamp % 2 ** 32) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#678)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_update",
+            "impact": "Medium",
+            "line": 324,
+            "line_end": 333,
+            "message": "BaseShareField._update() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#324-333) uses a dangerous strict equality:\n\t- totalProductivity == 0 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#325)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_safeTransfer",
+            "impact": "Medium",
+            "line": 623,
+            "line_end": 630,
+            "message": "DemaxPair._safeTransfer(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#623-630) uses a dangerous strict equality:\n\t- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),DEMAX PAIR : TRANSFER_FAILED) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#629)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "mint",
+            "impact": "Medium",
+            "line": 692,
+            "line_end": 712,
+            "message": "Reentrancy in DemaxPair.mint(address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#692-712):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#707)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)\n\t\t- blockTimestampLast = blockTimestamp (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)\n\t\t- reserve0 = uint112(balance0) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)\n\t\t- reserve1 = uint112(balance1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "swapFee",
+            "impact": "Medium",
+            "line": 780,
+            "line_end": 793,
+            "message": "Reentrancy in DemaxPair.swapFee(uint256,address,address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#780-793):\n\tExternal calls:\n\t- _safeTransfer(token,to,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#788)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)\n\t\t- blockTimestampLast = blockTimestamp (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)\n\t\t- reserve0 = uint112(balance0) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)\n\t\t- reserve1 = uint112(balance1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 715,
+            "line_end": 747,
+            "message": "Reentrancy in DemaxPair.burn(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token0,to,amount0) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#740)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token1,to,amount1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#741)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)\n\t\t- blockTimestampLast = blockTimestamp (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)\n\t\t- reserve0 = uint112(balance0) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)\n\t\t- reserve1 = uint112(balance1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 750,
+            "line_end": 778,
+            "message": "Reentrancy in DemaxPair.swap(uint256,uint256,address,bytes) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#750-778):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#765)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#766)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- IDemaxCallee(to).demaxCall(msg.sender,amount0Out,amount1Out,data) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#767)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)\n\t\t- blockTimestampLast = blockTimestamp (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)\n\t\t- reserve0 = uint112(balance0) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)\n\t\t- reserve1 = uint112(balance1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_mint",
+            "impact": "Medium",
+            "line": 399,
+            "line_end": 408,
+            "message": "Reentrancy in BaseShareField._mint(address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#399-408):\n\tExternal calls:\n\t- TransferHelper.safeTransfer(shareToken,msg.sender,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#404)\n\tState variables written after the call(s):\n\t- mintedShare += amount (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#406)\n\t- users[user].rewardEarn = 0 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#405)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "mintReward",
+            "impact": "Medium",
+            "line": 800,
+            "line_end": 805,
+            "message": "Reentrancy in DemaxPair.mintReward() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#800-805):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#801)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- userReward = _mint(msg.sender) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#802)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#36)\n\t\t- TransferHelper.safeTransfer(shareToken,msg.sender,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#404)\n\tState variables written after the call(s):\n\t- remainReward = remainReward.sub(userReward) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#803)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 656,
+            "line_end": 668,
+            "message": "DemaxPair.initialize(address,address,address,address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#656-668) should emit an event for: \n\t- CONFIG = _config (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#665) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Low",
+            "line": 660,
+            "message": "DemaxPair.initialize(address,address,address,address)._dgas (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#660) lacks a zero-check on :\n\t\t- DGAS = _dgas (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#666)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Low",
+            "line": 659,
+            "message": "DemaxPair.initialize(address,address,address,address)._config (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#659) lacks a zero-check on :\n\t\t- CONFIG = _config (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#665)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Low",
+            "line": 658,
+            "message": "DemaxPair.initialize(address,address,address,address)._token1 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#658) lacks a zero-check on :\n\t\t- token1 = _token1 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#664)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Low",
+            "line": 657,
+            "message": "DemaxPair.initialize(address,address,address,address)._token0 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#657) lacks a zero-check on :\n\t\t- token0 = _token0 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#663)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 750,
+            "line_end": 778,
+            "message": "Reentrancy in DemaxPair.swap(uint256,uint256,address,bytes) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#750-778):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#765)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#766)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- IDemaxCallee(to).demaxCall(msg.sender,amount0Out,amount1Out,data) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#767)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "mint",
+            "impact": "Low",
+            "line": 692,
+            "line_end": 712,
+            "message": "Reentrancy in DemaxPair.mint(address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#692-712):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#707)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- _increaseProductivity(to,liquidity) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)\n\t\t- accAmountPerShare = accAmountPerShare.add(reward.mul(1e12).div(totalProductivity)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#331)\n\t- lastMintBlock[to] = block.number (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#709)\n\t- _increaseProductivity(to,liquidity) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)\n\t\t- mintCumulation = mintCumulation.add(pending) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#345)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)\n\t- _increaseProductivity(to,liquidity) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)\n\t\t- totalProductivity = totalProductivity.add(value) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#361)\n\t- _increaseProductivity(to,liquidity) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)\n\t\t- totalShare = totalShare.add(_currentReward()) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#326)\n\t\t- totalShare = totalShare.add(reward) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#332)\n\t- _increaseProductivity(to,liquidity) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)\n\t\t- userInfo.rewardEarn = userInfo.rewardEarn.add(pending) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#344)\n\t\t- userInfo.amount = userInfo.amount.add(value) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#363)\n\t\t- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#346)\n\t\t- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#364)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "swapFee",
+            "impact": "Low",
+            "line": 780,
+            "line_end": 793,
+            "message": "Reentrancy in DemaxPair.swapFee(uint256,address,address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#780-793):\n\tExternal calls:\n\t- _safeTransfer(token,to,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#788)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 715,
+            "line_end": 747,
+            "message": "Reentrancy in DemaxPair.burn(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token0,to,amount0) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#740)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token1,to,amount1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#741)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_mintDGAS",
+            "impact": "Low",
+            "line": 593,
+            "line_end": 601,
+            "message": "Reentrancy in DemaxPair._mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#593-601):\n\tExternal calls:\n\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t- _safeTransfer(DGAS,devAddress,devAmount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#598)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- remainReward = remainReward.add(reward.sub(devAmount)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#599)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 715,
+            "line_end": 747,
+            "message": "Reentrancy in DemaxPair.burn(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tState variables written after the call(s):\n\t- _decreaseProductivity(from,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)\n\t\t- accAmountPerShare = accAmountPerShare.add(reward.mul(1e12).div(totalProductivity)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#331)\n\t- _decreaseProductivity(from,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)\n\t\t- mintCumulation = mintCumulation.add(pending) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#345)\n\t- _decreaseProductivity(from,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)\n\t\t- totalProductivity = totalProductivity.sub(value) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#380)\n\t- _decreaseProductivity(from,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)\n\t\t- totalShare = totalShare.add(_currentReward()) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#326)\n\t\t- totalShare = totalShare.add(reward) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#332)\n\t- _decreaseProductivity(from,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)\n\t\t- userInfo.rewardEarn = userInfo.rewardEarn.add(pending) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#344)\n\t\t- userInfo.amount = userInfo.amount.sub(value) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#378)\n\t\t- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#346)\n\t\t- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#379)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "swapFee",
+            "impact": "Low",
+            "line": 780,
+            "line_end": 793,
+            "message": "Reentrancy in DemaxPair.swapFee(uint256,address,address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#780-793):\n\tExternal calls:\n\t- _safeTransfer(token,to,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#788)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tEvent emitted after the call(s):\n\t- SwapFee(token,to,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#792)\n\t- Sync(reserve0,reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 750,
+            "line_end": 778,
+            "message": "Reentrancy in DemaxPair.swap(uint256,uint256,address,bytes) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#750-778):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#765)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#766)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- IDemaxCallee(to).demaxCall(msg.sender,amount0Out,amount1Out,data) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#767)\n\tEvent emitted after the call(s):\n\t- Swap(msg.sender,amount0In,amount1In,_amount0Out,_amount1Out,to) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#777)\n\t- Sync(reserve0,reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "mint",
+            "impact": "Low",
+            "line": 692,
+            "line_end": 712,
+            "message": "Reentrancy in DemaxPair.mint(address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#692-712):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#707)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tEvent emitted after the call(s):\n\t- Mint(msg.sender,amount0,amount1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#711)\n\t- Sync(reserve0,reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "mintReward",
+            "impact": "Low",
+            "line": 800,
+            "line_end": 805,
+            "message": "Reentrancy in DemaxPair.mintReward() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#800-805):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#801)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- userReward = _mint(msg.sender) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#802)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#36)\n\t\t- TransferHelper.safeTransfer(shareToken,msg.sender,amount) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#404)\n\tEvent emitted after the call(s):\n\t- MintDGAS(msg.sender,remainReward,userReward) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#804)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 715,
+            "line_end": 747,
+            "message": "Reentrancy in DemaxPair.burn(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):\n\tExternal calls:\n\t- _mintDGAS() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)\n\t\t- reward = IDgas(DGAS).mint() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token0,to,amount0) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#740)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\t- _safeTransfer(_token1,to,amount1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#741)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,amount0,amount1,to) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#746)\n\t- Sync(reserve0,reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_update",
+            "impact": "Low",
+            "line": 671,
+            "line_end": 689,
+            "message": "DemaxPair._update(uint256,uint256,uint112,uint112) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#671-689) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#680)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 40,
+            "line_end": 44,
+            "message": "TransferHelper.safeTransferFrom(address,address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#40-44) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 46,
+            "line_end": 49,
+            "message": "TransferHelper.safeTransferETH(address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#46-49) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 207,
+            "line_end": 210,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#207-210) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_currentReward",
+            "impact": "Informational",
+            "line": 335,
+            "line_end": 337,
+            "message": "BaseShareField._currentReward() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#335-337) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 191,
+            "line_end": 193,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#191-193) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 28,
+            "line_end": 32,
+            "message": "TransferHelper.safeApprove(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#28-32) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 294,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#294) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 423,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#423) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 466,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#466) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 441,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#441) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 215,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#215) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 273,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#273) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 485,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#485) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 508,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#508) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 55,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#55) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 532,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#532) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#3) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 24,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#24) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 449,
+            "message": "Pragma version^0.6.6 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#449) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 28,
+            "line_end": 32,
+            "message": "Low level call in TransferHelper.safeApprove(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#28-32):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#30)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "_safeTransfer",
+            "impact": "Informational",
+            "line": 623,
+            "line_end": 630,
+            "message": "Low level call in DemaxPair._safeTransfer(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#623-630):\n\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 34,
+            "line_end": 38,
+            "message": "Low level call in TransferHelper.safeTransfer(address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#34-38):\n\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#36)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 46,
+            "line_end": 49,
+            "message": "Low level call in TransferHelper.safeTransferETH(address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#46-49):\n\t- (success) = to.call{value: value}(new bytes(0)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#47)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 40,
+            "line_end": 44,
+            "message": "Low level call in TransferHelper.safeTransferFrom(address,address,address,uint256) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#40-44):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#42)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "PERCENT_DENOMINATOR",
+            "impact": "Informational",
+            "line": 428,
+            "message": "Function IDemaxConfig.PERCENT_DENOMINATOR() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#428) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 553,
+            "message": "Variable DemaxPair.DGAS (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#553) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 660,
+            "message": "Parameter DemaxPair.initialize(address,address,address,address)._dgas (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#660) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 657,
+            "message": "Parameter DemaxPair.initialize(address,address,address,address)._token0 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#657) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 658,
+            "message": "Parameter DemaxPair.initialize(address,address,address,address)._token1 (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#658) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 552,
+            "message": "Variable DemaxPair.CONFIG (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#552) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 551,
+            "message": "Variable DemaxPair.FACTORY (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#551) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 659,
+            "message": "Parameter DemaxPair.initialize(address,address,address,address)._config (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#659) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 561,
+            "message": "Variable DemaxPair.price0CumulativeLast (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#561) is too similar to DemaxPair.price1CumulativeLast (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#562)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Informational",
+            "line": 773,
+            "message": "Variable DemaxPair.swap(uint256,uint256,address,bytes)._amount0Out (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#773) is too similar to DemaxPair.swap(uint256,uint256,address,bytes)._amount1Out (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#774)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Optimization",
+            "line": 564,
+            "message": "DemaxPair.totalReward (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#564) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "impact": "Optimization",
+            "line": 544,
+            "message": "DemaxPair.version (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#544) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "getProductivity",
+            "impact": "Optimization",
+            "line": 411,
+            "line_end": 413,
+            "message": "getProductivity(address) should be declared external:\n\t- BaseShareField.getProductivity(address) (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#411-413)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "interestsPerBlock",
+            "impact": "Optimization",
+            "line": 416,
+            "line_end": 418,
+            "message": "interestsPerBlock() should be declared external:\n\t- BaseShareField.interestsPerBlock() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#416-418)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol",
+            "function": "getDGASReserve",
+            "impact": "Optimization",
+            "line": 807,
+            "line_end": 809,
+            "message": "getDGASReserve() should be declared external:\n\t- DemaxPair.getDGASReserve() (../..0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#807-809)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

@@ -1,0 +1,169 @@
+Compilation warnings/errors on /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:
+Warning: This declaration shadows an existing declaration.
+    --> /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:1727:57:
+     |
+1727 |     function isContract(address _addr) private returns (bool isContract){
+     |                                                         ^^^^^^^^^^^^^^^
+Note: The shadowed declaration is here:
+    --> /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:1727:5:
+     |
+1727 |     function isContract(address _addr) private returns (bool isContract){
+     |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Visibility for constructor is ignored. If you want the contract to be non-deployable, making it "abstract" is sufficient.
+   --> /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:383:5:
+    |
+383 |     constructor (string memory name_, string memory symbol_) public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Visibility for constructor is ignored. If you want the contract to be non-deployable, making it "abstract" is sufficient.
+   --> /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:927:5:
+    |
+927 |     constructor () internal {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Visibility for constructor is ignored. If you want the contract to be non-deployable, making it "abstract" is sufficient.
+    --> /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:1208:5:
+     |
+1208 |     constructor(string memory name, string memory version) internal {
+     |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Visibility for constructor is ignored. If you want the contract to be non-deployable, making it "abstract" is sufficient.
+    --> /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:1294:5:
+     |
+1294 |     constructor(string memory name) internal EIP712(name, "1") {
+     |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Function state mutability can be restricted to view
+    --> /sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol:1727:5:
+     |
+1727 |     function isContract(address _addr) private returns (bool isContract){
+     |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[92m
+ERC20Permit.constructor(string).name (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1294) shadows:
+	- ERC20.name() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#392-394) (function)
+vVISR.constructor(string,string,uint8).name (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1610) shadows:
+	- ERC20.name() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#392-394) (function)
+vVISR.constructor(string,string,uint8).symbol (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1611) shadows:
+	- ERC20.symbol() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#400-402) (function)
+vVISR.constructor(string,string,uint8).decimals (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1612) shadows:
+	- ERC20.decimals() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#417-419) (function)
+RewardsHypervisor.isContract(address).isContract (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1727) shadows:
+	- RewardsHypervisor.isContract(address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1727-1733) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+vVISR.transferOwnership(address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1630-1632) should emit an event for: 
+	- owner = newOwner (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1631) 
+RewardsHypervisor.transferOwnership(address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1719-1721) should emit an event for: 
+	- owner = newOwner (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1720) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+vVISR.transferOwnership(address).newOwner (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1630) lacks a zero-check on :
+		- owner = newOwner (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1631)
+RewardsHypervisor.transferOwnership(address).newOwner (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1719) lacks a zero-check on :
+		- owner = newOwner (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1720)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1300-1322) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp <= deadline,ERC20Permit: expired deadline) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1302)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#668-677) uses assembly
+	- INLINE ASM (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#675)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#813-830) uses assembly
+	- INLINE ASM (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#822-825)
+ECDSA.recover(bytes32,bytes) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1058-1079) uses assembly
+	- INLINE ASM (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1072-1076)
+EIP712._getChainId() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1261-1267) uses assembly
+	- INLINE ASM (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1264-1266)
+RewardsHypervisor.isContract(address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1727-1733) uses assembly
+	- INLINE ASM (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1729-1731)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#721-723) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#746-748) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#795-797) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#805-811) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#771-773) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#781-787) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#695-701) is never used and should be removed
+Context._msgData() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#234-237) is never used and should be removed
+Counters.decrement(Counters.Counter) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1156-1158) is never used and should be removed
+ECDSA.recover(bytes32,bytes) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1058-1079) is never used and should be removed
+ECDSA.toEthSignedMessageHash(bytes32) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1113-1117) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1360-1362) is never used and should be removed
+Math.min(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1367-1369) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#862-871) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#878-881) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#873-876) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#190-193) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#152-155) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#210-213) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#24-28) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#60-63) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#70-73) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#45-53) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#35-38) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#695-701):
+	- (success) = recipient.call{value: amount}() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#699)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#756-763):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#761)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#781-787):
+	- (success,returndata) = target.staticcall(data) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#785)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#805-811):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#809)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IERC20Permit.DOMAIN_SEPARATOR() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1030) is not in mixedCase
+Variable EIP712._CACHED_DOMAIN_SEPARATOR (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1188) is not in mixedCase
+Variable EIP712._CACHED_CHAIN_ID (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1189) is not in mixedCase
+Variable EIP712._HASHED_NAME (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1191) is not in mixedCase
+Variable EIP712._HASHED_VERSION (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1192) is not in mixedCase
+Variable EIP712._TYPE_HASH (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1193) is not in mixedCase
+Function ERC20Permit.DOMAIN_SEPARATOR() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1335-1337) is not in mixedCase
+Variable ERC20Permit._PERMIT_TYPEHASH (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1287) is not in mixedCase
+Contract vVISR (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1601-1638) is not in CapWords
+Parameter RewardsHypervisor.isContract(address)._addr (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1727) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#235)" inContext (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#229-238)
+Redundant expression "this (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1262)" inEIP712 (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1184-1268)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+name() should be declared external:
+	- ERC20.name() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#392-394)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#400-402)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#417-419)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#443-446)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#451-453)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#462-465)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#480-484)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#498-501)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#517-520)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#955-958)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#964-968)
+permit(address,address,uint256,uint256,uint8,bytes32,bytes32) should be declared external:
+	- ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1300-1322)
+nonces(address) should be declared external:
+	- ERC20Permit.nonces(address) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1327-1329)
+balanceOfAt(address,uint256) should be declared external:
+	- ERC20Snapshot.balanceOfAt(address,uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1509-1513)
+totalSupplyAt(uint256) should be declared external:
+	- ERC20Snapshot.totalSupplyAt(uint256) (../../sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol#1518-1522)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xc9f27a50f82571c1c8423a42970613b8dbda14ef.sol analyzed (18 contracts with 78 detectors), 70 result(s) found

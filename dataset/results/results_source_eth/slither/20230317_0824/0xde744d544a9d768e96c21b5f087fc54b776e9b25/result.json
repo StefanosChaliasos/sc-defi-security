@@ -1,0 +1,1199 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_3"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_mintToken",
+            "impact": "High",
+            "line": 1493,
+            "line_end": 1520,
+            "message": "Reentrancy in LoanTokenLogicStandard._mintToken(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520):\n\tExternal calls:\n\t- _safeTransferFrom(loanTokenAddress,msg.sender,address(this),depositAmount,18) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1508)\n\t\t- (success,returndata) = token.call(data) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)\n\t- IWeth(wethToken).deposit.value(depositAmount)() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)\n\t- settlesInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1497)\n\t\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tExternal calls sending eth:\n\t- IWeth(wethToken).deposit.value(depositAmount)() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)\n\tState variables written after the call(s):\n\t- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)\n\t\t- totalSupply_ = totalSupply_.add(_tokenAmount) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#829-830)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_nextBorrowInterestRate2",
+            "impact": "High",
+            "line": 692,
+            "message": "LoanTokenBase.rateMultiplier (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#692) is never initialized. It is used in:\n\t- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_borrowOrTrade",
+            "impact": "High",
+            "line": 704,
+            "message": "LoanTokenBase.loanParamsIds (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#704) is never initialized. It is used in:\n\t- LoanTokenLogicStandard.getDepositAmountForBorrow(uint256,uint256,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1428-1456)\n\t- LoanTokenLogicStandard.getBorrowAmountForDeposit(uint256,uint256,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1458-1488)\n\t- LoanTokenLogicStandard._borrowOrTrade(bytes32,uint256,uint256,address,address[4],uint256[5],bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1737-1801)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_nextBorrowInterestRate2",
+            "impact": "High",
+            "line": 691,
+            "message": "LoanTokenBase.baseRate (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#691) is never initialized. It is used in:\n\t- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_getAllInterest",
+            "impact": "High",
+            "line": 689,
+            "message": "LoanTokenBase.loanTokenAddress (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#689) is never initialized. It is used in:\n\t- LoanTokenLogicStandard.burn(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#914-928)\n\t- LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985)\n\t- LoanTokenLogicStandard.totalAssetBorrow() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1337-1346)\n\t- LoanTokenLogicStandard.getEstimatedMarginDetails(uint256,uint256,uint256,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1388-1426)\n\t- LoanTokenLogicStandard.getDepositAmountForBorrow(uint256,uint256,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1428-1456)\n\t- LoanTokenLogicStandard.getBorrowAmountForDeposit(uint256,uint256,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1458-1488)\n\t- LoanTokenLogicStandard._mintToken(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520)\n\t- LoanTokenLogicStandard._borrow(bytes32,uint256,uint256,uint256,address,address,address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1553-1611)\n\t- LoanTokenLogicStandard._marginTrade(bytes32,uint256,uint256,uint256,address,address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1613-1669)\n\t- LoanTokenLogicStandard._settleInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1671-1682)\n\t- LoanTokenLogicStandard._totalDeposit(address,uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1684-1705)\n\t- LoanTokenLogicStandard._verifyTransfers(address,address[4],uint256[5],uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1812-1853)\n\t- LoanTokenLogicStandard._underlyingBalance() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1898-1904)\n\t- LoanTokenLogicStandard._getAllInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2036-2053)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_tokenPrice",
+            "impact": "High",
+            "line": 702,
+            "message": "LoanTokenBase.initialPrice (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#702) is never initialized. It is used in:\n\t- LoanTokenLogicStandard._tokenPrice(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1908-1920)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_nextBorrowInterestRate2",
+            "impact": "High",
+            "line": 698,
+            "message": "LoanTokenBase.maxScaleRate (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#698) is never initialized. It is used in:\n\t- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_nextBorrowInterestRate2",
+            "impact": "High",
+            "line": 697,
+            "message": "LoanTokenBase.kinkLevel (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#697) is never initialized. It is used in:\n\t- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_nextBorrowInterestRate2",
+            "impact": "High",
+            "line": 696,
+            "message": "LoanTokenBase.targetLevel (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#696) is never initialized. It is used in:\n\t- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "getMaxEscrowAmount",
+            "impact": "Medium",
+            "line": 1361,
+            "line_end": 1374,
+            "message": "LoanTokenLogicStandard.getMaxEscrowAmount(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1361-1374) performs a multiplication on the result of a division:\n\t-initialMargin = SafeMath.div(WEI_PRECISION * WEI_PERCENT_PRECISION,leverageAmount) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1367)\n\t-marketLiquidity().mul(initialMargin).div(_adjustValue(WEI_PERCENT_PRECISION,2419200,initialMargin)) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1368-1373)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_profitOf",
+            "impact": "Medium",
+            "line": 1220,
+            "line_end": 1242,
+            "message": "LoanTokenLogicStandard._profitOf(bytes32,uint256,uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1220-1242) uses a dangerous strict equality:\n\t- _checkpointPrice == 0 (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1229)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_updateCheckpoints",
+            "impact": "Medium",
+            "line": 1170,
+            "line_end": 1198,
+            "message": "LoanTokenLogicStandard._updateCheckpoints(address,uint256,uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1170-1198) uses a dangerous strict equality:\n\t- _newBalance == 0 (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1182)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "updateSettings",
+            "impact": "Medium",
+            "line": 2135,
+            "line_end": 2169,
+            "message": "Reentrancy in LoanTokenLogicStandard.updateSettings(address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169):\n\tExternal calls:\n\t- (result) = address(this).call(callData) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2153)\n\tState variables written after the call(s):\n\t- target_ = currentTarget (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2164)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_settleInterest",
+            "impact": "Medium",
+            "line": 1671,
+            "line_end": 1682,
+            "message": "Reentrancy in LoanTokenLogicStandard._settleInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1671-1682):\n\tExternal calls:\n\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tState variables written after the call(s):\n\t- lastSettleTime_ = ts (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1680)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Medium",
+            "line": 1958,
+            "message": "LoanTokenLogicStandard._nextBorrowInterestRate(uint256).interestUnPaid (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1958) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Medium",
+            "line": 1249,
+            "message": "LoanTokenLogicStandard.tokenPrice().interestUnPaid (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1249) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Medium",
+            "line": 1353,
+            "message": "LoanTokenLogicStandard.totalAssetSupply().interestUnPaid (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1353) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "usesGasToken",
+            "impact": "Medium",
+            "line": 609,
+            "line_end": 635,
+            "message": "GasTokenUser.usesGasToken(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#609-635) ignores return value by tokenHolder.freeUpTo(gasCalcValue) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#622-624)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "usesGasToken",
+            "impact": "Medium",
+            "line": 609,
+            "line_end": 635,
+            "message": "GasTokenUser.usesGasToken(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#609-635) ignores return value by tokenHolder.freeFromUpTo(holder,gasCalcValue) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#626-629)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "totalSupply",
+            "impact": "Low",
+            "line": 1271,
+            "message": "LoanTokenLogicStandard.marketLiquidity().totalSupply (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1271) shadows:\n\t- AdvancedTokenStorage.totalSupply() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#741-747) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Low",
+            "line": 1378,
+            "message": "LoanTokenLogicStandard.assetBalanceOf(address)._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1378) shadows:\n\t- Ownable._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#442) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Low",
+            "line": 750,
+            "message": "AdvancedTokenStorage.balanceOf(address)._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#750) shadows:\n\t- Ownable._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#442) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Low",
+            "line": 759,
+            "message": "AdvancedTokenStorage.allowance(address,address)._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#759) shadows:\n\t- Ownable._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#442) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Low",
+            "line": 933,
+            "message": "LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes).target (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#933) lacks a zero-check on :\n\t\t- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "flashBorrow",
+            "impact": "Low",
+            "line": 930,
+            "line_end": 985,
+            "message": "Reentrancy in LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985):\n\tExternal calls:\n\t- _safeTransfer(loanTokenAddress,borrower,borrowAmount,39) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#954)\n\t\t- (success,returndata) = token.call(data) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)\n\t- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)\n\t- settlesInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#940)\n\t\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tExternal calls sending eth:\n\t- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)\n\tState variables written after the call(s):\n\t- _flTotalAssetSupply = 0 (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#974)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_burnToken",
+            "impact": "Low",
+            "line": 1522,
+            "line_end": 1551,
+            "message": "Reentrancy in LoanTokenLogicStandard._burnToken(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1522-1551):\n\tExternal calls:\n\t- settlesInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1525)\n\t\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tState variables written after the call(s):\n\t- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)\n\t\t- balances[_who] = _balance (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#853)\n\t- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)\n\t\t- checkpointPrices_[_user] = _currentPrice (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1197)\n\t- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)\n\t\t- totalSupply_ = totalSupply_.sub(_tokenAmount) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#855)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "flashBorrow",
+            "impact": "Low",
+            "line": 930,
+            "line_end": 985,
+            "message": "Reentrancy in LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985):\n\tExternal calls:\n\t- settlesInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#940)\n\t\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tState variables written after the call(s):\n\t- _flTotalAssetSupply = beforeAssetsBalance (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#951)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_mintToken",
+            "impact": "Low",
+            "line": 1493,
+            "line_end": 1520,
+            "message": "Reentrancy in LoanTokenLogicStandard._mintToken(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520):\n\tExternal calls:\n\t- _safeTransferFrom(loanTokenAddress,msg.sender,address(this),depositAmount,18) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1508)\n\t\t- (success,returndata) = token.call(data) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)\n\t- IWeth(wethToken).deposit.value(depositAmount)() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)\n\t- settlesInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1497)\n\t\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tExternal calls sending eth:\n\t- IWeth(wethToken).deposit.value(depositAmount)() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)\n\tState variables written after the call(s):\n\t- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)\n\t\t- balances[_to] = _balance (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#827)\n\t- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)\n\t\t- checkpointPrices_[_user] = _currentPrice (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1197)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_burnToken",
+            "impact": "Low",
+            "line": 1522,
+            "line_end": 1551,
+            "message": "Reentrancy in LoanTokenLogicStandard._burnToken(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1522-1551):\n\tExternal calls:\n\t- settlesInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1525)\n\t\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tEvent emitted after the call(s):\n\t- Burn(_who,_tokenAmount,_assetAmount,_price) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#857)\n\t\t- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)\n\t- Transfer(_who,address(0),_tokenAmount) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#858)\n\t\t- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_mintToken",
+            "impact": "Low",
+            "line": 1493,
+            "line_end": 1520,
+            "message": "Reentrancy in LoanTokenLogicStandard._mintToken(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520):\n\tExternal calls:\n\t- _safeTransferFrom(loanTokenAddress,msg.sender,address(this),depositAmount,18) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1508)\n\t\t- (success,returndata) = token.call(data) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)\n\t- IWeth(wethToken).deposit.value(depositAmount)() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)\n\t- settlesInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1497)\n\t\t- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)\n\tExternal calls sending eth:\n\t- IWeth(wethToken).deposit.value(depositAmount)() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)\n\tEvent emitted after the call(s):\n\t- Mint(_to,_tokenAmount,_assetAmount,_price) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#832)\n\t\t- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)\n\t- Transfer(address(0),_to,_tokenAmount) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#833)\n\t\t- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_settleInterest",
+            "impact": "Low",
+            "line": 1671,
+            "line_end": 1682,
+            "message": "LoanTokenLogicStandard._settleInterest() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1671-1682) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lastSettleTime_ != ts (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1675)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "tokenPrice",
+            "impact": "Low",
+            "line": 1244,
+            "line_end": 1255,
+            "message": "LoanTokenLogicStandard.tokenPrice() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1244-1255) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lastSettleTime_ != uint88(block.timestamp) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1250)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_nextBorrowInterestRate",
+            "impact": "Low",
+            "line": 1952,
+            "line_end": 1975,
+            "message": "LoanTokenLogicStandard._nextBorrowInterestRate(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1952-1975) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lastSettleTime_ != uint88(block.timestamp) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1960)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "totalAssetSupply",
+            "impact": "Low",
+            "line": 1348,
+            "line_end": 1359,
+            "message": "LoanTokenLogicStandard.totalAssetSupply() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1348-1359) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lastSettleTime_ != uint88(block.timestamp) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1354)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_profitOf",
+            "impact": "Informational",
+            "line": 1220,
+            "line_end": 1242,
+            "message": "LoanTokenLogicStandard._profitOf(bytes32,uint256,uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1220-1242) uses assembly\n\t- INLINE ASM (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1233-1235)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "updateSettings",
+            "impact": "Informational",
+            "line": 2135,
+            "line_end": 2169,
+            "message": "LoanTokenLogicStandard.updateSettings(address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169) uses assembly\n\t- INLINE ASM (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2143-2146)\n\t- INLINE ASM (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2157-2162)\n\t- INLINE ASM (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2166-2168)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_isPaused",
+            "impact": "Informational",
+            "line": 662,
+            "line_end": 672,
+            "message": "Pausable._isPaused(bytes4) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#662-672) uses assembly\n\t- INLINE ASM (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#669-671)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 358,
+            "line_end": 367,
+            "message": "Address.isContract(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#358-367) uses assembly\n\t- INLINE ASM (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#365)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_updateCheckpoints",
+            "impact": "Informational",
+            "line": 1170,
+            "line_end": 1198,
+            "message": "LoanTokenLogicStandard._updateCheckpoints(address,uint256,uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1170-1198) uses assembly\n\t- INLINE ASM (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1193-1195)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "divCeil",
+            "impact": "Informational",
+            "line": 162,
+            "line_end": 172,
+            "message": "SafeMath.divCeil(uint256,uint256,string) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#162-172) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "min256",
+            "impact": "Informational",
+            "line": 207,
+            "line_end": 209,
+            "message": "SafeMath.min256(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#207-209) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 202,
+            "line_end": 205,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#202-205) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "divCeil",
+            "impact": "Informational",
+            "line": 155,
+            "line_end": 157,
+            "message": "SafeMath.divCeil(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#155-157) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 426,
+            "line_end": 429,
+            "message": "Context._msgData() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#426-429) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "toPayable",
+            "impact": "Informational",
+            "line": 375,
+            "line_end": 377,
+            "message": "Address.toPayable(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#375-377) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 185,
+            "line_end": 187,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#185-187) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 358,
+            "line_end": 367,
+            "message": "Address.isContract(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#358-367) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_verifyTransfers",
+            "impact": "Informational",
+            "line": 1812,
+            "line_end": 1853,
+            "message": "LoanTokenLogicStandard._verifyTransfers(address,address[4],uint256[5],uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1812-1853) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 397,
+            "line_end": 403,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#397-403):\n\t- (success) = recipient.call.value(amount)() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#401)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "updateSettings",
+            "impact": "Informational",
+            "line": 2135,
+            "line_end": 2169,
+            "message": "Low level call in LoanTokenLogicStandard.updateSettings(address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169):\n\t- (result) = address(this).call(callData) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2153)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "flashBorrow",
+            "impact": "Informational",
+            "line": 930,
+            "line_end": 985,
+            "message": "Low level call in LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985):\n\t- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "_callOptionalReturn",
+            "impact": "Informational",
+            "line": 1884,
+            "line_end": 1896,
+            "message": "Low level call in LoanTokenLogicStandard._callOptionalReturn(address,bytes,string) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1884-1896):\n\t- (success,returndata) = token.call(data) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 759,
+            "message": "Parameter AdvancedTokenStorage.allowance(address,address)._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#759) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 883,
+            "message": "Constant LoanTokenLogicStandard.iToken_LowerAdminContract (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#883) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 207,
+            "message": "Parameter SafeMath.min256(uint256,uint256)._b (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#207) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 655,
+            "message": "Constant Pausable.Pausable_FunctionPause (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#655) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 882,
+            "message": "Constant LoanTokenLogicStandard.iToken_LowerAdminAddress (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#882) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 207,
+            "message": "Parameter SafeMath.min256(uint256,uint256)._a (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#207) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 799,
+            "message": "Parameter AdvancedToken.decreaseApproval(address,uint256)._subtractedValue (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#799) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 606,
+            "message": "Constant GasTokenUser.gasToken (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#606) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 798,
+            "message": "Parameter AdvancedToken.decreaseApproval(address,uint256)._spender (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#798) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 881,
+            "message": "Constant LoanTokenLogicStandard.iToken_ProfitSoFar (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#881) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 760,
+            "message": "Parameter AdvancedTokenStorage.allowance(address,address)._spender (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#760) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 876,
+            "message": "Constant LoanTokenLogicStandard.arbitraryCaller (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#876) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 1258,
+            "message": "Parameter LoanTokenLogicStandard.checkpointPrice(address)._user (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1258) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 1108,
+            "message": "Parameter LoanTokenLogicStandard.transferFrom(address,address,uint256)._from (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1108) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 1110,
+            "message": "Parameter LoanTokenLogicStandard.transferFrom(address,address,uint256)._value (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1110) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 680,
+            "message": "Constant LoanTokenBase.sWEI_PRECISION (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#680) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 878,
+            "message": "Constant LoanTokenLogicStandard.bZxContract (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#878) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 784,
+            "message": "Parameter AdvancedToken.increaseApproval(address,uint256)._spender (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#784) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 1378,
+            "message": "Parameter LoanTokenLogicStandard.assetBalanceOf(address)._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1378) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 774,
+            "message": "Parameter AdvancedToken.approve(address,uint256)._value (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#774) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 750,
+            "message": "Parameter AdvancedTokenStorage.balanceOf(address)._owner (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#750) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 700,
+            "message": "Variable LoanTokenBase._flTotalAssetSupply (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 879,
+            "message": "Constant LoanTokenLogicStandard.wethToken (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#879) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 1109,
+            "message": "Parameter LoanTokenLogicStandard.transferFrom(address,address,uint256)._to (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1109) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 785,
+            "message": "Parameter AdvancedToken.increaseApproval(address,uint256)._addedValue (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#785) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 607,
+            "message": "Constant GasTokenUser.tokenHolder (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#607) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 1094,
+            "message": "Parameter LoanTokenLogicStandard.transfer(address,uint256)._to (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1094) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 773,
+            "message": "Parameter AdvancedToken.approve(address,uint256)._spender (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#773) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 1095,
+            "message": "Parameter LoanTokenLogicStandard.transfer(address,uint256)._value (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1095) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 427,
+            "message": "Redundant expression \"this (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#427)\" inContext (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#416-430)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 2172,
+            "line_end": 2271,
+            "message": "LoanTokenLogicWeth.slitherConstructorConstantVariables() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2172-2271) uses literals with too many digits:\n\t- gasToken = ITokenHolderLike(0x0000000000004946c0e9F43F4Dee607b0eF1fA1c) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#606)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "LoanTokenLogicWeth",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 883,
+            "message": "LoanTokenLogicStandard.iToken_LowerAdminContract (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#883) is never used in LoanTokenLogicWeth (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2172-2271)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "LoanTokenLogicWeth",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Informational",
+            "line": 882,
+            "message": "LoanTokenLogicStandard.iToken_LowerAdminAddress (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#882) is never used in LoanTokenLogicWeth (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2172-2271)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 693,
+            "message": "LoanTokenBase.lowUtilBaseRate (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#693) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 17,
+            "message": "IERC20.decimals (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#17) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 682,
+            "message": "LoanTokenBase.name (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#682) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 692,
+            "message": "LoanTokenBase.rateMultiplier (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#692) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 697,
+            "message": "LoanTokenBase.kinkLevel (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#697) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 684,
+            "message": "LoanTokenBase.decimals (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#684) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 691,
+            "message": "LoanTokenBase.baseRate (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#691) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 701,
+            "message": "LoanTokenBase.checkpointSupply (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#701) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 698,
+            "message": "LoanTokenBase.maxScaleRate (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#698) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 16,
+            "message": "IERC20.name (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#16) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 683,
+            "message": "LoanTokenBase.symbol (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#683) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 689,
+            "message": "LoanTokenBase.loanTokenAddress (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#689) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 694,
+            "message": "LoanTokenBase.lowUtilRateMultiplier (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#694) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 702,
+            "message": "LoanTokenBase.initialPrice (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#702) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 18,
+            "message": "IERC20.symbol (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#18) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "impact": "Optimization",
+            "line": 696,
+            "message": "LoanTokenBase.targetLevel (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#696) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "assetBalanceOf",
+            "impact": "Optimization",
+            "line": 1377,
+            "line_end": 1386,
+            "message": "assetBalanceOf(address) should be declared external:\n\t- LoanTokenLogicStandard.assetBalanceOf(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1377-1386)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "getBorrowAmountForDeposit",
+            "impact": "Optimization",
+            "line": 1458,
+            "line_end": 1488,
+            "message": "getBorrowAmountForDeposit(uint256,uint256,address) should be declared external:\n\t- LoanTokenLogicStandard.getBorrowAmountForDeposit(uint256,uint256,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1458-1488)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 758,
+            "line_end": 766,
+            "message": "allowance(address,address) should be declared external:\n\t- AdvancedTokenStorage.allowance(address,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#758-766)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "decreaseApproval",
+            "impact": "Optimization",
+            "line": 797,
+            "line_end": 813,
+            "message": "decreaseApproval(address,uint256) should be declared external:\n\t- AdvancedToken.decreaseApproval(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#797-813)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 599,
+            "message": "balanceOf(address) should be declared external:\n\t- ITokenHolderLike.balanceOf(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#599)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 22,
+            "message": "approve(address,uint256) should be declared external:\n\t- IERC20.approve(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#22)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "updateSettings",
+            "impact": "Optimization",
+            "line": 2135,
+            "line_end": 2169,
+            "message": "updateSettings(address,bytes) should be declared external:\n\t- LoanTokenLogicStandard.updateSettings(address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "profitOf",
+            "impact": "Optimization",
+            "line": 1202,
+            "line_end": 1218,
+            "message": "profitOf(address) should be declared external:\n\t- LoanTokenLogicStandard.profitOf(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1202-1218)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 24,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- IERC20.transferFrom(address,address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#24)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "increaseApproval",
+            "impact": "Optimization",
+            "line": 783,
+            "line_end": 795,
+            "message": "increaseApproval(address,uint256) should be declared external:\n\t- AdvancedToken.increaseApproval(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#783-795)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 23,
+            "message": "transfer(address,uint256) should be declared external:\n\t- IERC20.transfer(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#23)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 20,
+            "message": "balanceOf(address) should be declared external:\n\t- IERC20.balanceOf(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#20)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "marginTrade",
+            "impact": "Optimization",
+            "line": 1043,
+            "line_end": 1064,
+            "message": "marginTrade(bytes32,uint256,uint256,uint256,address,address,bytes) should be declared external:\n\t- LoanTokenLogicStandard.marginTrade(bytes32,uint256,uint256,uint256,address,address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1043-1064)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "borrowWithGasToken",
+            "impact": "Optimization",
+            "line": 1014,
+            "line_end": 1039,
+            "message": "borrowWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,address,bytes) should be declared external:\n\t- LoanTokenLogicStandard.borrowWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1014-1039)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "freeUpTo",
+            "impact": "Optimization",
+            "line": 600,
+            "message": "freeUpTo(uint256) should be declared external:\n\t- ITokenHolderLike.freeUpTo(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#600)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "avgBorrowInterestRate",
+            "impact": "Optimization",
+            "line": 1278,
+            "line_end": 1284,
+            "message": "avgBorrowInterestRate() should be declared external:\n\t- LoanTokenLogicStandard.avgBorrowInterestRate() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1278-1284)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "supplyInterestRate",
+            "impact": "Optimization",
+            "line": 1305,
+            "line_end": 1311,
+            "message": "supplyInterestRate() should be declared external:\n\t- LoanTokenLogicStandard.supplyInterestRate() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1305-1311)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "marginTradeWithGasToken",
+            "impact": "Optimization",
+            "line": 1068,
+            "line_end": 1091,
+            "message": "marginTradeWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,bytes) should be declared external:\n\t- LoanTokenLogicStandard.marginTradeWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1068-1091)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 772,
+            "line_end": 781,
+            "message": "approve(address,uint256) should be declared external:\n\t- AdvancedToken.approve(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#772-781)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "nextSupplyInterestRate",
+            "impact": "Optimization",
+            "line": 1313,
+            "line_end": 1320,
+            "message": "nextSupplyInterestRate(uint256) should be declared external:\n\t- LoanTokenLogicStandard.nextSupplyInterestRate(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1313-1320)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "borrowInterestRate",
+            "impact": "Optimization",
+            "line": 1287,
+            "line_end": 1293,
+            "message": "borrowInterestRate() should be declared external:\n\t- LoanTokenLogicStandard.borrowInterestRate() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1287-1293)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 19,
+            "message": "totalSupply() should be declared external:\n\t- IERC20.totalSupply() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#19)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 21,
+            "message": "allowance(address,address) should be declared external:\n\t- IERC20.allowance(address,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#21)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "nextBorrowInterestRate",
+            "impact": "Optimization",
+            "line": 1295,
+            "line_end": 1302,
+            "message": "nextBorrowInterestRate(uint256) should be declared external:\n\t- LoanTokenLogicStandard.nextBorrowInterestRate(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1295-1302)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "getMaxEscrowAmount",
+            "impact": "Optimization",
+            "line": 1361,
+            "line_end": 1374,
+            "message": "getMaxEscrowAmount(uint256) should be declared external:\n\t- LoanTokenLogicStandard.getMaxEscrowAmount(uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1361-1374)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 741,
+            "line_end": 747,
+            "message": "totalSupply() should be declared external:\n\t- AdvancedTokenStorage.totalSupply() (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#741-747)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "checkpointPrice",
+            "impact": "Optimization",
+            "line": 1257,
+            "line_end": 1264,
+            "message": "checkpointPrice(address) should be declared external:\n\t- LoanTokenLogicStandard.checkpointPrice(address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1257-1264)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "freeFromUpTo",
+            "impact": "Optimization",
+            "line": 601,
+            "message": "freeFromUpTo(address,uint256) should be declared external:\n\t- ITokenHolderLike.freeFromUpTo(address,uint256) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#601)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "borrow",
+            "impact": "Optimization",
+            "line": 988,
+            "line_end": 1011,
+            "message": "borrow(bytes32,uint256,uint256,uint256,address,address,address,bytes) should be declared external:\n\t- LoanTokenLogicStandard.borrow(bytes32,uint256,uint256,uint256,address,address,address,bytes) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#988-1011)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol",
+            "function": "getDepositAmountForBorrow",
+            "impact": "Optimization",
+            "line": 1428,
+            "line_end": 1456,
+            "message": "getDepositAmountForBorrow(uint256,uint256,address) should be declared external:\n\t- LoanTokenLogicStandard.getDepositAmountForBorrow(uint256,uint256,address) (../..0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1428-1456)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

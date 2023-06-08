@@ -1,0 +1,339 @@
+Compilation warnings/errors on /sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol:
+/sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol:7:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+
+[91m
+Reentrancy in LoanTokenLogicStandard._mintToken(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520):
+	External calls:
+	- _safeTransferFrom(loanTokenAddress,msg.sender,address(this),depositAmount,18) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1508)
+		- (success,returndata) = token.call(data) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)
+	- IWeth(wethToken).deposit.value(depositAmount)() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)
+	- settlesInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1497)
+		- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	External calls sending eth:
+	- IWeth(wethToken).deposit.value(depositAmount)() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)
+	State variables written after the call(s):
+	- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)
+		- totalSupply_ = totalSupply_.add(_tokenAmount) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#829-830)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[91m
+LoanTokenBase.loanTokenAddress (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#689) is never initialized. It is used in:
+	- LoanTokenLogicStandard.burn(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#914-928)
+	- LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985)
+	- LoanTokenLogicStandard.totalAssetBorrow() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1337-1346)
+	- LoanTokenLogicStandard.getEstimatedMarginDetails(uint256,uint256,uint256,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1388-1426)
+	- LoanTokenLogicStandard.getDepositAmountForBorrow(uint256,uint256,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1428-1456)
+	- LoanTokenLogicStandard.getBorrowAmountForDeposit(uint256,uint256,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1458-1488)
+	- LoanTokenLogicStandard._mintToken(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520)
+	- LoanTokenLogicStandard._borrow(bytes32,uint256,uint256,uint256,address,address,address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1553-1611)
+	- LoanTokenLogicStandard._marginTrade(bytes32,uint256,uint256,uint256,address,address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1613-1669)
+	- LoanTokenLogicStandard._settleInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1671-1682)
+	- LoanTokenLogicStandard._totalDeposit(address,uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1684-1705)
+	- LoanTokenLogicStandard._verifyTransfers(address,address[4],uint256[5],uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1812-1853)
+	- LoanTokenLogicStandard._underlyingBalance() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1898-1904)
+	- LoanTokenLogicStandard._getAllInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2036-2053)
+LoanTokenBase.baseRate (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#691) is never initialized. It is used in:
+	- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)
+LoanTokenBase.rateMultiplier (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#692) is never initialized. It is used in:
+	- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)
+LoanTokenBase.targetLevel (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#696) is never initialized. It is used in:
+	- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)
+LoanTokenBase.kinkLevel (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#697) is never initialized. It is used in:
+	- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)
+LoanTokenBase.maxScaleRate (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#698) is never initialized. It is used in:
+	- LoanTokenLogicStandard._nextBorrowInterestRate2(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1977-2034)
+LoanTokenBase.initialPrice (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#702) is never initialized. It is used in:
+	- LoanTokenLogicStandard._tokenPrice(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1908-1920)
+LoanTokenBase.loanParamsIds (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#704) is never initialized. It is used in:
+	- LoanTokenLogicStandard.getDepositAmountForBorrow(uint256,uint256,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1428-1456)
+	- LoanTokenLogicStandard.getBorrowAmountForDeposit(uint256,uint256,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1458-1488)
+	- LoanTokenLogicStandard._borrowOrTrade(bytes32,uint256,uint256,address,address[4],uint256[5],bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1737-1801)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-state-variables[0m
+[93m
+LoanTokenLogicStandard.getMaxEscrowAmount(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1361-1374) performs a multiplication on the result of a division:
+	-initialMargin = SafeMath.div(WEI_PRECISION * WEI_PERCENT_PRECISION,leverageAmount) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1367)
+	-marketLiquidity().mul(initialMargin).div(_adjustValue(WEI_PERCENT_PRECISION,2419200,initialMargin)) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1368-1373)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+LoanTokenLogicStandard._profitOf(bytes32,uint256,uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1220-1242) uses a dangerous strict equality:
+	- _checkpointPrice == 0 (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1229)
+LoanTokenLogicStandard._updateCheckpoints(address,uint256,uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1170-1198) uses a dangerous strict equality:
+	- _newBalance == 0 (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1182)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in LoanTokenLogicStandard._settleInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1671-1682):
+	External calls:
+	- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	State variables written after the call(s):
+	- lastSettleTime_ = ts (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1680)
+Reentrancy in LoanTokenLogicStandard.updateSettings(address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169):
+	External calls:
+	- (result) = address(this).call(callData) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2153)
+	State variables written after the call(s):
+	- target_ = currentTarget (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2164)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+LoanTokenLogicStandard.totalAssetSupply().interestUnPaid (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1353) is a local variable never initialized
+LoanTokenLogicStandard.tokenPrice().interestUnPaid (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1249) is a local variable never initialized
+LoanTokenLogicStandard._nextBorrowInterestRate(uint256).interestUnPaid (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1958) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+GasTokenUser.usesGasToken(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#609-635) ignores return value by tokenHolder.freeUpTo(gasCalcValue) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#622-624)
+GasTokenUser.usesGasToken(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#609-635) ignores return value by tokenHolder.freeFromUpTo(holder,gasCalcValue) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#626-629)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+AdvancedTokenStorage.balanceOf(address)._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#750) shadows:
+	- Ownable._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#442) (state variable)
+AdvancedTokenStorage.allowance(address,address)._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#759) shadows:
+	- Ownable._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#442) (state variable)
+LoanTokenLogicStandard.marketLiquidity().totalSupply (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1271) shadows:
+	- AdvancedTokenStorage.totalSupply() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#741-747) (function)
+LoanTokenLogicStandard.assetBalanceOf(address)._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1378) shadows:
+	- Ownable._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#442) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes).target (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#933) lacks a zero-check on :
+		- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in LoanTokenLogicStandard._burnToken(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1522-1551):
+	External calls:
+	- settlesInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1525)
+		- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	State variables written after the call(s):
+	- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)
+		- balances[_who] = _balance (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#853)
+	- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)
+		- checkpointPrices_[_user] = _currentPrice (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1197)
+	- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)
+		- totalSupply_ = totalSupply_.sub(_tokenAmount) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#855)
+Reentrancy in LoanTokenLogicStandard._mintToken(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520):
+	External calls:
+	- _safeTransferFrom(loanTokenAddress,msg.sender,address(this),depositAmount,18) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1508)
+		- (success,returndata) = token.call(data) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)
+	- IWeth(wethToken).deposit.value(depositAmount)() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)
+	- settlesInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1497)
+		- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	External calls sending eth:
+	- IWeth(wethToken).deposit.value(depositAmount)() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)
+	State variables written after the call(s):
+	- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)
+		- balances[_to] = _balance (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#827)
+	- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)
+		- checkpointPrices_[_user] = _currentPrice (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1197)
+Reentrancy in LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985):
+	External calls:
+	- settlesInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#940)
+		- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	State variables written after the call(s):
+	- _flTotalAssetSupply = beforeAssetsBalance (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#951)
+Reentrancy in LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985):
+	External calls:
+	- _safeTransfer(loanTokenAddress,borrower,borrowAmount,39) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#954)
+		- (success,returndata) = token.call(data) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)
+	- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)
+	- settlesInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#940)
+		- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	External calls sending eth:
+	- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)
+	State variables written after the call(s):
+	- _flTotalAssetSupply = 0 (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#974)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in LoanTokenLogicStandard._burnToken(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1522-1551):
+	External calls:
+	- settlesInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1525)
+		- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	Event emitted after the call(s):
+	- Burn(_who,_tokenAmount,_assetAmount,_price) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#857)
+		- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)
+	- Transfer(_who,address(0),_tokenAmount) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#858)
+		- _updateCheckpoints(msg.sender,balances[msg.sender],_burn(msg.sender,burnAmount,loanAmountPaid,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1545-1550)
+Reentrancy in LoanTokenLogicStandard._mintToken(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1493-1520):
+	External calls:
+	- _safeTransferFrom(loanTokenAddress,msg.sender,address(this),depositAmount,18) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1508)
+		- (success,returndata) = token.call(data) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)
+	- IWeth(wethToken).deposit.value(depositAmount)() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)
+	- settlesInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1497)
+		- ProtocolLike(bZxContract).withdrawAccruedInterest(loanTokenAddress) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1676-1678)
+	External calls sending eth:
+	- IWeth(wethToken).deposit.value(depositAmount)() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1511)
+	Event emitted after the call(s):
+	- Mint(_to,_tokenAmount,_assetAmount,_price) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#832)
+		- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)
+	- Transfer(address(0),_to,_tokenAmount) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#833)
+		- _updateCheckpoints(receiver,balances[receiver],_mint(receiver,mintAmount,depositAmount,currentPrice),currentPrice) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1514-1519)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+LoanTokenLogicStandard.tokenPrice() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1244-1255) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastSettleTime_ != uint88(block.timestamp) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1250)
+LoanTokenLogicStandard.totalAssetSupply() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1348-1359) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastSettleTime_ != uint88(block.timestamp) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1354)
+LoanTokenLogicStandard._settleInterest() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1671-1682) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastSettleTime_ != ts (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1675)
+LoanTokenLogicStandard._nextBorrowInterestRate(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1952-1975) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastSettleTime_ != uint88(block.timestamp) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1960)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#358-367) uses assembly
+	- INLINE ASM (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#365)
+Pausable._isPaused(bytes4) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#662-672) uses assembly
+	- INLINE ASM (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#669-671)
+LoanTokenLogicStandard._updateCheckpoints(address,uint256,uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1170-1198) uses assembly
+	- INLINE ASM (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1193-1195)
+LoanTokenLogicStandard._profitOf(bytes32,uint256,uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1220-1242) uses assembly
+	- INLINE ASM (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1233-1235)
+LoanTokenLogicStandard.updateSettings(address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169) uses assembly
+	- INLINE ASM (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2143-2146)
+	- INLINE ASM (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2157-2162)
+	- INLINE ASM (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2166-2168)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.isContract(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#358-367) is never used and should be removed
+Address.toPayable(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#375-377) is never used and should be removed
+Context._msgData() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#426-429) is never used and should be removed
+LoanTokenLogicStandard._verifyTransfers(address,address[4],uint256[5],uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1812-1853) is never used and should be removed
+SafeMath.divCeil(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#155-157) is never used and should be removed
+SafeMath.divCeil(uint256,uint256,string) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#162-172) is never used and should be removed
+SafeMath.min256(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#207-209) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#185-187) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#202-205) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#397-403):
+	- (success) = recipient.call.value(amount)() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#401)
+Low level call in LoanTokenLogicStandard.flashBorrow(uint256,address,address,string,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#930-985):
+	- (success,returnData) = arbitraryCaller.call.value(msg.value)(abi.encodeWithSelector(0xde064e0d,target,callData)) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#964-970)
+Low level call in LoanTokenLogicStandard._callOptionalReturn(address,bytes,string) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1884-1896):
+	- (success,returndata) = token.call(data) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1890)
+Low level call in LoanTokenLogicStandard.updateSettings(address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169):
+	- (result) = address(this).call(callData) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2153)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter SafeMath.min256(uint256,uint256)._a (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#207) is not in mixedCase
+Parameter SafeMath.min256(uint256,uint256)._b (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#207) is not in mixedCase
+Constant GasTokenUser.gasToken (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#606) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant GasTokenUser.tokenHolder (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#607) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Pausable.Pausable_FunctionPause (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#655) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant LoanTokenBase.sWEI_PRECISION (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#680) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable LoanTokenBase._flTotalAssetSupply (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#700) is not in mixedCase
+Parameter AdvancedTokenStorage.balanceOf(address)._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#750) is not in mixedCase
+Parameter AdvancedTokenStorage.allowance(address,address)._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#759) is not in mixedCase
+Parameter AdvancedTokenStorage.allowance(address,address)._spender (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#760) is not in mixedCase
+Parameter AdvancedToken.approve(address,uint256)._spender (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#773) is not in mixedCase
+Parameter AdvancedToken.approve(address,uint256)._value (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#774) is not in mixedCase
+Parameter AdvancedToken.increaseApproval(address,uint256)._spender (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#784) is not in mixedCase
+Parameter AdvancedToken.increaseApproval(address,uint256)._addedValue (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#785) is not in mixedCase
+Parameter AdvancedToken.decreaseApproval(address,uint256)._spender (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#798) is not in mixedCase
+Parameter AdvancedToken.decreaseApproval(address,uint256)._subtractedValue (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#799) is not in mixedCase
+Parameter LoanTokenLogicStandard.transfer(address,uint256)._to (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1094) is not in mixedCase
+Parameter LoanTokenLogicStandard.transfer(address,uint256)._value (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1095) is not in mixedCase
+Parameter LoanTokenLogicStandard.transferFrom(address,address,uint256)._from (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1108) is not in mixedCase
+Parameter LoanTokenLogicStandard.transferFrom(address,address,uint256)._to (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1109) is not in mixedCase
+Parameter LoanTokenLogicStandard.transferFrom(address,address,uint256)._value (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1110) is not in mixedCase
+Parameter LoanTokenLogicStandard.checkpointPrice(address)._user (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1258) is not in mixedCase
+Parameter LoanTokenLogicStandard.assetBalanceOf(address)._owner (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1378) is not in mixedCase
+Constant LoanTokenLogicStandard.arbitraryCaller (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#876) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant LoanTokenLogicStandard.bZxContract (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#878) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant LoanTokenLogicStandard.wethToken (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#879) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant LoanTokenLogicStandard.iToken_ProfitSoFar (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#881) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant LoanTokenLogicStandard.iToken_LowerAdminAddress (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#882) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant LoanTokenLogicStandard.iToken_LowerAdminContract (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#883) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#427)" inContext (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#416-430)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+LoanTokenLogicWeth.slitherConstructorConstantVariables() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2172-2271) uses literals with too many digits:
+	- gasToken = ITokenHolderLike(0x0000000000004946c0e9F43F4Dee607b0eF1fA1c) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#606)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+LoanTokenLogicStandard.iToken_LowerAdminAddress (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#882) is never used in LoanTokenLogicWeth (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2172-2271)
+LoanTokenLogicStandard.iToken_LowerAdminContract (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#883) is never used in LoanTokenLogicWeth (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2172-2271)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+IERC20.decimals (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#17) should be constant
+IERC20.name (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#16) should be constant
+IERC20.symbol (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#18) should be constant
+LoanTokenBase.baseRate (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#691) should be constant
+LoanTokenBase.checkpointSupply (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#701) should be constant
+LoanTokenBase.decimals (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#684) should be constant
+LoanTokenBase.initialPrice (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#702) should be constant
+LoanTokenBase.kinkLevel (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#697) should be constant
+LoanTokenBase.loanTokenAddress (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#689) should be constant
+LoanTokenBase.lowUtilBaseRate (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#693) should be constant
+LoanTokenBase.lowUtilRateMultiplier (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#694) should be constant
+LoanTokenBase.maxScaleRate (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#698) should be constant
+LoanTokenBase.name (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#682) should be constant
+LoanTokenBase.rateMultiplier (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#692) should be constant
+LoanTokenBase.symbol (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#683) should be constant
+LoanTokenBase.targetLevel (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#696) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+totalSupply() should be declared external:
+	- IERC20.totalSupply() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#19)
+balanceOf(address) should be declared external:
+	- IERC20.balanceOf(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#20)
+allowance(address,address) should be declared external:
+	- IERC20.allowance(address,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#21)
+approve(address,uint256) should be declared external:
+	- IERC20.approve(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#22)
+transfer(address,uint256) should be declared external:
+	- IERC20.transfer(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#23)
+transferFrom(address,address,uint256) should be declared external:
+	- IERC20.transferFrom(address,address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#24)
+balanceOf(address) should be declared external:
+	- ITokenHolderLike.balanceOf(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#599)
+freeUpTo(uint256) should be declared external:
+	- ITokenHolderLike.freeUpTo(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#600)
+freeFromUpTo(address,uint256) should be declared external:
+	- ITokenHolderLike.freeFromUpTo(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#601)
+totalSupply() should be declared external:
+	- AdvancedTokenStorage.totalSupply() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#741-747)
+allowance(address,address) should be declared external:
+	- AdvancedTokenStorage.allowance(address,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#758-766)
+approve(address,uint256) should be declared external:
+	- AdvancedToken.approve(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#772-781)
+increaseApproval(address,uint256) should be declared external:
+	- AdvancedToken.increaseApproval(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#783-795)
+decreaseApproval(address,uint256) should be declared external:
+	- AdvancedToken.decreaseApproval(address,uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#797-813)
+borrow(bytes32,uint256,uint256,uint256,address,address,address,bytes) should be declared external:
+	- LoanTokenLogicStandard.borrow(bytes32,uint256,uint256,uint256,address,address,address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#988-1011)
+borrowWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,address,bytes) should be declared external:
+	- LoanTokenLogicStandard.borrowWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1014-1039)
+marginTrade(bytes32,uint256,uint256,uint256,address,address,bytes) should be declared external:
+	- LoanTokenLogicStandard.marginTrade(bytes32,uint256,uint256,uint256,address,address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1043-1064)
+marginTradeWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,bytes) should be declared external:
+	- LoanTokenLogicStandard.marginTradeWithGasToken(bytes32,uint256,uint256,uint256,address,address,address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1068-1091)
+profitOf(address) should be declared external:
+	- LoanTokenLogicStandard.profitOf(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1202-1218)
+checkpointPrice(address) should be declared external:
+	- LoanTokenLogicStandard.checkpointPrice(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1257-1264)
+avgBorrowInterestRate() should be declared external:
+	- LoanTokenLogicStandard.avgBorrowInterestRate() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1278-1284)
+borrowInterestRate() should be declared external:
+	- LoanTokenLogicStandard.borrowInterestRate() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1287-1293)
+nextBorrowInterestRate(uint256) should be declared external:
+	- LoanTokenLogicStandard.nextBorrowInterestRate(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1295-1302)
+supplyInterestRate() should be declared external:
+	- LoanTokenLogicStandard.supplyInterestRate() (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1305-1311)
+nextSupplyInterestRate(uint256) should be declared external:
+	- LoanTokenLogicStandard.nextSupplyInterestRate(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1313-1320)
+getMaxEscrowAmount(uint256) should be declared external:
+	- LoanTokenLogicStandard.getMaxEscrowAmount(uint256) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1361-1374)
+assetBalanceOf(address) should be declared external:
+	- LoanTokenLogicStandard.assetBalanceOf(address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1377-1386)
+getDepositAmountForBorrow(uint256,uint256,address) should be declared external:
+	- LoanTokenLogicStandard.getDepositAmountForBorrow(uint256,uint256,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1428-1456)
+getBorrowAmountForDeposit(uint256,uint256,address) should be declared external:
+	- LoanTokenLogicStandard.getBorrowAmountForDeposit(uint256,uint256,address) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#1458-1488)
+updateSettings(address,bytes) should be declared external:
+	- LoanTokenLogicStandard.updateSettings(address,bytes) (../../sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol#2135-2169)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xde744d544a9d768e96c21b5f087fc54b776e9b25.sol analyzed (19 contracts with 78 detectors), 131 result(s) found

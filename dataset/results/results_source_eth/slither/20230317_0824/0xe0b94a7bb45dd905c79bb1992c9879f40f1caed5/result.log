@@ -1,0 +1,301 @@
+[91m
+Blacksmith.collectDust(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825-839) sends eth to arbitrary user
+	Dangerous calls:
+	- address(treasury).transfer(amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#835)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+Reentrancy in Blacksmith.claimRewards(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#676-688):
+	External calls:
+	- _claimCoverRewards(pool,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#683)
+		- cover.mint(msg.sender,minedSinceLastUpdate) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#684)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	External calls sending eth:
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#684)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	State variables written after the call(s):
+	- miner.rewardWriteoff = miner.amount.mul(pool.accRewardsPerToken).div(CAL_MULTIPLIER) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#686)
+	- miner.bonusWriteoff = miner.amount.mul(bonusToken.accBonusPerToken).div(CAL_MULTIPLIER) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#687)
+Reentrancy in Blacksmith.deposit(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696-716):
+	External calls:
+	- _claimCoverRewards(pool,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#706)
+		- cover.mint(msg.sender,minedSinceLastUpdate) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	External calls sending eth:
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	State variables written after the call(s):
+	- miner.amount = miner.amount.add(_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#709)
+	- miner.rewardWriteoff = miner.amount.mul(pool.accRewardsPerToken).div(CAL_MULTIPLIER) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#711)
+	- miner.bonusWriteoff = miner.amount.mul(bonusToken.accBonusPerToken).div(CAL_MULTIPLIER) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#712)
+Reentrancy in Blacksmith.withdraw(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736):
+	External calls:
+	- _claimCoverRewards(pool,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#726)
+		- cover.mint(msg.sender,minedSinceLastUpdate) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	External calls sending eth:
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	State variables written after the call(s):
+	- miner.amount = miner.amount.sub(_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#729)
+	- miner.rewardWriteoff = miner.amount.mul(pool.accRewardsPerToken).div(CAL_MULTIPLIER) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#731)
+	- miner.bonusWriteoff = miner.amount.mul(bonusToken.accBonusPerToken).div(CAL_MULTIPLIER) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#732)
+Reentrancy in Blacksmith.withdraw(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736):
+	External calls:
+	- _claimCoverRewards(pool,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#726)
+		- cover.mint(msg.sender,minedSinceLastUpdate) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	- _safeTransfer(_lpToken,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	External calls sending eth:
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	- _safeTransfer(_lpToken,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	State variables written after the call(s):
+	- _safeTransfer(_lpToken,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)
+		- _status = _ENTERED (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#566)
+		- _status = _NOT_ENTERED (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#572)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+Blacksmith.addBonusToken(address,address,uint256,uint256,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#789-822) uses a dangerous strict equality:
+	- require(bool,string)(IERC20(currentBonusToken.addr).balanceOf(address(this)) == 0,Blacksmith: last bonus not all claimed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#803)
+Blacksmith.collectDust(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825-839) uses a dangerous strict equality:
+	- require(bool,string)(pool.lastUpdatedAt == 0,Blacksmith: lpToken, not allowed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#827)
+Blacksmith.updatePool(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655-674) uses a dangerous strict equality:
+	- lpTotal == 0 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#659)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in Blacksmith.addBonusToken(address,address,uint256,uint256,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#789-822):
+	External calls:
+	- bonusToken.safeTransferFrom(msg.sender,address(this),_totalBonus) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#810)
+	State variables written after the call(s):
+	- bonusTokens[_lpToken] = BonusToken(_bonusToken,_startTime,_endTime,balanceAfter.sub(balanceBefore),0,_startTime) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#814-821)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+Blacksmith.transferMintingRights(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#866-868) ignores return value by cover.setBlacksmith(_newAddress) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#867)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+Blacksmith.updateBonusTokenStatus(address,uint8)._status (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) shadows:
+	- ReentrancyGuard._status (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#548) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+Blacksmith.updatePoolWeights(address[],uint256[]) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750-758) should emit an event for: 
+	- totalWeight = totalWeight.add(_weights[i]).sub(pool.weight) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#754) 
+Blacksmith.addPool(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761-771) should emit an event for: 
+	- totalWeight = totalWeight.add(_weight) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#769) 
+Blacksmith.updateWeeklyTotal(uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#853-855) should emit an event for: 
+	- weeklyTotal = _weeklyTotal (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#854) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+Blacksmith.constructor(address,address,address)._governance (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#623) lacks a zero-check on :
+		- governance = _governance (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#625)
+Blacksmith.constructor(address,address,address)._treasury (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#623) lacks a zero-check on :
+		- treasury = _treasury (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#626)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Blacksmith.updatePool(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655-674) has external calls inside a loop: lpTotal = IERC20(_lpToken).balanceOf(address(this)) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#658)
+Blacksmith._claimCoverRewards(IBlacksmith.Pool,IBlacksmith.Miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#895-902) has external calls inside a loop: cover.mint(msg.sender,minedSinceLastUpdate) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)
+Blacksmith._safeTransfer(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#885-893) has external calls inside a loop: balance = token.balanceOf(address(this)) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#887)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#366-387) has external calls inside a loop: (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in Blacksmith.deposit(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696-716):
+	External calls:
+	- _claimCoverRewards(pool,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#706)
+		- cover.mint(msg.sender,minedSinceLastUpdate) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	- IERC20(_lpToken).safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#714)
+	External calls sending eth:
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,_lpToken,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#715)
+Reentrancy in Blacksmith.emergencyWithdraw(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#739-747):
+	External calls:
+	- _safeTransfer(_lpToken,amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#745)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	External calls sending eth:
+	- _safeTransfer(_lpToken,amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#745)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_lpToken,amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#746)
+Reentrancy in Blacksmith.withdraw(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736):
+	External calls:
+	- _claimCoverRewards(pool,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#726)
+		- cover.mint(msg.sender,minedSinceLastUpdate) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	- _safeTransfer(_lpToken,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)
+		- token.safeTransfer(msg.sender,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+		- token.safeTransfer(msg.sender,balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)
+	External calls sending eth:
+	- _claimBonus(bonusToken,miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	- _safeTransfer(_lpToken,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_lpToken,_amount) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#735)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Blacksmith.viewMined(address,address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#633-652) uses timestamp for comparisons
+	Dangerous comparisons:
+	- miner.amount > 0 && lpTotal > 0 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#639)
+	- bonusToken.startTime < block.timestamp && bonusToken.totalBonus > 0 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#645)
+Blacksmith.updatePool(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655-674) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= pool.lastUpdatedAt (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#657)
+	- bonusToken.lastUpdatedAt < bonusToken.endTime && bonusToken.startTime < block.timestamp (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#669)
+	- block.timestamp <= bonusToken.endTime (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#672)
+Blacksmith.deposit(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696-716) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp >= START_TIME,Blacksmith: not started) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#697)
+	- require(bool,string)(pool.lastUpdatedAt > 0,Blacksmith: pool does not exists) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#700)
+Blacksmith.withdraw(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(miner.amount >= _amount,Blacksmith: insufficient balance) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#721)
+Blacksmith.updateBonusTokenStatus(address,uint8) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782-786) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(pools[_bonusToken].lastUpdatedAt == 0,Blacksmith: lpToken is not allowed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#784)
+Blacksmith.addBonusToken(address,address,uint256,uint256,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#789-822) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(pools[_lpToken].lastUpdatedAt != 0,Blacksmith: pool does NOT exist) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#797)
+	- currentBonusToken.totalBonus != 0 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#801)
+	- require(bool,string)(currentBonusToken.endTime.add(WEEK) < block.timestamp,Blacksmith: last bonus period hasn't ended) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#802)
+	- require(bool,string)(IERC20(currentBonusToken.addr).balanceOf(address(this)) == 0,Blacksmith: last bonus not all claimed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#803)
+	- require(bool,string)(_startTime >= block.timestamp && _endTime > _startTime,Blacksmith: messed up timeline) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#806)
+Blacksmith.collectDust(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825-839) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(pool.lastUpdatedAt == 0,Blacksmith: lpToken, not allowed) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#827)
+Blacksmith.collectBonusDust(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#842-850) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(bonusToken.endTime.add(WEEK) < block.timestamp,Blacksmith: bonusToken, not ready) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#844)
+	- require(bool,string)(amount > 0,Blacksmith: 0 to collect) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#848)
+Blacksmith._calculateBonusForPeriod(IBlacksmith.BonusToken) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#875-882) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > _bonusToken.endTime (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#878)
+Blacksmith._safeTransfer(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#885-893) uses timestamp for comparisons
+	Dangerous comparisons:
+	- balance > _amount (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#888)
+	- balance > 0 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#890)
+Blacksmith._claimCoverRewards(IBlacksmith.Pool,IBlacksmith.Miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#895-902) uses timestamp for comparisons
+	Dangerous comparisons:
+	- minedSinceLastUpdate > 0 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#898)
+Blacksmith._claimBonus(IBlacksmith.BonusToken,IBlacksmith.Miner) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#904-911) uses timestamp for comparisons
+	Dangerous comparisons:
+	- bonusToken.totalBonus > 0 && miner.amount > 0 && bonusToken.startTime < block.timestamp (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#905)
+	- bonusSinceLastUpdate > 0 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#907)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#273-282) uses assembly
+	- INLINE ASM (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#280)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#366-387) uses assembly
+	- INLINE ASM (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#379-382)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+ReentrancyGuard.nonReentrant() (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#561-573) has costly operations inside a loop:
+	- _status = _ENTERED (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#566)
+ReentrancyGuard.nonReentrant() (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#561-573) has costly operations inside a loop:
+	- _status = _NOT_ENTERED (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#572)
+Blacksmith.updatePoolWeights(address[],uint256[]) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750-758) has costly operations inside a loop:
+	- totalWeight = totalWeight.add(_weights[i]).sub(pool.weight) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#754)
+Blacksmith.addPool(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761-771) has costly operations inside a loop:
+	- totalWeight = totalWeight.add(_weight) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#769)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#326-328) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#351-353) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#361-364) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#300-306) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#418-427) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#434-437) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#429-432) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#139-141) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#155-158) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.7.4 (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#3) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#300-306):
+	- (success) = recipient.call{value: amount}() (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#304)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#366-387):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter Blacksmith.viewMined(address,address)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#633) is not in mixedCase
+Parameter Blacksmith.viewMined(address,address)._miner (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#633) is not in mixedCase
+Parameter Blacksmith.updatePool(address)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655) is not in mixedCase
+Parameter Blacksmith.claimRewards(address)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#676) is not in mixedCase
+Parameter Blacksmith.claimRewardsForPools(address[])._lpTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#690) is not in mixedCase
+Parameter Blacksmith.deposit(address,uint256)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696) is not in mixedCase
+Parameter Blacksmith.deposit(address,uint256)._amount (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696) is not in mixedCase
+Parameter Blacksmith.withdraw(address,uint256)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718) is not in mixedCase
+Parameter Blacksmith.withdraw(address,uint256)._amount (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718) is not in mixedCase
+Parameter Blacksmith.emergencyWithdraw(address)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#739) is not in mixedCase
+Parameter Blacksmith.updatePoolWeights(address[],uint256[])._lpTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750) is not in mixedCase
+Parameter Blacksmith.updatePoolWeights(address[],uint256[])._weights (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750) is not in mixedCase
+Parameter Blacksmith.addPool(address,uint256)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761) is not in mixedCase
+Parameter Blacksmith.addPool(address,uint256)._weight (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761) is not in mixedCase
+Parameter Blacksmith.addPools(address[],uint256[])._lpTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#774) is not in mixedCase
+Parameter Blacksmith.addPools(address[],uint256[])._weights (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#774) is not in mixedCase
+Parameter Blacksmith.updateBonusTokenStatus(address,uint8)._bonusToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) is not in mixedCase
+Parameter Blacksmith.updateBonusTokenStatus(address,uint8)._status (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) is not in mixedCase
+Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#790) is not in mixedCase
+Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._bonusToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#791) is not in mixedCase
+Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._startTime (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#792) is not in mixedCase
+Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._endTime (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#793) is not in mixedCase
+Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._totalBonus (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#794) is not in mixedCase
+Parameter Blacksmith.collectDust(address)._token (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825) is not in mixedCase
+Parameter Blacksmith.collectBonusDust(address)._lpToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#842) is not in mixedCase
+Parameter Blacksmith.updateWeeklyTotal(uint256)._weeklyTotal (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#853) is not in mixedCase
+Parameter Blacksmith.updatePools(uint256,uint256)._start (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#858) is not in mixedCase
+Parameter Blacksmith.updatePools(uint256,uint256)._end (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#858) is not in mixedCase
+Parameter Blacksmith.transferMintingRights(address)._newAddress (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#866) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._bonusToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#791) is too similar to Blacksmith.bonusTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)
+Variable Blacksmith._calculateBonusForPeriod(IBlacksmith.BonusToken)._bonusToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#875) is too similar to Blacksmith.bonusTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)
+Variable IBlacksmith.addBonusToken(address,address,uint256,uint256,uint256)._bonusToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#223) is too similar to Blacksmith.bonusTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)
+Variable Blacksmith.updateBonusTokenStatus(address,uint8)._bonusToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) is too similar to Blacksmith.bonusTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)
+Variable IBlacksmith.updateBonusTokenStatus(address,uint8)._bonusToken (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#235) is too similar to Blacksmith.bonusTokens (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#491-493)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#507-511)
+updatePoolWeights(address[],uint256[]) should be declared external:
+	- Blacksmith.updatePoolWeights(address[],uint256[]) (../../sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750-758)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol analyzed (9 contracts with 78 detectors), 90 result(s) found

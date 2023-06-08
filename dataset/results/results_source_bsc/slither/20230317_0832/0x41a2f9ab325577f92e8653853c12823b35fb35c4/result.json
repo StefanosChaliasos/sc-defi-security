@@ -1,0 +1,607 @@
+{
+    "errors": [
+        "EXIT_CODE_63"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "removeBNB",
+            "impact": "High",
+            "line": 1070,
+            "line_end": 1112,
+            "message": "JulProtocolV2.removeBNB(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070-1112) ignores return value by pair.transfer(address(pair),liqAmt) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1090)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "readUsersDetails",
+            "impact": "Medium",
+            "line": 1019,
+            "line_end": 1053,
+            "message": "JulProtocolV2.readUsersDetails(address) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1019-1053) performs a multiplication on the result of a division:\n\t-nd = time / TIME_LIMIT (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1039)\n\t-percent = calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1040-1043)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "calculateInterest",
+            "impact": "Medium",
+            "line": 960,
+            "line_end": 971,
+            "message": "JulProtocolV2.calculateInterest(address) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#960-971) performs a multiplication on the result of a division:\n\t-nd = time / TIME_LIMIT (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#967)\n\t-protocolusers[_user].pendingBNB = protocolusers[_user].pendingBNB + calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#968)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "removeBNB",
+            "impact": "Medium",
+            "line": 1070,
+            "line_end": 1112,
+            "message": "Reentrancy in JulProtocolV2.removeBNB(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070-1112):\n\tExternal calls:\n\t- pair.transfer(address(pair),liqAmt) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1090)\n\t- (amount0,amount1) = pair.burn(address(this)) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1092)\n\tState variables written after the call(s):\n\t- calculateInterest(msg.sender) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1097)\n\t\t- protocolusers[_user].pendingBNB = protocolusers[_user].pendingBNB + calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#968)\n\t\t- protocolusers[_user].lastDepositedDate = now (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#969)\n\t- protocolusers[msg.sender].pendingBNB = protocolusers[msg.sender].pendingBNB - amountBNB (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1100)\n\t- protocolusers[msg.sender].amountBNB = protocolusers[msg.sender].amountBNB + protocolusers[msg.sender].pendingBNB - amountBNB (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1103)\n\t- protocolusers[msg.sender].pendingBNB = 0 (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1104)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Medium",
+            "line": 845,
+            "message": "BSCswapLibrary.getAmountsOut(address,uint256,address[]).i (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#845) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "addBNB",
+            "impact": "Medium",
+            "line": 973,
+            "line_end": 1017,
+            "message": "JulProtocolV2.addBNB() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#973-1017) ignores return value by JulToken.approve(router02Address,tokenAmount) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1002)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Low",
+            "line": 928,
+            "message": "JulProtocolV2.constructor(address).token (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#928) lacks a zero-check on :\n\t\t- TOKEN = token (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#929)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "addBNB",
+            "impact": "Low",
+            "line": 973,
+            "line_end": 1017,
+            "message": "Reentrancy in JulProtocolV2.addBNB() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#973-1017):\n\tExternal calls:\n\t- JulToken.approve(router02Address,tokenAmount) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1002)\n\t- (amountToken,amountBNB,liquidity) = bscswapRouter02.addLiquidityBNB{value: ethAmount}(TOKEN,tokenAmount,tokenAmount,1,spender,block.timestamp) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1004-1006)\n\tExternal calls sending eth:\n\t- (amountToken,amountBNB,liquidity) = bscswapRouter02.addLiquidityBNB{value: ethAmount}(TOKEN,tokenAmount,tokenAmount,1,spender,block.timestamp) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1004-1006)\n\tState variables written after the call(s):\n\t- protocolusers[msg.sender].lastDepositedDate = now (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1010)\n\t- calculateInterest(msg.sender) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1014)\n\t\t- protocolusers[_user].pendingBNB = protocolusers[_user].pendingBNB + calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#968)\n\t\t- protocolusers[_user].lastDepositedDate = now (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#969)\n\t- protocolusers[msg.sender].amountBNB = protocolusers[msg.sender].amountBNB + ethAmount (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1016)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "readUsersDetails",
+            "impact": "Low",
+            "line": 1019,
+            "line_end": 1053,
+            "message": "JulProtocolV2.readUsersDetails(address) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1019-1053) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now > protocolusers[_user].lastDepositedDate && time >= TIME_LIMIT (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1038)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "calculateInterest",
+            "impact": "Low",
+            "line": 960,
+            "line_end": 971,
+            "message": "JulProtocolV2.calculateInterest(address) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#960-971) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now > protocolusers[_user].lastDepositedDate,now should be greater than last deposited date) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#963)\n\t- now > protocolusers[_user].lastDepositedDate && time >= TIME_LIMIT (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#965)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 361,
+            "line_end": 382,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#361-382) uses assembly\n\t- INLINE ASM (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#374-377)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 268,
+            "line_end": 277,
+            "message": "Address.isContract(address) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#268-277) uses assembly\n\t- INLINE ASM (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#275)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 127,
+            "line_end": 129,
+            "message": "SafeMath.sub(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#127-129) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "getAmountsIn",
+            "impact": "Informational",
+            "line": 852,
+            "line_end": 860,
+            "message": "BSCswapLibrary.getAmountsIn(address,uint256,address[]) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#852-860) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 295,
+            "line_end": 301,
+            "message": "Address.sendValue(address,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#295-301) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 346,
+            "line_end": 348,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#346-348) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "getAmountIn",
+            "impact": "Informational",
+            "line": 832,
+            "line_end": 838,
+            "message": "BSCswapLibrary.getAmountIn(uint256,uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#832-838) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 141,
+            "line_end": 146,
+            "message": "SafeMath.sub(uint256,uint256,string) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#141-146) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 766,
+            "line_end": 768,
+            "message": "SafeMathBSCswap.add(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#766-768) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 432,
+            "line_end": 435,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#432-435) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 421,
+            "line_end": 430,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#421-430) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 236,
+            "line_end": 239,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#236-239) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 410,
+            "line_end": 412,
+            "message": "SafeERC20.safeTransferFrom(IERC20,address,address,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#410-412) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "getAmountsOut",
+            "impact": "Informational",
+            "line": 841,
+            "line_end": 849,
+            "message": "BSCswapLibrary.getAmountsOut(address,uint256,address[]) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#841-849) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 356,
+            "line_end": 359,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#356-359) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 200,
+            "line_end": 206,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#200-206) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 481,
+            "line_end": 484,
+            "message": "Context._msgData() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#481-484) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 220,
+            "line_end": 222,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#220-222) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 184,
+            "line_end": 186,
+            "message": "SafeMath.div(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#184-186) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 770,
+            "line_end": 772,
+            "message": "SafeMathBSCswap.sub(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#770-772) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 437,
+            "line_end": 440,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#437-440) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "getAmountOut",
+            "impact": "Informational",
+            "line": 822,
+            "line_end": 829,
+            "message": "BSCswapLibrary.getAmountOut(uint256,uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#822-829) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 321,
+            "line_end": 323,
+            "message": "Address.functionCall(address,bytes) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#321-323) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 361,
+            "line_end": 382,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#361-382):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#365)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 295,
+            "line_end": 301,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#295-301):\n\t- (success) = recipient.call{value: amount}() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#299)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 1070,
+            "message": "Parameter JulProtocolV2.removeBNB(uint256,uint256)._amountBNB (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 1019,
+            "message": "Parameter JulProtocolV2.readUsersDetails(address)._user (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1019) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 926,
+            "message": "Event JulProtocolV2interestRadioChanged(uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#926) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 952,
+            "message": "Parameter JulProtocolV2.calculatePercent(uint256,uint256)._percent (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#952) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 920,
+            "message": "Variable JulProtocolV2.TOKEN (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#920) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 1141,
+            "message": "Parameter JulProtocolV2.setInterestRadio(uint256)._interestRadio (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 912,
+            "message": "Variable JulProtocolV2.BSCSWAP_FACTORY (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#912) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 921,
+            "message": "Variable JulProtocolV2.JulToken (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#921) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "WBNB",
+            "impact": "Informational",
+            "line": 563,
+            "message": "Function IBSCswapRouter01.WBNB() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#563) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 740,
+            "message": "Function IBSCswapPair.MINIMUM_LIQUIDITY() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#740) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Function IBSCswapPair.DOMAIN_SEPARATOR() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#722) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 952,
+            "message": "Parameter JulProtocolV2.calculatePercent(uint256,uint256)._eth (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#952) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 918,
+            "message": "Variable JulProtocolV2.WBNB (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#918) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 960,
+            "message": "Parameter JulProtocolV2.calculateInterest(address)._user (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#960) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 723,
+            "message": "Function IBSCswapPair.PERMIT_TYPEHASH() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#723) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 482,
+            "message": "Redundant expression \"this (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#482)\" inContext (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#476-485)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Informational",
+            "line": 568,
+            "message": "Variable IBSCswapRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#568) is too similar to IBSCswapRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#569)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Optimization",
+            "line": 912,
+            "message": "JulProtocolV2.BSCSWAP_FACTORY (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#912) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "impact": "Optimization",
+            "line": 911,
+            "message": "JulProtocolV2.router02Address (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#911) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "removeBNB",
+            "impact": "Optimization",
+            "line": 1070,
+            "line_end": 1112,
+            "message": "removeBNB(uint256,uint256) should be declared external:\n\t- JulProtocolV2.removeBNB(uint256,uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070-1112)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 540,
+            "line_end": 543,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#540-543)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "addBNB",
+            "impact": "Optimization",
+            "line": 973,
+            "line_end": 1017,
+            "message": "addBNB() should be declared external:\n\t- JulProtocolV2.addBNB() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#973-1017)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 521,
+            "line_end": 523,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#521-523)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 549,
+            "line_end": 553,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#549-553)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "protocolBalance",
+            "impact": "Optimization",
+            "line": 1120,
+            "line_end": 1122,
+            "message": "protocolBalance() should be declared external:\n\t- JulProtocolV2.protocolBalance() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1120-1122)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "setInterestRadio",
+            "impact": "Optimization",
+            "line": 1141,
+            "line_end": 1147,
+            "message": "setInterestRadio(uint256) should be declared external:\n\t- JulProtocolV2.setInterestRadio(uint256) (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1141-1147)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "getLiquidityBalance",
+            "impact": "Optimization",
+            "line": 1114,
+            "line_end": 1117,
+            "message": "getLiquidityBalance() should be declared external:\n\t- JulProtocolV2.getLiquidityBalance() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1114-1117)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol",
+            "function": "getBalanceFromBSCswap",
+            "impact": "Optimization",
+            "line": 1124,
+            "line_end": 1134,
+            "message": "getBalanceFromBSCswap() should be declared external:\n\t- JulProtocolV2.getBalanceFromBSCswap() (../..0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1124-1134)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

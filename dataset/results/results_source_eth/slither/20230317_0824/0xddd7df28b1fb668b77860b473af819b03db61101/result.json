@@ -1,0 +1,1373 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_25"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "withdrawFor",
+            "impact": "Medium",
+            "line": 1258,
+            "line_end": 1324,
+            "message": "MultiStablesVault.withdrawFor(address,uint256,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258-1324) performs a multiplication on the result of a division:\n\t-_output_amount = (balance_to_sell().mul(_shares)).div(totalSupply()) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1259)\n\t-_withdrawalProtection = _output_amount.mul(_withdrawalProtectionFee).div(10000) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1264)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_deposit",
+            "impact": "Medium",
+            "line": 1204,
+            "line_end": 1229,
+            "message": "MultiStablesVault._deposit(address,uint256,uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229) uses a dangerous strict equality:\n\t- _amount == 0 (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1214)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_deposit",
+            "impact": "Medium",
+            "line": 1204,
+            "line_end": 1229,
+            "message": "MultiStablesVault._deposit(address,uint256,uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229) uses a dangerous strict equality:\n\t- totalSupply() == 0 (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1219)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "calc_token_amount_withdraw",
+            "impact": "Medium",
+            "line": 1123,
+            "line_end": 1134,
+            "message": "MultiStablesVault.calc_token_amount_withdraw(uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123-1134) uses a dangerous strict equality:\n\t- (_totalSupply == 0) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1129)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "getPricePerFullShare",
+            "impact": "Medium",
+            "line": 1326,
+            "line_end": 1328,
+            "message": "MultiStablesVault.getPricePerFullShare() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1326-1328) uses a dangerous strict equality:\n\t- (totalSupply() == 0) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1327)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "claimInsurance",
+            "impact": "Medium",
+            "line": 1019,
+            "line_end": 1025,
+            "message": "Reentrancy in MultiStablesVault.claimInsurance() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1019-1025):\n\tExternal calls:\n\t- basedToken.safeTransfer(vaultMaster.insuranceFund(),insurance) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1022)\n\tState variables written after the call(s):\n\t- insurance = 0 (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1024)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "depositFor",
+            "impact": "Medium",
+            "line": 1144,
+            "line_end": 1174,
+            "message": "Reentrancy in MultiStablesVault.depositFor(address,address,address,uint256,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144-1174):\n\tExternal calls:\n\t- basedToken.safeTransferFrom(_account,address(this),_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1155)\n\t- IERC20(_input).safeTransferFrom(_account,address(_converter),_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1166)\n\t- _converter.convert(_input,_want,_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1167)\n\t- _mint_amount = _deposit(_to,_pool,_amount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)\n\t\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n\t\t- IERC20(_want).safeTransfer(controller,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)\n\t\t- _contrl.earn(_want,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)\n\tState variables written after the call(s):\n\t- _mint_amount = _deposit(_to,_pool,_amount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)\n\t\t- insurance = insurance.add(_insurance) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1209)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "depositAllFor",
+            "impact": "Medium",
+            "line": 1182,
+            "line_end": 1202,
+            "message": "Reentrancy in MultiStablesVault.depositAllFor(address,address,uint256[],uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182-1202):\n\tExternal calls:\n\t- _converter.convertAll(_amounts) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1197)\n\t- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)\n\t\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n\t\t- IERC20(_want).safeTransfer(controller,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)\n\t\t- _contrl.earn(_want,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)\n\tState variables written after the call(s):\n\t- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)\n\t\t- insurance = insurance.add(_insurance) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1209)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_deposit",
+            "impact": "Medium",
+            "line": 1204,
+            "line_end": 1229,
+            "message": "Reentrancy in MultiStablesVault._deposit(address,uint256,uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229):\n\tExternal calls:\n\t- earn(_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1226)\n\t\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n\t\t- IERC20(_want).safeTransfer(controller,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)\n\t\t- _contrl.earn(_want,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)\n\tState variables written after the call(s):\n\t- _mint(_mintTo,_shares) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1227)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#615)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "depositFor",
+            "impact": "Medium",
+            "line": 1144,
+            "line_end": 1174,
+            "message": "MultiStablesVault.depositFor(address,address,address,uint256,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144-1174) ignores return value by _converter.convert(_input,_want,_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1167)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "depositAllFor",
+            "impact": "Medium",
+            "line": 1182,
+            "line_end": 1202,
+            "message": "MultiStablesVault.depositAllFor(address,address,uint256[],uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182-1202) ignores return value by _converter.convertAll(_amounts) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1197)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "earnExtra",
+            "impact": "Medium",
+            "line": 1103,
+            "line_end": 1113,
+            "message": "MultiStablesVault.earnExtra(address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1103-1113) ignores return value by Converter(_converter).convert(_token) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1112)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "convert_nonbased_want",
+            "impact": "Medium",
+            "line": 1093,
+            "line_end": 1100,
+            "message": "MultiStablesVault.convert_nonbased_want(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093-1100) ignores return value by shareConverter.convert_shares(_want,address(basedToken),_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1099)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 434,
+            "message": "ERC20UpgradeSafe.__ERC20_init_unchained(string,string).name (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#434) shadows:\n\t- ERC20UpgradeSafe.name() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#447-449) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Low",
+            "line": 1128,
+            "message": "MultiStablesVault.calc_token_amount_withdraw(uint256,address)._totalSupply (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1128) shadows:\n\t- ERC20UpgradeSafe._totalSupply (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#413) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 429,
+            "message": "ERC20UpgradeSafe.__ERC20_init(string,string).name (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#429) shadows:\n\t- ERC20UpgradeSafe.name() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#447-449) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 429,
+            "message": "ERC20UpgradeSafe.__ERC20_init(string,string).symbol (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#429) shadows:\n\t- ERC20UpgradeSafe.symbol() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#455-457) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 434,
+            "message": "ERC20UpgradeSafe.__ERC20_init_unchained(string,string).symbol (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#434) shadows:\n\t- ERC20UpgradeSafe.symbol() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#455-457) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "setEarnLowerlimit",
+            "impact": "Low",
+            "line": 1007,
+            "line_end": 1010,
+            "message": "MultiStablesVault.setEarnLowerlimit(uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1007-1010) should emit an event for: \n\t- earnLowerlimit = _earnLowerlimit (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1009) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "setMin",
+            "impact": "Low",
+            "line": 970,
+            "line_end": 973,
+            "message": "MultiStablesVault.setMin(uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#970-973) should emit an event for: \n\t- min = _min (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#972) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "setCap",
+            "impact": "Low",
+            "line": 1012,
+            "line_end": 1015,
+            "message": "MultiStablesVault.setCap(uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1012-1015) should emit an event for: \n\t- totalDepositCap = _cap (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1014) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Low",
+            "line": 975,
+            "message": "MultiStablesVault.setGovernance(address)._governance (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#975) lacks a zero-check on :\n\t\t- governance = _governance (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#977)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Low",
+            "line": 980,
+            "message": "MultiStablesVault.setController(address)._controller (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#980) lacks a zero-check on :\n\t\t- controller = _controller (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#982)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 1204,
+            "line_end": 1229,
+            "message": "Reentrancy in MultiStablesVault._deposit(address,uint256,uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229):\n\tExternal calls:\n\t- earn(_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1226)\n\t\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n\t\t- IERC20(_want).safeTransfer(controller,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)\n\t\t- _contrl.earn(_want,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)\n\tState variables written after the call(s):\n\t- _mint(_mintTo,_shares) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1227)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#616)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "setConverter",
+            "impact": "Low",
+            "line": 985,
+            "line_end": 990,
+            "message": "Reentrancy in MultiStablesVault.setConverter(address,IMultiVaultConverter) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#985-990):\n\tExternal calls:\n\t- require(bool,string)(_converter.token() == _want,!_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#987)\n\tState variables written after the call(s):\n\t- basedConverter = _converter (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#989)\n\t- converters[_want] = _converter (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#988)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 1204,
+            "line_end": 1229,
+            "message": "Reentrancy in MultiStablesVault._deposit(address,uint256,uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229):\n\tExternal calls:\n\t- earn(_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1226)\n\t\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n\t\t- IERC20(_want).safeTransfer(controller,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)\n\t\t- _contrl.earn(_want,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#617)\n\t\t- _mint(_mintTo,_shares) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1227)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "depositAllFor",
+            "impact": "Low",
+            "line": 1182,
+            "line_end": 1202,
+            "message": "Reentrancy in MultiStablesVault.depositAllFor(address,address,uint256[],uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182-1202):\n\tExternal calls:\n\t- _converter.convertAll(_amounts) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1197)\n\t- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)\n\t\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n\t\t- IERC20(_want).safeTransfer(controller,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)\n\t\t- _contrl.earn(_want,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#617)\n\t\t- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "depositFor",
+            "impact": "Low",
+            "line": 1144,
+            "line_end": 1174,
+            "message": "Reentrancy in MultiStablesVault.depositFor(address,address,address,uint256,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144-1174):\n\tExternal calls:\n\t- basedToken.safeTransferFrom(_account,address(this),_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1155)\n\t- IERC20(_input).safeTransferFrom(_account,address(_converter),_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1166)\n\t- _converter.convert(_input,_want,_amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1167)\n\t- _mint_amount = _deposit(_to,_pool,_amount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)\n\t\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n\t\t- IERC20(_want).safeTransfer(controller,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)\n\t\t- _contrl.earn(_want,_bal) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#617)\n\t\t- _mint_amount = _deposit(_to,_pool,_amount,_want) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "isConstructor",
+            "impact": "Informational",
+            "line": 329,
+            "line_end": 339,
+            "message": "Initializable.isConstructor() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#329-339) uses assembly\n\t- INLINE ASM (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#337)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 249,
+            "line_end": 258,
+            "message": "Address.isContract(address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#249-258) uses assembly\n\t- INLINE ASM (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#256)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 276,
+            "line_end": 282,
+            "message": "Address.sendValue(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#276-282) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 359,
+            "line_end": 361,
+            "message": "ContextUpgradeSafe.__Context_init() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#359-361) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 724,
+            "line_end": 727,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#724-727) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 713,
+            "line_end": 722,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#713-722) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 222,
+            "line_end": 225,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#222-225) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 373,
+            "line_end": 376,
+            "message": "ContextUpgradeSafe._msgData() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#373-376) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 207,
+            "line_end": 209,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#207-209) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 669,
+            "line_end": 671,
+            "message": "ERC20UpgradeSafe._setupDecimals(uint8) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#669-671) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 729,
+            "line_end": 732,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#729-732) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "_callOptionalReturn",
+            "impact": "Informational",
+            "line": 740,
+            "line_end": 759,
+            "message": "Low level call in SafeERC20._callOptionalReturn(IERC20,bytes) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#740-759):\n\t- (success,returndata) = address(token).call(data) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 276,
+            "line_end": 282,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#276-282):\n\t- (success) = recipient.call{value: amount}() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#280)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "balance_to_sell",
+            "impact": "Informational",
+            "line": 964,
+            "line_end": 968,
+            "message": "Function MultiStablesVault.balance_to_sell() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#964-968) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "convert_shares",
+            "impact": "Informational",
+            "line": 860,
+            "message": "Function IShareConverter.convert_shares(address,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#860) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "calc_token_amount_deposit",
+            "impact": "Informational",
+            "line": 850,
+            "message": "Function IMultiVaultConverter.calc_token_amount_deposit(uint256[]) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#850) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1123,
+            "message": "Parameter MultiStablesVault.calc_token_amount_withdraw(uint256,address)._output (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1079,
+            "message": "Parameter MultiStablesVault.earn(address)._want (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1079) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1007,
+            "message": "Parameter MultiStablesVault.setEarnLowerlimit(uint256)._earnLowerlimit (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1007) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1144,
+            "message": "Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._account (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "convert_rate",
+            "impact": "Informational",
+            "line": 782,
+            "message": "Function IValueMultiVault.convert_rate(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#782) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1144,
+            "message": "Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._input (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1119,
+            "message": "Parameter MultiStablesVault.calc_token_amount_deposit(uint256[])._amounts (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1119) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "calc_token_amount_deposit",
+            "impact": "Informational",
+            "line": 780,
+            "message": "Function IValueMultiVault.calc_token_amount_deposit(uint256[]) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#780) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "calc_token_amount_withdraw",
+            "impact": "Informational",
+            "line": 781,
+            "message": "Function IValueMultiVault.calc_token_amount_withdraw(uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#781) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "convert_rate",
+            "impact": "Informational",
+            "line": 849,
+            "message": "Function IMultiVaultConverter.convert_rate(address,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#849) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1027,
+            "message": "Parameter MultiStablesVault.setInputTokens(IERC20[])._inputTokens (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1027) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter MultiStablesVault.deposit(address,uint256,uint256)._input (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1176,
+            "message": "Parameter MultiStablesVault.depositAll(uint256[],uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1144,
+            "message": "Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1136,
+            "message": "Parameter MultiStablesVault.convert_rate(address,uint256)._amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1339,
+            "message": "Parameter MultiStablesVault.governanceRecoverUnsupported(IERC20,uint256,address)._token (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1339) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 791,
+            "message": "Parameter IValueMultiVault.withdrawFor(address,uint256,address,uint256)._min_output_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#791) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1093,
+            "message": "Parameter MultiStablesVault.convert_nonbased_want(address,uint256)._amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1002,
+            "message": "Parameter MultiStablesVault.setVaultMaster(IValueVaultMaster)._vaultMaster (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1002) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 359,
+            "line_end": 361,
+            "message": "Function ContextUpgradeSafe.__Context_init() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#359-361) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 788,
+            "message": "Parameter IValueMultiVault.depositAll(uint256[],uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#788) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 985,
+            "message": "Parameter MultiStablesVault.setConverter(address,IMultiVaultConverter)._converter (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#985) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1258,
+            "message": "Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._shares (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "get_virtual_price",
+            "impact": "Informational",
+            "line": 847,
+            "message": "Function IMultiVaultConverter.get_virtual_price() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#847) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "calc_token_amount_withdraw",
+            "impact": "Informational",
+            "line": 1123,
+            "line_end": 1134,
+            "message": "Function MultiStablesVault.calc_token_amount_withdraw(uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123-1134) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "calc_token_amount_withdraw",
+            "impact": "Informational",
+            "line": 851,
+            "message": "Function IMultiVaultConverter.calc_token_amount_withdraw(uint256,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#851) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 944,
+            "message": "Parameter MultiStablesVault.getConverter(address)._want (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#944) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1176,
+            "message": "Parameter MultiStablesVault.depositAll(uint256[],uint256)._amounts (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 980,
+            "message": "Parameter MultiStablesVault.setController(address)._controller (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#980) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1058,
+            "message": "Parameter MultiStablesVault.setInput2Want(address,address)._inputToken (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1058) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1039,
+            "message": "Parameter MultiStablesVault.setInputToken(uint256,IERC20)._inputToken (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1039) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 689,
+            "message": "Variable ERC20UpgradeSafe.__gap (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#689) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "convert_shares_rate",
+            "impact": "Informational",
+            "line": 858,
+            "message": "Function IShareConverter.convert_shares_rate(address,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#858) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1093,
+            "message": "Parameter MultiStablesVault.convert_nonbased_want(address,uint256)._want (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 997,
+            "message": "Parameter MultiStablesVault.setConverterMap(address,address)._converter (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#997) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 975,
+            "message": "Parameter MultiStablesVault.setGovernance(address)._governance (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#975) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 997,
+            "message": "Parameter MultiStablesVault.setConverterMap(address,address)._token (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#997) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1063,
+            "message": "Parameter MultiStablesVault.setAllowWithdrawFromOtherWant(address,bool)._allow (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1063) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 434,
+            "line_end": 441,
+            "message": "Function ERC20UpgradeSafe.__ERC20_init_unchained(string,string) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#434-441) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1144,
+            "message": "Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 935,
+            "message": "Parameter MultiStablesVault.unwhitelistContract(address)._contract (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#935) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 790,
+            "message": "Parameter IValueMultiVault.withdraw(uint256,address,uint256)._min_output_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#790) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1253,
+            "message": "Parameter MultiStablesVault.withdraw(uint256,address,uint256)._shares (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1253) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1182,
+            "message": "Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._amounts (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 925,
+            "message": "Parameter MultiStablesVault.setAcceptContractDepositor(bool)._acceptContractDepositor (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#925) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "convert_nonbased_want",
+            "impact": "Informational",
+            "line": 1093,
+            "line_end": 1100,
+            "message": "Function MultiStablesVault.convert_nonbased_want(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093-1100) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1074,
+            "message": "Parameter MultiStablesVault.available(address)._want (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1074) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 786,
+            "message": "Parameter IValueMultiVault.deposit(address,uint256,uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#786) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1115,
+            "message": "Parameter MultiStablesVault.withdraw_fee(uint256)._shares (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1115) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter MultiStablesVault.deposit(address,uint256,uint256)._amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1103,
+            "message": "Parameter MultiStablesVault.earnExtra(address)._token (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1103) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1039,
+            "message": "Parameter MultiStablesVault.setInputToken(uint256,IERC20)._index (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1039) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 908,
+            "message": "Parameter MultiStablesVault.initialize(IERC20,IValueVaultMaster)._basedToken (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#908) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "withdraw_fee",
+            "impact": "Informational",
+            "line": 779,
+            "message": "Function IValueMultiVault.withdraw_fee(uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#779) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 908,
+            "message": "Parameter MultiStablesVault.initialize(IERC20,IValueVaultMaster)._vaultMaster (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#908) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "withdraw_fee",
+            "impact": "Informational",
+            "line": 1115,
+            "line_end": 1117,
+            "message": "Function MultiStablesVault.withdraw_fee(uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1115-1117) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 787,
+            "message": "Parameter IValueMultiVault.depositFor(address,address,address,uint256,uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#787) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 992,
+            "message": "Parameter MultiStablesVault.setShareConverter(IShareConverter)._shareConverter (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#992) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 342,
+            "message": "Variable Initializable.______gap (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#342) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1012,
+            "message": "Parameter MultiStablesVault.setCap(uint256)._cap (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1012) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 363,
+            "line_end": 366,
+            "message": "Function ContextUpgradeSafe.__Context_init_unchained() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#363-366) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1136,
+            "message": "Parameter MultiStablesVault.convert_rate(address,uint256)._input (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "get_virtual_price",
+            "impact": "Informational",
+            "line": 1331,
+            "line_end": 1333,
+            "message": "Function MultiStablesVault.get_virtual_price() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1331-1333) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 952,
+            "message": "Parameter MultiStablesVault.accept(address)._input (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#952) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1182,
+            "message": "Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._account (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1182,
+            "message": "Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 985,
+            "message": "Parameter MultiStablesVault.setConverter(address,IMultiVaultConverter)._want (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#985) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 378,
+            "message": "Variable ContextUpgradeSafe.__gap (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#378) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter MultiStablesVault.deposit(address,uint256,uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "withdraw_fee",
+            "impact": "Informational",
+            "line": 834,
+            "message": "Function IMultiVaultController.withdraw_fee(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#834) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1063,
+            "message": "Parameter MultiStablesVault.setAllowWithdrawFromOtherWant(address,bool)._token (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1063) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1238,
+            "message": "Parameter MultiStablesVault.harvestStrategy(address)._strategy (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1238) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1144,
+            "message": "Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._to (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1123,
+            "message": "Parameter MultiStablesVault.calc_token_amount_withdraw(uint256,address)._shares (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 930,
+            "message": "Parameter MultiStablesVault.whitelistContract(address)._contract (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#930) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 789,
+            "message": "Parameter IValueMultiVault.depositAllFor(address,address,uint256[],uint256)._min_mint_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#789) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1253,
+            "message": "Parameter MultiStablesVault.withdraw(uint256,address,uint256)._output (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1253) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "convert_rate",
+            "impact": "Informational",
+            "line": 1136,
+            "line_end": 1138,
+            "message": "Function MultiStablesVault.convert_rate(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1136-1138) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1258,
+            "message": "Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._output (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1243,
+            "message": "Parameter MultiStablesVault.harvestWant(address)._want (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1243) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1182,
+            "message": "Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._to (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1258,
+            "message": "Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._min_output_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 970,
+            "message": "Parameter MultiStablesVault.setMin(uint256)._min (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 886,
+            "message": "Constant MultiStablesVault.max (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#886) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1046,
+            "message": "Parameter MultiStablesVault.setWantTokens(IERC20[])._wantTokens (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "calc_token_amount_deposit",
+            "impact": "Informational",
+            "line": 1119,
+            "line_end": 1121,
+            "message": "Function MultiStablesVault.calc_token_amount_deposit(uint256[]) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1119-1121) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 429,
+            "line_end": 432,
+            "message": "Function ERC20UpgradeSafe.__ERC20_init(string,string) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#429-432) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1058,
+            "message": "Parameter MultiStablesVault.setInput2Want(address,address)._wantToken (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1058) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "get_virtual_price",
+            "impact": "Informational",
+            "line": 784,
+            "message": "Function IValueMultiVault.get_virtual_price() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#784) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1258,
+            "message": "Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._account (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1253,
+            "message": "Parameter MultiStablesVault.withdraw(uint256,address,uint256)._min_output_amount (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1253) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeSafe",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 374,
+            "message": "Redundant expression \"this (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#374)\" inContextUpgradeSafe (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#355-379)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1058,
+            "message": "Variable MultiStablesVault.setInput2Want(address,address)._inputToken (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1058) is too similar to MultiStablesVault.inputTokens (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#877)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 1039,
+            "message": "Variable MultiStablesVault.setInputToken(uint256,IERC20)._inputToken (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1039) is too similar to MultiStablesVault.inputTokens (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#877)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "slitherConstructorVariables",
+            "impact": "Informational",
+            "line": 863,
+            "line_end": 1347,
+            "message": "MultiStablesVault.slitherConstructorVariables() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#863-1347) uses literals with too many digits:\n\t- totalDepositCap = 10000000000000000000000000 (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#889)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "MultiStablesVault",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 689,
+            "message": "ERC20UpgradeSafe.__gap (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#689) is never used in MultiStablesVault (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#863-1347)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "MultiStablesVault",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "impact": "Informational",
+            "line": 342,
+            "message": "Initializable.______gap (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#342) is never used in MultiStablesVault (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#863-1347)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 486,
+            "line_end": 488,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20UpgradeSafe.balanceOf(address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#486-488)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 455,
+            "line_end": 457,
+            "message": "symbol() should be declared external:\n\t- ERC20UpgradeSafe.symbol() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#455-457)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "initialize",
+            "impact": "Optimization",
+            "line": 908,
+            "line_end": 913,
+            "message": "initialize(IERC20,IValueVaultMaster) should be declared external:\n\t- MultiStablesVault.initialize(IERC20,IValueVaultMaster) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#908-913)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 447,
+            "line_end": 449,
+            "message": "name() should be declared external:\n\t- ERC20UpgradeSafe.name() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#447-449)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 552,
+            "line_end": 555,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.increaseAllowance(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#552-555)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 506,
+            "line_end": 508,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20UpgradeSafe.allowance(address,address) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#506-508)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 472,
+            "line_end": 474,
+            "message": "decimals() should be declared external:\n\t- ERC20UpgradeSafe.decimals() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#472-474)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 534,
+            "line_end": 538,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.transferFrom(address,address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#534-538)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "token",
+            "impact": "Optimization",
+            "line": 1068,
+            "line_end": 1070,
+            "message": "token() should be declared external:\n\t- MultiStablesVault.token() (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#1068-1070)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 517,
+            "line_end": 520,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.approve(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#517-520)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 571,
+            "line_end": 574,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.decreaseAllowance(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#571-574)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xddd7df28b1fb668b77860b473af819b03db61101.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 498,
+            "line_end": 501,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.transfer(address,uint256) (../..0xddd7df28b1fb668b77860b473af819b03db61101.sol#498-501)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

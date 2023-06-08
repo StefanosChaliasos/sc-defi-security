@@ -1,0 +1,239 @@
+Compilation warnings/errors on /sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol:
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> /sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol
+
+Warning: Using ".value(...)" is deprecated. Use "{value: ...}" instead.
+   --> /sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol:226:9:
+    |
+226 |         burnAddress.call.value(msg.value)("");                                              // Burn ether
+    |         ^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Return value of low-level calls not used.
+   --> /sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol:226:9:
+    |
+226 |         burnAddress.call.value(msg.value)("");                                              // Burn ether
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Using ".value(...)" is deprecated. Use "{value: ...}" instead.
+   --> /sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol:231:9:
+    |
+231 |         burnAddress.call.value(msg.value)("");                                              // Burn ether
+    |         ^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Return value of low-level calls not used.
+   --> /sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol:231:9:
+    |
+231 |         burnAddress.call.value(msg.value)("");                                              // Burn ether
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+[91m
+Vether3.upgradeV1() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197) ignores return value by ERC20(vether1).transferFrom(msg.sender,burnAddress,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#194)
+Vether3.upgradeV2() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212) ignores return value by ERC20(vether2).transferFrom(msg.sender,burnAddress,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#209)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+Vether3.receive() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228) ignores return value by burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)
+Vether3.burnEtherForMember(address) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233) ignores return value by burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-low-level-calls[0m
+[92m
+Vether3.upgradeV1() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197) should emit an event for: 
+	- upgradedAmount += amount (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#192) 
+Vether3.upgradeV2() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212) should emit an event for: 
+	- upgradedAmount += amount (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#207) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+Reentrancy in Vether3.burnEtherForMember(address) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233):
+	External calls:
+	- burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)
+	State variables written after the call(s):
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- currentDay = 0 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)
+		- currentDay += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#332)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- currentEra += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- emission = getNextEraEmission() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#328)
+		- emission = getDayEmission() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#334)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapEraDay_EmissionRemaining[currentEra][currentDay] = emission (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#335)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapEraDay_MemberCount[_era][_day] += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#239)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapEraDay_MemberUnits[_era][_day][_member] += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#242)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapEraDay_Members[_era][_day].push(_member) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#240)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapEraDay_Units[_era][_day] += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#244)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapEraDay_UnitsRemaining[_era][_day] += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#243)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapEra_Emission[currentEra] = emission (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#329)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- mapMemberEra_Days[_member][_era].push(_day) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#238)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- nextDayTime = _now + secondsPerDay (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#333)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- nextEraTime = _now + (secondsPerDay * daysPerEra) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#327)
+	- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+		- totalBurnt += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#245)
+Reentrancy in Vether3.receive() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228):
+	External calls:
+	- burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)
+	State variables written after the call(s):
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- currentDay = 0 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)
+		- currentDay += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#332)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- currentEra += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- emission = getNextEraEmission() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#328)
+		- emission = getDayEmission() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#334)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapEraDay_EmissionRemaining[currentEra][currentDay] = emission (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#335)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapEraDay_MemberCount[_era][_day] += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#239)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapEraDay_MemberUnits[_era][_day][_member] += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#242)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapEraDay_Members[_era][_day].push(_member) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#240)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapEraDay_Units[_era][_day] += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#244)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapEraDay_UnitsRemaining[_era][_day] += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#243)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapEra_Emission[currentEra] = emission (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#329)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- mapMemberEra_Days[_member][_era].push(_day) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#238)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- nextDayTime = _now + secondsPerDay (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#333)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- nextEraTime = _now + (secondsPerDay * daysPerEra) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#327)
+	- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+		- totalBurnt += _eth (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#245)
+Reentrancy in Vether3.upgradeV1() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197):
+	External calls:
+	- ERC20(vether1).transferFrom(msg.sender,burnAddress,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#194)
+	State variables written after the call(s):
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)
+		- _balances[_from] = _balances[_from].sub(_value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#153)
+		- _balances[_to] += (_value.sub(_fee)) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#155)
+		- _balances[address(this)] += _fee (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#156)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)
+		- holderArray.push(_to) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)
+		- holders += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)
+		- mapHolder[_to] = true (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)
+		- totalFees += _fee (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#157)
+Reentrancy in Vether3.upgradeV2() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212):
+	External calls:
+	- ERC20(vether2).transferFrom(msg.sender,burnAddress,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#209)
+	State variables written after the call(s):
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)
+		- _balances[_from] = _balances[_from].sub(_value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#153)
+		- _balances[_to] += (_value.sub(_fee)) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#155)
+		- _balances[address(this)] += _fee (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#156)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)
+		- holderArray.push(_to) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)
+		- holders += 1 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)
+		- mapHolder[_to] = true (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)
+	- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)
+		- totalFees += _fee (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#157)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in Vether3.burnEtherForMember(address) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233):
+	External calls:
+	- burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)
+	Event emitted after the call(s):
+	- Burn(_payer,_member,_era,_day,_eth,mapEraDay_Units[_era][_day]) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#246)
+		- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+	- NewDay(currentEra,currentDay,nextDayTime,mapEraDay_Units[_era][_day],mapEraDay_MemberCount[_era][_day]) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#338-339)
+		- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+	- NewEra(currentEra,emission,nextEraTime,totalBurnt) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#330)
+		- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)
+Reentrancy in Vether3.receive() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228):
+	External calls:
+	- burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)
+	Event emitted after the call(s):
+	- Burn(_payer,_member,_era,_day,_eth,mapEraDay_Units[_era][_day]) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#246)
+		- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+	- NewDay(currentEra,currentDay,nextDayTime,mapEraDay_Units[_era][_day],mapEraDay_MemberCount[_era][_day]) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#338-339)
+		- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+	- NewEra(currentEra,emission,nextEraTime,totalBurnt) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#330)
+		- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)
+Reentrancy in Vether3.upgradeV1() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197):
+	External calls:
+	- ERC20(vether1).transferFrom(msg.sender,burnAddress,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#194)
+	Event emitted after the call(s):
+	- Transfer(_from,_to,(_value.sub(_fee))) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#158)
+		- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)
+	- Transfer(_from,address(this),_fee) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#160)
+		- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)
+Reentrancy in Vether3.upgradeV2() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212):
+	External calls:
+	- ERC20(vether2).transferFrom(msg.sender,burnAddress,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#209)
+	Event emitted after the call(s):
+	- Transfer(_from,_to,(_value.sub(_fee))) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#158)
+		- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)
+	- Transfer(_from,address(this),_fee) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#160)
+		- _transfer(address(this),msg.sender,amount) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Vether3._updateEmission() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#322-341) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _now >= nextDayTime (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#324)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Pragma version^0.6.4 (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#1) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Vether3.receive() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228):
+	- burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)
+Low level call in Vether3.burnEtherForMember(address) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233):
+	- burnAddress.call.value(msg.value)() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function VETH.mapEraDay_Units(uint256,uint256) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#29) is not in mixedCase
+Variable Vether3.mapEra_Emission (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#63) is not in mixedCase
+Variable Vether3.mapEraDay_MemberCount (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#64) is not in mixedCase
+Variable Vether3.mapEraDay_Members (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#65) is not in mixedCase
+Variable Vether3.mapEraDay_Units (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#66) is not in mixedCase
+Variable Vether3.mapEraDay_UnitsRemaining (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#67) is not in mixedCase
+Variable Vether3.mapEraDay_EmissionRemaining (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#68) is not in mixedCase
+Variable Vether3.mapEraDay_MemberUnits (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#69) is not in mixedCase
+Variable Vether3.mapMemberEra_Days (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#70) is not in mixedCase
+Variable Vether3.mapAddress_Excluded (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#73) is not in mixedCase
+Variable Vether3.mapAddress_BlockChange (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#74) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable Vether3.mapEraDay_MemberCount (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#64) is too similar to Vether3.mapEraDay_MemberUnits (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#69)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+Vether3.coin (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#53) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+balanceOf(address) should be declared external:
+	- Vether3.balanceOf(address) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#118-120)
+allowance(address,address) should be declared external:
+	- Vether3.allowance(address,address) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#121-127)
+transfer(address,uint256) should be declared external:
+	- Vether3.transfer(address,uint256) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#129-132)
+approve(address,uint256) should be declared external:
+	- Vether3.approve(address,uint256) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#134-138)
+transferFrom(address,address,uint256) should be declared external:
+	- Vether3.transferFrom(address,address,uint256) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#140-147)
+upgradeV1() should be declared external:
+	- Vether3.upgradeV1() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197)
+upgradeV2() should be declared external:
+	- Vether3.upgradeV2() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212)
+snapshot(address[],uint256[]) should be declared external:
+	- Vether3.snapshot(address[],uint256[]) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#214-219)
+purgeDeployer() should be declared external:
+	- Vether3.purgeDeployer() (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#221)
+getDaysContributedForEra(address,uint256) should be declared external:
+	- Vether3.getDaysContributedForEra(address,uint256) (../../sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#266-268)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol analyzed (4 contracts with 78 detectors), 41 result(s) found

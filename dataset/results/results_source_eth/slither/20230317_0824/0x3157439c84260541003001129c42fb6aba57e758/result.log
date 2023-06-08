@@ -1,0 +1,98 @@
+[91m
+Governance.execute(uint256,address,bytes) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124-139) uses delegatecall to a input-controlled function id
+	- (success,returnData) = _target.delegatecall(_data) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#134)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#controlled-delegatecall[0m
+[91m
+Governance.withdraw() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#183-187) ignores return value by votingToken.transfer(msg.sender,balanceOf[msg.sender]) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#185)
+Governance.lockVotes() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#91-97) ignores return value by votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#93)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+Reentrancy in Governance.execute(uint256,address,bytes) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124-139):
+	External calls:
+	- (success,returnData) = _target.delegatecall(_data) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#134)
+	State variables written after the call(s):
+	- proposal.executed = true (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#136)
+Reentrancy in Governance.withdraw() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#183-187):
+	External calls:
+	- votingToken.transfer(msg.sender,balanceOf[msg.sender]) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#185)
+	State variables written after the call(s):
+	- _burn(msg.sender,balanceOf[msg.sender]) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#186)
+		- balanceOf[_account] -= _amount (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#194)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+Governance.execute(uint256,address,bytes)._target (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124) lacks a zero-check on :
+		- (success,returnData) = _target.delegatecall(_data) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#134)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in Governance.lockVotes() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#91-97):
+	External calls:
+	- votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#93)
+	State variables written after the call(s):
+	- _mint(msg.sender,tokenBalance) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#94)
+		- balanceOf[_account] += _amount (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#190)
+	- voteLock[msg.sender] = block.timestamp + votingPeriod (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#95)
+Reentrancy in Governance.propose(address,bytes) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#141-161):
+	External calls:
+	- lockVotes() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#141)
+		- votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#93)
+	State variables written after the call(s):
+	- proposalCount ++ (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#147)
+	- proposals[newProposal.id] = newProposal (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#158)
+Reentrancy in Governance.vote(uint256,bool) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#163-181):
+	External calls:
+	- lockVotes() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#163)
+		- votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#93)
+	State variables written after the call(s):
+	- proposal.forVotes += votes (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#173)
+	- proposal.againstVotes += votes (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#175)
+	- receipt.hasVoted = true (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#178)
+	- receipt.support = _support (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#179)
+	- receipt.votes = votes (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#180)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Governance.state(uint256) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#103-122) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= proposal.startTime + votingPeriod (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#107)
+	- block.timestamp < proposal.startTime + executionPeriod (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#116)
+Governance.withdraw() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#183-187) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp > voteLock[msg.sender],Governance::withdraw: wait until voteLock expiration) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#184)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Governance.state(uint256) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#103-122) compares to a boolean constant:
+	-proposal.executed == true (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#110)
+Governance.vote(uint256,bool) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#163-181) compares to a boolean constant:
+	-require(bool,string)(receipt.hasVoted == false,Governance::vote: voter already voted) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#168)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Pragma version^0.8.1 (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#3) allows old versions
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Governance.execute(uint256,address,bytes) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124-139):
+	- (success,returnData) = _target.delegatecall(_data) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#134)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter Governance.execute(uint256,address,bytes)._proposalId (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124) is not in mixedCase
+Parameter Governance.execute(uint256,address,bytes)._target (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124) is not in mixedCase
+Parameter Governance.execute(uint256,address,bytes)._data (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124) is not in mixedCase
+Parameter Governance.propose(address,bytes)._target (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#141) is not in mixedCase
+Parameter Governance.propose(address,bytes)._data (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#141) is not in mixedCase
+Parameter Governance.vote(uint256,bool)._proposalId (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#163) is not in mixedCase
+Parameter Governance.vote(uint256,bool)._support (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#163) is not in mixedCase
+Constant Governance.votingPeriod (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#19) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Governance.executionPeriod (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#22) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Governance.quorumVotes (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#25) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Governance.proposalThreshold (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#28) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+execute(uint256,address,bytes) should be declared external:
+	- Governance.execute(uint256,address,bytes) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#124-139)
+propose(address,bytes) should be declared external:
+	- Governance.propose(address,bytes) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#141-161)
+vote(uint256,bool) should be declared external:
+	- Governance.vote(uint256,bool) (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#163-181)
+withdraw() should be declared external:
+	- Governance.withdraw() (../../sb/0x3157439c84260541003001129c42fb6aba57e758.sol#183-187)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x3157439c84260541003001129c42fb6aba57e758.sol analyzed (2 contracts with 78 detectors), 31 result(s) found

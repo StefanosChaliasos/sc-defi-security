@@ -1,0 +1,473 @@
+{
+    "errors": [
+        "EXIT_CODE_49"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Medium",
+            "line": 391,
+            "message": "KyberNetworkProxy.swapTokenToToken(ERC20,uint256,ERC20,uint256).hint (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#391) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Medium",
+            "line": 430,
+            "message": "KyberNetworkProxy.swapTokenToEther(ERC20,uint256,uint256).hint (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#430) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Medium",
+            "line": 410,
+            "message": "KyberNetworkProxy.swapEtherToToken(ERC20,uint256).hint (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#410) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Medium",
+            "line": 478,
+            "message": "KyberNetworkProxy.tradeWithHint(ERC20,uint256,ERC20,address,uint256,uint256,address,bytes).userBalanceBefore (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#478) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Medium",
+            "line": 362,
+            "message": "KyberNetworkProxy.trade(ERC20,uint256,ERC20,address,uint256,uint256,address).hint (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#362) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Low",
+            "line": 320,
+            "message": "Withdrawable.withdrawEther(uint256,address).sendTo (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#320) lacks a zero-check on :\n\t\t- sendTo.transfer(amount) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#321)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "withdrawToken",
+            "impact": "Low",
+            "line": 310,
+            "line_end": 313,
+            "message": "Reentrancy in Withdrawable.withdrawToken(ERC20,uint256,address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#310-313):\n\tExternal calls:\n\t- require(bool)(token.transfer(sendTo,amount)) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#311)\n\tEvent emitted after the call(s):\n\t- TokenWithdraw(token,amount,sendTo) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#312)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "tradeWithHint",
+            "impact": "Low",
+            "line": 462,
+            "line_end": 515,
+            "message": "Reentrancy in KyberNetworkProxy.tradeWithHint(ERC20,uint256,ERC20,address,uint256,uint256,address,bytes) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#462-515):\n\tExternal calls:\n\t- userBalanceBefore.srcBalance = getBalance(src,msg.sender) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#480)\n\t\t- token.balanceOf(user) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#133)\n\t- userBalanceBefore.destBalance = getBalance(dest,destAddress) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#481)\n\t\t- token.balanceOf(user) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#133)\n\t- require(bool)(src.transferFrom(msg.sender,kyberNetworkContract,srcAmount)) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#486)\n\t- reportedDestAmount = kyberNetworkContract.tradeWithHint.value(msg.value)(msg.sender,src,srcAmount,dest,destAddress,maxDestAmount,minConversionRate,walletId,hint) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#489-499)\n\t- tradeOutcome = calculateTradeOutcome(userBalanceBefore.srcBalance,userBalanceBefore.destBalance,src,dest,destAddress) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#501-507)\n\t\t- decimals[token] = token.decimals() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#75)\n\t\t- token.balanceOf(user) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#133)\n\tExternal calls sending eth:\n\t- reportedDestAmount = kyberNetworkContract.tradeWithHint.value(msg.value)(msg.sender,src,srcAmount,dest,destAddress,maxDestAmount,minConversionRate,walletId,hint) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#489-499)\n\tEvent emitted after the call(s):\n\t- ExecuteTrade(msg.sender,src,dest,tradeOutcome.userDeltaSrcAmount,tradeOutcome.userDeltaDestAmount) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#513)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "calcDstQty",
+            "impact": "Informational",
+            "line": 89,
+            "line_end": 100,
+            "message": "Utils.calcDstQty(uint256,uint256,uint256,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#89-100) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "calcSrcQty",
+            "impact": "Informational",
+            "line": 102,
+            "line_end": 119,
+            "message": "Utils.calcSrcQty(uint256,uint256,uint256,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#102-119) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "calcSrcAmount",
+            "impact": "Informational",
+            "line": 149,
+            "line_end": 151,
+            "message": "Utils2.calcSrcAmount(ERC20,ERC20,uint256,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#149-151) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "getDecimals",
+            "impact": "Informational",
+            "line": 78,
+            "line_end": 87,
+            "message": "Utils.getDecimals(ERC20) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#78-87) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "calcDestAmount",
+            "impact": "Informational",
+            "line": 145,
+            "line_end": 147,
+            "message": "Utils2.calcDestAmount(ERC20,ERC20,uint256,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#145-147) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Informational",
+            "line": 1,
+            "message": "Pragma version^0.4.18 (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#1) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is not recommended for deployment\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "impact": "Informational",
+            "line": 519,
+            "message": "Parameter KyberNetworkProxy.setKyberNetworkContract(KyberNetworkInterface)._kyberNetworkContract (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#519) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "withdrawEther",
+            "impact": "Informational",
+            "line": 320,
+            "line_end": 323,
+            "message": "Reentrancy in Withdrawable.withdrawEther(uint256,address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#320-323):\n\tExternal calls:\n\t- sendTo.transfer(amount) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#321)\n\tEvent emitted after the call(s):\n\t- EtherWithdraw(amount,sendTo) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#322)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "maxGasPrice",
+            "impact": "Optimization",
+            "line": 21,
+            "message": "maxGasPrice() should be declared external:\n\t- KyberNetworkInterface.maxGasPrice() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#21)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "tradeWithHint",
+            "impact": "Optimization",
+            "line": 30,
+            "line_end": 31,
+            "message": "tradeWithHint(address,ERC20,uint256,ERC20,address,uint256,uint256,address,bytes) should be declared external:\n\t- KyberNetworkInterface.tradeWithHint(address,ERC20,uint256,ERC20,address,uint256,uint256,address,bytes) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#30-31)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 10,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#10)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "removeAlerter",
+            "impact": "Optimization",
+            "line": 254,
+            "line_end": 266,
+            "message": "removeAlerter(address) should be declared external:\n\t- PermissionGroups.removeAlerter(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#254-266)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "removeOperator",
+            "impact": "Optimization",
+            "line": 279,
+            "line_end": 291,
+            "message": "removeOperator(address) should be declared external:\n\t- PermissionGroups.removeOperator(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#279-291)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "maxGasPrice",
+            "impact": "Optimization",
+            "line": 543,
+            "line_end": 545,
+            "message": "maxGasPrice() should be declared external:\n\t- KyberNetworkProxy.maxGasPrice() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#543-545)\n\t- KyberNetworkProxyInterface.maxGasPrice() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#38)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "enabled",
+            "impact": "Optimization",
+            "line": 547,
+            "line_end": 549,
+            "message": "enabled() should be declared external:\n\t- KyberNetworkProxy.enabled() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#547-549)\n\t- KyberNetworkProxyInterface.enabled() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#41)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "getUserCapInTokenWei",
+            "impact": "Optimization",
+            "line": 23,
+            "message": "getUserCapInTokenWei(address,ERC20) should be declared external:\n\t- KyberNetworkInterface.getUserCapInTokenWei(address,ERC20) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#23)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "swapEtherToToken",
+            "impact": "Optimization",
+            "line": 409,
+            "line_end": 422,
+            "message": "swapEtherToToken(ERC20,uint256) should be declared external:\n\t- KyberNetworkProxy.swapEtherToToken(ERC20,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#409-422)\n\t- SimpleNetworkInterface.swapEtherToToken(ERC20,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#56)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "getExpectedRate",
+            "impact": "Optimization",
+            "line": 528,
+            "line_end": 533,
+            "message": "getExpectedRate(ERC20,ERC20,uint256) should be declared external:\n\t- KyberNetworkProxy.getExpectedRate(ERC20,ERC20,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#528-533)\n\t- KyberNetworkProxyInterface.getExpectedRate(ERC20,ERC20,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#44-45)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "claimAdmin",
+            "impact": "Optimization",
+            "line": 236,
+            "line_end": 241,
+            "message": "claimAdmin() should be declared external:\n\t- PermissionGroups.claimAdmin() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#236-241)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 13,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#13)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "addAlerter",
+            "impact": "Optimization",
+            "line": 245,
+            "line_end": 252,
+            "message": "addAlerter(address) should be declared external:\n\t- PermissionGroups.addAlerter(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#245-252)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 8,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#8)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 9,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#9)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "getUserCapInTokenWei",
+            "impact": "Optimization",
+            "line": 539,
+            "line_end": 541,
+            "message": "getUserCapInTokenWei(address,ERC20) should be declared external:\n\t- KyberNetworkProxy.getUserCapInTokenWei(address,ERC20) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#539-541)\n\t- KyberNetworkProxyInterface.getUserCapInTokenWei(address,ERC20) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#40)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "swapTokenToToken",
+            "impact": "Optimization",
+            "line": 382,
+            "line_end": 403,
+            "message": "swapTokenToToken(ERC20,uint256,ERC20,uint256) should be declared external:\n\t- KyberNetworkProxy.swapTokenToToken(ERC20,uint256,ERC20,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#382-403)\n\t- SimpleNetworkInterface.swapTokenToToken(ERC20,uint256,ERC20,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#55)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "trade",
+            "impact": "Optimization",
+            "line": 349,
+            "line_end": 374,
+            "message": "trade(ERC20,uint256,ERC20,address,uint256,uint256,address) should be declared external:\n\t- KyberNetworkProxy.trade(ERC20,uint256,ERC20,address,uint256,uint256,address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#349-374)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "setKyberNetworkContract",
+            "impact": "Optimization",
+            "line": 519,
+            "line_end": 526,
+            "message": "setKyberNetworkContract(KyberNetworkInterface) should be declared external:\n\t- KyberNetworkProxy.setKyberNetworkContract(KyberNetworkInterface) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#519-526)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "info",
+            "impact": "Optimization",
+            "line": 25,
+            "message": "info(bytes32) should be declared external:\n\t- KyberNetworkInterface.info(bytes32) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#25)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "transferAdmin",
+            "impact": "Optimization",
+            "line": 214,
+            "line_end": 218,
+            "message": "transferAdmin(address) should be declared external:\n\t- PermissionGroups.transferAdmin(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#214-218)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "info",
+            "impact": "Optimization",
+            "line": 551,
+            "line_end": 553,
+            "message": "info(bytes32) should be declared external:\n\t- KyberNetworkProxy.info(bytes32) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#551-553)\n\t- KyberNetworkProxyInterface.info(bytes32) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#42)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "getExpectedRate",
+            "impact": "Optimization",
+            "line": 27,
+            "line_end": 28,
+            "message": "getExpectedRate(ERC20,ERC20,uint256) should be declared external:\n\t- KyberNetworkInterface.getExpectedRate(ERC20,ERC20,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#27-28)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "getUserCapInWei",
+            "impact": "Optimization",
+            "line": 535,
+            "line_end": 537,
+            "message": "getUserCapInWei(address) should be declared external:\n\t- KyberNetworkProxy.getUserCapInWei(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#535-537)\n\t- KyberNetworkProxyInterface.getUserCapInWei(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#39)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "getUserCapInWei",
+            "impact": "Optimization",
+            "line": 22,
+            "message": "getUserCapInWei(address) should be declared external:\n\t- KyberNetworkInterface.getUserCapInWei(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#22)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "enabled",
+            "impact": "Optimization",
+            "line": 24,
+            "message": "enabled() should be declared external:\n\t- KyberNetworkInterface.enabled() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#24)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 7,
+            "message": "totalSupply() should be declared external:\n\t- ERC20.totalSupply() (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#7)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 11,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#11)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "transferAdminQuickly",
+            "impact": "Optimization",
+            "line": 224,
+            "line_end": 229,
+            "message": "transferAdminQuickly(address) should be declared external:\n\t- PermissionGroups.transferAdminQuickly(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#224-229)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "swapTokenToEther",
+            "impact": "Optimization",
+            "line": 429,
+            "line_end": 442,
+            "message": "swapTokenToEther(ERC20,uint256,uint256) should be declared external:\n\t- KyberNetworkProxy.swapTokenToEther(ERC20,uint256,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#429-442)\n\t- SimpleNetworkInterface.swapTokenToEther(ERC20,uint256,uint256) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#57)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "addOperator",
+            "impact": "Optimization",
+            "line": 270,
+            "line_end": 277,
+            "message": "addOperator(address) should be declared external:\n\t- PermissionGroups.addOperator(address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#270-277)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x818e6fecd516ecc3849daf6845e3ec868087b755.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 12,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x818e6fecd516ecc3849daf6845e3ec868087b755.sol#12)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

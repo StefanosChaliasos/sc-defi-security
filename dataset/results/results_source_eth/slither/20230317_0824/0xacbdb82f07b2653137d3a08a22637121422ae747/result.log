@@ -1,0 +1,165 @@
+Compilation warnings/errors on /sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol:
+Warning: Only state variables can have a docstring. This will be disallowed in 0.7.0.
+    --> /sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol:1037:17:
+     |
+1037 |         uint256 timestamp;
+     |                 ^^^^^^^^^
+
+Warning: Only state variables can have a docstring. This will be disallowed in 0.7.0.
+    --> /sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol:1039:17:
+     |
+1039 |         uint256 addedSyntheticReward;
+     |                 ^^^^^^^^^^^^^^^^^^^^
+
+Warning: Only state variables can have a docstring. This will be disallowed in 0.7.0.
+    --> /sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol:1041:17:
+     |
+1041 |         uint256 accruedRewardPerShareUnit;
+     |                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Only state variables can have a docstring. This will be disallowed in 0.7.0.
+    --> /sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol:1047:17:
+     |
+1047 |         uint256 lastAccrualSnaphotId;
+     |                 ^^^^^^^^^^^^^^^^^^^^
+
+Warning: Only state variables can have a docstring. This will be disallowed in 0.7.0.
+    --> /sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol:1049:17:
+     |
+1049 |         uint256 accruedReward;
+     |                 ^^^^^^^^^^^^^
+
+
+[91m
+Boardroom._doStakeTransfer(address,address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1166-1172) ignores return value by stakingToken.transferFrom(from,address(this),amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1171)
+Boardroom._doWithdrawTransfer(address,address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1177-1183) ignores return value by stakingToken.transfer(to,amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1182)
+Boardroom._claimReward(address,address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1279-1290) ignores return value by token.transfer(to,reward) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1287)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[92m
+SyntheticToken.constructor(string,string,uint8)._name (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#894) shadows:
+	- ERC20._name (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#483) (state variable)
+SyntheticToken.constructor(string,string,uint8)._symbol (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#895) shadows:
+	- ERC20._symbol (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#484) (state variable)
+SyntheticToken.constructor(string,string,uint8)._decimals (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#896) shadows:
+	- ERC20._decimals (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#485) (state variable)
+Boardroom.availableForWithdraw(address,address).owner (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1107) shadows:
+	- Ownable.owner() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#823-825) (function)
+Boardroom.shareTokenBalance(address).owner (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1187) shadows:
+	- Ownable.owner() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#823-825) (function)
+Boardroom.updateAccruals(address).owner (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1203) shadows:
+	- Ownable.owner() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#823-825) (function)
+Boardroom._updateAccrual(address,address).owner (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1292) shadows:
+	- Ownable.owner() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#823-825) (function)
+LiquidBoardroom.shareTokenBalance(address).owner (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1393) shadows:
+	- Ownable.owner() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#823-825) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+Operatable.transferOperator(address).newOperator (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#875) lacks a zero-check on :
+		- operator = newOperator (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#877)
+Boardroom.setEmissionManager(address)._emissionManager (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1263) lacks a zero-check on :
+		- emissionManager = _emissionManager (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1264)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+LiquidBoardroom.shareTokenBalance(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1393-1400) has external calls inside a loop: stakingTokenBalances[owner].add(veToken.locked__balance(owner)) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1399)
+Boardroom._claimReward(address,address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1279-1290) has external calls inside a loop: token.transfer(to,reward) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1287)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in Boardroom._claimReward(address,address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1279-1290):
+	External calls:
+	- token.transfer(to,reward) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1287)
+	Event emitted after the call(s):
+	- RewardPaid(syntheticTokenAddress,msg.sender,to,reward) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1288)
+Reentrancy in Boardroom.stake(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1135-1147):
+	External calls:
+	- _doStakeTransfer(msg.sender,to,amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1145)
+		- stakingToken.transferFrom(from,address(this),amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1171)
+	Event emitted after the call(s):
+	- Staked(msg.sender,to,amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1146)
+Reentrancy in Boardroom.withdraw(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1152-1161):
+	External calls:
+	- _doWithdrawTransfer(msg.sender,to,amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1159)
+		- stakingToken.transfer(to,amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1182)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,to,amount) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1160)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Timeboundable.constructor(uint256,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#281-300) uses timestamp for comparisons
+	Dangerous comparisons:
+	- s == 0 (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#291)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Context._msgData() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#256-259) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#363-366) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#348-350) is never used and should be removed
+Math.min(uint256,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#355-357) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#139-141) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#155-158) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.6.6 (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#3) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Function IVotingEscrow.locked__balance(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#319) is not in mixedCase
+Function IVotingEscrow.deposit_for(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#325) is not in mixedCase
+Function IVotingEscrow.create_lock(uint256,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#327) is not in mixedCase
+Parameter IVotingEscrow.create_lock(uint256,uint256)._unlock_time (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#327) is not in mixedCase
+Function IVotingEscrow.increase_amount(uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#329) is not in mixedCase
+Function IVotingEscrow.increase_unlock_time(uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#331) is not in mixedCase
+Parameter IVotingEscrow.increase_unlock_time(uint256)._unlock_time (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#331) is not in mixedCase
+Parameter Boardroom.setTokenManager(address)._tokenManager (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1256) is not in mixedCase
+Parameter Boardroom.setEmissionManager(address)._emissionManager (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1263) is not in mixedCase
+Parameter Boardroom.setPause(bool)._pause (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1272) is not in mixedCase
+Parameter LiquidBoardroom.setVeToken(address)._veToken (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1386) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#257)" inContext (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#251-260)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+name() should be declared external:
+	- ERC20.name() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#505-507)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#513-515)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#530-532)
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#537-539)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#544-546)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#556-559)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#575-578)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#593-597)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#611-614)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#630-633)
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#823-825)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#842-845)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#851-855)
+transferOperator(address) should be declared external:
+	- Operatable.transferOperator(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#875-878)
+mint(address,uint256) should be declared external:
+	- SyntheticToken.mint(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#904-910)
+availableForWithdraw(address,address) should be declared external:
+	- Boardroom.availableForWithdraw(address,address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1107-1130)
+stake(address,uint256) should be declared external:
+	- Boardroom.stake(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1135-1147)
+withdraw(address,uint256) should be declared external:
+	- Boardroom.withdraw(address,uint256) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1152-1161)
+claimRewards(address) should be declared external:
+	- Boardroom.claimRewards(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1212-1218)
+setTokenManager(address) should be declared external:
+	- Boardroom.setTokenManager(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1256-1259)
+setEmissionManager(address) should be declared external:
+	- Boardroom.setEmissionManager(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1263-1266)
+setPause(bool) should be declared external:
+	- Boardroom.setPause(bool) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1272-1275)
+setVeToken(address) should be declared external:
+	- LiquidBoardroom.setVeToken(address) (../../sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol#1386-1389)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xacbdb82f07b2653137d3a08a22637121422ae747.sol analyzed (17 contracts with 78 detectors), 61 result(s) found

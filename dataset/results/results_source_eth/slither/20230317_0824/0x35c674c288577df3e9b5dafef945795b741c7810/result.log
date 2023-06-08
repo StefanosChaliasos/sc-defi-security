@@ -1,0 +1,214 @@
+Compilation warnings/errors on /sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol:
+Warning: Function state mutability can be restricted to pure
+    --> /sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol:1361:5:
+     |
+1361 |     function getMultiplier(uint256 _from, uint256 _to) private view returns (uint256) {
+     |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+Memestake.safeMfundTransfer(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348-1355) ignores return value by mFundToken.transfer(_to,mFundBal) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)
+Memestake.safeMfundTransfer(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348-1355) ignores return value by mFundToken.transfer(_to,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+Memestake.pendingRewards(uint256,address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1204-1221) performs a multiplication on the result of a division:
+	-mFundReward = multiplier.mul(mFundPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1216)
+	-accMfundPerShare = accMfundPerShare.add(mFundReward.mul(1e18).div(lpSupply)) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1217)
+Memestake.updatePool(uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) performs a multiplication on the result of a division:
+	-mFundReward = multiplier.mul(mFundPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1269)
+	-pool.accMfundPerShare = pool.accMfundPerShare.add(mFundReward.mul(1e18).div(tokenContractSupply)) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1271)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Memestake.updatePool(uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) uses a dangerous strict equality:
+	- tokenContractSupply == 0 (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1256)
+Memestake.updatePool(uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) uses a dangerous strict equality:
+	- multiplier == 0 (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1265)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in Memestake.deposit(uint256,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278-1297):
+	External calls:
+	- safeMfundTransfer(msg.sender,pending) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1286)
+		- mFundToken.transfer(_to,mFundBal) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)
+		- mFundToken.transfer(_to,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)
+	- pool.tokenContract.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1291)
+	State variables written after the call(s):
+	- user.amount = user.amount.add(_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1292)
+	- user.rewardDebt = user.amount.mul(pool.accMfundPerShare).div(1e18) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1295)
+Reentrancy in Memestake.withdraw(uint256,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303-1323):
+	External calls:
+	- safeMfundTransfer(msg.sender,pending) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1313)
+		- mFundToken.transfer(_to,mFundBal) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)
+		- mFundToken.transfer(_to,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)
+	State variables written after the call(s):
+	- user.amount = user.amount.sub(_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1317)
+Reentrancy in Memestake.withdraw(uint256,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303-1323):
+	External calls:
+	- safeMfundTransfer(msg.sender,pending) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1313)
+		- mFundToken.transfer(_to,mFundBal) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)
+		- mFundToken.transfer(_to,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)
+	- pool.tokenContract.safeTransfer(address(msg.sender),_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1318)
+	State variables written after the call(s):
+	- user.rewardDebt = user.amount.mul(pool.accMfundPerShare).div(1e18) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1321)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+Memestake.add(uint256,IERC20,bool) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159-1179) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1170) 
+Memestake.set(uint256,uint256,bool) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187-1198) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1195) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+Memefund.setRebaseOracle(address).newRebaseOracle (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#102) lacks a zero-check on :
+		- rebaseOracle = newRebaseOracle (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#104)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Memestake.updatePool(uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) has external calls inside a loop: tokenContractSupply = pool.tokenContract.balanceOf(address(this)) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1255)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in Memestake.claimRewards(uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1224-1233):
+	External calls:
+	- safeMfundTransfer(msg.sender,pending) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1231)
+		- mFundToken.transfer(_to,mFundBal) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)
+		- mFundToken.transfer(_to,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)
+	Event emitted after the call(s):
+	- Claim(msg.sender,_pid,pending) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1232)
+Reentrancy in Memestake.deposit(uint256,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278-1297):
+	External calls:
+	- safeMfundTransfer(msg.sender,pending) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1286)
+		- mFundToken.transfer(_to,mFundBal) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)
+		- mFundToken.transfer(_to,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)
+	- pool.tokenContract.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1291)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,_pid,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1296)
+Reentrancy in Memestake.emergencyWithdraw(uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1327-1339):
+	External calls:
+	- pool.tokenContract.safeTransfer(address(msg.sender),amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1337)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(msg.sender,_pid,amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1338)
+Reentrancy in Memestake.withdraw(uint256,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303-1323):
+	External calls:
+	- safeMfundTransfer(msg.sender,pending) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1313)
+		- mFundToken.transfer(_to,mFundBal) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)
+		- mFundToken.transfer(_to,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)
+	- pool.tokenContract.safeTransfer(address(msg.sender),_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1318)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_pid,_amount) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1322)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#792-801) uses assembly
+	- INLINE ASM (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#799)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#937-954) uses assembly
+	- INLINE ASM (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#946-949)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Memefund.rebase(uint256,bool) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#137-159) compares to a boolean constant:
+	-increaseSupply == true (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#145)
+Memestake.add(uint256,IERC20,bool) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159-1179) compares to a boolean constant:
+	-require(bool,string)(isTokenContractAdded[tokenContractAddress] == false,add: already whitelisted) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1163)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#845-847) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#870-872) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#919-921) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#929-935) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#895-897) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#905-911) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#819-825) is never used and should be removed
+Context._msgData() (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#267-270) is never used and should be removed
+EnumerableSet._add(EnumerableSet.Set,bytes32) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#370-380) is never used and should be removed
+EnumerableSet._at(EnumerableSet.Set,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#446-449) is never used and should be removed
+EnumerableSet._contains(EnumerableSet.Set,bytes32) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#425-427) is never used and should be removed
+EnumerableSet._length(EnumerableSet.Set) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#432-434) is never used and should be removed
+EnumerableSet._remove(EnumerableSet.Set,bytes32) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#388-420) is never used and should be removed
+EnumerableSet.add(EnumerableSet.AddressSet,address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#517-519) is never used and should be removed
+EnumerableSet.add(EnumerableSet.Bytes32Set,bytes32) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#463-465) is never used and should be removed
+EnumerableSet.add(EnumerableSet.UintSet,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#572-574) is never used and should be removed
+EnumerableSet.at(EnumerableSet.AddressSet,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#555-557) is never used and should be removed
+EnumerableSet.at(EnumerableSet.Bytes32Set,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#501-503) is never used and should be removed
+EnumerableSet.at(EnumerableSet.UintSet,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#610-612) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.AddressSet,address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#534-536) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.Bytes32Set,bytes32) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#480-482) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#589-591) is never used and should be removed
+EnumerableSet.length(EnumerableSet.AddressSet) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#541-543) is never used and should be removed
+EnumerableSet.length(EnumerableSet.Bytes32Set) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#487-489) is never used and should be removed
+EnumerableSet.length(EnumerableSet.UintSet) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#596-598) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.AddressSet,address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#527-529) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.Bytes32Set,bytes32) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#473-475) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#582-584) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#986-995) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1002-1005) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#997-1000) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#749-751) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#765-768) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#819-825):
+	- (success) = recipient.call{value: amount}() (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#823)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#880-887):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#885)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#905-911):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#909)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#929-935):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#933)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter Memefund.transferOwnership(address)._newOwner (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#113) is not in mixedCase
+Parameter Memestake.add(uint256,IERC20,bool)._allocPoint (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159) is not in mixedCase
+Parameter Memestake.add(uint256,IERC20,bool)._tokenContract (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159) is not in mixedCase
+Parameter Memestake.add(uint256,IERC20,bool)._withUpdate (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159) is not in mixedCase
+Parameter Memestake.set(uint256,uint256,bool)._pid (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187) is not in mixedCase
+Parameter Memestake.set(uint256,uint256,bool)._allocPoint (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187) is not in mixedCase
+Parameter Memestake.set(uint256,uint256,bool)._withUpdate (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187) is not in mixedCase
+Parameter Memestake.pendingRewards(uint256,address)._pid (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1204) is not in mixedCase
+Parameter Memestake.pendingRewards(uint256,address)._user (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1204) is not in mixedCase
+Parameter Memestake.claimRewards(uint256)._pid (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1224) is not in mixedCase
+Parameter Memestake.updatePool(uint256)._pid (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247) is not in mixedCase
+Parameter Memestake.deposit(uint256,uint256)._pid (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278) is not in mixedCase
+Parameter Memestake.deposit(uint256,uint256)._amount (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278) is not in mixedCase
+Parameter Memestake.withdraw(uint256,uint256)._pid (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303) is not in mixedCase
+Parameter Memestake.withdraw(uint256,uint256)._amount (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303) is not in mixedCase
+Parameter Memestake.emergencyWithdraw(uint256)._pid (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1327) is not in mixedCase
+Parameter Memestake.safeMfundTransfer(address,uint256)._to (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348) is not in mixedCase
+Parameter Memestake.safeMfundTransfer(address,uint256)._amount (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348) is not in mixedCase
+Parameter Memestake.getMultiplier(uint256,uint256)._from (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1361) is not in mixedCase
+Parameter Memestake.getMultiplier(uint256,uint256)._to (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1361) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#268)" inContext (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#262-271)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Memefund.constructor() (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#84-97) uses literals with too many digits:
+	- totalSupply = 100000000 * 10 ** 9 (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#87)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+transferOwnership(address) should be declared external:
+	- Memefund.transferOwnership(address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#113-118)
+acceptOwnership() should be declared external:
+	- Memefund.acceptOwnership() (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#123-129)
+balanceOf(address) should be declared external:
+	- Memefund.balanceOf(address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#165-167)
+transfer(address,uint256) should be declared external:
+	- Memefund.transfer(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#175-186)
+allowance(address,address) should be declared external:
+	- Memefund.allowance(address,address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#194-196)
+transferFrom(address,address,uint256) should be declared external:
+	- Memefund.transferFrom(address,address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#204-216)
+approve(address,uint256) should be declared external:
+	- Memefund.approve(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#225-230)
+increaseAllowance(address,uint256) should be declared external:
+	- Memefund.increaseAllowance(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#238-243)
+decreaseAllowance(address,uint256) should be declared external:
+	- Memefund.decreaseAllowance(address,uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#250-259)
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1044-1046)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1063-1066)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1072-1076)
+add(uint256,IERC20,bool) should be declared external:
+	- Memestake.add(uint256,IERC20,bool) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159-1179)
+set(uint256,uint256,bool) should be declared external:
+	- Memestake.set(uint256,uint256,bool) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187-1198)
+claimRewards(uint256) should be declared external:
+	- Memestake.claimRewards(uint256) (../../sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol#1224-1233)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x35c674c288577df3e9b5dafef945795b741c7810.sol analyzed (10 contracts with 78 detectors), 95 result(s) found

@@ -1,0 +1,140 @@
+[91m
+JulProtocolV2.removeBNB(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070-1112) ignores return value by pair.transfer(address(pair),liqAmt) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1090)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+JulProtocolV2.calculateInterest(address) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#960-971) performs a multiplication on the result of a division:
+	-nd = time / TIME_LIMIT (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#967)
+	-protocolusers[_user].pendingBNB = protocolusers[_user].pendingBNB + calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#968)
+JulProtocolV2.readUsersDetails(address) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1019-1053) performs a multiplication on the result of a division:
+	-nd = time / TIME_LIMIT (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1039)
+	-percent = calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1040-1043)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Reentrancy in JulProtocolV2.removeBNB(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070-1112):
+	External calls:
+	- pair.transfer(address(pair),liqAmt) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1090)
+	- (amount0,amount1) = pair.burn(address(this)) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1092)
+	State variables written after the call(s):
+	- calculateInterest(msg.sender) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1097)
+		- protocolusers[_user].pendingBNB = protocolusers[_user].pendingBNB + calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#968)
+		- protocolusers[_user].lastDepositedDate = now (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#969)
+	- protocolusers[msg.sender].pendingBNB = protocolusers[msg.sender].pendingBNB - amountBNB (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1100)
+	- protocolusers[msg.sender].amountBNB = protocolusers[msg.sender].amountBNB + protocolusers[msg.sender].pendingBNB - amountBNB (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1103)
+	- protocolusers[msg.sender].pendingBNB = 0 (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1104)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+BSCswapLibrary.getAmountsOut(address,uint256,address[]).i (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#845) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+JulProtocolV2.addBNB() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#973-1017) ignores return value by JulToken.approve(router02Address,tokenAmount) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1002)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+JulProtocolV2.constructor(address).token (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#928) lacks a zero-check on :
+		- TOKEN = token (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#929)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in JulProtocolV2.addBNB() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#973-1017):
+	External calls:
+	- JulToken.approve(router02Address,tokenAmount) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1002)
+	- (amountToken,amountBNB,liquidity) = bscswapRouter02.addLiquidityBNB{value: ethAmount}(TOKEN,tokenAmount,tokenAmount,1,spender,block.timestamp) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1004-1006)
+	External calls sending eth:
+	- (amountToken,amountBNB,liquidity) = bscswapRouter02.addLiquidityBNB{value: ethAmount}(TOKEN,tokenAmount,tokenAmount,1,spender,block.timestamp) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1004-1006)
+	State variables written after the call(s):
+	- protocolusers[msg.sender].lastDepositedDate = now (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1010)
+	- calculateInterest(msg.sender) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1014)
+		- protocolusers[_user].pendingBNB = protocolusers[_user].pendingBNB + calculatePercent(protocolusers[_user].amountBNB,interestRadio) * nd (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#968)
+		- protocolusers[_user].lastDepositedDate = now (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#969)
+	- protocolusers[msg.sender].amountBNB = protocolusers[msg.sender].amountBNB + ethAmount (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1016)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+JulProtocolV2.calculateInterest(address) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#960-971) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now > protocolusers[_user].lastDepositedDate,now should be greater than last deposited date) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#963)
+	- now > protocolusers[_user].lastDepositedDate && time >= TIME_LIMIT (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#965)
+JulProtocolV2.readUsersDetails(address) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1019-1053) uses timestamp for comparisons
+	Dangerous comparisons:
+	- now > protocolusers[_user].lastDepositedDate && time >= TIME_LIMIT (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1038)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#268-277) uses assembly
+	- INLINE ASM (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#275)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#361-382) uses assembly
+	- INLINE ASM (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#374-377)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#321-323) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#346-348) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#356-359) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#295-301) is never used and should be removed
+BSCswapLibrary.getAmountIn(uint256,uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#832-838) is never used and should be removed
+BSCswapLibrary.getAmountOut(uint256,uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#822-829) is never used and should be removed
+BSCswapLibrary.getAmountsIn(address,uint256,address[]) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#852-860) is never used and should be removed
+BSCswapLibrary.getAmountsOut(address,uint256,address[]) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#841-849) is never used and should be removed
+Context._msgData() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#481-484) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#421-430) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#437-440) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#432-435) is never used and should be removed
+SafeERC20.safeTransferFrom(IERC20,address,address,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#410-412) is never used and should be removed
+SafeMath.div(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#184-186) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#200-206) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#220-222) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#236-239) is never used and should be removed
+SafeMath.sub(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#127-129) is never used and should be removed
+SafeMath.sub(uint256,uint256,string) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#141-146) is never used and should be removed
+SafeMathBSCswap.add(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#766-768) is never used and should be removed
+SafeMathBSCswap.sub(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#770-772) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#295-301):
+	- (success) = recipient.call{value: amount}() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#299)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#361-382):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#365)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IBSCswapRouter01.WBNB() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#563) is not in mixedCase
+Function IBSCswapPair.DOMAIN_SEPARATOR() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#722) is not in mixedCase
+Function IBSCswapPair.PERMIT_TYPEHASH() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#723) is not in mixedCase
+Function IBSCswapPair.MINIMUM_LIQUIDITY() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#740) is not in mixedCase
+Event JulProtocolV2interestRadioChanged(uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#926) is not in CapWords
+Parameter JulProtocolV2.calculatePercent(uint256,uint256)._eth (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#952) is not in mixedCase
+Parameter JulProtocolV2.calculatePercent(uint256,uint256)._percent (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#952) is not in mixedCase
+Parameter JulProtocolV2.calculateInterest(address)._user (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#960) is not in mixedCase
+Parameter JulProtocolV2.readUsersDetails(address)._user (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1019) is not in mixedCase
+Parameter JulProtocolV2.removeBNB(uint256,uint256)._amountBNB (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070) is not in mixedCase
+Parameter JulProtocolV2.setInterestRadio(uint256)._interestRadio (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1141) is not in mixedCase
+Variable JulProtocolV2.BSCSWAP_FACTORY (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#912) is not in mixedCase
+Variable JulProtocolV2.WBNB (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#918) is not in mixedCase
+Variable JulProtocolV2.TOKEN (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#920) is not in mixedCase
+Variable JulProtocolV2.JulToken (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#921) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#482)" inContext (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#476-485)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IBSCswapRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#568) is too similar to IBSCswapRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#569)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+JulProtocolV2.BSCSWAP_FACTORY (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#912) should be constant
+JulProtocolV2.router02Address (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#911) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#521-523)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#540-543)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#549-553)
+addBNB() should be declared external:
+	- JulProtocolV2.addBNB() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#973-1017)
+removeBNB(uint256,uint256) should be declared external:
+	- JulProtocolV2.removeBNB(uint256,uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1070-1112)
+getLiquidityBalance() should be declared external:
+	- JulProtocolV2.getLiquidityBalance() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1114-1117)
+protocolBalance() should be declared external:
+	- JulProtocolV2.protocolBalance() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1120-1122)
+getBalanceFromBSCswap() should be declared external:
+	- JulProtocolV2.getBalanceFromBSCswap() (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1124-1134)
+setInterestRadio(uint256) should be declared external:
+	- JulProtocolV2.setInterestRadio(uint256) (../../sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol#1141-1147)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x41a2f9ab325577f92e8653853c12823b35fb35c4.sol analyzed (14 contracts with 78 detectors), 63 result(s) found

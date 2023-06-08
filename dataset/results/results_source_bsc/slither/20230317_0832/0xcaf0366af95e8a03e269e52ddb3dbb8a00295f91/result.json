@@ -1,0 +1,503 @@
+{
+    "errors": [
+        "EXIT_CODE_52"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcLiquidityUnits",
+            "impact": "Medium",
+            "line": 405,
+            "line_end": 418,
+            "message": "Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405-418) performs a multiplication on the result of a division:\n\t-_units = (P.mul(part1.add(part2))).div(part3) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#415)\n\t-_units.mul(slipAdjustment).div(one) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#416)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "Utils",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "constructor",
+            "impact": "Medium",
+            "line": 89,
+            "line_end": 450,
+            "message": "Contract locking ether found:\n\tContract Utils (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#89-450) has payable functions:\n\t - Utils.constructor() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#146-149)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "tokensInRange",
+            "impact": "Low",
+            "line": 210,
+            "line_end": 219,
+            "message": "Utils.tokensInRange(uint256,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#210-219) has external calls inside a loop: result[i] = iROUTER(_DAO().ROUTER()).getToken(i) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#216)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "poolsInRange",
+            "impact": "Low",
+            "line": 223,
+            "line_end": 232,
+            "message": "Utils.poolsInRange(uint256,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#223-232) has external calls inside a loop: result[i] = getPool(iROUTER(_DAO().ROUTER()).getToken(i)) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#229)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "_DAO",
+            "impact": "Low",
+            "line": 151,
+            "line_end": 153,
+            "message": "Utils._DAO() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#151-153) has external calls inside a loop: iBASE(BASE).DAO() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#152)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getPool",
+            "impact": "Low",
+            "line": 201,
+            "line_end": 203,
+            "message": "Utils.getPool(address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#201-203) has external calls inside a loop: iROUTER(_DAO().ROUTER()).getPool(token) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#202)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getPoolAge",
+            "impact": "Low",
+            "line": 288,
+            "line_end": 296,
+            "message": "Utils.getPoolAge(address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#288-296) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now < genesis.add(86400) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#291)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 2,
+            "message": "Pragma version^0.6.8 (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#2) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 398,
+            "message": "Parameter Utils.calcSwapFee(uint256,uint256,uint256).X (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#398) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 437,
+            "message": "Parameter Utils.calcAsymmetricShare(uint256,uint256,uint256).U (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#437) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 391,
+            "message": "Parameter Utils.calcSwapOutput(uint256,uint256,uint256).Y (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#391) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 437,
+            "message": "Parameter Utils.calcAsymmetricShare(uint256,uint256,uint256).A (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#437) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iROUTER",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 18,
+            "line_end": 29,
+            "message": "Contract iROUTER (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#18-29) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iBEP20",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 5,
+            "line_end": 11,
+            "message": "Contract iBEP20 (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#5-11) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 420,
+            "message": "Parameter Utils.getSlipAdustment(uint256,uint256,uint256,uint256).B (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#420) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Parameter Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).B (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 391,
+            "message": "Parameter Utils.calcSwapOutput(uint256,uint256,uint256).X (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#391) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 420,
+            "message": "Parameter Utils.getSlipAdustment(uint256,uint256,uint256,uint256).T (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#420) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 48,
+            "line_end": 50,
+            "message": "Contract iDAO (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#48-50) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 93,
+            "message": "Variable Utils.BASE (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#93) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Parameter Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).T (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 398,
+            "message": "Parameter Utils.calcSwapFee(uint256,uint256,uint256).Y (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#398) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "ROUTER",
+            "impact": "Informational",
+            "line": 49,
+            "message": "Function iDAO.ROUTER() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#49) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "DAO",
+            "impact": "Informational",
+            "line": 15,
+            "message": "Function iBASE.DAO() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#15) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Parameter Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).P (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 94,
+            "message": "Variable Utils.DEPLOYER (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#94) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "_DAO",
+            "impact": "Informational",
+            "line": 151,
+            "line_end": 153,
+            "message": "Function Utils._DAO() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#151-153) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iBASE",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 13,
+            "line_end": 16,
+            "message": "Contract iBASE (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#13-16) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iPOOL",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Informational",
+            "line": 31,
+            "line_end": 46,
+            "message": "Contract iPOOL (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#31-46) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getTokenDetailsWithMember",
+            "impact": "Informational",
+            "line": 161,
+            "line_end": 177,
+            "message": "Utils.getTokenDetailsWithMember(address,address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#161-177) uses literals with too many digits:\n\t- tokenDetails.totalSupply = 100000000 * one (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#166)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "impact": "Optimization",
+            "line": 96,
+            "message": "Utils.one (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#96) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getPoolAPY",
+            "impact": "Optimization",
+            "line": 309,
+            "line_end": 313,
+            "message": "getPoolAPY(address) should be declared external:\n\t- Utils.getPoolAPY(address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#309-313)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "allPools",
+            "impact": "Optimization",
+            "line": 220,
+            "line_end": 222,
+            "message": "allPools() should be declared external:\n\t- Utils.allPools() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#220-222)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getUnclaimedAssetWithBalance",
+            "impact": "Optimization",
+            "line": 179,
+            "line_end": 188,
+            "message": "getUnclaimedAssetWithBalance(address,address) should be declared external:\n\t- Utils.getUnclaimedAssetWithBalance(address,address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#179-188)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getMemberShare",
+            "impact": "Optimization",
+            "line": 250,
+            "line_end": 254,
+            "message": "getMemberShare(address,address) should be declared external:\n\t- Utils.getMemberShare(address,address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#250-254)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcBasePPinToken",
+            "impact": "Optimization",
+            "line": 341,
+            "line_end": 344,
+            "message": "calcBasePPinToken(address,uint256) should be declared external:\n\t- Utils.calcBasePPinToken(address,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#341-344)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "isMember",
+            "impact": "Optimization",
+            "line": 315,
+            "line_end": 322,
+            "message": "isMember(address,address) should be declared external:\n\t- Utils.isMember(address,address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#315-322)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcBasePPinTokenWithPool",
+            "impact": "Optimization",
+            "line": 364,
+            "line_end": 368,
+            "message": "calcBasePPinTokenWithPool(address,uint256) should be declared external:\n\t- Utils.calcBasePPinTokenWithPool(address,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#364-368)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcLiquidityUnits",
+            "impact": "Optimization",
+            "line": 405,
+            "line_end": 418,
+            "message": "calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256) should be declared external:\n\t- Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405-418)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcTokenPPinBase",
+            "impact": "Optimization",
+            "line": 336,
+            "line_end": 339,
+            "message": "calcTokenPPinBase(address,uint256) should be declared external:\n\t- Utils.calcTokenPPinBase(address,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#336-339)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getTokenDetails",
+            "impact": "Optimization",
+            "line": 157,
+            "line_end": 159,
+            "message": "getTokenDetails(address) should be declared external:\n\t- Utils.getTokenDetails(address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#157-159)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcLiquidityShare",
+            "impact": "Optimization",
+            "line": 378,
+            "line_end": 384,
+            "message": "calcLiquidityShare(uint256,address,address,address) should be declared external:\n\t- Utils.calcLiquidityShare(uint256,address,address,address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#378-384)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getShareOfTokenAmount",
+            "impact": "Optimization",
+            "line": 268,
+            "line_end": 272,
+            "message": "getShareOfTokenAmount(address,address) should be declared external:\n\t- Utils.getShareOfTokenAmount(address,address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#268-272)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcValueInBase",
+            "impact": "Optimization",
+            "line": 326,
+            "line_end": 329,
+            "message": "calcValueInBase(address,uint256) should be declared external:\n\t- Utils.calcValueInBase(address,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#326-329)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcValueInToken",
+            "impact": "Optimization",
+            "line": 331,
+            "line_end": 334,
+            "message": "calcValueInToken(address,uint256) should be declared external:\n\t- Utils.calcValueInToken(address,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#331-334)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getShareOfBaseAmount",
+            "impact": "Optimization",
+            "line": 263,
+            "line_end": 267,
+            "message": "getShareOfBaseAmount(address,address) should be declared external:\n\t- Utils.getShareOfBaseAmount(address,address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#263-267)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcPart",
+            "impact": "Optimization",
+            "line": 372,
+            "line_end": 376,
+            "message": "calcPart(uint256,uint256) should be declared external:\n\t- Utils.calcPart(uint256,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#372-376)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getPoolShareAssym",
+            "impact": "Optimization",
+            "line": 274,
+            "line_end": 286,
+            "message": "getPoolShareAssym(address,uint256,bool) should be declared external:\n\t- Utils.getPoolShareAssym(address,uint256,bool) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#274-286)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "calcSwapFee",
+            "impact": "Optimization",
+            "line": 398,
+            "line_end": 403,
+            "message": "calcSwapFee(uint256,uint256,uint256) should be declared external:\n\t- Utils.calcSwapFee(uint256,uint256,uint256) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#398-403)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getGlobalDetails",
+            "impact": "Optimization",
+            "line": 190,
+            "line_end": 199,
+            "message": "getGlobalDetails() should be declared external:\n\t- Utils.getGlobalDetails() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#190-199)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "getPoolData",
+            "impact": "Optimization",
+            "line": 234,
+            "line_end": 248,
+            "message": "getPoolData(address) should be declared external:\n\t- Utils.getPoolData(address) (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#234-248)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol",
+            "function": "allTokens",
+            "impact": "Optimization",
+            "line": 207,
+            "line_end": 209,
+            "message": "allTokens() should be declared external:\n\t- Utils.allTokens() (../..0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#207-209)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

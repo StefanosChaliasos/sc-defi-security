@@ -1,0 +1,1477 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_29"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "withdraw",
+            "impact": "High",
+            "line": 2099,
+            "line_end": 2106,
+            "message": "ZapBSC.withdraw(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2099-2106) ignores return value by IBEP20(token).transfer(owner(),IBEP20(token).balanceOf(address(this))) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2105)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_mint",
+            "impact": "High",
+            "line": 2367,
+            "line_end": 2378,
+            "message": "BunnyMinterV2._mint(uint256,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2367-2378) ignores return value by tokenBUNNY.transfer(to,amount) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2372)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Medium",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:\n\t-valueInBNB = amount.mul(balanceToken0).mul(2).mul(token0PriceInBNB).div(1e18).div(IPancakePair(asset).totalSupply()) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1721)\n\t-valueInBNB = valueInBNB.mul(pairValueInBNB).div(1e18) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1733)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Medium",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:\n\t-valueInBNB = amount.mul(IBEP20(WBNB).balanceOf(address(asset))).mul(2).div(IPancakePair(asset).totalSupply()) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1715)\n\t-valueInUSD = valueInBNB.mul(priceOfBNB()).div(1e18) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1716)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Medium",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:\n\t-valueInBNB = amount.mul(balanceToken0).mul(2).mul(token0PriceInBNB).div(1e18).div(IPancakePair(asset).totalSupply()) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1721)\n\t-valueInUSD = valueInBNB.mul(priceOfBNB()).div(1e18) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1735)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Medium",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:\n\t-valueInUSD = valueInBNB.mul(priceOfBNB()).div(1e18) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1722)\n\t-valueInBNB = valueInBNB.mul(pairValueInBNB).div(1e18) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1733)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Medium",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) uses a dangerous strict equality:\n\t- IBEP20(asset).balanceOf(pair) == 0 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1728)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "zapInToken",
+            "impact": "Medium",
+            "line": 1887,
+            "line_end": 1909,
+            "message": "ZapBSC.zapInToken(address,uint256,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1887-1909) ignores return value by ROUTER.addLiquidity(_from,other,amount.sub(sellAmount),otherAmount,0,0,msg.sender,block.timestamp) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1901)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "zapOut",
+            "impact": "Medium",
+            "line": 1915,
+            "line_end": 1931,
+            "message": "ZapBSC.zapOut(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915-1931) ignores return value by ROUTER.removeLiquidity(token0,token1,amount,0,0,msg.sender,block.timestamp) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1928)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_mint",
+            "impact": "Medium",
+            "line": 2367,
+            "line_end": 2378,
+            "message": "BunnyMinterV2._mint(uint256,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2367-2378) ignores return value by tokenBUNNY.mint(amount) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2370)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "zapOut",
+            "impact": "Medium",
+            "line": 1915,
+            "line_end": 1931,
+            "message": "ZapBSC.zapOut(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915-1931) ignores return value by ROUTER.removeLiquidityETH(token1,amount,0,0,msg.sender,block.timestamp) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1926)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "zapOut",
+            "impact": "Medium",
+            "line": 1915,
+            "line_end": 1931,
+            "message": "ZapBSC.zapOut(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915-1931) ignores return value by ROUTER.removeLiquidityETH(token0,amount,0,0,msg.sender,block.timestamp) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1926)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_swapBNBToFlip",
+            "impact": "Medium",
+            "line": 1941,
+            "line_end": 1966,
+            "message": "ZapBSC._swapBNBToFlip(address,uint256,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1941-1966) ignores return value by ROUTER.addLiquidity(token0,token1,token0Amount,token1Amount,0,0,receiver,block.timestamp) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1963)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_mint",
+            "impact": "Medium",
+            "line": 2367,
+            "line_end": 2378,
+            "message": "BunnyMinterV2._mint(uint256,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2367-2378) ignores return value by tokenBUNNY.mint(bunnyForDev) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2376)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_swapBNBToFlip",
+            "impact": "Medium",
+            "line": 1941,
+            "line_end": 1966,
+            "message": "ZapBSC._swapBNBToFlip(address,uint256,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1941-1966) ignores return value by ROUTER.addLiquidityETH{value: amount.sub(swapValue)}(token,tokenAmount,0,0,receiver,block.timestamp) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1955)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "initialize",
+            "impact": "Medium",
+            "line": 2163,
+            "line_end": 2172,
+            "message": "BunnyMinterV2.initialize() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2163-2172) ignores return value by IBEP20(BUNNY).approve(BUNNY_POOL,uint256(- 1)) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2171)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 1262,
+            "message": "BEP20.allowance(address,address).owner (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1262) shadows:\n\t- Ownable.owner() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1104-1106) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 1198,
+            "message": "BEP20.constructor(string,string).symbol (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1198) shadows:\n\t- BEP20.symbol() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1228-1230) (function)\n\t- IBEP20.symbol() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#762) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 1434,
+            "message": "BEP20._approve(address,address,uint256).owner (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1434) shadows:\n\t- Ownable.owner() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1104-1106) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1198,
+            "message": "BEP20.constructor(string,string).name (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1198) shadows:\n\t- BEP20.name() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1214-1216) (function)\n\t- IBEP20.name() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#767) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Low",
+            "line": 2176,
+            "message": "BunnyMinterV2.transferBunnyOwner(address)._owner (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2176) shadows:\n\t- OwnableUpgradeable._owner (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#396) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "setBunnyChef",
+            "impact": "Low",
+            "line": 2211,
+            "line_end": 2214,
+            "message": "BunnyMinterV2.setBunnyChef(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2211-2214) should emit an event for: \n\t- bunnyChef = _bunnyChef (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2213) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "setBunnyPerProfitBNB",
+            "impact": "Low",
+            "line": 2203,
+            "line_end": 2205,
+            "message": "BunnyMinterV2.setBunnyPerProfitBNB(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2203-2205) should emit an event for: \n\t- bunnyPerProfitBNB = _ratio (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2204) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "setPerformanceFee",
+            "impact": "Low",
+            "line": 2186,
+            "line_end": 2189,
+            "message": "BunnyMinterV2.setPerformanceFee(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2186-2189) should emit an event for: \n\t- PERFORMANCE_FEE = _fee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2188) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "setWithdrawalFeeFreePeriod",
+            "impact": "Low",
+            "line": 2191,
+            "line_end": 2193,
+            "message": "BunnyMinterV2.setWithdrawalFeeFreePeriod(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2191-2193) should emit an event for: \n\t- WITHDRAWAL_FEE_FREE_PERIOD = _period (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2192) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "setWithdrawalFee",
+            "impact": "Low",
+            "line": 2180,
+            "line_end": 2184,
+            "message": "BunnyMinterV2.setWithdrawalFee(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2180-2184) should emit an event for: \n\t- WITHDRAWAL_FEE = _fee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2183) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "setBunnyPerBunnyBNBFlip",
+            "impact": "Low",
+            "line": 2207,
+            "line_end": 2209,
+            "message": "BunnyMinterV2.setBunnyPerBunnyBNBFlip(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2207-2209) should emit an event for: \n\t- bunnyPerBunnyBNBFlip = _bunnyPerBunnyBNBFlip (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2208) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Low",
+            "line": 2211,
+            "message": "BunnyMinterV2.setBunnyChef(address)._bunnyChef (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2211) lacks a zero-check on :\n\t\t- bunnyChef = _bunnyChef (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2213)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: IBEP20(asset).balanceOf(pair) == 0 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1728)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: pair = factory.getPair(asset,pairToken) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1727)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "sweep",
+            "impact": "Low",
+            "line": 2088,
+            "line_end": 2097,
+            "message": "ZapBSC.sweep() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2088-2097) has external calls inside a loop: amount = IBEP20(token).balanceOf(address(this)) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2092)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: valueInBNB = IBEP20(pairToken).balanceOf(pair).mul(amount).div(IBEP20(asset).balanceOf(pair)) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1730)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: IPancakePair(asset).totalSupply() == 0 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1712)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: valueInBNB = amount.mul(balanceToken0).mul(2).mul(token0PriceInBNB).div(1e18).div(IPancakePair(asset).totalSupply()) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1721)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: keccak256(bytes)(abi.encodePacked(IPancakePair(asset).symbol())) == keccak256(bytes)(Cake-LP) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1711)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: valueInBNB = amount.mul(IBEP20(WBNB).balanceOf(address(asset))).mul(2).div(IPancakePair(asset).totalSupply()) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1715)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_swapTokenForBNB",
+            "impact": "Low",
+            "line": 1986,
+            "line_end": 2001,
+            "message": "ZapBSC._swapTokenForBNB(address,uint256,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1986-2001) has external calls inside a loop: amounts = ROUTER.swapExactTokensForETH(amount,0,path,receiver,block.timestamp) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1999)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: IPancakePair(asset).token0() == WBNB || IPancakePair(asset).token1() == WBNB (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1714)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: (token0PriceInBNB) = valueOfAsset(IPancakePair(asset).token0(),1e18) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1719)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "priceOfBNB",
+            "impact": "Low",
+            "line": 1682,
+            "line_end": 1685,
+            "message": "PriceCalculatorBSC.priceOfBNB() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1682-1685) has external calls inside a loop: (price) = bnbPriceFeed.latestRoundData() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1683)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "valueOfAsset",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1737,
+            "message": "PriceCalculatorBSC.valueOfAsset(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: balanceToken0 = IBEP20(IPancakePair(asset).token0()).balanceOf(asset) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1718)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "withdrawalFee",
+            "impact": "Low",
+            "line": 2233,
+            "line_end": 2238,
+            "message": "BunnyMinterV2.withdrawalFee(uint256,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2233-2238) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- depositedAt.add(WITHDRAWAL_FEE_FREE_PERIOD) > block.timestamp (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2234)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 283,
+            "line_end": 300,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#283-300) uses assembly\n\t- INLINE ASM (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#292-295)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 867,
+            "line_end": 878,
+            "message": "Address.isContract(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#867-878) uses assembly\n\t- INLINE ASM (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#874-876)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 162,
+            "line_end": 171,
+            "message": "AddressUpgradeable.isContract(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#162-171) uses assembly\n\t- INLINE ASM (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#169)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 975,
+            "line_end": 1001,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#975-1001) uses assembly\n\t- INLINE ASM (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#993-996)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "setNotFlip",
+            "impact": "Informational",
+            "line": 2073,
+            "line_end": 2079,
+            "message": "ZapBSC.setNotFlip(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2073-2079) compares to a boolean constant:\n\t-needPush = notFlip[token] == false (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2074)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "onlyMinter",
+            "impact": "Informational",
+            "line": 2149,
+            "line_end": 2152,
+            "message": "BunnyMinterV2.onlyMinter() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2149-2152) compares to a boolean constant:\n\t-require(bool,string)(isMinter(msg.sender) == true,BunnyMinterV2: caller is not the minter) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2150)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 375,
+            "line_end": 378,
+            "message": "ContextUpgradeable._msgData() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#375-378) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 240,
+            "line_end": 242,
+            "message": "AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#240-242) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 1531,
+            "line_end": 1541,
+            "message": "SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1531-1541) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 896,
+            "line_end": 902,
+            "message": "Address.sendValue(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#896-902) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 951,
+            "line_end": 957,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#951-957) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 680,
+            "line_end": 691,
+            "message": "SafeMath.sqrt(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#680-691) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 283,
+            "line_end": 300,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#283-300) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_burnFrom",
+            "impact": "Informational",
+            "line": 1451,
+            "line_end": 1458,
+            "message": "BEP20._burnFrom(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1451-1458) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 215,
+            "line_end": 217,
+            "message": "AddressUpgradeable.functionCall(address,bytes) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#215-217) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 1412,
+            "line_end": 1418,
+            "message": "BEP20._burn(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1412-1418) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 225,
+            "line_end": 227,
+            "message": "AddressUpgradeable.functionCall(address,bytes,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#225-227) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 189,
+            "line_end": 195,
+            "message": "AddressUpgradeable.sendValue(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#189-195) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "min",
+            "impact": "Informational",
+            "line": 675,
+            "line_end": 677,
+            "message": "SafeMath.min(uint256,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#675-677) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 666,
+            "line_end": 673,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#666-673) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 265,
+            "line_end": 267,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#265-267) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 965,
+            "line_end": 973,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#965-973) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 120,
+            "line_end": 123,
+            "message": "Context._msgData() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#120-123) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 650,
+            "line_end": 652,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#650-652) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 1522,
+            "line_end": 1529,
+            "message": "SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1522-1529) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 275,
+            "line_end": 281,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#275-281) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 365,
+            "line_end": 367,
+            "message": "ContextUpgradeable.__Context_init() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#365-367) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 250,
+            "line_end": 257,
+            "message": "AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#250-257) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 922,
+            "line_end": 924,
+            "message": "Address.functionCall(address,bytes) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#922-924) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 896,
+            "line_end": 902,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#896-902):\n\t- (success) = recipient.call{value: amount}() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#900)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 975,
+            "line_end": 1001,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#975-1001):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#984)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 275,
+            "line_end": 281,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#275-281):\n\t- (success,returndata) = target.staticcall(data) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#279)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 250,
+            "line_end": 257,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#250-257):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#255)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 189,
+            "line_end": 195,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#189-195):\n\t- (success) = recipient.call{value: amount}() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#193)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "WETH",
+            "impact": "Informational",
+            "line": 6,
+            "message": "Function IPancakeRouter01.WETH() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#6) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2270,
+            "message": "Parameter BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._performanceFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2132,
+            "message": "Constant BunnyMinterV2.routerV2 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2132) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "WITHDRAWAL_FEE",
+            "impact": "Informational",
+            "line": 1023,
+            "message": "Function IBunnyMinterV2.WITHDRAWAL_FEE() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1023) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2180,
+            "message": "Parameter BunnyMinterV2.setWithdrawalFee(uint256)._fee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2180) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2176,
+            "message": "Parameter BunnyMinterV2.transferBunnyOwner(address)._owner (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2127,
+            "message": "Constant BunnyMinterV2.zapBSC (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2127) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1911,
+            "message": "Parameter ZapBSC.zapIn(address)._to (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1911) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2186,
+            "message": "Parameter BunnyMinterV2.setPerformanceFee(uint256)._fee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2186) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 379,
+            "message": "Variable ContextUpgradeable.__gap (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#379) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2211,
+            "message": "Parameter BunnyMinterV2.setBunnyChef(address)._bunnyChef (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2211) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2141,
+            "message": "Variable BunnyMinterV2.WITHDRAWAL_FEE_FREE_PERIOD (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 403,
+            "line_end": 406,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#403-406) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1881,
+            "message": "Parameter ZapBSC.routePair(address)._address (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1881) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1887,
+            "message": "Parameter ZapBSC.zapInToken(address,uint256,address)._from (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1887) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2270,
+            "message": "Parameter BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._withdrawalFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 450,
+            "message": "Variable OwnableUpgradeable.__gap (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2299,
+            "message": "Parameter BunnyMinterV2.safeBunnyTransfer(address,uint256)._to (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "WITHDRAWAL_FEE_FREE_PERIOD",
+            "impact": "Informational",
+            "line": 1022,
+            "message": "Function IBunnyMinterV2.WITHDRAWAL_FEE_FREE_PERIOD() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1022) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1660,
+            "message": "Constant PriceCalculatorBSC.factory (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1660) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2128,
+            "message": "Constant BunnyMinterV2.zapBSCV2 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2128) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1915,
+            "message": "Parameter ZapBSC.zapOut(address,uint256)._from (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2131,
+            "message": "Constant BunnyMinterV2.routerV1 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2131) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 369,
+            "line_end": 370,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#369-370) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 488,
+            "message": "Function IPancakePair.MINIMUM_LIQUIDITY() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#488) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2203,
+            "message": "Parameter BunnyMinterV2.setBunnyPerProfitBNB(uint256)._ratio (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2203) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2246,
+            "message": "Parameter BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1661,
+            "message": "Constant PriceCalculatorBSC.bnbPriceFeed (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1661) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2207,
+            "message": "Parameter BunnyMinterV2.setBunnyPerBunnyBNBFlip(uint256)._bunnyPerBunnyBNBFlip (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2207) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2191,
+            "message": "Parameter BunnyMinterV2.setWithdrawalFeeFreePeriod(uint256)._period (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2191) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2142,
+            "message": "Variable BunnyMinterV2.WITHDRAWAL_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1877,
+            "message": "Parameter ZapBSC.isFlip(address)._address (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1877) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 471,
+            "message": "Function IPancakePair.PERMIT_TYPEHASH() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#471) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 470,
+            "message": "Function IPancakePair.DOMAIN_SEPARATOR() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#470) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 408,
+            "line_end": 412,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#408-412) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2246,
+            "message": "Parameter BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2299,
+            "message": "Parameter BunnyMinterV2.safeBunnyTransfer(address,uint256)._amount (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2129,
+            "message": "Constant BunnyMinterV2.priceCalculator (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2129) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1887,
+            "message": "Parameter ZapBSC.zapInToken(address,uint256,address)._to (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1887) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2140,
+            "message": "Variable BunnyMinterV2.PERFORMANCE_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 365,
+            "line_end": 367,
+            "message": "Function ContextUpgradeable.__Context_init() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#365-367) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2138,
+            "message": "Variable BunnyMinterV2._deprecated_helper (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2138) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 376,
+            "message": "Redundant expression \"this (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#376)\" inContextUpgradeable (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#364-380)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 121,
+            "message": "Redundant expression \"this (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#121)\" inContext (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#111-124)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 11,
+            "message": "Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#11) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#12)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2140,
+            "message": "Variable BunnyMinterV2.PERFORMANCE_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to IBunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._performanceFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1019)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2142,
+            "message": "Variable BunnyMinterV2.WITHDRAWAL_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2140,
+            "message": "Variable BunnyMinterV2.PERFORMANCE_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to IBunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1018)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2142,
+            "message": "Variable BunnyMinterV2.WITHDRAWAL_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._withdrawalFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2142,
+            "message": "Variable BunnyMinterV2.WITHDRAWAL_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to IBunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1018)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2140,
+            "message": "Variable BunnyMinterV2.PERFORMANCE_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 1958,
+            "message": "Variable ZapBSC._swapBNBToFlip(address,uint256,address).token0Amount (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1958) is too similar to ZapBSC._swapBNBToFlip(address,uint256,address).token1Amount (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1959)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2142,
+            "message": "Variable BunnyMinterV2.WITHDRAWAL_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to IBunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._withdrawalFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1019)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2140,
+            "message": "Variable BunnyMinterV2.PERFORMANCE_FEE (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._performanceFee (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 2344,
+            "message": "Variable BunnyMinterV2._zapAssetsToBunnyBNB(address,uint256,bool).amountToken0 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2344) is too similar to BunnyMinterV2._zapAssetsToBunnyBNB(address,uint256,bool).amountToken1 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2344)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 2110,
+            "line_end": 2379,
+            "message": "BunnyMinterV2.slitherConstructorConstantVariables() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2110-2379) uses literals with too many digits:\n\t- DEAD = 0x000000000000000000000000000000000000dEaD (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2123)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "BunnyMinterV2",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 450,
+            "message": "OwnableUpgradeable.__gap (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is never used in BunnyMinterV2 (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2110-2379)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "ZapBSC",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 450,
+            "message": "OwnableUpgradeable.__gap (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is never used in ZapBSC (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1827-2107)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "PriceCalculatorBSC",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Informational",
+            "line": 450,
+            "message": "OwnableUpgradeable.__gap (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is never used in PriceCalculatorBSC (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1651-1738)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "impact": "Optimization",
+            "line": 2138,
+            "message": "BunnyMinterV2._deprecated_helper (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2138) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 1254,
+            "line_end": 1257,
+            "message": "transfer(address,uint256) should be declared external:\n\t- BEP20.transfer(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1254-1257)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 1228,
+            "line_end": 1230,
+            "message": "symbol() should be declared external:\n\t- BEP20.symbol() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1228-1230)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 445,
+            "line_end": 449,
+            "message": "transferOwnership(address) should be declared external:\n\t- OwnableUpgradeable.transferOwnership(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#445-449)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 1123,
+            "line_end": 1126,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1123-1126)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 1273,
+            "line_end": 1276,
+            "message": "approve(address,uint256) should be declared external:\n\t- BEP20.approve(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1273-1276)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 1214,
+            "line_end": 1216,
+            "message": "name() should be declared external:\n\t- BEP20.name() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1214-1216)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 1242,
+            "line_end": 1244,
+            "message": "balanceOf(address) should be declared external:\n\t- BEP20.balanceOf(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1242-1244)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 1290,
+            "line_end": 1302,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- BEP20.transferFrom(address,address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1290-1302)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 1132,
+            "line_end": 1134,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1132-1134)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "priceOfCake",
+            "impact": "Optimization",
+            "line": 1687,
+            "line_end": 1690,
+            "message": "priceOfCake() should be declared external:\n\t- PriceCalculatorBSC.priceOfCake() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1687-1690)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "mint",
+            "impact": "Optimization",
+            "line": 1352,
+            "line_end": 1355,
+            "message": "mint(uint256) should be declared external:\n\t- BEP20.mint(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1352-1355)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "pricesInUSD",
+            "impact": "Optimization",
+            "line": 1697,
+            "line_end": 1704,
+            "message": "pricesInUSD(address[]) should be declared external:\n\t- PriceCalculatorBSC.pricesInUSD(address[]) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1697-1704)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "priceOfBunny",
+            "impact": "Optimization",
+            "line": 1692,
+            "line_end": 1695,
+            "message": "priceOfBunny() should be declared external:\n\t- PriceCalculatorBSC.priceOfBunny() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1692-1695)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 436,
+            "line_end": 439,
+            "message": "renounceOwnership() should be declared external:\n\t- OwnableUpgradeable.renounceOwnership() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#436-439)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 1262,
+            "line_end": 1264,
+            "message": "allowance(address,address) should be declared external:\n\t- BEP20.allowance(address,address) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1262-1264)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "performanceFee",
+            "impact": "Optimization",
+            "line": 2240,
+            "line_end": 2242,
+            "message": "performanceFee(uint256) should be declared external:\n\t- BunnyMinterV2.performanceFee(uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2240-2242)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "amountBunnyToMintForBunnyBNB",
+            "impact": "Optimization",
+            "line": 2229,
+            "line_end": 2231,
+            "message": "amountBunnyToMintForBunnyBNB(uint256,uint256) should be declared external:\n\t- BunnyMinterV2.amountBunnyToMintForBunnyBNB(uint256,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2229-2231)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 1235,
+            "line_end": 1237,
+            "message": "totalSupply() should be declared external:\n\t- BEP20.totalSupply() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1235-1237)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 1221,
+            "line_end": 1223,
+            "message": "decimals() should be declared external:\n\t- BEP20.decimals() (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1221-1223)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 1316,
+            "line_end": 1319,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- BEP20.increaseAllowance(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1316-1319)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 1335,
+            "line_end": 1342,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- BEP20.decreaseAllowance(address,uint256) (../..0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1335-1342)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

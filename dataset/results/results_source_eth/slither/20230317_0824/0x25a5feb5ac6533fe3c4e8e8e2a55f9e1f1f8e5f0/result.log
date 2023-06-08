@@ -1,0 +1,342 @@
+Compilation warnings/errors on /sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol:
+/sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol:479:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+
+[91m
+DInterest (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612) contract sets array length with a user-controlled value:
+	- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)
+DInterest (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612) contract sets array length with a user-controlled value:
+	- fundingList.push(Funding(latestFundedDepositID,toDepositID,totalDepositToFund,incomeIndex)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2166-2173)
+DInterest (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612) contract sets array length with a user-controlled value:
+	- fundingList.push(Funding(latestFundedDepositID,deposits.length,unfundedUserDepositAmount,incomeIndex)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2091-2098)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#array-length-assignment[0m
+[93m
+Reentrancy in DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462):
+	External calls:
+	- interestAmount = calculateInterestAmount(amount,depositPeriod) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2417)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+		- (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)
+	State variables written after the call(s):
+	- totalInterestOwed = totalInterestOwed.add(interestAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2421)
+Reentrancy in DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462):
+	External calls:
+	- interestAmount = calculateInterestAmount(amount,depositPeriod) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2417)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+		- (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)
+	- mintMPHAmount = mphMinter.mintDepositorReward(msg.sender,interestAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2424-2427)
+	- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)
+	State variables written after the call(s):
+	- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)
+Reentrancy in DInterest.fundAll() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105):
+	External calls:
+	- (isNegative,deficit) = surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2081)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+	- incomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2089)
+	State variables written after the call(s):
+	- latestFundedDepositID = deposits.length (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2101)
+Reentrancy in DInterest.fundMultiple(uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182):
+	External calls:
+	- (isNegative,surplus) = surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+	- incomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2164)
+	State variables written after the call(s):
+	- latestFundedDepositID = toDepositID (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2176)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+DInterest._withdraw(uint256,uint256,bool).feeAmount (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2511) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+MPHMinter.mintDepositorReward(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1736-1750) ignores return value by mph.ownerMint(to,mintAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1747)
+MPHMinter.mintDepositorReward(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1736-1750) ignores return value by mph.ownerMint(devWallet,mintAmount.decmul(devRewardMultiplier)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1748)
+MPHMinter.mintFunderReward(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1752-1768) ignores return value by mph.ownerMint(to,mintAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1765)
+MPHMinter.mintFunderReward(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1752-1768) ignores return value by mph.ownerMint(devWallet,mintAmount.decmul(devRewardMultiplier)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1766)
+MPHMinter.takeBackDepositorReward(address,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1770-1787) ignores return value by mph.ownerTransfer(from,govTreasury,takeBackAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1785)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+ERC721Metadata.constructor(string,string).name (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1457) shadows:
+	- ERC721Metadata.name() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1469-1471) (function)
+	- IERC721Metadata.name() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1425) (function)
+ERC721Metadata.constructor(string,string).symbol (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1457) shadows:
+	- ERC721Metadata.symbol() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1477-1479) (function)
+	- IERC721Metadata.symbol() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1426) (function)
+ERC721Metadata._setBaseURI(string).baseURI (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1523) shadows:
+	- ERC721Metadata.baseURI() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1534-1536) (function)
+NFT.constructor(string,string).name (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1560) shadows:
+	- ERC721Metadata.name() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1469-1471) (function)
+	- IERC721Metadata.name() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1425) (function)
+NFT.constructor(string,string).symbol (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1560) shadows:
+	- ERC721Metadata.symbol() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1477-1479) (function)
+	- IERC721Metadata.symbol() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1426) (function)
+ERC20Detailed.constructor(string,string,uint8).name (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1619) shadows:
+	- ERC20Detailed.name() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1628-1630) (function)
+ERC20Detailed.constructor(string,string,uint8).symbol (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1619) shadows:
+	- ERC20Detailed.symbol() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1636-1638) (function)
+ERC20Detailed.constructor(string,string,uint8).decimals (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1619) shadows:
+	- ERC20Detailed.decimals() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1652-1654) (function)
+DInterest.fundMultiple(uint256).surplus (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117) shadows:
+	- DInterest.surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2206-2218) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+MPHMinter.constructor(address,address,address,uint256)._govTreasury (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1726) lacks a zero-check on :
+		- govTreasury = _govTreasury (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1731)
+MPHMinter.constructor(address,address,address,uint256)._devWallet (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1727) lacks a zero-check on :
+		- devWallet = _devWallet (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1732)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+DInterest.calculateInterestAmount(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2188-2204) has external calls inside a loop: (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)
+DInterest.surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2206-2218) has external calls inside a loop: totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+DInterest.calculateInterestAmount(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2188-2204) has external calls inside a loop: interestModel.calculateInterestAmount(depositAmount,depositPeriodInSeconds,moneyMarketInterestRatePerSecond,surplusIsNegative,surplusAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2196-2203)
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: mintMPHAmount = mphMinter.mintDepositorReward(msg.sender,interestAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2424-2427)
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: moneyMarket.deposit(amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2448)
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: depositNFT.mint(msg.sender,id) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2451)
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#751-754) has external calls inside a loop: newAllowance = token.allowance(address(this),spender).add(value) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#752)
+SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#767-786) has external calls inside a loop: (success,returndata) = address(token).call(data) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: require(bool,string)(depositNFT.ownerOf(depositID) == msg.sender,DInterest: Sender doesn't own depositNFT) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2490-2493)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: depositNFT.burn(depositID) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2509)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: withdrawAmount = moneyMarket.withdraw(withdrawAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2521)
+DInterest.surplusOfDeposit(uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2220-2240) has external calls inside a loop: currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2225)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2534)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: transferToFunderAmount = moneyMarket.withdraw(transferToFunderAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2556-2558)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: stablecoin.safeTransfer(fundingNFT.ownerOf(fundingID),transferToFunderAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2559-2562)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: stablecoin.safeTransfer(feeModel.beneficiary(),feeAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2579)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: feeAmount = feeModel.getFee(depositEntry.interestOwed) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2518)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589):
+	External calls:
+	- takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)
+	State variables written after the call(s):
+	- totalDeposit = totalDeposit.sub(depositEntry.amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2503)
+	- totalInterestOwed = totalInterestOwed.sub(depositEntry.interestOwed) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2506)
+Reentrancy in DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589):
+	External calls:
+	- takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)
+	- depositNFT.burn(depositID) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2509)
+	- withdrawAmount = moneyMarket.withdraw(withdrawAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2521)
+	- (depositIsNegative,depositSurplus) = surplusOfDeposit(depositID) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2523-2525)
+		- currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2225)
+	State variables written after the call(s):
+	- unfundedUserDepositAmount = unfundedUserDepositAmount.sub(depositEntry.amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2566-2568)
+Reentrancy in DInterest.fundAll() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105):
+	External calls:
+	- (isNegative,deficit) = surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2081)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+	- incomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2089)
+	State variables written after the call(s):
+	- fundingList.push(Funding(latestFundedDepositID,deposits.length,unfundedUserDepositAmount,incomeIndex)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2091-2098)
+	- unfundedUserDepositAmount = 0 (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2102)
+Reentrancy in DInterest.fundMultiple(uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182):
+	External calls:
+	- (isNegative,surplus) = surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+	- incomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2164)
+	State variables written after the call(s):
+	- fundingList.push(Funding(latestFundedDepositID,toDepositID,totalDepositToFund,incomeIndex)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2166-2173)
+	- unfundedUserDepositAmount = unfundedUserDepositAmount.sub(totalDepositToFund) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2177-2179)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462):
+	External calls:
+	- interestAmount = calculateInterestAmount(amount,depositPeriod) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2417)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+		- (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)
+	- mintMPHAmount = mphMinter.mintDepositorReward(msg.sender,interestAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2424-2427)
+	- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)
+	- stablecoin.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2444)
+	- stablecoin.safeIncreaseAllowance(address(moneyMarket),amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2447)
+	- moneyMarket.deposit(amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2448)
+	- depositNFT.mint(msg.sender,id) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2451)
+	Event emitted after the call(s):
+	- EDeposit(msg.sender,id,amount,maturationTimestamp,interestAmount,mintMPHAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2454-2461)
+Reentrancy in DInterest._fund(uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2591-2611):
+	External calls:
+	- stablecoin.safeTransferFrom(msg.sender,address(this),totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2593)
+	- stablecoin.safeIncreaseAllowance(address(moneyMarket),totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2596)
+	- moneyMarket.deposit(totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2597)
+	- fundingNFT.mint(msg.sender,fundingList.length) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2600)
+	- mintMPHAmount = mphMinter.mintFunderReward(msg.sender,totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2603-2606)
+	Event emitted after the call(s):
+	- EFund(msg.sender,fundingID,totalDeficit,mintMPHAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2610)
+Reentrancy in DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589):
+	External calls:
+	- takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)
+	- depositNFT.burn(depositID) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2509)
+	- withdrawAmount = moneyMarket.withdraw(withdrawAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2521)
+	- (depositIsNegative,depositSurplus) = surplusOfDeposit(depositID) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2523-2525)
+		- currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2225)
+	- currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2534)
+	- transferToFunderAmount = moneyMarket.withdraw(transferToFunderAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2556-2558)
+	- stablecoin.safeTransfer(fundingNFT.ownerOf(fundingID),transferToFunderAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2559-2562)
+	- stablecoin.safeTransfer(msg.sender,withdrawAmount.sub(feeAmount)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2576)
+	- stablecoin.safeTransfer(feeModel.beneficiary(),feeAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2579)
+	Event emitted after the call(s):
+	- EWithdraw(msg.sender,depositID,fundingID,early,takeBackMPHAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2582-2588)
+Reentrancy in DInterest.fundAll() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105):
+	External calls:
+	- (isNegative,deficit) = surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2081)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+	- incomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2089)
+	- _fund(deficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2104)
+		- stablecoin.safeTransferFrom(msg.sender,address(this),totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2593)
+		- stablecoin.safeIncreaseAllowance(address(moneyMarket),totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2596)
+		- moneyMarket.deposit(totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2597)
+		- (success,returndata) = address(token).call(data) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)
+		- fundingNFT.mint(msg.sender,fundingList.length) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2600)
+		- mintMPHAmount = mphMinter.mintFunderReward(msg.sender,totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2603-2606)
+	Event emitted after the call(s):
+	- EFund(msg.sender,fundingID,totalDeficit,mintMPHAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2610)
+		- _fund(deficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2104)
+Reentrancy in DInterest.fundMultiple(uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182):
+	External calls:
+	- (isNegative,surplus) = surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117)
+		- totalValue = moneyMarket.totalValue() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)
+	- incomeIndex = moneyMarket.incomeIndex() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2164)
+	- _fund(totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2181)
+		- stablecoin.safeTransferFrom(msg.sender,address(this),totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2593)
+		- stablecoin.safeIncreaseAllowance(address(moneyMarket),totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2596)
+		- moneyMarket.deposit(totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2597)
+		- (success,returndata) = address(token).call(data) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)
+		- fundingNFT.mint(msg.sender,fundingList.length) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2600)
+		- mintMPHAmount = mphMinter.mintFunderReward(msg.sender,totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2603-2606)
+	Event emitted after the call(s):
+	- EFund(msg.sender,fundingID,totalDeficit,mintMPHAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2610)
+		- _fund(totalDeficit) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2181)
+Reentrancy in DInterest.setRewards(address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2295-2299):
+	External calls:
+	- moneyMarket.setRewards(newValue) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2297)
+	Event emitted after the call(s):
+	- ESetParamAddress(msg.sender,moneyMarket.rewards,newValue) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2298)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+DInterest.fundAll() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(! depositIsFunded(deposits.length),DInterest: All deposits funded) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2083-2086)
+DInterest.fundMultiple(uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(toDepositID > latestFundedDepositID,DInterest: Deposits already funded) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2108-2111)
+	- require(bool,string)(toDepositID <= deposits.length,DInterest: Invalid toDepositID) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2112-2115)
+DInterest.surplus() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2206-2218) uses timestamp for comparisons
+	Dangerous comparisons:
+	- totalValue >= totalOwed (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2209)
+DInterest.depositIsFunded(uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2242-2244) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (id <= latestFundedDepositID) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2243)
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(depositPeriod >= MinDepositPeriod && depositPeriod <= MaxDepositPeriod,DInterest: Deposit period out of range) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2403-2407)
+	- require(bool,string)(interestAmount > 0,DInterest: interestAmount == 0) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2418)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now < depositEntry.maturationTimestamp,DInterest: Deposit mature, use withdraw() instead) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2477-2480)
+	- require(bool,string)(now >= depositEntry.maturationTimestamp,DInterest: Deposit not mature) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2483-2486)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#174-183) uses assembly
+	- INLINE ASM (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#181)
+ERC721._checkOnERC721Received(address,address,uint256,bytes) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1375-1403) uses assembly
+	- INLINE ASM (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1392-1395)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has costly operations inside a loop:
+	- totalDeposit = totalDeposit.add(amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2410)
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has costly operations inside a loop:
+	- unfundedUserDepositAmount = unfundedUserDepositAmount.add(amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2414)
+DInterest._deposit(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has costly operations inside a loop:
+	- totalInterestOwed = totalInterestOwed.add(interestAmount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2421)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has costly operations inside a loop:
+	- totalDeposit = totalDeposit.sub(depositEntry.amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2503)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has costly operations inside a loop:
+	- totalInterestOwed = totalInterestOwed.sub(depositEntry.interestOwed) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2506)
+DInterest._withdraw(uint256,uint256,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has costly operations inside a loop:
+	- unfundedUserDepositAmount = unfundedUserDepositAmount.sub(depositEntry.amount) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2566-2568)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#213-219) is never used and should be removed
+Address.toPayable(address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#191-193) is never used and should be removed
+Context._msgData() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#399-402) is never used and should be removed
+DecMath.decdiv(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#474-476) is never used and should be removed
+ERC20._burn(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#672-678) is never used and should be removed
+ERC20._burnFrom(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#707-710) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#740-749) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#756-759) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#355-357) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#372-375) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#213-219):
+	- (success) = recipient.call.value(amount)() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#217)
+Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#767-786):
+	- (success,returndata) = address(token).call(data) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)
+Low level call in ERC721._checkOnERC721Received(address,address,uint256,bytes) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1375-1403):
+	- (success,returndata) = to.call(abi.encodeWithSelector(IERC721Receiver(to).onERC721Received.selector,_msgSender(),from,tokenId,_data)) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1382-1388)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter ERC721.safeTransferFrom(address,address,uint256,bytes)._data (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1225) is not in mixedCase
+Variable NFT._contractURI (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1558) is not in mixedCase
+Variable DInterest.MinDepositPeriod (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1885) is not in mixedCase
+Variable DInterest.MaxDepositPeriod (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1886) is not in mixedCase
+Variable DInterest.MinDepositAmount (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1887) is not in mixedCase
+Variable DInterest.MaxDepositAmount (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1888) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#400)" inContext (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#389-403)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+DInterest.PRECISION (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1854) is never used in DInterest (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612)
+DInterest.ONE (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1855) is never used in DInterest (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#524-526)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#531-533)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#543-546)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#551-553)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#562-565)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#579-583)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#597-600)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#616-619)
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#875-877)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#901-904)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#910-912)
+balanceOf(address) should be declared external:
+	- ERC721.balanceOf(address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1110-1114)
+	- IERC721.balanceOf(address) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#951)
+safeTransferFrom(address,address,uint256) should be declared external:
+	- ERC721.safeTransferFrom(address,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1209-1211)
+	- IERC721.safeTransferFrom(address,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#970)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC721.transferFrom(address,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1191-1196)
+	- IERC721.transferFrom(address,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#979)
+approve(address,uint256) should be declared external:
+	- ERC721.approve(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1136-1146)
+	- IERC721.approve(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#980)
+setApprovalForAll(address,bool) should be declared external:
+	- ERC721.setApprovalForAll(address,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1166-1171)
+	- IERC721.setApprovalForAll(address,bool) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#983)
+onERC721Received(address,address,uint256,bytes) should be declared external:
+	- IERC721Receiver.onERC721Received(address,address,uint256,bytes) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1012-1013)
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1628-1630)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1636-1638)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1652-1654)
+ownerMint(address,uint256) should be declared external:
+	- MPHToken.ownerMint(address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1662-1669)
+ownerTransfer(address,address,uint256) should be declared external:
+	- MPHToken.ownerTransfer(address,address,uint256) (../../sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1671-1678)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol analyzed (26 contracts with 78 detectors), 111 result(s) found

@@ -1,0 +1,988 @@
+{
+    "errors": [
+        "EXIT_CODE_103"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "withdraw",
+            "impact": "High",
+            "line": 1155,
+            "line_end": 1159,
+            "message": "WNativeRelayer.withdraw(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155-1159) sends eth to arbitrary user\n\tDangerous calls:\n\t- (success) = msg.sender.call{value: _amount}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1157)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "High",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)\n\t- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\t\t- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)\n\tExternal calls sending eth:\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tState variables written after the call(s):\n\t- debt = _removeDebt(id).add(loan) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)\n\t\t- pos.debtShare = 0 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1478)\n\t- debt = _removeDebt(id).add(loan) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)\n\t\t- vaultDebtVal = vaultDebtVal.sub(debtVal) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1480)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "High",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)\n\t- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)\n\t- IERC20(token).transfer(worker,sendERC20) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)\n\t- IWorker(worker).work(id,msg.sender,debt,data) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1390)\n\t- IDebtToken(debtToken).mint(address(this),debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1401)\n\t- IFairLaunch(config.getFairLaunchAddr()).deposit(msg.sender,fairLaunchPoolId,debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1402)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\t\t- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)\n\tExternal calls sending eth:\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tState variables written after the call(s):\n\t- _addDebt(id,debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)\n\t\t- pos.debtShare = pos.debtShare.add(debtShare) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1466)\n\t- _addDebt(id,debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)\n\t\t- vaultDebtShare = vaultDebtShare.add(debtShare) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1467)\n\t- _addDebt(id,debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)\n\t\t- vaultDebtVal = vaultDebtVal.add(debtVal) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1468)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "High",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417) ignores return value by IERC20(token).transfer(worker,sendERC20) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "debtValToShare",
+            "impact": "Medium",
+            "line": 1304,
+            "line_end": 1307,
+            "message": "Vault.debtValToShare(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1304-1307) uses a dangerous strict equality:\n\t- vaultDebtShare == 0 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1305)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "debtShareToVal",
+            "impact": "Medium",
+            "line": 1297,
+            "line_end": 1300,
+            "message": "Vault.debtShareToVal(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1297-1300) uses a dangerous strict equality:\n\t- vaultDebtShare == 0 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1298)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "initialize",
+            "impact": "Medium",
+            "line": 1252,
+            "line_end": 1280,
+            "message": "Vault.initialize(IVaultConfig,address,string,string,uint8,address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1252-1280) ignores return value by IERC20(debtToken).approve(config.getFairLaunchAddr(),uint256(- 1)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1274)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 512,
+            "message": "ERC20UpgradeSafe.__ERC20_init_unchained(string,string).name (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#512) shadows:\n\t- ERC20UpgradeSafe.name() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#525-527) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Low",
+            "line": 1256,
+            "message": "Vault.initialize(IVaultConfig,address,string,string,uint8,address)._symbol (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1256) shadows:\n\t- ERC20UpgradeSafe._symbol (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#494) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Low",
+            "line": 1257,
+            "message": "Vault.initialize(IVaultConfig,address,string,string,uint8,address)._decimals (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1257) shadows:\n\t- ERC20UpgradeSafe._decimals (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#495) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 507,
+            "message": "ERC20UpgradeSafe.__ERC20_init(string,string).name (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#507) shadows:\n\t- ERC20UpgradeSafe.name() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#525-527) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Low",
+            "line": 1255,
+            "message": "Vault.initialize(IVaultConfig,address,string,string,uint8,address)._name (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1255) shadows:\n\t- ERC20UpgradeSafe._name (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#493) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 507,
+            "message": "ERC20UpgradeSafe.__ERC20_init(string,string).symbol (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#507) shadows:\n\t- ERC20UpgradeSafe.symbol() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#533-535) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 512,
+            "message": "ERC20UpgradeSafe.__ERC20_init_unchained(string,string).symbol (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#512) shadows:\n\t- ERC20UpgradeSafe.symbol() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#533-535) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "withdrawReserve",
+            "impact": "Low",
+            "line": 1501,
+            "line_end": 1504,
+            "message": "Vault.withdrawReserve(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1501-1504) should emit an event for: \n\t- reservePool = reservePool.sub(value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1502) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "reduceReserve",
+            "impact": "Low",
+            "line": 1508,
+            "line_end": 1510,
+            "message": "Vault.reduceReserve(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1508-1510) should emit an event for: \n\t- reservePool = reservePool.sub(value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1509) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Low",
+            "line": 1258,
+            "message": "Vault.initialize(IVaultConfig,address,string,string,uint8,address)._debtToken (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1258) lacks a zero-check on :\n\t\t- debtToken = _debtToken (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1272)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Low",
+            "line": 1254,
+            "message": "Vault.initialize(IVaultConfig,address,string,string,uint8,address)._token (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1254) lacks a zero-check on :\n\t\t- token = _token (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1268)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Low",
+            "line": 1139,
+            "message": "WNativeRelayer.constructor(address)._wnative (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1139) lacks a zero-check on :\n\t\t- wnative = _wnative (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1140)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)\n\t- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\t\t- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)\n\tExternal calls sending eth:\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tState variables written after the call(s):\n\t- POSITION_ID = id (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1377)\n\t- (STRATEGY,None) = abi.decode(data,(address,bytes)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1378)\n\t- debt = _removeDebt(id).add(loan) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)\n\t\t- vaultDebtShare = vaultDebtShare.sub(debtShare) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1479)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\t\t- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)\n\tExternal calls sending eth:\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tState variables written after the call(s):\n\t- nonReentrant() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- _notEntered = false (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#850)\n\t\t- _notEntered = true (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#856)\n\t- accrue(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- lastAccrueTime = now (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1247)\n\t- id = nextPositionID ++ (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1365)\n\t- positions[id].worker = worker (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1366)\n\t- positions[id].owner = msg.sender (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1367)\n\t- accrue(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- reservePool = reservePool.add(toReserve) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1245)\n\t- accrue(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- vaultDebtVal = vaultDebtVal.add(interest) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1246)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)\n\t- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)\n\t- IERC20(token).transfer(worker,sendERC20) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)\n\t- IWorker(worker).work(id,msg.sender,debt,data) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1390)\n\t- IDebtToken(debtToken).mint(address(this),debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1401)\n\t- IFairLaunch(config.getFairLaunchAddr()).deposit(msg.sender,fairLaunchPoolId,debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1402)\n\t- SafeToken.safeTransfer(token,config.getWNativeRelayer(),back.sub(lessDebt)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1408)\n\t- WNativeRelayer(uint160(config.getWNativeRelayer())).withdraw(back.sub(lessDebt)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1409)\n\t- SafeToken.safeTransfer(token,msg.sender,back.sub(lessDebt)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1412)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\t\t- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)\n\tExternal calls sending eth:\n\t- msg.sender.transfer(back.sub(lessDebt)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1410)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tState variables written after the call(s):\n\t- POSITION_ID = _NO_ID (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1415)\n\t- STRATEGY = _NO_ADDRESS (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1416)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 1252,
+            "line_end": 1280,
+            "message": "Reentrancy in Vault.initialize(IVaultConfig,address,string,string,uint8,address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1252-1280):\n\tExternal calls:\n\t- IERC20(debtToken).approve(config.getFairLaunchAddr(),uint256(- 1)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1274)\n\tState variables written after the call(s):\n\t- POSITION_ID = _NO_ID (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1278)\n\t- STRATEGY = _NO_ADDRESS (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1279)\n\t- _IN_EXEC_LOCK = _NOT_ENTERED (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1277)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "kill",
+            "impact": "Low",
+            "line": 1421,
+            "line_end": 1460,
+            "message": "Reentrancy in Vault.kill(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1421-1460):\n\tExternal calls:\n\t- IWorker(pos.worker).liquidate(id) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1432)\n\t- SafeToken.safeTransfer(token,config.getWNativeRelayer(),prize) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1439)\n\t- WNativeRelayer(uint160(config.getWNativeRelayer())).withdraw(prize) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1440)\n\t- SafeToken.safeTransfer(token,msg.sender,prize) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1443)\n\t- SafeToken.safeTransfer(token,config.getWNativeRelayer(),left) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1449)\n\t- WNativeRelayer(uint160(config.getWNativeRelayer())).withdraw(left) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1450)\n\t- SafeToken.safeTransfer(token,pos.owner,left) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1453)\n\t- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(pos.owner,fairLaunchPoolId) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1457)\n\t- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1458)\n\tExternal calls sending eth:\n\t- msg.sender.transfer(prize) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1441)\n\t- msg.sender.transfer(left) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1451)\n\tEvent emitted after the call(s):\n\t- Kill(id,msg.sender,prize,left) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1459)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)\n\t- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\t\t- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)\n\tExternal calls sending eth:\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tEvent emitted after the call(s):\n\t- RemoveDebt(id,debtShare) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1481)\n\t\t- debt = _removeDebt(id).add(loan) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)\n\t- Work(id,loan) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1375)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)\n\t- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)\n\t- IERC20(token).transfer(worker,sendERC20) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)\n\t- IWorker(worker).work(id,msg.sender,debt,data) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1390)\n\t- IDebtToken(debtToken).mint(address(this),debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1401)\n\t- IFairLaunch(config.getFairLaunchAddr()).deposit(msg.sender,fairLaunchPoolId,debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1402)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\t\t- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)\n\tExternal calls sending eth:\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tEvent emitted after the call(s):\n\t- AddDebt(id,debtShare) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1469)\n\t\t- _addDebt(id,debt) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(positions[id].worker == worker,bad position worker) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1370)\n\t- require(bool,string)(positions[id].owner == msg.sender,not position owner) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1371)\n\t- debt > 0 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1396)\n\t- require(bool,string)(debt >= config.minDebtSize(),too small debt size) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1397)\n\t- require(bool,string)(health.mul(workFactor) >= debt.mul(10000),bad work factor) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1400)\n\t- back > lessDebt (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1406)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "kill",
+            "impact": "Low",
+            "line": 1421,
+            "line_end": 1460,
+            "message": "Vault.kill(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1421-1460) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(health.mul(killFactor) < debt.mul(10000),can't liquidate) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1429)\n\t- left > 0 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1447)\n\t- rest > debt (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1446)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "pendingInterest",
+            "impact": "Low",
+            "line": 1284,
+            "line_end": 1293,
+            "message": "Vault.pendingInterest(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1284-1293) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now > lastAccrueTime (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1285)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "debtValToShare",
+            "impact": "Low",
+            "line": 1304,
+            "line_end": 1307,
+            "message": "Vault.debtValToShare(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1304-1307) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- vaultDebtShare == 0 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1305)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "debtShareToVal",
+            "impact": "Low",
+            "line": 1297,
+            "line_end": 1300,
+            "message": "Vault.debtShareToVal(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1297-1300) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- vaultDebtShare == 0 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1298)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "isConstructor",
+            "impact": "Informational",
+            "line": 51,
+            "line_end": 61,
+            "message": "Initializable.isConstructor() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#51-61) uses assembly\n\t- INLINE ASM (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#59)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 423,
+            "line_end": 432,
+            "message": "Address.isContract(address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#423-432) uses assembly\n\t- INLINE ASM (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#430)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "onlyWhitelistedCaller",
+            "impact": "Informational",
+            "line": 1143,
+            "line_end": 1146,
+            "message": "WNativeRelayer.onlyWhitelistedCaller() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1143-1146) compares to a boolean constant:\n\t-require(bool,string)(okCallers[msg.sender] == true,wnativeRelayer: !okCaller) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1144)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "_mint",
+            "impact": "Informational",
+            "line": 690,
+            "line_end": 698,
+            "message": "ERC20UpgradeSafe._mint(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#690-698) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 450,
+            "line_end": 456,
+            "message": "Address.sendValue(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#450-456) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 81,
+            "line_end": 83,
+            "message": "ContextUpgradeSafe.__Context_init() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#81-83) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 779,
+            "line_end": 781,
+            "message": "Math.max(uint256,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#779-781) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "average",
+            "impact": "Informational",
+            "line": 794,
+            "line_end": 797,
+            "message": "Math.average(uint256,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#794-797) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 976,
+            "line_end": 980,
+            "message": "SafeToken.safeApprove(address,address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#976-980) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "myBalance",
+            "impact": "Informational",
+            "line": 968,
+            "line_end": 970,
+            "message": "SafeToken.myBalance(address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#968-970) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 396,
+            "line_end": 399,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#396-399) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 95,
+            "line_end": 98,
+            "message": "ContextUpgradeSafe._msgData() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#95-98) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 994,
+            "line_end": 998,
+            "message": "SafeToken.safeTransferETH(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#994-998) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 1065,
+            "line_end": 1068,
+            "message": "Context._msgData() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1065-1068) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 381,
+            "line_end": 383,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#381-383) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 423,
+            "line_end": 432,
+            "message": "Address.isContract(address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#423-432) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 5,
+            "message": "Pragma version^0.6.6 (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#5) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 982,
+            "line_end": 986,
+            "message": "Low level call in SafeToken.safeTransfer(address,address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#982-986):\n\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#984)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 450,
+            "line_end": 456,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#450-456):\n\t- (success) = recipient.call{value: amount}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#454)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 994,
+            "line_end": 998,
+            "message": "Low level call in SafeToken.safeTransferETH(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#994-998):\n\t- (success) = to.call{value: value}(new bytes(0)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#996)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 988,
+            "line_end": 992,
+            "message": "Low level call in SafeToken.safeTransferFrom(address,address,address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#988-992):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "withdraw",
+            "impact": "Informational",
+            "line": 1155,
+            "line_end": 1159,
+            "message": "Low level call in WNativeRelayer.withdraw(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155-1159):\n\t- (success) = msg.sender.call{value: _amount}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1157)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 976,
+            "line_end": 980,
+            "message": "Low level call in SafeToken.safeApprove(address,address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#976-980):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#978)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 859,
+            "message": "Variable ReentrancyGuardUpgradeSafe.__gap (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#859) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1257,
+            "message": "Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._decimals (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1257) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 824,
+            "line_end": 835,
+            "message": "Function ReentrancyGuardUpgradeSafe.__ReentrancyGuard_init_unchained() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#824-835) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1256,
+            "message": "Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._symbol (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1256) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1258,
+            "message": "Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._debtToken (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1258) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1494,
+            "message": "Parameter Vault.setFairLaunchPoolId(uint256)._poolId (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1494) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 176,
+            "message": "Variable OwnableUpgradeSafe.__gap (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1253,
+            "message": "Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._config (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1253) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 81,
+            "line_end": 83,
+            "message": "Function ContextUpgradeSafe.__Context_init() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#81-83) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1254,
+            "message": "Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._token (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1254) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1184,
+            "message": "Variable Vault.STRATEGY (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1184) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 769,
+            "message": "Variable ERC20UpgradeSafe.__gap (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#769) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 820,
+            "line_end": 822,
+            "message": "Function ReentrancyGuardUpgradeSafe.__ReentrancyGuard_init() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#820-822) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 512,
+            "line_end": 519,
+            "message": "Function ERC20UpgradeSafe.__ERC20_init_unchained(string,string) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#512-519) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1182,
+            "message": "Variable Vault._IN_EXEC_LOCK (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1155,
+            "message": "Parameter WNativeRelayer.withdraw(uint256)._amount (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 64,
+            "message": "Variable Initializable.______gap (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#64) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 85,
+            "line_end": 88,
+            "message": "Function ContextUpgradeSafe.__Context_init_unchained() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#85-88) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 124,
+            "line_end": 127,
+            "message": "Function OwnableUpgradeSafe.__Ownable_init() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#124-127) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 100,
+            "message": "Variable ContextUpgradeSafe.__gap (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#100) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1183,
+            "message": "Variable Vault.POSITION_ID (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1183) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1255,
+            "message": "Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._name (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1255) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1490,
+            "message": "Parameter Vault.updateConfig(IVaultConfig)._config (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1490) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 507,
+            "line_end": 510,
+            "message": "Function ERC20UpgradeSafe.__ERC20_init(string,string) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#507-510) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 129,
+            "line_end": 136,
+            "message": "Function OwnableUpgradeSafe.__Ownable_init_unchained() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#129-136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeSafe",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 96,
+            "message": "Redundant expression \"this (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#96)\" inContextUpgradeSafe (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#77-101)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 1066,
+            "message": "Redundant expression \"this (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1066)\" inContext (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1060-1069)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "kill",
+            "impact": "Informational",
+            "line": 1421,
+            "line_end": 1460,
+            "message": "Reentrancy in Vault.kill(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1421-1460):\n\tExternal calls:\n\t- msg.sender.transfer(prize) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1441)\n\t- msg.sender.transfer(left) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1451)\n\tEvent emitted after the call(s):\n\t- Kill(id,msg.sender,prize,left) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1459)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "work",
+            "impact": "Informational",
+            "line": 1358,
+            "line_end": 1417,
+            "message": "Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):\n\tExternal calls:\n\t- msg.sender.transfer(back.sub(lessDebt)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1410)\n\tExternal calls sending eth:\n\t- msg.sender.transfer(back.sub(lessDebt)) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1410)\n\t- transferTokenToVault(principalAmount) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)\n\t\t- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)\n\tState variables written after the call(s):\n\t- POSITION_ID = _NO_ID (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1415)\n\t- STRATEGY = _NO_ADDRESS (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1416)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "contract": "Vault",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 176,
+            "message": "OwnableUpgradeSafe.__gap (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#176) is never used in Vault (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1164-1515)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "Vault",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "impact": "Informational",
+            "line": 64,
+            "message": "Initializable.______gap (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#64) is never used in Vault (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1164-1515)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 564,
+            "line_end": 566,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20UpgradeSafe.balanceOf(address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#564-566)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 1119,
+            "line_end": 1122,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1119-1122)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 142,
+            "line_end": 144,
+            "message": "owner() should be declared external:\n\t- OwnableUpgradeSafe.owner() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#142-144)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "initialize",
+            "impact": "Optimization",
+            "line": 1252,
+            "line_end": 1280,
+            "message": "initialize(IVaultConfig,address,string,string,uint8,address) should be declared external:\n\t- Vault.initialize(IVaultConfig,address,string,string,uint8,address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1252-1280)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 533,
+            "line_end": 535,
+            "message": "symbol() should be declared external:\n\t- ERC20UpgradeSafe.symbol() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#533-535)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "positionInfo",
+            "impact": "Optimization",
+            "line": 1311,
+            "line_end": 1314,
+            "message": "positionInfo(uint256) should be declared external:\n\t- Vault.positionInfo(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1311-1314)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 525,
+            "line_end": 527,
+            "message": "name() should be declared external:\n\t- ERC20UpgradeSafe.name() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#525-527)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 630,
+            "line_end": 633,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.increaseAllowance(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#630-633)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 170,
+            "line_end": 174,
+            "message": "transferOwnership(address) should be declared external:\n\t- OwnableUpgradeSafe.transferOwnership(address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#170-174)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 584,
+            "line_end": 586,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20UpgradeSafe.allowance(address,address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#584-586)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 1128,
+            "line_end": 1132,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1128-1132)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 1155,
+            "line_end": 1159,
+            "message": "withdraw(uint256) should be declared external:\n\t- WNativeRelayer.withdraw(uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155-1159)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 550,
+            "line_end": 552,
+            "message": "decimals() should be declared external:\n\t- ERC20UpgradeSafe.decimals() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#550-552)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 612,
+            "line_end": 616,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.transferFrom(address,address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#612-616)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 595,
+            "line_end": 598,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.approve(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#595-598)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 649,
+            "line_end": 652,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.decreaseAllowance(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#649-652)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 161,
+            "line_end": 164,
+            "message": "renounceOwnership() should be declared external:\n\t- OwnableUpgradeSafe.renounceOwnership() (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#161-164)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 576,
+            "line_end": 579,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20UpgradeSafe.transfer(address,uint256) (../..0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#576-579)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

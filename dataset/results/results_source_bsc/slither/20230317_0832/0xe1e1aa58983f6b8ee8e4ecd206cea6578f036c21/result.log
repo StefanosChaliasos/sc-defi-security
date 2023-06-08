@@ -1,0 +1,109 @@
+[91m
+Reentrancy in SurgeToken.sell(uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#577-602):
+	External calls:
+	- (successful) = address(seller).call{gas: 40000,value: amountBNB}() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#591)
+	State variables written after the call(s):
+	- _balances[seller] = _balances[seller].sub(tokenAmount,sender does not have this amount to sell) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#594)
+	- _totalSupply = _totalSupply.sub(tokenAmount) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#596)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+SurgeToken.purchase(address,uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#554-574) performs a multiplication on the result of a division:
+	-tokensToSend = nShouldPurchase.mul(spreadDivisor).div(10 ** 2) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#564)
+	-nShouldPurchase = _totalSupply.mul(bnbAmount).div(prevBNBAmount) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#562)
+SurgeToken.sell(uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#577-602) performs a multiplication on the result of a division:
+	-tokensToSwap = tokenAmount.mul(sellFee).div(10 ** 2) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#585)
+	-amountBNB = tokensToSwap.mul(calculatePrice()) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#588)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+SurgeToken.purchase(address,uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#554-574) uses a dangerous strict equality:
+	- prevBNBAmount == 0 (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#560)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[92m
+Reentrancy in SurgeToken.sell(uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#577-602):
+	External calls:
+	- (successful) = address(seller).call{gas: 40000,value: amountBNB}() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#591)
+	Event emitted after the call(s):
+	- Transfer(seller,address(this),tokenAmount) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#600)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Ownable.unlock() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#452-457) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp > _lockTime,Contract is locked) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#454)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#46-55) uses assembly
+	- INLINE ASM (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#53)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#139-160) uses assembly
+	- INLINE ASM (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#152-155)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#139-160) is never used and should be removed
+Address.functionCall(address,bytes) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#99-101) is never used and should be removed
+Address.functionCall(address,bytes,string) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#109-111) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#124-126) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#134-137) is never used and should be removed
+Address.isContract(address) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#46-55) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#73-79) is never used and should be removed
+Context._msgData() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#380-383) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#353-355) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#369-372) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#73-79):
+	- (success) = recipient.call{value: amount}() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#77)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#139-160):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#143)
+Low level call in SurgeToken.sell(uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#577-602):
+	- (successful) = address(seller).call{gas: 40000,value: amountBNB}() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#591)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Constant SurgeToken._name (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#478) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant SurgeToken._symbol (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#479) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant SurgeToken._decimals (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#480) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable SurgeToken._totalSupply (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#482) is not in mixedCase
+Variable SurgeToken._balances (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#484) is not in mixedCase
+Variable SurgeToken._allowances (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#485) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#381)" inContext (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#375-384)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+SurgeToken.hyperInflatePrice (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#490) should be constant
+SurgeToken.sellFee (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#487) should be constant
+SurgeToken.spreadDivisor (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#488) should be constant
+SurgeToken.transferFee (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#489) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#405-407)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#424-427)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#433-437)
+geUnlockTime() should be declared external:
+	- Ownable.geUnlockTime() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#439-441)
+lock(uint256) should be declared external:
+	- Ownable.lock(uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#444-449)
+unlock() should be declared external:
+	- Ownable.unlock() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#452-457)
+balanceOf(address) should be declared external:
+	- SurgeToken.balanceOf(address) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#504)
+name() should be declared external:
+	- SurgeToken.name() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#506-508)
+symbol() should be declared external:
+	- SurgeToken.symbol() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#510-512)
+decimals() should be declared external:
+	- SurgeToken.decimals() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#514-516)
+approve(address,uint256) should be declared external:
+	- SurgeToken.approve(address,uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#518-522)
+sell(uint256) should be declared external:
+	- SurgeToken.sell(uint256) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#577-602)
+getBNBQuantityInContract() should be declared external:
+	- SurgeToken.getBNBQuantityInContract() (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#616-618)
+getValueOfHoldings(address) should be declared external:
+	- SurgeToken.getValueOfHoldings(address) (../../sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol#620-622)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xe1e1aa58983f6b8ee8e4ecd206cea6578f036c21.sol analyzed (7 contracts with 78 detectors), 47 result(s) found

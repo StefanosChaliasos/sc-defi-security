@@ -1,0 +1,1438 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_23"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "initialize",
+            "impact": "Medium",
+            "line": 2922,
+            "line_end": 2935,
+            "message": "Reentrancy in PToken.initialize(string,string,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935):\n\tExternal calls:\n\t- __ERC777_init(tokenName,tokenSymbol,defaultOperators) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2931)\n\t\t- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC777Token),address(this)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1547)\n\t\t- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC20Token),address(this)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1548)\n\tState variables written after the call(s):\n\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t\t- _initialized = true (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#209)\n\t- __ERC777WithAdminOperatorUpgreadable_init(defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2933)\n\t\t- _initialized = true (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#209)\n\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t\t- _initializing = true (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#208)\n\t\t- _initializing = false (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#215)\n\t- __ERC777WithAdminOperatorUpgreadable_init(defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2933)\n\t\t- _initializing = true (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#208)\n\t\t- _initializing = false (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#215)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Medium",
+            "line": 2929,
+            "message": "PToken.initialize(string,string,address).defaultOperators (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2929) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "defaultOperators",
+            "impact": "Low",
+            "line": 2929,
+            "message": "PToken.initialize(string,string,address).defaultOperators (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2929) shadows:\n\t- ERC777Upgradeable.defaultOperators() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1680-1682) (function)\n\t- IERC777Upgradeable.defaultOperators() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#906) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Low",
+            "line": 2888,
+            "message": "ERC777WithAdminOperatorUpgreadable.setAdminOperator(address).adminOperator_ (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2888) lacks a zero-check on :\n\t\t- adminOperator = adminOperator_ (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2891)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Low",
+            "line": 2860,
+            "message": "ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address)._adminOperator (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2860) lacks a zero-check on :\n\t\t- adminOperator = _adminOperator (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2863)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "transfer",
+            "impact": "Low",
+            "line": 1615,
+            "line_end": 1627,
+            "message": "Reentrancy in ERC777Upgradeable.transfer(address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1615-1627):\n\tExternal calls:\n\t- _callTokensToSend(from,from,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1620)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tState variables written after the call(s):\n\t- _move(from,from,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1622)\n\t\t- _balances[from] = _balances[from].sub(amount,ERC777: transfer amount exceeds balance) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1879)\n\t\t- _balances[to] = _balances[to].add(amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1880)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "transferFrom",
+            "impact": "Low",
+            "line": 1745,
+            "line_end": 1759,
+            "message": "Reentrancy in ERC777Upgradeable.transferFrom(address,address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1745-1759):\n\tExternal calls:\n\t- _callTokensToSend(spender,holder,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1751)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tState variables written after the call(s):\n\t- _approve(holder,spender,_allowances[holder][spender].sub(amount,ERC777: transfer amount exceeds allowance)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1754)\n\t\t- _allowances[holder][spender] = value (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1895)\n\t- _move(spender,holder,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1753)\n\t\t- _balances[from] = _balances[from].sub(amount,ERC777: transfer amount exceeds balance) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1879)\n\t\t- _balances[to] = _balances[to].add(amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1880)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_burn",
+            "impact": "Low",
+            "line": 1842,
+            "line_end": 1865,
+            "message": "Reentrancy in ERC777Upgradeable._burn(address,uint256,bytes,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1842-1865):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1855)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tState variables written after the call(s):\n\t- _balances[from] = _balances[from].sub(amount,ERC777: burn amount exceeds balance) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1860)\n\t- _totalSupply = _totalSupply.sub(amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1861)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 2922,
+            "line_end": 2935,
+            "message": "Reentrancy in PToken.initialize(string,string,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935):\n\tExternal calls:\n\t- __ERC777_init(tokenName,tokenSymbol,defaultOperators) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2931)\n\t\t- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC777Token),address(this)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1547)\n\t\t- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC20Token),address(this)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1548)\n\tState variables written after the call(s):\n\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t\t- _owner = msgSender (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2682)\n\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t\t- _relayHub = 0xD216153c06E857cD7f72665E0aF1d7D82172F494 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2435)\n\t- __ERC777WithAdminOperatorUpgreadable_init(defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2933)\n\t\t- adminOperator = _adminOperator (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2863)\n\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t\t- gsnExtraGas = 40000 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2762)\n\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t\t- gsnFeeTarget = _gsnFeeTarget (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2761)\n\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t\t- gsnTrustedSigner = _gsnTrustedSigner (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2758)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_send",
+            "impact": "Low",
+            "line": 1812,
+            "line_end": 1833,
+            "message": "Reentrancy in ERC777Upgradeable._send(address,address,uint256,bytes,bytes,bool) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1812-1833):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1828)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tState variables written after the call(s):\n\t- _move(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1830)\n\t\t- _balances[from] = _balances[from].sub(amount,ERC777: transfer amount exceeds balance) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1879)\n\t\t- _balances[to] = _balances[to].add(amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1880)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "transfer",
+            "impact": "Low",
+            "line": 1615,
+            "line_end": 1627,
+            "message": "Reentrancy in ERC777Upgradeable.transfer(address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1615-1627):\n\tExternal calls:\n\t- _callTokensToSend(from,from,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1620)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tEvent emitted after the call(s):\n\t- Sent(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1882)\n\t\t- _move(from,from,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1622)\n\t- Transfer(from,to,amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1883)\n\t\t- _move(from,from,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1622)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_burn",
+            "impact": "Low",
+            "line": 1842,
+            "line_end": 1865,
+            "message": "Reentrancy in ERC777Upgradeable._burn(address,uint256,bytes,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1842-1865):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1855)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tEvent emitted after the call(s):\n\t- Burned(operator,from,amount,data,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1863)\n\t- Transfer(from,address(0),amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1864)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "redeem",
+            "impact": "Low",
+            "line": 2974,
+            "line_end": 2983,
+            "message": "Reentrancy in PToken.redeem(uint256,bytes,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2974-2983):\n\tExternal calls:\n\t- _burn(_msgSender(),amount,userData,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2981)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tEvent emitted after the call(s):\n\t- Redeem(_msgSender(),amount,underlyingAssetRecipient,userData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2982)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 2922,
+            "line_end": 2935,
+            "message": "Reentrancy in PToken.initialize(string,string,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935):\n\tExternal calls:\n\t- __ERC777_init(tokenName,tokenSymbol,defaultOperators) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2931)\n\t\t- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC777Token),address(this)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1547)\n\t\t- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC20Token),address(this)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1548)\n\tEvent emitted after the call(s):\n\t- OwnershipTransferred(address(0),msgSender) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2683)\n\t\t- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)\n\t- RoleGranted(role,account,_msgSender()) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#773)\n\t\t- _setupRole(DEFAULT_ADMIN_ROLE,defaultAdmin) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2934)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_send",
+            "impact": "Low",
+            "line": 1812,
+            "line_end": 1833,
+            "message": "Reentrancy in ERC777Upgradeable._send(address,address,uint256,bytes,bytes,bool) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1812-1833):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1828)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tEvent emitted after the call(s):\n\t- Sent(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1882)\n\t\t- _move(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1830)\n\t- Transfer(from,to,amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1883)\n\t\t- _move(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1830)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_mint",
+            "impact": "Low",
+            "line": 1778,
+            "line_end": 1801,
+            "message": "Reentrancy in ERC777Upgradeable._mint(address,uint256,bytes,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1778-1801):\n\tExternal calls:\n\t- _callTokensReceived(operator,address(0),account,amount,userData,operatorData,true) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1797)\n\t\t- IERC777RecipientUpgradeable(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1948)\n\tEvent emitted after the call(s):\n\t- Minted(operator,account,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1799)\n\t- Transfer(address(0),account,amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1800)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "transferFrom",
+            "impact": "Low",
+            "line": 1745,
+            "line_end": 1759,
+            "message": "Reentrancy in ERC777Upgradeable.transferFrom(address,address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1745-1759):\n\tExternal calls:\n\t- _callTokensToSend(spender,holder,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1751)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tEvent emitted after the call(s):\n\t- Approval(holder,spender,value) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1896)\n\t\t- _approve(holder,spender,_allowances[holder][spender].sub(amount,ERC777: transfer amount exceeds allowance)) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1754)\n\t- Sent(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1882)\n\t\t- _move(spender,holder,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1753)\n\t- Transfer(from,to,amount) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1883)\n\t\t- _move(spender,holder,recipient,amount,,) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1753)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "adminTransfer",
+            "impact": "Low",
+            "line": 2871,
+            "line_end": 2883,
+            "message": "Reentrancy in ERC777WithAdminOperatorUpgreadable.adminTransfer(address,address,uint256,bytes,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2871-2883):\n\tExternal calls:\n\t- _send(sender,recipient,amount,data,operatorData,false) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2881)\n\t\t- IERC777RecipientUpgradeable(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1948)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tEvent emitted after the call(s):\n\t- AdminTransferInvoked(adminOperator) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2882)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "operatorRedeem",
+            "impact": "Low",
+            "line": 2985,
+            "line_end": 3000,
+            "message": "Reentrancy in PToken.operatorRedeem(address,uint256,bytes,bytes,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2985-3000):\n\tExternal calls:\n\t- _burn(account,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2998)\n\t\t- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)\n\tEvent emitted after the call(s):\n\t- Redeem(account,amount,underlyingAssetRecipient,userData) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2999)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 28,
+            "line_end": 37,
+            "message": "AddressUpgradeable.isContract(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#28-37) uses assembly\n\t- INLINE ASM (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#35)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 149,
+            "line_end": 166,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#149-166) uses assembly\n\t- INLINE ASM (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#158-161)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_getRelayedCallSender",
+            "impact": "Informational",
+            "line": 2611,
+            "line_end": 2631,
+            "message": "GSNRecipientUpgradeable._getRelayedCallSender() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2611-2631) uses assembly\n\t- INLINE ASM (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2626-2629)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "recover",
+            "impact": "Informational",
+            "line": 1998,
+            "line_end": 2019,
+            "message": "ECDSAUpgradeable.recover(bytes32,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1998-2019) uses assembly\n\t- INLINE ASM (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2012-2016)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 551,
+            "line_end": 554,
+            "message": "ContextUpgradeable._msgData() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#551-554) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 106,
+            "line_end": 108,
+            "message": "AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#106-108) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 491,
+            "line_end": 493,
+            "message": "EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.UintSet,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#491-493) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 1161,
+            "line_end": 1164,
+            "message": "SafeMathUpgradeable.trySub(uint256,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1161-1164) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 2769,
+            "line_end": 2771,
+            "message": "ERC777GSNUpgreadable._msgData() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2769-2771) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_approveRelayedCall",
+            "impact": "Informational",
+            "line": 2581,
+            "line_end": 2583,
+            "message": "GSNRecipientUpgradeable._approveRelayedCall() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2581-2583) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 149,
+            "line_end": 166,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#149-166) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 1316,
+            "line_end": 1319,
+            "message": "SafeMathUpgradeable.div(uint256,uint256,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1316-1319) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 81,
+            "line_end": 83,
+            "message": "AddressUpgradeable.functionCall(address,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#81-83) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 2520,
+            "line_end": 2526,
+            "message": "GSNRecipientUpgradeable._msgData() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2520-2526) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 91,
+            "line_end": 93,
+            "message": "AddressUpgradeable.functionCall(address,bytes,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#91-93) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 55,
+            "line_end": 61,
+            "message": "AddressUpgradeable.sendValue(address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#55-61) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 1171,
+            "line_end": 1179,
+            "message": "SafeMathUpgradeable.tryMul(uint256,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1171-1179) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 382,
+            "line_end": 384,
+            "message": "EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#382-384) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 131,
+            "line_end": 133,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#131-133) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 1336,
+            "line_end": 1339,
+            "message": "SafeMathUpgradeable.mod(uint256,uint256,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1336-1339) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 389,
+            "line_end": 391,
+            "message": "EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#389-391) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_setRoleAdmin",
+            "impact": "Informational",
+            "line": 766,
+            "line_end": 769,
+            "message": "AccessControlUpgradeable._setRoleAdmin(bytes32,bytes32) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#766-769) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 481,
+            "line_end": 483,
+            "message": "EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.UintSet,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#481-483) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_withdrawDeposits",
+            "impact": "Informational",
+            "line": 2491,
+            "line_end": 2493,
+            "message": "GSNRecipientUpgradeable._withdrawDeposits(uint256,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2491-2493) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 505,
+            "line_end": 507,
+            "message": "EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.UintSet) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#505-507) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_getRelayedCallData",
+            "impact": "Informational",
+            "line": 2633,
+            "line_end": 2645,
+            "message": "GSNRecipientUpgradeable._getRelayedCallData() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2633-2645) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 372,
+            "line_end": 374,
+            "message": "EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#372-374) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 3018,
+            "line_end": 3020,
+            "message": "PToken._msgData() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3018-3020) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 519,
+            "line_end": 521,
+            "message": "EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.UintSet,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#519-521) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 1150,
+            "line_end": 1154,
+            "message": "SafeMathUpgradeable.tryAdd(uint256,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1150-1154) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_msgSender",
+            "impact": "Informational",
+            "line": 2765,
+            "line_end": 2767,
+            "message": "ERC777GSNUpgreadable._msgSender() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2765-2767) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 396,
+            "line_end": 398,
+            "message": "EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.Bytes32Set) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#396-398) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 410,
+            "line_end": 412,
+            "message": "EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.Bytes32Set,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#410-412) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 141,
+            "line_end": 147,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#141-147) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 1186,
+            "line_end": 1189,
+            "message": "SafeMathUpgradeable.tryDiv(uint256,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1186-1189) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 1278,
+            "line_end": 1281,
+            "message": "SafeMathUpgradeable.mod(uint256,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1278-1281) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_upgradeRelayHub",
+            "impact": "Informational",
+            "line": 2465,
+            "line_end": 2473,
+            "message": "GSNRecipientUpgradeable._upgradeRelayHub(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2465-2473) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 1196,
+            "line_end": 1199,
+            "message": "SafeMathUpgradeable.tryMod(uint256,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1196-1199) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 498,
+            "line_end": 500,
+            "message": "EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.UintSet,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#498-500) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 541,
+            "line_end": 543,
+            "message": "ContextUpgradeable.__Context_init() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#541-543) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "_msgSender",
+            "impact": "Informational",
+            "line": 547,
+            "line_end": 549,
+            "message": "ContextUpgradeable._msgSender() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#547-549) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 116,
+            "line_end": 123,
+            "message": "AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#116-123) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1129,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1129) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1345,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1345) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 561,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#561) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1014,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1014) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 5,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#5) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 228,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#228) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2727,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2727) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 978,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#978) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 527,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#527) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 788,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#788) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 173,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#173) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1458,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1458) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2652,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2652) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1975,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1975) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2411,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2411) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2899,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2899) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2063,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2063) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1050,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1050) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2848,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2848) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2141,
+            "message": "Pragma version^0.6.2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2141) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 55,
+            "line_end": 61,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#55-61):\n\t- (success) = recipient.call{value: amount}() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#59)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 141,
+            "line_end": 147,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#141-147):\n\t- (success,returndata) = target.staticcall(data) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#145)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 116,
+            "line_end": 123,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#116-123):\n\t- (success,returndata) = target.call{value: value}(data) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#121)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2646,
+            "message": "Variable GSNRecipientUpgradeable.__gap (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2646) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2749,
+            "message": "Parameter ERC777GSNUpgreadable.__ERC777GSNUpgreadable_init(address,address)._gsnFeeTarget (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2749) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2748,
+            "message": "Parameter ERC777GSNUpgreadable.__ERC777GSNUpgreadable_init(address,address)._gsnTrustedSigner (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2748) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__ERC777WithAdminOperatorUpgreadable_init",
+            "impact": "Informational",
+            "line": 2859,
+            "line_end": 2864,
+            "message": "Function ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2859-2864) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2779,
+            "message": "Parameter ERC777GSNUpgreadable.setFeeTarget(address)._gsnFeeTarget (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2779) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__AccessControl_init_unchained",
+            "impact": "Informational",
+            "line": 608,
+            "line_end": 609,
+            "message": "Function AccessControlUpgradeable.__AccessControl_init_unchained() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#608-609) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2774,
+            "message": "Parameter ERC777GSNUpgreadable.setTrustedSigner(address)._gsnTrustedSigner (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2774) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 555,
+            "message": "Variable ContextUpgradeable.__gap (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#555) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 3006,
+            "message": "Parameter PToken.revokeMinterRole(address)._account (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3006) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 782,
+            "message": "Variable AccessControlUpgradeable.__gap (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#782) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 3002,
+            "message": "Parameter PToken.grantMinterRole(address)._account (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3002) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 2675,
+            "line_end": 2678,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2675-2678) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2722,
+            "message": "Variable OwnableUpgradeable.__gap (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2722) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 3010,
+            "message": "Parameter PToken.hasMinterRole(address)._account (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3010) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 545,
+            "line_end": 546,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#545-546) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__ERC777GSNUpgreadable_init",
+            "impact": "Informational",
+            "line": 2747,
+            "line_end": 2763,
+            "message": "Function ERC777GSNUpgreadable.__ERC777GSNUpgreadable_init(address,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2747-2763) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2784,
+            "message": "Parameter ERC777GSNUpgreadable.setGSNExtraGas(uint256)._gsnExtraGas (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2784) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__GSNRecipient_init",
+            "impact": "Informational",
+            "line": 2429,
+            "line_end": 2432,
+            "message": "Function GSNRecipientUpgradeable.__GSNRecipient_init() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2429-2432) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__AccessControl_init",
+            "impact": "Informational",
+            "line": 603,
+            "line_end": 606,
+            "message": "Function AccessControlUpgradeable.__AccessControl_init() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#603-606) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1969,
+            "message": "Variable ERC777Upgradeable.__gap (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1969) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 2680,
+            "line_end": 2684,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2680-2684) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2860,
+            "message": "Parameter ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address)._adminOperator (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2860) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__ERC777_init_unchained",
+            "impact": "Informational",
+            "line": 1533,
+            "line_end": 1549,
+            "message": "Function ERC777Upgradeable.__ERC777_init_unchained(string,string,address[]) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1533-1549) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__ERC777_init",
+            "impact": "Informational",
+            "line": 1524,
+            "line_end": 1531,
+            "message": "Function ERC777Upgradeable.__ERC777_init(string,string,address[]) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1524-1531) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 541,
+            "line_end": 543,
+            "message": "Function ContextUpgradeable.__Context_init() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#541-543) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "__GSNRecipient_init_unchained",
+            "impact": "Informational",
+            "line": 2434,
+            "line_end": 2436,
+            "message": "Function GSNRecipientUpgradeable.__GSNRecipient_init_unchained() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2434-2436) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 552,
+            "message": "Redundant expression \"this (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#552)\" inContextUpgradeable (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#540-556)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "GSNRecipientUpgradeable",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2482,
+            "message": "Redundant expression \"this (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2482)\" inGSNRecipientUpgradeable (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2428-2647)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1512,
+            "message": "Variable ERC777Upgradeable._defaultOperators (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1512) is too similar to ERC777Upgradeable.__ERC777_init(string,string,address[]).defaultOperators_ (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1527)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1512,
+            "message": "Variable ERC777Upgradeable._defaultOperators (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1512) is too similar to ERC777Upgradeable.__ERC777_init_unchained(string,string,address[]).defaultOperators_ (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1536)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2860,
+            "message": "Variable ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address)._adminOperator (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2860) is too similar to ERC777WithAdminOperatorUpgreadable.setAdminOperator(address).adminOperator_ (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2888)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 2390,
+            "message": "Variable IRelayHubUpgradeable.penalizeRepeatedNonce(bytes,bytes,bytes,bytes).unsignedTx1 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2390) is too similar to IRelayHubUpgradeable.penalizeRepeatedNonce(bytes,bytes,bytes,bytes).unsignedTx2 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2390)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 2906,
+            "line_end": 3021,
+            "message": "PToken.slitherConstructorConstantVariables() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2906-3021) uses literals with too many digits:\n\t- _POST_RELAYED_CALL_MAX_GAS = 100000 (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2444)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "PToken",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "impact": "Informational",
+            "line": 1969,
+            "message": "ERC777Upgradeable.__gap (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1969) is never used in PToken (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2906-3021)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 1571,
+            "line_end": 1573,
+            "message": "decimals() should be declared external:\n\t- ERC777Upgradeable.decimals() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1571-1573)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 1745,
+            "line_end": 1759,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC777Upgradeable.transferFrom(address,address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1745-1759)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "postRelayedCall",
+            "impact": "Optimization",
+            "line": 2563,
+            "line_end": 2566,
+            "message": "postRelayedCall(bytes,bool,uint256,bytes32) should be declared external:\n\t- GSNRecipientUpgradeable.postRelayedCall(bytes,bool,uint256,bytes32) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2563-2566)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "send",
+            "impact": "Optimization",
+            "line": 1603,
+            "line_end": 1605,
+            "message": "send(address,uint256,bytes) should be declared external:\n\t- ERC777Upgradeable.send(address,uint256,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1603-1605)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "authorizeOperator",
+            "impact": "Optimization",
+            "line": 1650,
+            "line_end": 1660,
+            "message": "authorizeOperator(address) should be declared external:\n\t- ERC777Upgradeable.authorizeOperator(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1650-1660)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 2717,
+            "line_end": 2721,
+            "message": "transferOwnership(address) should be declared external:\n\t- OwnableUpgradeable.transferOwnership(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2717-2721)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 1594,
+            "line_end": 1596,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC777Upgradeable.balanceOf(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1594-1596)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 1730,
+            "line_end": 1734,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC777Upgradeable.approve(address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1730-1734)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "getRoleMember",
+            "impact": "Optimization",
+            "line": 676,
+            "line_end": 678,
+            "message": "getRoleMember(bytes32,uint256) should be declared external:\n\t- AccessControlUpgradeable.getRoleMember(bytes32,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#676-678)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "initialize",
+            "impact": "Optimization",
+            "line": 2922,
+            "line_end": 2935,
+            "message": "initialize(string,string,address) should be declared external:\n\t- PToken.initialize(string,string,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "granularity",
+            "impact": "Optimization",
+            "line": 1580,
+            "line_end": 1582,
+            "message": "granularity() should be declared external:\n\t- ERC777Upgradeable.granularity() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1580-1582)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 1554,
+            "line_end": 1556,
+            "message": "name() should be declared external:\n\t- ERC777Upgradeable.name() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1554-1556)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "operatorBurn",
+            "impact": "Optimization",
+            "line": 1709,
+            "line_end": 1712,
+            "message": "operatorBurn(address,uint256,bytes,bytes) should be declared external:\n\t- ERC777Upgradeable.operatorBurn(address,uint256,bytes,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1709-1712)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "relayHubVersion",
+            "impact": "Optimization",
+            "line": 2481,
+            "line_end": 2484,
+            "message": "relayHubVersion() should be declared external:\n\t- GSNRecipientUpgradeable.relayHubVersion() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2481-2484)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "defaultOperators",
+            "impact": "Optimization",
+            "line": 1680,
+            "line_end": 1682,
+            "message": "defaultOperators() should be declared external:\n\t- ERC777Upgradeable.defaultOperators() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1680-1682)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "revokeOperator",
+            "impact": "Optimization",
+            "line": 1665,
+            "line_end": 1675,
+            "message": "revokeOperator(address) should be declared external:\n\t- ERC777Upgradeable.revokeOperator(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1665-1675)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "setFeeTarget",
+            "impact": "Optimization",
+            "line": 2779,
+            "line_end": 2782,
+            "message": "setFeeTarget(address) should be declared external:\n\t- ERC777GSNUpgreadable.setFeeTarget(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2779-2782)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "acceptRelayedCall",
+            "impact": "Optimization",
+            "line": 2792,
+            "line_end": 2826,
+            "message": "acceptRelayedCall(address,address,bytes,uint256,uint256,uint256,uint256,bytes,uint256) should be declared external:\n\t- ERC777GSNUpgreadable.acceptRelayedCall(address,address,bytes,uint256,uint256,uint256,uint256,bytes,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2792-2826)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "setTrustedSigner",
+            "impact": "Optimization",
+            "line": 2774,
+            "line_end": 2777,
+            "message": "setTrustedSigner(address) should be declared external:\n\t- ERC777GSNUpgreadable.setTrustedSigner(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2774-2777)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "operatorSend",
+            "impact": "Optimization",
+            "line": 1689,
+            "line_end": 1702,
+            "message": "operatorSend(address,address,uint256,bytes,bytes) should be declared external:\n\t- ERC777Upgradeable.operatorSend(address,address,uint256,bytes,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1689-1702)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "getRoleAdmin",
+            "impact": "Optimization",
+            "line": 686,
+            "line_end": 688,
+            "message": "getRoleAdmin(bytes32) should be declared external:\n\t- AccessControlUpgradeable.getRoleAdmin(bytes32) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#686-688)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 1561,
+            "line_end": 1563,
+            "message": "symbol() should be declared external:\n\t- ERC777Upgradeable.symbol() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1561-1563)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "setGSNExtraGas",
+            "impact": "Optimization",
+            "line": 2784,
+            "line_end": 2786,
+            "message": "setGSNExtraGas(uint256) should be declared external:\n\t- ERC777GSNUpgreadable.setGSNExtraGas(uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2784-2786)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 1615,
+            "line_end": 1627,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC777Upgradeable.transfer(address,uint256) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1615-1627)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 1587,
+            "line_end": 1589,
+            "message": "totalSupply() should be declared external:\n\t- ERC777Upgradeable.totalSupply() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1587-1589)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 2708,
+            "line_end": 2711,
+            "message": "renounceOwnership() should be declared external:\n\t- OwnableUpgradeable.renounceOwnership() (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2708-2711)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 1721,
+            "line_end": 1723,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC777Upgradeable.allowance(address,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1721-1723)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "setAdminOperator",
+            "impact": "Optimization",
+            "line": 2888,
+            "line_end": 2892,
+            "message": "setAdminOperator(address) should be declared external:\n\t- ERC777WithAdminOperatorUpgreadable.setAdminOperator(address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2888-2892)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "getRoleMemberCount",
+            "impact": "Optimization",
+            "line": 660,
+            "line_end": 662,
+            "message": "getRoleMemberCount(bytes32) should be declared external:\n\t- AccessControlUpgradeable.getRoleMemberCount(bytes32) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#660-662)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "renounceRole",
+            "impact": "Optimization",
+            "line": 735,
+            "line_end": 739,
+            "message": "renounceRole(bytes32,address) should be declared external:\n\t- AccessControlUpgradeable.renounceRole(bytes32,address) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#735-739)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "burn",
+            "impact": "Optimization",
+            "line": 1634,
+            "line_end": 1636,
+            "message": "burn(uint256,bytes) should be declared external:\n\t- ERC777Upgradeable.burn(uint256,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1634-1636)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "preRelayedCall",
+            "impact": "Optimization",
+            "line": 2540,
+            "line_end": 2543,
+            "message": "preRelayedCall(bytes) should be declared external:\n\t- GSNRecipientUpgradeable.preRelayedCall(bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2540-2543)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd61372d1c3e0a0925467317425359fb2959fe186.sol",
+            "function": "adminTransfer",
+            "impact": "Optimization",
+            "line": 2871,
+            "line_end": 2883,
+            "message": "adminTransfer(address,address,uint256,bytes,bytes) should be declared external:\n\t- ERC777WithAdminOperatorUpgreadable.adminTransfer(address,address,uint256,bytes,bytes) (../..0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2871-2883)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

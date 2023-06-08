@@ -1,0 +1,112 @@
+[93m
+ERC1155._doSafeBatchTransferAcceptanceCheck(address,address,address,uint256[],uint256[],bytes).reason (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1820) is a local variable never initialized
+ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes).reason (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1797) is a local variable never initialized
+ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes).response (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1793) is a local variable never initialized
+ERC1155._doSafeBatchTransferAcceptanceCheck(address,address,address,uint256[],uint256[],bytes).response (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1815) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1784-1803) ignores return value by IERC1155Receiver(to).onERC1155Received(operator,from,id,amount,data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1793-1801)
+ERC1155._doSafeBatchTransferAcceptanceCheck(address,address,address,uint256[],uint256[],bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1805-1826) ignores return value by IERC1155Receiver(to).onERC1155BatchReceived(operator,from,ids,amounts,data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1814-1824)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+FNFTHandler.renderTokenURI(uint256,address).owner (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2181) shadows:
+	- Ownable.owner() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#252-254) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+FNFTHandler._beforeTokenTransfer(address,address,address,uint256[],uint256[],bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2148-2173) has external calls inside a loop: vault = addressesProvider.getTokenVault() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2160)
+FNFTHandler._beforeTokenTransfer(address,address,address,uint256[],uint256[],bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2148-2173) has external calls inside a loop: canTransfer = ! ITokenVault(vault).getNontransferable(ids[0]) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2161)
+FNFTHandler._beforeTokenTransfer(address,address,address,uint256[],uint256[],bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2148-2173) has external calls inside a loop: canTransfer = ! ITokenVault(vault).getNontransferable(ids[iterator]) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2167)
+ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1784-1803) has external calls inside a loop: IERC1155Receiver(to).onERC1155Received(operator,from,id,amount,data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1793-1801)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Variable 'ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes).response (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1793)' in ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1784-1803) potentially used before declaration: response != IERC1155Receiver(to).onERC1155Received.selector (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1794)
+Variable 'ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes).reason (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1797)' in ERC1155._doSafeTransferAcceptanceCheck(address,address,address,uint256,uint256,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1784-1803) potentially used before declaration: revert(string)(reason) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1798)
+Variable 'ERC1155._doSafeBatchTransferAcceptanceCheck(address,address,address,uint256[],uint256[],bytes).response (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1815)' in ERC1155._doSafeBatchTransferAcceptanceCheck(address,address,address,uint256[],uint256[],bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1805-1826) potentially used before declaration: response != IERC1155Receiver(to).onERC1155BatchReceived.selector (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1817)
+Variable 'ERC1155._doSafeBatchTransferAcceptanceCheck(address,address,address,uint256[],uint256[],bytes).reason (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1820)' in ERC1155._doSafeBatchTransferAcceptanceCheck(address,address,address,uint256[],uint256[],bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1805-1826) potentially used before declaration: revert(string)(reason) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1821)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#pre-declaration-usage-of-local-variables[0m
+[92m
+Reentrancy in FNFTHandler.mint(address,uint256,uint256,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2102-2106):
+	External calls:
+	- _mint(account,id,amount,data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2104)
+		- IERC1155Receiver(to).onERC1155Received(operator,from,id,amount,data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1793-1801)
+	State variables written after the call(s):
+	- fnftsCreated += 1 (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2105)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Address.isContract(address) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1206-1216) uses assembly
+	- INLINE ASM (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1212-1214)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1369-1389) uses assembly
+	- INLINE ASM (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1381-1384)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+AccessControl._setRoleAdmin(bytes32,bytes32) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#894-897) is never used and should be removed
+Address._verifyCallResult(bool,bytes,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1369-1389) is never used and should be removed
+Address.functionCall(address,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1259-1261) is never used and should be removed
+Address.functionCall(address,bytes,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1269-1275) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1288-1294) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1302-1313) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1348-1350) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1358-1367) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1321-1323) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1331-1340) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1234-1239) is never used and should be removed
+Context._msgData() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#110-112) is never used and should be removed
+RevestAccessControl.getAdmin() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2043-2045) is never used and should be removed
+RevestAccessControl.getFNFTHandler() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2067-2069) is never used and should be removed
+RevestAccessControl.getLockManager() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2055-2057) is never used and should be removed
+RevestAccessControl.getRevest() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2047-2049) is never used and should be removed
+RevestAccessControl.getRevestToken() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2051-2053) is never used and should be removed
+RevestAccessControl.getRewardsHandler() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2071-2073) is never used and should be removed
+RevestAccessControl.getTokenVault() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2059-2061) is never used and should be removed
+RevestAccessControl.getUniswapV2() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2063-2065) is never used and should be removed
+Strings.toHexString(uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#366-377) is never used and should be removed
+Strings.toString(uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#341-361) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1234-1239):
+	- (success) = recipient.call{value: amount}() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1237)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1302-1313):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1311)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1331-1340):
+	- (success,returndata) = target.staticcall(data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1338)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1358-1367):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1365)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter IAddressRegistry.initialize(address,address,address,address,address,address,address,address,address).lock_manager_ (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#13) is not in mixedCase
+Parameter IAddressRegistry.initialize(address,address,address,address,address,address,address,address,address).revest_token_ (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#15) is not in mixedCase
+Parameter IAddressRegistry.initialize(address,address,address,address,address,address,address,address,address).token_vault_ (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#16) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#271-273)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#279-282)
+grantRole(bytes32,address) should be declared external:
+	- AccessControl.grantRole(bytes32,address) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#832-834)
+revokeRole(bytes32,address) should be declared external:
+	- AccessControl.revokeRole(bytes32,address) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#845-847)
+renounceRole(bytes32,address) should be declared external:
+	- AccessControl.renounceRole(bytes32,address) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#863-867)
+uri(uint256) should be declared external:
+	- ERC1155.uri(uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1441-1443)
+	- FNFTHandler.uri(uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2175-2177)
+balanceOfBatch(address[],uint256[]) should be declared external:
+	- ERC1155.balanceOfBatch(address[],uint256[]) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1464-1480)
+setApprovalForAll(address,bool) should be declared external:
+	- ERC1155.setApprovalForAll(address,bool) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1485-1490)
+safeTransferFrom(address,address,uint256,uint256,bytes) should be declared external:
+	- ERC1155.safeTransferFrom(address,address,uint256,uint256,bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1502-1514)
+safeBatchTransferFrom(address,address,uint256[],uint256[],bytes) should be declared external:
+	- ERC1155.safeBatchTransferFrom(address,address,uint256[],uint256[],bytes) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#1519-1531)
+getSupply(uint256) should be declared external:
+	- FNFTHandler.getSupply(uint256) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2137-2139)
+getNextId() should be declared external:
+	- FNFTHandler.getNextId() (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2141-2143)
+renderTokenURI(uint256,address) should be declared external:
+	- FNFTHandler.renderTokenURI(uint256,address) (../../sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol#2179-2187)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xe952bda8c06481506e4731c4f54ced2d4ab81659.sol analyzed (28 contracts with 78 detectors), 61 result(s) found

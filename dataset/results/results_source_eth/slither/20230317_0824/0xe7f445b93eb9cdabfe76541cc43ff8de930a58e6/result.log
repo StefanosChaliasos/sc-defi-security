@@ -1,0 +1,98 @@
+[91m
+ERC20.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#706) shadows:
+	- Initializable.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#61)
+ERC20Detailed.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#764) shadows:
+	- Initializable.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#61)
+ReentrancyGuard.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#807) shadows:
+	- Initializable.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#61)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variable-shadowing[0m
+[91m
+ForceProfitSharing.deposit(uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#829-847) ignores return value by force.transferFrom(msg.sender,address(this),amount) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#844)
+ForceProfitSharing.withdraw(uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#849-859) ignores return value by force.transfer(msg.sender,what) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#856)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+ForceProfitSharing.deposit(uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#829-847) uses a dangerous strict equality:
+	- totalShares == 0 || totalForce == 0 (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#835)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[92m
+ERC20Detailed.initialize(string,string,uint8).name (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#727) shadows:
+	- ERC20Detailed.name() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#736-738) (function)
+ERC20Detailed.initialize(string,string,uint8).symbol (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#727) shadows:
+	- ERC20Detailed.symbol() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#744-746) (function)
+ERC20Detailed.initialize(string,string,uint8).decimals (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#727) shadows:
+	- ERC20Detailed.decimals() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#760-762) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+Reentrancy in ForceProfitSharing.deposit(uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#829-847):
+	External calls:
+	- force.transferFrom(msg.sender,address(this),amount) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#844)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,amount) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#846)
+Reentrancy in ForceProfitSharing.withdraw(uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#849-859):
+	External calls:
+	- force.transfer(msg.sender,what) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#856)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,what) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#858)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Initializable.isConstructor() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#48-58) uses assembly
+	- INLINE ASM (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#56)
+Address.isContract(address) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#325-334) uses assembly
+	- INLINE ASM (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#332)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.isContract(address) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#325-334) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#364-370) is never used and should be removed
+Address.toPayable(address) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#342-344) is never used and should be removed
+Context._msgData() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#473-476) is never used and should be removed
+ERC20._burnFrom(address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#701-704) is never used and should be removed
+SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#422-441) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#395-404) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#411-414) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#406-409) is never used and should be removed
+SafeERC20.safeTransfer(IERC20,address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#387-389) is never used and should be removed
+SafeERC20.safeTransferFrom(IERC20,address,address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#391-393) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#273-275) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#290-293) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#364-370):
+	- (success) = recipient.call.value(amount)() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#368)
+Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#422-441):
+	- (success,returndata) = address(token).call(data) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#434)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable Initializable.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#61) is not in mixedCase
+Variable ERC20.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#706) is not in mixedCase
+Variable ERC20Detailed.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#764) is not in mixedCase
+Variable ReentrancyGuard.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#807) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#474)" inContext (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#463-477)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+ReentrancyGuard.______gap (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#807) is never used in ForceProfitSharing (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#811-860)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#525-527)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#537-540)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#545-547)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#556-559)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#573-577)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#591-594)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#610-613)
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#736-738)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#744-746)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol#760-762)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6.sol analyzed (10 contracts with 78 detectors), 44 result(s) found

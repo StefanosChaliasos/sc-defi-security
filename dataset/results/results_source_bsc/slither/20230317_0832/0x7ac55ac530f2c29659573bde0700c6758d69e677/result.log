@@ -1,0 +1,303 @@
+[91m
+DemaxPair._update(uint256,uint256,uint112,uint112) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#671-689) uses a weak PRNG: "blockTimestamp = uint32(block.timestamp % 2 ** 32) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#678)" 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#weak-PRNG[0m
+[93m
+DemaxPair._safeTransfer(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#623-630) uses a dangerous strict equality:
+	- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),DEMAX PAIR : TRANSFER_FAILED) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#629)
+BaseShareField._update() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#324-333) uses a dangerous strict equality:
+	- totalProductivity == 0 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#325)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in BaseShareField._mint(address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#399-408):
+	External calls:
+	- TransferHelper.safeTransfer(shareToken,msg.sender,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#404)
+	State variables written after the call(s):
+	- mintedShare += amount (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#406)
+	- users[user].rewardEarn = 0 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#405)
+Reentrancy in DemaxPair.burn(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#740)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#741)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)
+		- blockTimestampLast = blockTimestamp (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)
+		- reserve0 = uint112(balance0) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)
+		- reserve1 = uint112(balance1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)
+Reentrancy in DemaxPair.mint(address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#692-712):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#707)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)
+		- blockTimestampLast = blockTimestamp (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)
+		- reserve0 = uint112(balance0) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)
+		- reserve1 = uint112(balance1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)
+Reentrancy in DemaxPair.mintReward() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#800-805):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#801)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- userReward = _mint(msg.sender) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#802)
+		- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#36)
+		- TransferHelper.safeTransfer(shareToken,msg.sender,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#404)
+	State variables written after the call(s):
+	- remainReward = remainReward.sub(userReward) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#803)
+Reentrancy in DemaxPair.swap(uint256,uint256,address,bytes) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#750-778):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#765)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#766)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- IDemaxCallee(to).demaxCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#767)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)
+		- blockTimestampLast = blockTimestamp (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)
+		- reserve0 = uint112(balance0) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)
+		- reserve1 = uint112(balance1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)
+Reentrancy in DemaxPair.swapFee(uint256,address,address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#780-793):
+	External calls:
+	- _safeTransfer(token,to,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#788)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)
+		- blockTimestampLast = blockTimestamp (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#687)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)
+		- reserve0 = uint112(balance0) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#685)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)
+		- reserve1 = uint112(balance1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#686)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+DemaxPair.initialize(address,address,address,address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#656-668) should emit an event for: 
+	- CONFIG = _config (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#665) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+DemaxPair.initialize(address,address,address,address)._token0 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#657) lacks a zero-check on :
+		- token0 = _token0 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#663)
+DemaxPair.initialize(address,address,address,address)._token1 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#658) lacks a zero-check on :
+		- token1 = _token1 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#664)
+DemaxPair.initialize(address,address,address,address)._config (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#659) lacks a zero-check on :
+		- CONFIG = _config (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#665)
+DemaxPair.initialize(address,address,address,address)._dgas (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#660) lacks a zero-check on :
+		- DGAS = _dgas (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#666)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in DemaxPair._mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#593-601):
+	External calls:
+	- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+	- _safeTransfer(DGAS,devAddress,devAmount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#598)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- remainReward = remainReward.add(reward.sub(devAmount)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#599)
+Reentrancy in DemaxPair.burn(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- _decreaseProductivity(from,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)
+		- accAmountPerShare = accAmountPerShare.add(reward.mul(1e12).div(totalProductivity)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#331)
+	- _decreaseProductivity(from,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)
+		- mintCumulation = mintCumulation.add(pending) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#345)
+	- _decreaseProductivity(from,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)
+		- totalProductivity = totalProductivity.sub(value) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#380)
+	- _decreaseProductivity(from,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)
+		- totalShare = totalShare.add(_currentReward()) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#326)
+		- totalShare = totalShare.add(reward) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#332)
+	- _decreaseProductivity(from,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#738)
+		- userInfo.rewardEarn = userInfo.rewardEarn.add(pending) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#344)
+		- userInfo.amount = userInfo.amount.sub(value) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#378)
+		- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#346)
+		- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#379)
+Reentrancy in DemaxPair.burn(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#740)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#741)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)
+Reentrancy in DemaxPair.mint(address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#692-712):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#707)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- _increaseProductivity(to,liquidity) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)
+		- accAmountPerShare = accAmountPerShare.add(reward.mul(1e12).div(totalProductivity)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#331)
+	- lastMintBlock[to] = block.number (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#709)
+	- _increaseProductivity(to,liquidity) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)
+		- mintCumulation = mintCumulation.add(pending) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#345)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)
+	- _increaseProductivity(to,liquidity) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)
+		- totalProductivity = totalProductivity.add(value) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#361)
+	- _increaseProductivity(to,liquidity) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)
+		- totalShare = totalShare.add(_currentReward()) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#326)
+		- totalShare = totalShare.add(reward) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#332)
+	- _increaseProductivity(to,liquidity) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#708)
+		- userInfo.rewardEarn = userInfo.rewardEarn.add(pending) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#344)
+		- userInfo.amount = userInfo.amount.add(value) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#363)
+		- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#346)
+		- userInfo.rewardDebt = userInfo.amount.mul(accAmountPerShare).div(1e12) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#364)
+Reentrancy in DemaxPair.swap(uint256,uint256,address,bytes) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#750-778):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#765)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#766)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- IDemaxCallee(to).demaxCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#767)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)
+Reentrancy in DemaxPair.swapFee(uint256,address,address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#780-793):
+	External calls:
+	- _safeTransfer(token,to,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#788)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#682)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#683)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in DemaxPair.burn(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#715-747):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#737)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#740)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#741)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	Event emitted after the call(s):
+	- Burn(msg.sender,amount0,amount1,to) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#746)
+	- Sync(reserve0,reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#744)
+Reentrancy in DemaxPair.mint(address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#692-712):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#707)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	Event emitted after the call(s):
+	- Mint(msg.sender,amount0,amount1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#711)
+	- Sync(reserve0,reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#710)
+Reentrancy in DemaxPair.mintReward() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#800-805):
+	External calls:
+	- _mintDGAS() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#801)
+		- reward = IDgas(DGAS).mint() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#595)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- userReward = _mint(msg.sender) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#802)
+		- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#36)
+		- TransferHelper.safeTransfer(shareToken,msg.sender,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#404)
+	Event emitted after the call(s):
+	- MintDGAS(msg.sender,remainReward,userReward) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#804)
+Reentrancy in DemaxPair.swap(uint256,uint256,address,bytes) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#750-778):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#765)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#766)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	- IDemaxCallee(to).demaxCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#767)
+	Event emitted after the call(s):
+	- Swap(msg.sender,amount0In,amount1In,_amount0Out,_amount1Out,to) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#777)
+	- Sync(reserve0,reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#776)
+Reentrancy in DemaxPair.swapFee(uint256,address,address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#780-793):
+	External calls:
+	- _safeTransfer(token,to,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#788)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+	Event emitted after the call(s):
+	- SwapFee(token,to,amount) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#792)
+	- Sync(reserve0,reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#688)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#791)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+DemaxPair._update(uint256,uint256,uint112,uint112) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#671-689) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#680)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+BaseShareField._currentReward() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#335-337) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#191-193) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#207-210) is never used and should be removed
+TransferHelper.safeApprove(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#28-32) is never used and should be removed
+TransferHelper.safeTransferETH(address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#46-49) is never used and should be removed
+TransferHelper.safeTransferFrom(address,address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#40-44) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#3) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#24) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#55) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#215) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#273) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#294) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#423) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#441) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#449) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#466) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#485) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#508) allows old versions
+Pragma version^0.6.6 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#532) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in TransferHelper.safeApprove(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#28-32):
+	- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#30)
+Low level call in TransferHelper.safeTransfer(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#34-38):
+	- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#36)
+Low level call in TransferHelper.safeTransferFrom(address,address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#40-44):
+	- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#42)
+Low level call in TransferHelper.safeTransferETH(address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#46-49):
+	- (success) = to.call{value: value}(new bytes(0)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#47)
+Low level call in DemaxPair._safeTransfer(address,address,uint256) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#623-630):
+	- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#628)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IDemaxConfig.PERCENT_DENOMINATOR() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#428) is not in mixedCase
+Parameter DemaxPair.initialize(address,address,address,address)._token0 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#657) is not in mixedCase
+Parameter DemaxPair.initialize(address,address,address,address)._token1 (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#658) is not in mixedCase
+Parameter DemaxPair.initialize(address,address,address,address)._config (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#659) is not in mixedCase
+Parameter DemaxPair.initialize(address,address,address,address)._dgas (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#660) is not in mixedCase
+Variable DemaxPair.FACTORY (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#551) is not in mixedCase
+Variable DemaxPair.CONFIG (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#552) is not in mixedCase
+Variable DemaxPair.DGAS (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#553) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable DemaxPair.swap(uint256,uint256,address,bytes)._amount0Out (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#773) is too similar to DemaxPair.swap(uint256,uint256,address,bytes)._amount1Out (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#774)
+Variable DemaxPair.price0CumulativeLast (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#561) is too similar to DemaxPair.price1CumulativeLast (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#562)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+DemaxPair.totalReward (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#564) should be constant
+DemaxPair.version (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#544) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+getProductivity(address) should be declared external:
+	- BaseShareField.getProductivity(address) (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#411-413)
+interestsPerBlock() should be declared external:
+	- BaseShareField.interestsPerBlock() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#416-418)
+getDGASReserve() should be declared external:
+	- DemaxPair.getDGASReserve() (../../sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol#807-809)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x7ac55ac530f2c29659573bde0700c6758d69e677.sol analyzed (13 contracts with 78 detectors), 65 result(s) found

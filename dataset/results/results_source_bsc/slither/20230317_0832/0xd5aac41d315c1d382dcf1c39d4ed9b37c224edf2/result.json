@@ -1,0 +1,1565 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_45"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "pendingTokenRewardsAmount",
+            "impact": "Medium",
+            "line": 1089,
+            "line_end": 1114,
+            "message": "UraniumMoneyPot.pendingTokenRewardsAmount(address,address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089-1114) performs a multiplication on the result of a division:\n\t-tokenReward = _distributedMoneyPot[_token].tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1096)\n\t-accTokenPerShare = accTokenPerShare.add(tokenReward.mul(getMultiplier(lastRewardBlock,block.number)).mul(1e12).div(lastSRadsSupply)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1108-1110)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_swapRadsAmount",
+            "impact": "Medium",
+            "line": 1365,
+            "line_end": 1384,
+            "message": "SRadsToken._swapRadsAmount(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1365-1384) performs a multiplication on the result of a division:\n\t-swapPenaltyPerSRads = SWAP_PENALTY_MAX_PER_SRADS.sub((_sRadsAtMinPenalty.div(holderInfo.amount)).mul(SWAP_PENALTY_MAX_PER_SRADS)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1378-1380)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "pendingRads",
+            "impact": "Medium",
+            "line": 2202,
+            "line_end": 2213,
+            "message": "MasterUranium.pendingRads(uint256,address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2202-2213) performs a multiplication on the result of a division:\n\t-radsReward = multiplier.mul(radsPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2209)\n\t-accRadsPerShare = accRadsPerShare.add(radsReward.mul(1e12).div(lpSupply)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2210)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 2254,
+            "line_end": 2277,
+            "message": "MasterUranium.updatePool(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) performs a multiplication on the result of a division:\n\t-radsReward = multiplier.mul(radsPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2266)\n\t-pool.accRadsPerShare = pool.accRadsPerShare.add(radsReward.mul(1e12).div(lpSupply)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2275)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "pendingTokenRewardsAmount",
+            "impact": "Medium",
+            "line": 1089,
+            "line_end": 1114,
+            "message": "UraniumMoneyPot.pendingTokenRewardsAmount(address,address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089-1114) performs a multiplication on the result of a division:\n\t-tokenReward = _distributedMoneyPot[_token].tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1096)\n\t-accTokenPerShare = (accTokenPerShare.add(tokenReward.mul(getMultiplier(lastRewardBlock,lastUpdateTokenPotBlocks.add(updateMoneyPotPeriodNbBlocks))).mul(1e12).div(lastSRadsSupply))) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1100-1102)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "getSRadsAtMinPenalty",
+            "impact": "Medium",
+            "line": 1355,
+            "line_end": 1362,
+            "message": "SRadsToken.getSRadsAtMinPenalty(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1355-1362) performs a multiplication on the result of a division:\n\t-(((block.number.sub(holderInfo.avgTransactionBlock)).mul(1000).div(SWAP_PENALTY_MAX_PERIOD)).mul(holderInfo.amount.sub(holderInfo.amountSwapped))).div(1000) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1360-1361)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_updateTokenPot",
+            "impact": "Medium",
+            "line": 1045,
+            "line_end": 1087,
+            "message": "UraniumMoneyPot._updateTokenPot(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) performs a multiplication on the result of a division:\n\t-tokenRewardsPerBlock_scope_1 = tokenPot.tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1078)\n\t-tokenPot.accTokenPerShare = tokenPot.accTokenPerShare.add(tokenRewardsPerBlock_scope_1.mul(multiplier_scope_0).mul(1e12).div(lastSRadsSupply)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1079)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_updateTokenPot",
+            "impact": "Medium",
+            "line": 1045,
+            "line_end": 1087,
+            "message": "UraniumMoneyPot._updateTokenPot(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) performs a multiplication on the result of a division:\n\t-tokenRewardsPerBlock = tokenPot.tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1059)\n\t-tokenPot.accTokenPerShare = tokenPot.accTokenPerShare.add(tokenRewardsPerBlock.mul(multiplier).mul(1e12).div(lastSRadsSupply)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1060)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "pendingTokenRewardsAmount",
+            "impact": "Medium",
+            "line": 1089,
+            "line_end": 1114,
+            "message": "UraniumMoneyPot.pendingTokenRewardsAmount(address,address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089-1114) uses a dangerous strict equality:\n\t- lastSRadsSupply == 0 (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1091)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_writeCheckpoint",
+            "impact": "Medium",
+            "line": 1943,
+            "line_end": 1961,
+            "message": "RadsToken._writeCheckpoint(address,uint32,uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1943-1961) uses a dangerous strict equality:\n\t- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1953)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_updateTokenPot",
+            "impact": "Medium",
+            "line": 1045,
+            "line_end": 1087,
+            "message": "UraniumMoneyPot._updateTokenPot(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) uses a dangerous strict equality:\n\t- lastSRadsSupply == 0 (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1051)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_writeCheckpoint",
+            "impact": "Medium",
+            "line": 1648,
+            "line_end": 1666,
+            "message": "SRadsToken._writeCheckpoint(address,uint32,uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1648-1666) uses a dangerous strict equality:\n\t- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1658)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 2301,
+            "line_end": 2339,
+            "message": "Reentrancy in MasterUranium.deposit(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301-2339):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2305)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\t- safeSRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2310)\n\t\t- transferSuccess = sRads.transfer(_to,sRadsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)\n\t\t- transferSuccess = sRads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)\n\t- safeRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2313)\n\t\t- transferSuccess = rads.transfer(_to,radsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)\n\t\t- transferSuccess = rads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)\n\t- pool.lpToken.safeTransferFrom(address(_user),address(this),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2318)\n\t- pool.lpToken.safeTransfer(feeAddress,depositFee) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2325)\n\tState variables written after the call(s):\n\t- pool.lpSupply = pool.lpSupply.add(_bonusAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2329)\n\t- user.amount = user.amount.add(_amount).sub(depositFee) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2326)\n\t- user.amountWithBonus = user.amountWithBonus.add(_bonusAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2328)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "harvestReward",
+            "impact": "Medium",
+            "line": 1151,
+            "line_end": 1171,
+            "message": "Reentrancy in UraniumMoneyPot.harvestReward(address,address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1151-1171):\n\tExternal calls:\n\t- safeTokenTransfer(_token,_sRadsHolder,sRadsHoldersRewardsInfo[_token][_sRadsHolder].pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1167)\n\t\t- transferSuccess = token.transfer(_to,tokenBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1250)\n\t\t- transferSuccess = token.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1252)\n\tState variables written after the call(s):\n\t- sRadsHoldersRewardsInfo[_token][_sRadsHolder].pending = 0 (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1168)\n\t- sRadsHoldersRewardsInfo[_token][_sRadsHolder].rewardDept = holderBalance.mul(tokenPot.accTokenPerShare).div(1e12) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1170)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "depositRewards",
+            "impact": "Medium",
+            "line": 1176,
+            "line_end": 1188,
+            "message": "Reentrancy in UraniumMoneyPot.depositRewards(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176-1188):\n\tExternal calls:\n\t- IBEP20(_token).safeTransferFrom(msg.sender,address(this),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1180)\n\tState variables written after the call(s):\n\t- pendingTokenAmount[_token] = pendingTokenAmount[_token].add(_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1186)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 2254,
+            "line_end": 2277,
+            "message": "Reentrancy in MasterUranium.updatePool(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277):\n\tExternal calls:\n\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\tState variables written after the call(s):\n\t- pool.accRadsPerShare = pool.accRadsPerShare.add(radsReward.mul(1e12).div(lpSupply)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2275)\n\t- pool.lastRewardBlock = block.number (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2276)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 2342,
+            "line_end": 2366,
+            "message": "Reentrancy in MasterUranium.withdraw(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342-2366):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2347)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\t- safeSRadsTransfer(msg.sender,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2351)\n\t\t- transferSuccess = sRads.transfer(_to,sRadsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)\n\t\t- transferSuccess = sRads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)\n\t- safeRadsTransfer(msg.sender,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2354)\n\t\t- transferSuccess = rads.transfer(_to,radsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)\n\t\t- transferSuccess = rads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.sub(_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2358)\n\t- user.amountWithBonus = user.amountWithBonus.sub(_bonusAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2360)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updateUserBonus",
+            "impact": "Medium",
+            "line": 2279,
+            "line_end": 2298,
+            "message": "Reentrancy in MasterUranium.updateUserBonus(address,uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2279-2298):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2282)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\t- safeSRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2287)\n\t\t- transferSuccess = sRads.transfer(_to,sRadsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)\n\t\t- transferSuccess = sRads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)\n\t- safeRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2290)\n\t\t- transferSuccess = rads.transfer(_to,radsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)\n\t\t- transferSuccess = rads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)\n\tState variables written after the call(s):\n\t- pool.lpSupply = pool.lpSupply.sub(user.amountWithBonus) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2294)\n\t- pool.lpSupply = pool.lpSupply.add(user.amountWithBonus) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2296)\n\t- user.amountWithBonus = user.amount.mul(bonus.add(10000)).div(10000) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2295)\n\t- user.rewardDebt = user.amountWithBonus.mul(pool.accRadsPerShare).div(1e12) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2297)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "add",
+            "impact": "Medium",
+            "line": 2167,
+            "line_end": 2185,
+            "message": "Reentrancy in MasterUranium.add(uint256,IBEP20,uint16,bool,bool) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167-2185):\n\tExternal calls:\n\t- massUpdatePools() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2170)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\tState variables written after the call(s):\n\t- poolInfo.push(PoolInfo(_lpToken,0,_allocPoint,lastRewardBlock,0,_depositFeeBP,_isSRadsRewards)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2176-2184)\n\t- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2175)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Medium",
+            "line": 2369,
+            "line_end": 2376,
+            "message": "Reentrancy in MasterUranium.emergencyWithdraw(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2369-2376):\n\tExternal calls:\n\t- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2372)\n\tState variables written after the call(s):\n\t- user.amount = 0 (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2374)\n\t- user.rewardDebt = 0 (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2375)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 2301,
+            "line_end": 2339,
+            "message": "Reentrancy in MasterUranium.deposit(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301-2339):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2305)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\t- safeSRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2310)\n\t\t- transferSuccess = sRads.transfer(_to,sRadsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)\n\t\t- transferSuccess = sRads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)\n\t- safeRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2313)\n\t\t- transferSuccess = rads.transfer(_to,radsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)\n\t\t- transferSuccess = rads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)\n\t- pool.lpToken.safeTransferFrom(address(_user),address(this),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2318)\n\tState variables written after the call(s):\n\t- pool.lpSupply = pool.lpSupply.add(_bonusAmount_scope_0) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2334)\n\t- user.amount = user.amount.add(_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2331)\n\t- user.amountWithBonus = user.amountWithBonus.add(_bonusAmount_scope_0) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2333)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "set",
+            "impact": "Medium",
+            "line": 2188,
+            "line_end": 2199,
+            "message": "Reentrancy in MasterUranium.set(uint256,uint256,uint16,bool,bool) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188-2199):\n\tExternal calls:\n\t- massUpdatePools() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2190)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\tState variables written after the call(s):\n\t- poolInfo[_pid].allocPoint = _allocPoint (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2193)\n\t- poolInfo[_pid].depositFeeBP = _depositFeeBP (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2194)\n\t- poolInfo[_pid].isSRadsRewards = _isSRadsRewards (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2195)\n\t- totalAllocPoint = totalAllocPoint.sub(prevAllocPoint).add(_allocPoint) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2197)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 2342,
+            "line_end": 2366,
+            "message": "Reentrancy in MasterUranium.withdraw(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342-2366):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2347)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\t- safeSRadsTransfer(msg.sender,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2351)\n\t\t- transferSuccess = sRads.transfer(_to,sRadsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)\n\t\t- transferSuccess = sRads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)\n\t- safeRadsTransfer(msg.sender,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2354)\n\t\t- transferSuccess = rads.transfer(_to,radsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)\n\t\t- transferSuccess = rads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)\n\t- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2361)\n\tState variables written after the call(s):\n\t- pool.lpSupply = pool.lpSupply.sub(_bonusAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2362)\n\t- user.rewardDebt = user.amountWithBonus.mul(pool.accRadsPerShare).div(1e12) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2364)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 768,
+            "message": "UraniumBEP20.allowance(address,address).owner (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#768) shadows:\n\t- Ownable.owner() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#622-624) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 697,
+            "message": "UraniumBEP20.constructor(string,string).symbol (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#697) shadows:\n\t- UraniumBEP20.symbol() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#727-729) (function)\n\t- IBEP20.symbol() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#211) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 928,
+            "message": "UraniumBEP20._approve(address,address,uint256).owner (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#928) shadows:\n\t- Ownable.owner() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#622-624) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 697,
+            "message": "UraniumBEP20.constructor(string,string).name (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#697) shadows:\n\t- UraniumBEP20.name() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#713-715) (function)\n\t- IBEP20.name() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#216) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "set",
+            "impact": "Low",
+            "line": 2188,
+            "line_end": 2199,
+            "message": "MasterUranium.set(uint256,uint256,uint16,bool,bool) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188-2199) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.sub(prevAllocPoint).add(_allocPoint) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2197) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "setUpdateMoneyPotPeriodNbBlocks",
+            "impact": "Low",
+            "line": 1233,
+            "line_end": 1235,
+            "message": "UraniumMoneyPot.setUpdateMoneyPotPeriodNbBlocks(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1233-1235) should emit an event for: \n\t- updateMoneyPotPeriodNbBlocks = _updateRewardsDelay.div(3 * 1) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1234) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 2167,
+            "line_end": 2185,
+            "message": "MasterUranium.add(uint256,IBEP20,uint16,bool,bool) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167-2185) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2175) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Low",
+            "line": 2416,
+            "message": "MasterUranium.dev(address)._devaddr (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2416) lacks a zero-check on :\n\t\t- devaddr = _devaddr (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2418)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Low",
+            "line": 2421,
+            "message": "MasterUranium.setFeeAddress(address)._feeAddress (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2421) lacks a zero-check on :\n\t\t- feeAddress = _feeAddress (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2422)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Low",
+            "line": 2115,
+            "message": "MasterUranium.constructor(RadsToken,SRadsToken,UraniumBonusAggregator,address,address,uint256,uint256)._devaddr (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2115) lacks a zero-check on :\n\t\t- devaddr = _devaddr (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2123)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Low",
+            "line": 1001,
+            "message": "UraniumMoneyPot.constructor(SRadsToken,address,address,uint256,uint256)._feeManager (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1001) lacks a zero-check on :\n\t\t- feeManager = _feeManager (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1007)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Low",
+            "line": 2116,
+            "message": "MasterUranium.constructor(RadsToken,SRadsToken,UraniumBonusAggregator,address,address,uint256,uint256)._feeAddress (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2116) lacks a zero-check on :\n\t\t- feeAddress = _feeAddress (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2124)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Low",
+            "line": 1001,
+            "message": "UraniumMoneyPot.constructor(SRadsToken,address,address,uint256,uint256)._masterUranium (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1001) lacks a zero-check on :\n\t\t- masterUranium = _masterUranium (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1006)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "safeTokenTransfer",
+            "impact": "Low",
+            "line": 1245,
+            "line_end": 1255,
+            "message": "UraniumMoneyPot.safeTokenTransfer(address,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245-1255) has external calls inside a loop: tokenBal = token.balanceOf(address(this)) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1247)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "safeTokenTransfer",
+            "impact": "Low",
+            "line": 1245,
+            "line_end": 1255,
+            "message": "UraniumMoneyPot.safeTokenTransfer(address,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245-1255) has external calls inside a loop: transferSuccess = token.transfer(_to,tokenBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1250)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "safeTokenTransfer",
+            "impact": "Low",
+            "line": 1245,
+            "line_end": 1255,
+            "message": "UraniumMoneyPot.safeTokenTransfer(address,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245-1255) has external calls inside a loop: transferSuccess = token.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1252)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 2254,
+            "line_end": 2277,
+            "message": "MasterUranium.updatePool(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) has external calls inside a loop: sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 2254,
+            "line_end": 2277,
+            "message": "MasterUranium.updatePool(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) has external calls inside a loop: rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 2254,
+            "line_end": 2277,
+            "message": "MasterUranium.updatePool(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) has external calls inside a loop: rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "depositRewards",
+            "impact": "Low",
+            "line": 1176,
+            "line_end": 1188,
+            "message": "Reentrancy in UraniumMoneyPot.depositRewards(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176-1188):\n\tExternal calls:\n\t- IBEP20(_token).safeTransferFrom(msg.sender,address(this),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1180)\n\tState variables written after the call(s):\n\t- reserveTokenAmount[_token] = reserveTokenAmount[_token].add(_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1183)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 2167,
+            "line_end": 2185,
+            "message": "Reentrancy in MasterUranium.add(uint256,IBEP20,uint16,bool,bool) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167-2185):\n\tExternal calls:\n\t- massUpdatePools() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2170)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\tState variables written after the call(s):\n\t- knownPoolLp[address(_lpToken)] = true (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2173)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "depositBonusRewards",
+            "impact": "Low",
+            "line": 1193,
+            "line_end": 1196,
+            "message": "Reentrancy in UraniumMoneyPot.depositBonusRewards(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1193-1196):\n\tExternal calls:\n\t- IBEP20(_token).safeTransferFrom(msg.sender,address(this),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1194)\n\tState variables written after the call(s):\n\t- reserveTokenAmount[_token] = reserveTokenAmount[_token].add(_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1195)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 2342,
+            "line_end": 2366,
+            "message": "Reentrancy in MasterUranium.withdraw(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342-2366):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2347)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\t- safeSRadsTransfer(msg.sender,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2351)\n\t\t- transferSuccess = sRads.transfer(_to,sRadsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)\n\t\t- transferSuccess = sRads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)\n\t- safeRadsTransfer(msg.sender,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2354)\n\t\t- transferSuccess = rads.transfer(_to,radsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)\n\t\t- transferSuccess = rads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)\n\t- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2361)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_pid,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2365)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 2301,
+            "line_end": 2339,
+            "message": "Reentrancy in MasterUranium.deposit(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301-2339):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2305)\n\t\t- rads.mint(devaddr,devMintAmount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)\n\t\t- sRads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)\n\t\t- rads.mint(address(this),radsReward) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)\n\t- safeSRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2310)\n\t\t- transferSuccess = sRads.transfer(_to,sRadsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)\n\t\t- transferSuccess = sRads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)\n\t- safeRadsTransfer(_user,pending) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2313)\n\t\t- transferSuccess = rads.transfer(_to,radsBal) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)\n\t\t- transferSuccess = rads.transfer(_to,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)\n\t- pool.lpToken.safeTransferFrom(address(_user),address(this),_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2318)\n\t- pool.lpToken.safeTransfer(feeAddress,depositFee) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2325)\n\tEvent emitted after the call(s):\n\t- Deposit(_user,_pid,_amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2338)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 1421,
+            "line_end": 1443,
+            "message": "Reentrancy in SRadsToken._transfer(address,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1421-1443):\n\tExternal calls:\n\t- moneyPot.updateSRadsHolder(_sender) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1427)\n\tEvent emitted after the call(s):\n\t- Transfer(_sender,_recipient,0) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1429)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Low",
+            "line": 2369,
+            "line_end": 2376,
+            "message": "Reentrancy in MasterUranium.emergencyWithdraw(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2369-2376):\n\tExternal calls:\n\t- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2372)\n\tEvent emitted after the call(s):\n\t- EmergencyWithdraw(msg.sender,_pid,user.amount) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2373)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "delegateBySig",
+            "impact": "Low",
+            "line": 1512,
+            "line_end": 1553,
+            "message": "SRadsToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1512-1553) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now <= expiry,RADS::delegateBySig: signature expired) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1551)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "delegateBySig",
+            "impact": "Low",
+            "line": 1809,
+            "line_end": 1850,
+            "message": "RadsToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1809-1850) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now <= expiry,RADS::delegateBySig: signature expired) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1848)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "getChainId",
+            "impact": "Informational",
+            "line": 1673,
+            "line_end": 1677,
+            "message": "SRadsToken.getChainId() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1673-1677) uses assembly\n\t- INLINE ASM (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1675)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "getChainId",
+            "impact": "Informational",
+            "line": 1968,
+            "line_end": 1972,
+            "message": "RadsToken.getChainId() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1968-1972) uses assembly\n\t- INLINE ASM (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1970)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 426,
+            "line_end": 452,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#426-452) uses assembly\n\t- INLINE ASM (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#444-447)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 318,
+            "line_end": 329,
+            "message": "Address.isContract(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#318-329) uses assembly\n\t- INLINE ASM (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#325-327)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updateEmissionRate",
+            "impact": "Informational",
+            "line": 2216,
+            "line_end": 2243,
+            "message": "MasterUranium.updateEmissionRate() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2216-2243) has costly operations inside a loop:\n\t- lastReductionPeriodIndex = currentIndex (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2239)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_updateTokenPot",
+            "impact": "Informational",
+            "line": 1045,
+            "line_end": 1087,
+            "message": "UraniumMoneyPot._updateTokenPot(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) has costly operations inside a loop:\n\t- lastUpdateMoneyPotBlocks = tokenPot.lastUpdateTokenPotBlocks.add(updateMoneyPotPeriodNbBlocks) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1085)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "updateEmissionRate",
+            "impact": "Informational",
+            "line": 2216,
+            "line_end": 2243,
+            "message": "MasterUranium.updateEmissionRate() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2216-2243) has costly operations inside a loop:\n\t- radsPerBlock = newEmissionRate (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2241)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_updateTokenPot",
+            "impact": "Informational",
+            "line": 1045,
+            "line_end": 1087,
+            "message": "UraniumMoneyPot._updateTokenPot(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) has costly operations inside a loop:\n\t- lastUpdateMoneyPotBlocks = tokenPot.lastUpdateTokenPotBlocks (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1066)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 525,
+            "line_end": 535,
+            "message": "SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#525-535) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 347,
+            "line_end": 353,
+            "message": "Address.sendValue(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#347-353) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 402,
+            "line_end": 408,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#402-408) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 178,
+            "line_end": 189,
+            "message": "SafeMath.sqrt(uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#178-189) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "isRads",
+            "impact": "Informational",
+            "line": 1320,
+            "line_end": 1322,
+            "message": "SRadsToken.isRads() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1320-1322) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "min",
+            "impact": "Informational",
+            "line": 173,
+            "line_end": 175,
+            "message": "SafeMath.min(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#173-175) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 164,
+            "line_end": 171,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#164-171) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 416,
+            "line_end": 424,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#416-424) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 581,
+            "line_end": 584,
+            "message": "Context._msgData() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#581-584) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 148,
+            "line_end": 150,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#148-150) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 516,
+            "line_end": 523,
+            "message": "SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#516-523) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_burnFrom",
+            "impact": "Informational",
+            "line": 945,
+            "line_end": 952,
+            "message": "UraniumBEP20._burnFrom(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#945-952) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 500,
+            "line_end": 514,
+            "message": "SafeBEP20.safeApprove(IBEP20,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#500-514) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 373,
+            "line_end": 375,
+            "message": "Address.functionCall(address,bytes) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#373-375) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 426,
+            "line_end": 452,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#426-452):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#435)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 347,
+            "line_end": 353,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#347-353):\n\t- (success) = recipient.call{value: amount}() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#351)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2167,
+            "message": "Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._withUpdate (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2003,
+            "message": "Parameter UraniumBonusAggregator.addUserBonusOnFarm(address,uint16,uint256)._percent (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2003) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1198,
+            "message": "Parameter UraniumMoneyPot.addTokenToRewards(address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1198) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2188,
+            "message": "Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._isSRadsRewards (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2003,
+            "message": "Parameter UraniumBonusAggregator.addUserBonusOnFarm(address,uint16,uint256)._user (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2003) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1176,
+            "message": "Parameter UraniumMoneyPot.depositRewards(address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2156,
+            "message": "Parameter MasterUranium.userBonus(uint256,address)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2156) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1041,
+            "message": "Parameter UraniumMoneyPot.getMultiplier(uint256,uint256)._to (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1041) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1717,
+            "message": "Parameter RadsToken.mint(address,uint256)._to (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1717) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1237,
+            "message": "Parameter UraniumMoneyPot.addToPendingFromReserveTokenAmount(address,uint256)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1237) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1245,
+            "message": "Parameter UraniumMoneyPot.safeTokenTransfer(address,address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1176,
+            "message": "Parameter UraniumMoneyPot.depositRewards(address,uint256)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2392,
+            "message": "Parameter MasterUranium.safeRadsTransfer(address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2392) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1010,
+            "message": "Parameter UraniumMoneyPot.distributedMoneyPot(address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1010) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1408,
+            "message": "Parameter SRadsToken.mint(address,uint256)._to (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1408) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1452,
+            "message": "Variable SRadsToken._delegates (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1452) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2009,
+            "message": "Parameter UraniumBonusAggregator.removeUserBonusOnFarm(address,uint16,uint256)._user (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2009) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2188,
+            "message": "Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._allocPoint (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1304,
+            "message": "Parameter SRadsToken.setupMoneyPot(UraniumMoneyPot)._moneyPot (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1289,
+            "message": "Variable SRadsToken.SWAP_PENALTY_MAX_PER_SRADS (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1289) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1233,
+            "message": "Parameter UraniumMoneyPot.setUpdateMoneyPotPeriodNbBlocks(uint256)._updateRewardsDelay (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1233) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1022,
+            "message": "Parameter UraniumMoneyPot.getTokenAmountPotFromMoneyPot(address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1022) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1037,
+            "message": "Parameter UraniumMoneyPot.updateCurrentMoneyPot(address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1037) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2416,
+            "message": "Parameter MasterUranium.dev(address)._devaddr (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2416) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1245,
+            "message": "Parameter UraniumMoneyPot.safeTokenTransfer(address,address,uint256)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2378,
+            "message": "Parameter MasterUranium.getPoolInfo(uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2378) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1408,
+            "message": "Parameter SRadsToken.mint(address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1408) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1245,
+            "message": "Parameter UraniumMoneyPot.safeTokenTransfer(address,address,uint256)._to (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1717,
+            "message": "Parameter RadsToken.mint(address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1717) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2167,
+            "message": "Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._allocPoint (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2202,
+            "message": "Parameter MasterUranium.pendingRads(uint256,address)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2202) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2188,
+            "message": "Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._depositFeeBP (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1355,
+            "message": "Parameter SRadsToken.getSRadsAtMinPenalty(address)._holderAddress (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1355) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1151,
+            "message": "Parameter UraniumMoneyPot.harvestReward(address,address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1151) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2009,
+            "message": "Parameter UraniumBonusAggregator.removeUserBonusOnFarm(address,uint16,uint256)._percent (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2009) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1351,
+            "message": "Parameter SRadsToken.previewSwapRadsExpectedAmount(address,uint256)._sRadsAmount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1351) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2421,
+            "message": "Parameter MasterUranium.setFeeAddress(address)._feeAddress (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2421) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1026,
+            "message": "Parameter UraniumMoneyPot.tokenPerBlock(address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1026) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2369,
+            "message": "Parameter MasterUranium.emergencyWithdraw(uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2369) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1298,
+            "message": "Parameter SRadsToken.setupRads(RadsToken)._rads (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1298) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2156,
+            "message": "Parameter MasterUranium.userBonus(uint256,address)._user (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2156) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2167,
+            "message": "Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._depositFeeBP (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1710,
+            "message": "Parameter RadsToken.setupSRads(SRadsToken)._sRads (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1710) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2161,
+            "message": "Parameter MasterUranium.getMultiplier(uint256,uint256)._from (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2161) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2167,
+            "message": "Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._lpToken (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1151,
+            "message": "Parameter UraniumMoneyPot.harvestReward(address,address)._sRadsHolder (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1151) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1995,
+            "message": "Parameter UraniumBonusAggregator.setupMaster(MasterUranium)._master (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1995) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1351,
+            "message": "Parameter SRadsToken.previewSwapRadsExpectedAmount(address,uint256)._holderAddress (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1351) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1041,
+            "message": "Parameter UraniumMoneyPot.getMultiplier(uint256,uint256)._from (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1041) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1193,
+            "message": "Parameter UraniumMoneyPot.depositBonusRewards(address,uint256)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1193) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2404,
+            "message": "Parameter MasterUranium.safeSRadsTransfer(address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2404) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1237,
+            "message": "Parameter UraniumMoneyPot.addToPendingFromReserveTokenAmount(address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1237) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1324,
+            "message": "Parameter SRadsToken.swapToRads(uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1324) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2009,
+            "message": "Parameter UraniumBonusAggregator.removeUserBonusOnFarm(address,uint16,uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2009) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1116,
+            "message": "Parameter UraniumMoneyPot.updateSRadsHolder(address)._sRadsHolder (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1116) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2342,
+            "message": "Parameter MasterUranium.withdraw(uint256,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1143,
+            "message": "Parameter UraniumMoneyPot.harvestRewards(address)._sRadsHolder (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2301,
+            "message": "Parameter MasterUranium.deposit(uint256,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2392,
+            "message": "Parameter MasterUranium.safeRadsTransfer(address,uint256)._to (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2392) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2161,
+            "message": "Parameter MasterUranium.getMultiplier(uint256,uint256)._to (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2161) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1209,
+            "message": "Parameter UraniumMoneyPot.removeTokenToRewards(address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1209) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1999,
+            "message": "Parameter UraniumBonusAggregator.addOrRemoveContractBonusSource(address,bool)._contract (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1999) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2301,
+            "message": "Parameter MasterUranium.deposit(uint256,uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2003,
+            "message": "Parameter UraniumBonusAggregator.addUserBonusOnFarm(address,uint16,uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2003) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2404,
+            "message": "Parameter MasterUranium.safeSRadsTransfer(address,uint256)._to (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2404) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2279,
+            "message": "Parameter MasterUranium.updateUserBonus(address,uint256,uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2279) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1288,
+            "message": "Variable SRadsToken.SWAP_PENALTY_MAX_PERIOD (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1288) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2202,
+            "message": "Parameter MasterUranium.pendingRads(uint256,address)._user (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2202) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1749,
+            "message": "Variable RadsToken._delegates (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1749) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2342,
+            "message": "Parameter MasterUranium.withdraw(uint256,uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1089,
+            "message": "Parameter UraniumMoneyPot.pendingTokenRewardsAmount(address,address)._user (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2167,
+            "message": "Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._isSRadsRewards (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2188,
+            "message": "Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._withUpdate (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2188,
+            "message": "Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1089,
+            "message": "Parameter UraniumMoneyPot.pendingTokenRewardsAmount(address,address)._token (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1193,
+            "message": "Parameter UraniumMoneyPot.depositBonusRewards(address,uint256)._amount (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1193) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2254,
+            "message": "Parameter MasterUranium.updatePool(uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2015,
+            "message": "Parameter UraniumBonusAggregator.getBonusOnFarmsForUser(address,uint256)._pid (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2015) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2279,
+            "message": "Parameter MasterUranium.updateUserBonus(address,uint256,uint256)._user (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2279) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 1999,
+            "message": "Parameter UraniumBonusAggregator.addOrRemoveContractBonusSource(address,bool)._add (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1999) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 2015,
+            "message": "Parameter UraniumBonusAggregator.getBonusOnFarmsForUser(address,uint256)._user (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2015) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "impact": "Informational",
+            "line": 582,
+            "message": "Redundant expression \"this (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#582)\" inContext (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#572-585)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 1271,
+            "line_end": 1678,
+            "message": "SRadsToken.slitherConstructorConstantVariables() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1271-1678) uses literals with too many digits:\n\t- BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1281)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 1682,
+            "line_end": 1973,
+            "message": "RadsToken.slitherConstructorConstantVariables() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1682-1973) uses literals with too many digits:\n\t- BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1684)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 727,
+            "line_end": 729,
+            "message": "symbol() should be declared external:\n\t- UraniumBEP20.symbol() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#727-729)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 720,
+            "line_end": 722,
+            "message": "decimals() should be declared external:\n\t- UraniumBEP20.decimals() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#720-722)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 641,
+            "line_end": 644,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#641-644)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 779,
+            "line_end": 782,
+            "message": "approve(address,uint256) should be declared external:\n\t- UraniumBEP20.approve(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#779-782)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "getBonusOnFarmsForUser",
+            "impact": "Optimization",
+            "line": 2015,
+            "line_end": 2017,
+            "message": "getBonusOnFarmsForUser(address,uint256) should be declared external:\n\t- UraniumBonusAggregator.getBonusOnFarmsForUser(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2015-2017)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 822,
+            "line_end": 825,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- UraniumBEP20.increaseAllowance(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#822-825)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 760,
+            "line_end": 763,
+            "message": "transfer(address,uint256) should be declared external:\n\t- UraniumBEP20.transfer(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#760-763)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 734,
+            "line_end": 736,
+            "message": "totalSupply() should be declared external:\n\t- UraniumBEP20.totalSupply() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#734-736)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 650,
+            "line_end": 652,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#650-652)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 796,
+            "line_end": 808,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- UraniumBEP20.transferFrom(address,address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#796-808)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 768,
+            "line_end": 770,
+            "message": "allowance(address,address) should be declared external:\n\t- UraniumBEP20.allowance(address,address) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#768-770)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "isOwner",
+            "impact": "Optimization",
+            "line": 1313,
+            "line_end": 1315,
+            "message": "isOwner() should be declared external:\n\t- SRadsToken.isOwner() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1313-1315)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 841,
+            "line_end": 848,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- UraniumBEP20.decreaseAllowance(address,uint256) (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#841-848)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol",
+            "function": "burnSupply",
+            "impact": "Optimization",
+            "line": 741,
+            "line_end": 743,
+            "message": "burnSupply() should be declared external:\n\t- UraniumBEP20.burnSupply() (../..0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#741-743)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

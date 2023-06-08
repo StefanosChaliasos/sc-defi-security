@@ -1,0 +1,46 @@
+[93m
+StrategyLiquidate.execute(address,address,uint256,uint256,bytes) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#607-641) ignores return value by lpToken.approve(address(router),uint256(- 1)) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#623)
+StrategyLiquidate.execute(address,address,uint256,uint256,bytes) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#607-641) ignores return value by router.removeLiquidity(token0,token1,lpToken.balanceOf(address(this)),0,0,address(this),now) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#624)
+StrategyLiquidate.execute(address,address,uint256,uint256,bytes) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#607-641) ignores return value by router.swapExactTokensForTokens(tokenRelative.myBalance(),0,path,address(this),now) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#636)
+StrategyLiquidate.swapIfNeed(address,address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#644-656) ignores return value by router.swapTokensForExactTokens(remainingDebt,tokenRelative.myBalance(),path,address(this),now) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#654)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+SafeMath.add(uint256,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#144-149) is never used and should be removed
+SafeMath.div(uint256,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#201-208) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#221-224) is never used and should be removed
+SafeMath.mul(uint256,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#176-188) is never used and should be removed
+SafeMath.sub(uint256,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#160-165) is never used and should be removed
+SafeToken.balanceOf(address,address) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#239-241) is never used and should be removed
+SafeToken.safeTransferFrom(address,address,address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#255-259) is never used and should be removed
+StrategyLiquidate.swapIfNeed(address,address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#644-656) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in SafeToken.safeApprove(address,address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#243-247):
+	- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#245)
+Low level call in SafeToken.safeTransfer(address,address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#249-253):
+	- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#251)
+Low level call in SafeToken.safeTransferFrom(address,address,address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#255-259):
+	- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#257)
+Low level call in SafeToken.safeTransferETH(address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#261-264):
+	- (success) = to.call{value: val}(new bytes(0)) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#262)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IUniswapV2Pair.DOMAIN_SEPARATOR() (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#308) is not in mixedCase
+Function IUniswapV2Pair.PERMIT_TYPEHASH() (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#309) is not in mixedCase
+Function IUniswapV2Pair.MINIMUM_LIQUIDITY() (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#326) is not in mixedCase
+Function IUniswapV2Router02.WETH() (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#350) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable IUniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#355) is too similar to IUniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#356)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#29-31)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#55-58)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#64-66)
+getSwapReward(address,uint256) should be declared external:
+	- StrategyLiquidate.getSwapReward(address,uint256) (../../sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol#673-676)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x5085c49828b0b8e69bae99d96a8e0fcf0a033369.sol analyzed (12 contracts with 78 detectors), 25 result(s) found

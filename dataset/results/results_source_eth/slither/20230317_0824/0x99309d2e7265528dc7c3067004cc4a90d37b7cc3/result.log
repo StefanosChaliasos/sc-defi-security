@@ -1,0 +1,149 @@
+[93m
+QBridge.voteProposal(uint8,uint64,bytes32,bytes) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1476-1516) uses a dangerous strict equality:
+	- proposal._status == ProposalStatus.Passed (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1513)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553):
+	External calls:
+	- handler.executeProposal(resourceID,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1545-1550)
+	State variables written after the call(s):
+	- proposal._status = ProposalStatus.Passed (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1547)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool).lowLevelData (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1546) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+QBridge.initialize(uint8,uint8,uint128,uint40) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326-1336) should emit an event for: 
+	- fee = _fee (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1332) 
+QBridge.setFee(uint128) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1384-1386) should emit an event for: 
+	- fee = newFee (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1385) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+Variable 'QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool).lowLevelData (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1546)' in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553) potentially used before declaration: FailedHandlerExecution(lowLevelData) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1548)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#pre-declaration-usage-of-local-variables[0m
+[92m
+Reentrancy in QBridge.deposit(uint8,bytes32,bytes) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1437-1447):
+	External calls:
+	- IQBridgeHandler(handler).deposit(resourceID,msg.sender,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1445)
+	Event emitted after the call(s):
+	- Deposit(destinationDomainID,resourceID,depositNonce,msg.sender,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1446)
+Reentrancy in QBridge.depositETH(uint8,bytes32,bytes) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1449-1463):
+	External calls:
+	- IQBridgeHandler(handler).depositETH{value: amount}(resourceID,msg.sender,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1461)
+	Event emitted after the call(s):
+	- Deposit(destinationDomainID,resourceID,depositNonce,msg.sender,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1462)
+Reentrancy in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553):
+	External calls:
+	- handler.executeProposal(resourceID,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1545-1550)
+	Event emitted after the call(s):
+	- FailedHandlerExecution(lowLevelData) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1548)
+Reentrancy in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553):
+	External calls:
+	- handler.executeProposal(resourceID,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1543)
+	- handler.executeProposal(resourceID,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1545-1550)
+	Event emitted after the call(s):
+	- ProposalEvent(originDomainID,depositNonce,ProposalStatus.Executed,data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1552)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+AddressUpgradeable.isContract(address) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#911-920) uses assembly
+	- INLINE ASM (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#918)
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1032-1049) uses assembly
+	- INLINE ASM (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1041-1044)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+AccessControlIndexUpgradeable._setRoleAdmin(bytes32,bytes32) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1261-1264) is never used and should be removed
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1032-1049) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#964-966) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#974-976) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#989-991) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#999-1006) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1014-1016) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1024-1030) is never used and should be removed
+AddressUpgradeable.sendValue(address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#938-944) is never used and should be removed
+ContextUpgradeable.__Context_init() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#464-466) is never used and should be removed
+ContextUpgradeable._msgData() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#474-477) is never used and should be removed
+EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#734-736) is never used and should be removed
+EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#843-845) is never used and should be removed
+EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.Bytes32Set,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#772-774) is never used and should be removed
+EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#881-883) is never used and should be removed
+EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#751-753) is never used and should be removed
+EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#860-862) is never used and should be removed
+EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.Bytes32Set) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#758-760) is never used and should be removed
+EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.UintSet) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#867-869) is never used and should be removed
+EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#744-746) is never used and should be removed
+EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#853-855) is never used and should be removed
+SafeMath.div(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#231-234) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#286-289) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#248-251) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#306-309) is never used and should be removed
+SafeMath.mul(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#212-217) is never used and should be removed
+SafeMath.sub(uint256,uint256,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#266-269) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#120-124) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#156-159) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#166-169) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#141-149) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#131-134) is never used and should be removed
+SafeToken.balanceOf(address,address) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#19-21) is never used and should be removed
+SafeToken.myBalance(address) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#15-17) is never used and should be removed
+SafeToken.safeApprove(address,address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#23-31) is never used and should be removed
+SafeToken.safeTransfer(address,address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#33-41) is never used and should be removed
+SafeToken.safeTransferFrom(address,address,address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#43-52) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in SafeToken.safeApprove(address,address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#23-31):
+	- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#29)
+Low level call in SafeToken.safeTransfer(address,address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#33-41):
+	- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#39)
+Low level call in SafeToken.safeTransferFrom(address,address,address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#43-52):
+	- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#50)
+Low level call in SafeToken.safeTransferETH(address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#54-57):
+	- (success) = to.call{value: value}(new bytes(0)) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#55)
+Low level call in AddressUpgradeable.sendValue(address,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#938-944):
+	- (success) = recipient.call{value: amount}() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#942)
+Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#999-1006):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1004)
+Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1024-1030):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1028)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function ContextUpgradeable.__Context_init() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#464-466) is not in mixedCase
+Function ContextUpgradeable.__Context_init_unchained() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#468-469) is not in mixedCase
+Variable ContextUpgradeable.__gap (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#478) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#501-504) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init_unchained() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#506-510) is not in mixedCase
+Variable OwnableUpgradeable.__gap (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#548) is not in mixedCase
+Function PausableUpgradeable.__PausableUpgradeable_init() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#564-567) is not in mixedCase
+Parameter PausableUpgradeable.setPaused(bool)._paused (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#569) is not in mixedCase
+Variable PausableUpgradeable.__gap (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#581) is not in mixedCase
+Function AccessControlIndexUpgradeable.__AccessControl_init() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1091-1094) is not in mixedCase
+Function AccessControlIndexUpgradeable.__AccessControl_init_unchained() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1096-1097) is not in mixedCase
+Variable AccessControlIndexUpgradeable.__gap (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1278) is not in mixedCase
+Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._domainID (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase
+Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._relayerThreshold (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase
+Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._fee (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase
+Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._expiry (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase
+Parameter QBridge.setDepositNonce(uint8,uint64)._domainID (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1379) is not in mixedCase
+Parameter QBridge.combinedProposalId(uint8,uint64)._domainID (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1411) is not in mixedCase
+Variable QBridge._depositCounts (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1310) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#475)" inContextUpgradeable (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#463-479)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+AccessControlIndexUpgradeable.__gap (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1278) is never used in QBridge (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1284-1596)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+renounceOwnership() should be declared external:
+	- OwnableUpgradeable.renounceOwnership() (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#534-537)
+transferOwnership(address) should be declared external:
+	- OwnableUpgradeable.transferOwnership(address) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#543-547)
+getRoleMember(bytes32,uint256) should be declared external:
+	- AccessControlIndexUpgradeable.getRoleMember(bytes32,uint256) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1164-1166)
+getRoleAdmin(bytes32) should be declared external:
+	- AccessControlIndexUpgradeable.getRoleAdmin(bytes32) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1181-1183)
+renounceRole(bytes32,address) should be declared external:
+	- AccessControlIndexUpgradeable.renounceRole(bytes32,address) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1230-1234)
+cancelProposal(uint8,uint64,bytes32,bytes) should be declared external:
+	- QBridge.cancelProposal(uint8,uint64,bytes32,bytes) (../../sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1565-1578)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol analyzed (12 contracts with 78 detectors), 83 result(s) found

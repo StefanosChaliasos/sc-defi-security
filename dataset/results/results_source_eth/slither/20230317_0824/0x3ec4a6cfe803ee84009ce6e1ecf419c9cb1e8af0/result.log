@@ -1,0 +1,148 @@
+[93m
+bVault.withdraw(uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#386-411) performs a multiplication on the result of a division:
+	-r = (balance().mul(_shares)).div(totalSupply()) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#390)
+	-fee = r.mul(feeRatio).div(feeMax) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#406)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+bVault.deposit(uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#359-377) uses a dangerous strict equality:
+	- totalSupply() == 0 (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#367)
+bVault.getPricePerFullShare() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#425-430) uses a dangerous strict equality:
+	- totalSupply() == 0 (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#426)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[92m
+ERC20Detailed.constructor(string,string,uint8).name (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#144) shadows:
+	- ERC20Detailed.name() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#149-151) (function)
+ERC20Detailed.constructor(string,string,uint8).symbol (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#144) shadows:
+	- ERC20Detailed.symbol() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#152-154) (function)
+ERC20Detailed.constructor(string,string,uint8).decimals (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#144) shadows:
+	- ERC20Detailed.decimals() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#155-157) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+bVault.setMin(uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#324-327) should emit an event for: 
+	- min = _min (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#326) 
+bVault.setFeeRatio(uint256[3]) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#432-439) should emit an event for: 
+	- fee1 = fees[0] (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#436) 
+	- fee2 = fees[1] (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#437) 
+	- fee3 = fees[2] (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#438) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+bVault.setGovernance(address)._governance (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#329) lacks a zero-check on :
+		- governance = _governance (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#331)
+bVault.setController(address)._controller (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#334) lacks a zero-check on :
+		- controller = _controller (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#336)
+bVault.setFeeAddress(address).fadd (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#441) lacks a zero-check on :
+		- feeAddress = fadd (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#444)
+bVault.setTimeLock(address)._timelock (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#447) lacks a zero-check on :
+		- timelock = _timelock (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#450)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in bVault.deposit(uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#359-377):
+	External calls:
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#363)
+	State variables written after the call(s):
+	- _mint(msg.sender,shares) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#372)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#116)
+	- _mint(msg.sender,shares) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#372)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#115)
+	- userDepoistTime[msg.sender] = now (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#373)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in bVault.deposit(uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#359-377):
+	External calls:
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#363)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#117)
+		- _mint(msg.sender,shares) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#372)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+bVault.withdraw(uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#386-411) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)((now - userDepoistTime[msg.sender]) > depositWithdrawInterval,Deposit and withdraw must be 60 seconds apart!) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#388)
+bVault.getFeeRatio() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#413-423) uses timestamp for comparisons
+	Dangerous comparisons:
+	- t > 604800 (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#416)
+	- t > 86400 (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#419)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#206-212) uses assembly
+	- INLINE ASM (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#210)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#216-222) is never used and should be removed
+Address.toPayable(address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#213-215) is never used and should be removed
+Context._msgData() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#28-31) is never used and should be removed
+ERC20._burnFrom(address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#133-136) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#237-242) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#249-252) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#244-247) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#196-198) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#199-202) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#216-222):
+	- (success) = recipient.call.value(amount)() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#220)
+Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#253-264):
+	- (success,returndata) = address(token).call(data) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#257)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Contract bVault (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#273-458) is not in CapWords
+Parameter bVault.setMin(uint256)._min (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#324) is not in mixedCase
+Parameter bVault.setGovernance(address)._governance (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#329) is not in mixedCase
+Parameter bVault.setController(address)._controller (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#334) is not in mixedCase
+Parameter bVault.setEarnLowerlimit(uint256)._earnLowerlimit (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#338) is not in mixedCase
+Parameter bVault.deposit(uint256)._amount (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#359) is not in mixedCase
+Parameter bVault.withdraw(uint256)._shares (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#386) is not in mixedCase
+Parameter bVault.setTimeLock(address)._timelock (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#447) is not in mixedCase
+Constant bVault.max (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#283) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable bVault.RestrictContractCall (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#298) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#29)" inContext (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#20-32)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+bVault.depositWithdrawInterval (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#280) should be constant
+bVault.feeMax (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#292) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#42-44)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#52-55)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#56-58)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#80-83)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#84-86)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#87-90)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#91-95)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#96-99)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#100-103)
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#149-151)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#152-154)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#155-157)
+setGovernance(address) should be declared external:
+	- bVault.setGovernance(address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#329-332)
+setController(address) should be declared external:
+	- bVault.setController(address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#334-337)
+setEarnLowerlimit(uint256) should be declared external:
+	- bVault.setEarnLowerlimit(uint256) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#338-341)
+getPricePerFullShare() should be declared external:
+	- bVault.getPricePerFullShare() (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#425-430)
+setFeeRatio(uint256[3]) should be declared external:
+	- bVault.setFeeRatio(uint256[3]) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#432-439)
+setFeeAddress(address) should be declared external:
+	- bVault.setFeeAddress(address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#441-445)
+setTimeLock(address) should be declared external:
+	- bVault.setTimeLock(address) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#447-451)
+setRestrictContractCall(bool) should be declared external:
+	- bVault.setRestrictContractCall(bool) (../../sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol#453-456)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x3ec4a6cfe803ee84009ce6e1ecf419c9cb1e8af0.sol analyzed (10 contracts with 78 detectors), 61 result(s) found

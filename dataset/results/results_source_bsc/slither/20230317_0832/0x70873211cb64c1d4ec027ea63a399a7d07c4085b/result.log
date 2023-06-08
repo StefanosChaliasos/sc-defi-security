@@ -1,0 +1,1061 @@
+Compilation warnings/errors on /sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol:1272:1:
+     |
+1272 | contract CrssToken is IBEP20, Ownable, Initializable {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol:2476:1:
+     |
+2476 | contract MasterChef is ReentrancyGuard, BaseRelayRecipient {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+CrssToken.addLiquidity(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1643-1659) sends eth to arbitrary user
+	Dangerous calls:
+	- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+Reentrancy in CrssToken.transfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1446-1494):
+	External calls:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1474)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+		- crosswiseRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1634-1640)
+	External calls sending eth:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1474)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	State variables written after the call(s):
+	- _transfer(_msgSender(),recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1478)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _transfer(_msgSender(),recipient,transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1482)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _transfer(_msgSender(),devTo,devAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1485)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _transfer(_msgSender(),buybackTo,buybackAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1488)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[recipient],amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1479)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[recipient],transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1483)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[devTo],devAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1486)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[buybackTo],buybackAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1489)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[recipient],amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1479)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[recipient],transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1483)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[devTo],devAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1486)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+	- _moveDelegates(_delegates[_msgSender()],_delegates[buybackTo],buybackAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1489)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+Reentrancy in CrssToken.transferFrom(address,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1496-1550):
+	External calls:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1527)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+		- crosswiseRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1634-1640)
+	External calls sending eth:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1527)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	State variables written after the call(s):
+	- _transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1530)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _transfer(sender,recipient,transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1534)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _transfer(sender,devTo,amount.mul(devFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1537)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _transfer(sender,buybackTo,amount.mul(buybackFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1540)
+		- _balances[sender] = _balances[sender].sub(amount,BEP20: transfer amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1557)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1558)
+	- _moveDelegates(_delegates[sender],_delegates[recipient],amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1531)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[sender],_delegates[recipient],transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1535)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[sender],_delegates[devTo],amount.mul(devFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1538)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[sender],_delegates[buybackTo],amount.mul(buybackFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1541)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(_delegates[sender],_delegates[recipient],amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1531)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+	- _moveDelegates(_delegates[sender],_delegates[recipient],transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1535)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+	- _moveDelegates(_delegates[sender],_delegates[devTo],amount.mul(devFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1538)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+	- _moveDelegates(_delegates[sender],_delegates[buybackTo],amount.mul(buybackFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1541)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[91m
+xCrssToken.depositToken(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2410-2430) ignores return value by crssToken.transferFrom(msg.sender,address(this),_rewardAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2416)
+xCrssToken.withdrawToken(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2432-2445) ignores return value by crssToken.transfer(msg.sender,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2440)
+MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962) ignores return value by pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2918)
+MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962) ignores return value by pool.lpToken.transfer(treasuryAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2923)
+MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962) ignores return value by pool.lpToken.transfer(devAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2924)
+MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021) ignores return value by pool.lpToken.transfer(address(_msgSender()),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3016)
+MasterChef.enterStaking(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3024-3050) ignores return value by pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3036)
+MasterChef.emergencyWithdraw(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3076-3108) ignores return value by pool.lpToken.transfer(address(_msgSender()),amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3106)
+MasterChef.safeCrssTransfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3147-3154) ignores return value by crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+MasterChef.safeCrssTransfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3147-3154) ignores return value by crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[91m
+xCrssToken.depositToken(address,uint256).userInfo (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2423) is a storage variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-storage-variables[0m
+[93m
+xCrssToken.unlockedToken(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2353-2374) performs a multiplication on the result of a division:
+	-monthPassed = timePassed.div(oneMonth) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2361)
+	-unlocked = user[i].totalRewardAmount.mul(unlockPerMonth.mul(monthPassed)).div(100).sub(user[i].withdrawnAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2367)
+xCrssToken.withdrawByElement(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2376-2408) performs a multiplication on the result of a division:
+	-monthPassed = timePassed.div(oneMonth) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2383)
+	-unlocked = user[i].totalRewardAmount.mul(unlockPerMonth.mul(monthPassed)).div(100).sub(user[i].withdrawnAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2389)
+MasterChef.pendingCrss(uint256,address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2727-2748) performs a multiplication on the result of a division:
+	-crssReward = multiplier.mul(crssPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2742)
+	-accCrssPerShare = accCrssPerShare.add(crssReward.mul(1e12).div(lpSupply)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2743)
+MasterChef.updatePool(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781-2804) performs a multiplication on the result of a division:
+	-crssReward = multiplier.mul(crssPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2799)
+	-crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+MasterChef.updatePool(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781-2804) performs a multiplication on the result of a division:
+	-crssReward = multiplier.mul(crssPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2799)
+	-pool.accCrssPerShare = pool.accCrssPerShare.add(crssReward.mul(1e12).div(lpSupply)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2802)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+CrssToken._writeCheckpoint(address,uint32,uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1868-1886) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1878)
+MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962) uses a dangerous strict equality:
+	- share == 0 && totalShares[_pid] == 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2937)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in MasterChef.add(uint256,IBEP20,uint256,address,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2689-2707):
+	External calls:
+	- massUpdatePools() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2693)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	State variables written after the call(s):
+	- poolInfo.push(PoolInfo(_lpToken,_allocPoint,lastRewardBlock,0,_depositFeeBP,_strategy)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2697-2704)
+	- stakingTokens[address(_lpToken)] = true (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2706)
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2696)
+Reentrancy in MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2911)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- crssReferral.recordReferral(_msgSender(),_referrer) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2913)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2915)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	State variables written after the call(s):
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2915)
+		- user.crssRewardLockedUp = pending.add(user.crssRewardLockedUp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3121)
+Reentrancy in MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2911)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- crssReferral.recordReferral(_msgSender(),_referrer) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2913)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2915)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	- pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2918)
+	- pool.lpToken.transfer(treasuryAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2923)
+	- pool.lpToken.transfer(devAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2924)
+	State variables written after the call(s):
+	- totalLocked[_pid] = totalLocked[_pid].add(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2942)
+	- totalShares[_pid] = totalShares[_pid].add(share) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2941)
+Reentrancy in MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2911)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- crssReferral.recordReferral(_msgSender(),_referrer) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2913)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2915)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	- pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2918)
+	- pool.lpToken.transfer(treasuryAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2923)
+	- pool.lpToken.transfer(devAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2924)
+	- pool.lpToken.safeIncreaseAllowance(pool.strategy,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2930)
+	- _amount = IStrategy(pool.strategy).deposit(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2931)
+	State variables written after the call(s):
+	- stakingPoolDeposit = stakingPoolDeposit.add(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2948)
+	- user.amount = user.amount.add(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2951)
+	- user.isAuto = isAuto (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2952)
+	- user.isVest = isVest (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2953)
+	- user.rewardDebt = amount.mul(pool.accCrssPerShare).div(1e12) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2960)
+Reentrancy in MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2809)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- crss.approve(address(xCrss),pending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2819)
+	- xCrss.depositToken(users[i],pending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2820)
+	- safeCrssTransfer(burnAddress,burnReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2826)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- payReferralCommission(users[i],pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2828)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+	State variables written after the call(s):
+	- user.crssRewardLockedUp = 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2829)
+Reentrancy in MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2809)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- safeCrssTransfer(devAddress,fee) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2834)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- crss.approve(address(crssRouterAddress),totalPending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2837)
+	- swapTokenForToken(address(crss),token0,totalPending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2847)
+		- crssRouterAddress.swapExactTokensForTokensSupportingFeeOnTransferTokens(amount,0,addrPair,address(this),now + routerDeadlineDuration) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3229-3236)
+	- swapTokenForToken(address(crss),token1,totalPending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2853)
+		- crssRouterAddress.swapExactTokensForTokensSupportingFeeOnTransferTokens(amount,0,addrPair,address(this),now + routerDeadlineDuration) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3229-3236)
+	- IBEP20(token0).safeIncreaseAllowance(address(crssRouterAddress),token0Amt) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2859-2862)
+	- IBEP20(token1).safeIncreaseAllowance(address(crssRouterAddress),token1Amt) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2863-2866)
+	- crssRouterAddress.addLiquidity(token0,token1,token0Amt,token1Amt,0,0,address(this),now + routerDeadlineDuration) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2868-2877)
+	State variables written after the call(s):
+	- updateLeftCrssByPid(_pid,totalPending.add(crssNewBalance).sub(crssOldBalance)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2885)
+		- leftCrss[_pid] = _amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3243)
+	- updateLeftCrssByPid(_pid,0) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2887)
+		- leftCrss[_pid] = _amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3243)
+Reentrancy in MasterChef.emergencyWithdraw(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3076-3108):
+	External calls:
+	- IStrategy(pool.strategy).withdraw(_msgSender(),amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3084)
+	State variables written after the call(s):
+	- user.amount = 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3100)
+	- user.rewardDebt = 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3101)
+	- user.crssRewardLockedUp = 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3102)
+Reentrancy in MasterChef.enterStaking(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3024-3050):
+	External calls:
+	- updatePool(0) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3027)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- safeCrssTransfer(_msgSender(),pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3031)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3036)
+	State variables written after the call(s):
+	- stakingPoolDeposit = stakingPoolDeposit.add(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3041)
+	- user.amount = user.amount.add(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3043)
+	- user.isAuto = false (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3044)
+	- user.isVest = false (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3045)
+	- user.rewardDebt = user.amount.mul(pool.accCrssPerShare).div(1e12) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3047)
+Reentrancy in MasterChef.leaveStaking(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3053-3073):
+	External calls:
+	- updatePool(0) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3057)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- safeCrssTransfer(_msgSender(),pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3060)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	State variables written after the call(s):
+	- stakingPoolDeposit = stakingPoolDeposit.sub(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3066)
+	- user.amount = user.amount.sub(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3063)
+Reentrancy in MasterChef.leaveStaking(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3053-3073):
+	External calls:
+	- updatePool(0) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3057)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- safeCrssTransfer(_msgSender(),pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3060)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- pool.lpToken.safeTransfer(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3068)
+	State variables written after the call(s):
+	- user.rewardDebt = user.amount.mul(pool.accCrssPerShare).div(1e12) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3070)
+Reentrancy in MasterChef.set(uint256,uint256,uint256,address,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2710-2719):
+	External calls:
+	- massUpdatePools() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2713)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	State variables written after the call(s):
+	- poolInfo[_pid].allocPoint = _allocPoint (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2716)
+	- poolInfo[_pid].depositFeeBP = _depositFeeBP (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2717)
+	- poolInfo[_pid].strategy = _strategy (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2718)
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2715)
+Reentrancy in MasterChef.updateEmissionRate(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3176-3180):
+	External calls:
+	- massUpdatePools() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3177)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	State variables written after the call(s):
+	- crssPerBlock = _crssPerBlock (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3179)
+Reentrancy in MasterChef.updatePool(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781-2804):
+	External calls:
+	- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+	- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	State variables written after the call(s):
+	- pool.accCrssPerShare = pool.accCrssPerShare.add(crssReward.mul(1e12).div(lpSupply)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2802)
+	- pool.lastRewardBlock = block.number (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2803)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2983)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2984)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	State variables written after the call(s):
+	- totalLocked[_pid] = totalLocked[_pid].sub(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2994)
+	- totalShares[_pid] = totalShares[_pid].sub(shareRemoved) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2993)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2984)
+		- user.crssRewardLockedUp = pending.add(user.crssRewardLockedUp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3121)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2983)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2984)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	- shareRemoved = IStrategy(pool.strategy).withdraw(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2989)
+	State variables written after the call(s):
+	- stakingPoolDeposit = stakingPoolDeposit.sub(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3013)
+	- user.amount = 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3000)
+	- user.crssRewardLockedUp = 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3002)
+	- user.amount = user.amount.sub(shareRemoved) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3005)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+xCrssToken.unlockedToken(address).totalUnlocked (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2356) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898) ignores return value by crss.approve(address(xCrss),pending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2819)
+MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898) ignores return value by crss.approve(address(crssRouterAddress),totalPending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2837)
+MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898) ignores return value by crssRouterAddress.addLiquidity(token0,token1,token0Amt,token1Amt,0,0,address(this),now + routerDeadlineDuration) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2868-2877)
+MasterChef.emergencyWithdraw(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3076-3108) ignores return value by IStrategy(pool.strategy).withdraw(_msgSender(),amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3084)
+MasterChef.payOrLockuppendingCrss(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3111-3144) ignores return value by crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+MasterChef.autoUserIndex(uint256,address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3214-3223) ignores return value by addr.removeAddress(_user) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3221)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+CrssToken.allowance(address,address).owner (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1403) shadows:
+	- Ownable.owner() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1137-1139) (function)
+CrssToken._approve(address,address,uint256).owner (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1434) shadows:
+	- Ownable.owner() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1137-1139) (function)
+CrssToken.swapAndLiquify().maxTransferAmount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1601) shadows:
+	- CrssToken.maxTransferAmount() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1888-1890) (function)
+BEP20UpgradeSafe.__BEP20_init(string,string).name (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2008) shadows:
+	- BEP20UpgradeSafe.name() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2022-2024) (function)
+BEP20UpgradeSafe.__BEP20_init(string,string).symbol (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2008) shadows:
+	- BEP20UpgradeSafe.symbol() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2030-2032) (function)
+BEP20UpgradeSafe.__BEP20_init_unchained(string,string).name (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2013) shadows:
+	- BEP20UpgradeSafe.name() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2022-2024) (function)
+BEP20UpgradeSafe.__BEP20_init_unchained(string,string).symbol (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2013) shadows:
+	- BEP20UpgradeSafe.symbol() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2030-2032) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+MasterChef.add(uint256,IBEP20,uint256,address,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2689-2707) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2696) 
+MasterChef.set(uint256,uint256,uint256,address,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2710-2719) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2715) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021) has external calls inside a loop: LockedTotal = IStrategy(pool.strategy).wantLockedTotal() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2971)
+MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021) has external calls inside a loop: sharesTotal = IStrategy(pool.strategy).sharesTotal() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2972)
+MasterChef.updatePool(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781-2804) has external calls inside a loop: crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+MasterChef.updatePool(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781-2804) has external calls inside a loop: crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+MasterChef.updatePool(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781-2804) has external calls inside a loop: lpSupply = pool.lpToken.balanceOf(address(this)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2790)
+MasterChef.updatePool(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781-2804) has external calls inside a loop: lpSupply = IStrategy(pool.strategy).sharesTotal() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2792)
+MasterChef.safeCrssTransfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3147-3154) has external calls inside a loop: crssBal = crss.balanceOf(address(this)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3148)
+MasterChef.safeCrssTransfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3147-3154) has external calls inside a loop: crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+MasterChef.safeCrssTransfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3147-3154) has external calls inside a loop: crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+MasterChef.payOrLockuppendingCrss(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3111-3144) has external calls inside a loop: crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+MasterChef.payOrLockuppendingCrss(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3111-3144) has external calls inside a loop: xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+MasterChef.payReferralCommission(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3201-3212) has external calls inside a loop: referrer = crssReferral.getReferrer(_user) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3203)
+MasterChef.payReferralCommission(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3201-3212) has external calls inside a loop: crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+MasterChef.payReferralCommission(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3201-3212) has external calls inside a loop: crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021) has external calls inside a loop: shareRemoved = IStrategy(pool.strategy).withdraw(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2989)
+MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021) has external calls inside a loop: pool.lpToken.transfer(address(_msgSender()),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3016)
+MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898) has external calls inside a loop: crss.approve(address(xCrss),pending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2819)
+MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898) has external calls inside a loop: xCrss.depositToken(users[i],pending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2820)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in CrssToken.claimV1Token() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1563-1579):
+	External calls:
+	- success = oldCrss.transferFrom(_msgSender(),burnAddress,balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1569)
+	State variables written after the call(s):
+	- _mint(_msgSender(),balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1572)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1429)
+	- _mint(_msgSender(),balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1572)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1428)
+	- _moveDelegates(address(0),_delegates[_msgSender()],balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1575)
+		- checkpoints[delegatee][nCheckpoints - 1].votes = newVotes (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1879)
+		- checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1881)
+	- _moveDelegates(address(0),_delegates[_msgSender()],balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1575)
+		- numCheckpoints[delegatee] = nCheckpoints + 1 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1882)
+Reentrancy in xCrssToken.depositToken(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2410-2430):
+	External calls:
+	- crssToken.transferFrom(msg.sender,address(this),_rewardAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2416)
+	State variables written after the call(s):
+	- _mint(_depositUser,_rewardAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2420)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2199)
+	- _mint(_depositUser,_rewardAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2420)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2198)
+	- user.push(userInfo) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2427)
+Reentrancy in MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2809)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- safeCrssTransfer(devAddress,fee) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2834)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- crss.approve(address(crssRouterAddress),totalPending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2837)
+	- swapTokenForToken(address(crss),token0,totalPending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2847)
+		- crssRouterAddress.swapExactTokensForTokensSupportingFeeOnTransferTokens(amount,0,addrPair,address(this),now + routerDeadlineDuration) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3229-3236)
+	- swapTokenForToken(address(crss),token1,totalPending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2853)
+		- crssRouterAddress.swapExactTokensForTokensSupportingFeeOnTransferTokens(amount,0,addrPair,address(this),now + routerDeadlineDuration) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3229-3236)
+	- IBEP20(token0).safeIncreaseAllowance(address(crssRouterAddress),token0Amt) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2859-2862)
+	- IBEP20(token1).safeIncreaseAllowance(address(crssRouterAddress),token1Amt) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2863-2866)
+	- crssRouterAddress.addLiquidity(token0,token1,token0Amt,token1Amt,0,0,address(this),now + routerDeadlineDuration) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2868-2877)
+	State variables written after the call(s):
+	- updateLockedByPid(_pid,newBalance.sub(oldBalance)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2880)
+		- totalLocked[_pid] = totalLocked[_pid].add(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3239)
+	- user_scope_1.rewardDebt = amount_scope_2.mul(pool.accCrssPerShare).div(1e12) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2895)
+Reentrancy in MasterChef.emergencyWithdraw(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3076-3108):
+	External calls:
+	- IStrategy(pool.strategy).withdraw(_msgSender(),amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3084)
+	State variables written after the call(s):
+	- stakingPoolDeposit = stakingPoolDeposit.sub(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3097)
+Reentrancy in CrssToken.init_router(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1374-1383):
+	External calls:
+	- crssBnbPair = ICrosswiseFactory(_crosswiseRouter.factory()).createPair(address(this),_crosswiseRouter.WBNB()) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1377-1378)
+	State variables written after the call(s):
+	- crosswiseRouter = _crosswiseRouter (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1381)
+Reentrancy in CrssToken.swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1598-1623):
+	External calls:
+	- swapTokensForBNB(half) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1614)
+		- crosswiseRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1634-1640)
+	- addLiquidity(otherHalf,newBalance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1620)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	External calls sending eth:
+	- addLiquidity(otherHalf,newBalance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1620)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	State variables written after the call(s):
+	- addLiquidity(otherHalf,newBalance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1620)
+		- _allowances[owner][spender] = amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1441)
+Reentrancy in CrssToken.transferFrom(address,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1496-1550):
+	External calls:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1527)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+		- crosswiseRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1634-1640)
+	External calls sending eth:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1527)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	State variables written after the call(s):
+	- _approve(sender,_msgSender(),allowance(sender,_msgSender()).sub(amount,BEP20: transfer amount exceeds allowance)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1544-1548)
+		- _allowances[owner][spender] = amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1441)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2983)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2984)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	- shareRemoved = IStrategy(pool.strategy).withdraw(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2989)
+	State variables written after the call(s):
+	- leftCrss[_pid] = leftCrss[_pid].add(user.crssRewardLockedUp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3001)
+Reentrancy in xCrssToken.withdrawToken(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2432-2445):
+	External calls:
+	- crssToken.transfer(msg.sender,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2440)
+	State variables written after the call(s):
+	- _burn(msg.sender,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2442)
+		- _balances[account] = _balances[account].sub(amount,BEP20: burn amount exceeds balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2219)
+	- _burn(msg.sender,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2442)
+		- _totalSupply = _totalSupply.sub(amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2220)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in CrssToken.claimV1Token() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1563-1579):
+	External calls:
+	- success = oldCrss.transferFrom(_msgSender(),burnAddress,balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1569)
+	Event emitted after the call(s):
+	- ClaimV1Token(_msgSender(),balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1578)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(address(0),_delegates[_msgSender()],balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1575)
+	- Transfer(address(0),account,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1430)
+		- _mint(_msgSender(),balance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1572)
+Reentrancy in MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2911)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- crssReferral.recordReferral(_msgSender(),_referrer) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2913)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2915)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	Event emitted after the call(s):
+	- ReferralCommissionPaid(_user,referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3209)
+		- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2915)
+Reentrancy in MasterChef.deposit(uint256,uint256,address,bool,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901-2962):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2911)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- crssReferral.recordReferral(_msgSender(),_referrer) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2913)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2915)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	- pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2918)
+	- pool.lpToken.transfer(treasuryAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2923)
+	- pool.lpToken.transfer(devAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2924)
+	- pool.lpToken.safeIncreaseAllowance(pool.strategy,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2930)
+	- _amount = IStrategy(pool.strategy).deposit(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2931)
+	Event emitted after the call(s):
+	- Deposit(_msgSender(),_pid,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2961)
+Reentrancy in xCrssToken.depositToken(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2410-2430):
+	External calls:
+	- crssToken.transferFrom(msg.sender,address(this),_rewardAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2416)
+	Event emitted after the call(s):
+	- Deposit(_depositUser,_rewardAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2429)
+	- Transfer(address(0),account,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2200)
+		- _mint(_depositUser,_rewardAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2420)
+Reentrancy in MasterChef.earn(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806-2898):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2809)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- crss.approve(address(xCrss),pending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2819)
+	- xCrss.depositToken(users[i],pending.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2820)
+	- safeCrssTransfer(burnAddress,burnReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2826)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- payReferralCommission(users[i],pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2828)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+	Event emitted after the call(s):
+	- ReferralCommissionPaid(_user,referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3209)
+		- payReferralCommission(users[i],pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2828)
+Reentrancy in MasterChef.emergencyWithdraw(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3076-3108):
+	External calls:
+	- IStrategy(pool.strategy).withdraw(_msgSender(),amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3084)
+	- pool.lpToken.transfer(address(_msgSender()),amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3106)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(_msgSender(),_pid,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3107)
+Reentrancy in MasterChef.enterStaking(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3024-3050):
+	External calls:
+	- updatePool(0) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3027)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- safeCrssTransfer(_msgSender(),pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3031)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3036)
+	Event emitted after the call(s):
+	- Deposit(_msgSender(),0,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3049)
+Reentrancy in CrssToken.init_router(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1374-1383):
+	External calls:
+	- crssBnbPair = ICrosswiseFactory(_crosswiseRouter.factory()).createPair(address(this),_crosswiseRouter.WBNB()) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1377-1378)
+	Event emitted after the call(s):
+	- Init_router(router) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1382)
+Reentrancy in MasterChef.leaveStaking(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3053-3073):
+	External calls:
+	- updatePool(0) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3057)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- safeCrssTransfer(_msgSender(),pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3060)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- pool.lpToken.safeTransfer(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3068)
+	Event emitted after the call(s):
+	- Withdraw(_msgSender(),0,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3072)
+Reentrancy in MasterChef.massStakeReward(uint256[]) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2757-2770):
+	External calls:
+	- massHarvest(pools) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2760)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+		- shareRemoved = IStrategy(pool.strategy).withdraw(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2989)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+		- pool.lpToken.transfer(address(_msgSender()),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3016)
+	- deposit(0,amount,address(0),user.isVest,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2766)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#723)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#558)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crssReferral.recordReferral(_msgSender(),_referrer) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2913)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+		- pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2918)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+		- pool.lpToken.transfer(treasuryAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2923)
+		- pool.lpToken.transfer(devAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2924)
+		- pool.lpToken.safeIncreaseAllowance(pool.strategy,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2930)
+		- _amount = IStrategy(pool.strategy).deposit(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2931)
+	External calls sending eth:
+	- deposit(0,amount,address(0),user.isVest,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2766)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#558)
+	Event emitted after the call(s):
+	- Deposit(_msgSender(),_pid,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2961)
+		- deposit(0,amount,address(0),user.isVest,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2766)
+	- ReferralCommissionPaid(_user,referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3209)
+		- deposit(0,amount,address(0),user.isVest,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2766)
+Reentrancy in MasterChef.massStakeReward(uint256[]) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2757-2770):
+	External calls:
+	- massHarvest(pools) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2760)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+		- shareRemoved = IStrategy(pool.strategy).withdraw(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2989)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+		- pool.lpToken.transfer(address(_msgSender()),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3016)
+	- deposit(0,amount,address(0),true,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2768)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#723)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#558)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crssReferral.recordReferral(_msgSender(),_referrer) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2913)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+		- pool.lpToken.transferFrom(address(_msgSender()),address(this),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2918)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+		- pool.lpToken.transfer(treasuryAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2923)
+		- pool.lpToken.transfer(devAddress,depositFee.div(2)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2924)
+		- pool.lpToken.safeIncreaseAllowance(pool.strategy,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2930)
+		- _amount = IStrategy(pool.strategy).deposit(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2931)
+	External calls sending eth:
+	- deposit(0,amount,address(0),true,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2768)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#558)
+	Event emitted after the call(s):
+	- Deposit(_msgSender(),_pid,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2961)
+		- deposit(0,amount,address(0),true,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2768)
+	- ReferralCommissionPaid(_user,referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3209)
+		- deposit(0,amount,address(0),true,false) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2768)
+Reentrancy in MasterChef.payOrLockuppendingCrss(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3111-3144):
+	External calls:
+	- safeCrssTransfer(_msgSender(),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3129)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+	- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	- safeCrssTransfer(_msgSender(),crssReward_scope_0) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3138)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- safeCrssTransfer(burnAddress,burnReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3139)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+	- payReferralCommission(_msgSender(),pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3141)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+	Event emitted after the call(s):
+	- ReferralCommissionPaid(_user,referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3209)
+		- payReferralCommission(_msgSender(),pending) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3141)
+Reentrancy in MasterChef.payReferralCommission(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3201-3212):
+	External calls:
+	- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+	- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+	Event emitted after the call(s):
+	- ReferralCommissionPaid(_user,referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3209)
+Reentrancy in CrssToken.swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1598-1623):
+	External calls:
+	- swapTokensForBNB(half) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1614)
+		- crosswiseRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1634-1640)
+	- addLiquidity(otherHalf,newBalance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1620)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	External calls sending eth:
+	- addLiquidity(otherHalf,newBalance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1620)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	Event emitted after the call(s):
+	- Approval(owner,spender,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1442)
+		- addLiquidity(otherHalf,newBalance) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1620)
+	- SwapAndLiquify(half,newBalance,otherHalf) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1622)
+Reentrancy in CrssToken.transfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1446-1494):
+	External calls:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1474)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+		- crosswiseRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1634-1640)
+	External calls sending eth:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1474)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	Event emitted after the call(s):
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[_msgSender()],_delegates[recipient],transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1483)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[_msgSender()],_delegates[recipient],amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1479)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[_msgSender()],_delegates[devTo],devAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1486)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[_msgSender()],_delegates[buybackTo],buybackAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1489)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(_msgSender(),buybackTo,buybackAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1488)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(_msgSender(),recipient,transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1482)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(_msgSender(),recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1478)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(_msgSender(),devTo,devAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1485)
+Reentrancy in CrssToken.transferFrom(address,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1496-1550):
+	External calls:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1527)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+		- crosswiseRouter.swapExactTokensForETHSupportingFeeOnTransferTokens(tokenAmount,0,path,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1634-1640)
+	External calls sending eth:
+	- swapAndLiquify() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1527)
+		- (liquidity) = crosswiseRouter.addLiquidityETH{value: ethAmount}(address(this),tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1648-1655)
+	Event emitted after the call(s):
+	- Approval(owner,spender,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1442)
+		- _approve(sender,_msgSender(),allowance(sender,_msgSender()).sub(amount,BEP20: transfer amount exceeds allowance)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1544-1548)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[sender],_delegates[recipient],transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1535)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[sender],_delegates[recipient],amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1531)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[sender],_delegates[devTo],amount.mul(devFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1538)
+	- DelegateVotesChanged(delegatee,oldVotes,newVotes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1885)
+		- _moveDelegates(_delegates[sender],_delegates[buybackTo],amount.mul(buybackFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1541)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(sender,devTo,amount.mul(devFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1537)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(sender,buybackTo,amount.mul(buybackFee).div(10000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1540)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(sender,recipient,transferAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1534)
+	- Transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1559)
+		- _transfer(sender,recipient,amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1530)
+Reentrancy in MasterChef.updateEmissionRate(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3176-3180):
+	External calls:
+	- massUpdatePools() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3177)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	Event emitted after the call(s):
+	- EmissionRateUpdated(_msgSender(),crssPerBlock,_crssPerBlock) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3178)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2983)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2984)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	Event emitted after the call(s):
+	- ReferralCommissionPaid(_user,referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3209)
+		- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2984)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021):
+	External calls:
+	- updatePool(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2983)
+		- crss.mint(devAddress,crssReward.mul(87).div(1000)) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2800)
+		- crss.mint(address(this),crssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2801)
+	- payOrLockuppendingCrss(_pid) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2984)
+		- crss.transfer(_to,crssBal) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3150)
+		- crss.transfer(_to,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3152)
+		- crss.mint(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3207)
+		- crssReferral.recordReferralCommission(referrer,commissionAmount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3208)
+		- crss.approve(address(xCrss),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3131)
+		- xCrss.depositToken(_msgSender(),xCrssReward) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3132)
+	- shareRemoved = IStrategy(pool.strategy).withdraw(_msgSender(),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2989)
+	- pool.lpToken.transfer(address(_msgSender()),_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3016)
+	Event emitted after the call(s):
+	- Withdraw(_msgSender(),_pid,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3020)
+Reentrancy in xCrssToken.withdrawToken(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2432-2445):
+	External calls:
+	- crssToken.transfer(msg.sender,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2440)
+	Event emitted after the call(s):
+	- Transfer(account,address(0),amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2221)
+		- _burn(msg.sender,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2442)
+	- WithdrawToken(msg.sender,_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2444)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+CrssToken.addLiquidity(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1643-1659) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(liquidity > 0,Add liquidity failed) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1658)
+CrssToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1734-1775) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,CRSS::delegateBySig: signature expired) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1773)
+xCrssToken.unlockedToken(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2353-2374) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _getNow() > user[i].depositTime (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2359)
+	- monthPassed >= 5 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2364)
+xCrssToken.withdrawByElement(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2376-2408) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _getNow() > user[i].depositTime (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2380)
+	- _withdrawAmount > 0 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2381)
+	- monthPassed >= 5 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2386)
+	- unlocked >= _withdrawAmount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2392)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+BaseRelayRecipient._msgSender() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#345-356) uses assembly
+	- INLINE ASM (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#350-352)
+Address.isContract(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#465-474) uses assembly
+	- INLINE ASM (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#472)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#610-627) uses assembly
+	- INLINE ASM (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#619-622)
+Initializable.isConstructor() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1220-1232) uses assembly
+	- INLINE ASM (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1228-1230)
+CrssToken.getChainId() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1907-1911) uses assembly
+	- INLINE ASM (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1909)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+CrssToken.antiWhale(address,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1330-1340) compares to a boolean constant:
+	-_excludedFromAntiWhale[sender] == false && _excludedFromAntiWhale[recipient] == false (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1333-1334)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+ReentrancyGuard.nonReentrant() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#267-279) has costly operations inside a loop:
+	- _status = _ENTERED (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#272)
+ReentrancyGuard.nonReentrant() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#267-279) has costly operations inside a loop:
+	- _status = _NOT_ENTERED (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#278)
+MasterChef.withdraw(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965-3021) has costly operations inside a loop:
+	- stakingPoolDeposit = stakingPoolDeposit.sub(_amount) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3013)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+AddrArrayLib.getAddressAtIndex(AddrArrayLib.Addresses,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#810-813) is never used and should be removed
+Address.functionCall(address,bytes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#518-520) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#543-545) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#592-594) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#602-608) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#568-570) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#578-584) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#492-498) is never used and should be removed
+BEP20UpgradeSafe._setupDecimals(uint8) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2256-2258) is never used and should be removed
+Context._msgData() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1097-1100) is never used and should be removed
+ContextUpgradeSafe.__Context_init() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1933-1935) is never used and should be removed
+ContextUpgradeSafe._msgData() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1943-1946) is never used and should be removed
+SafeBEP20.safeApprove(IBEP20,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#675-689) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#700-710) is never used and should be removed
+SafeBEP20.safeTransferFrom(IBEP20,address,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#659-666) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#192-195) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#154-157) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#212-215) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#26-30) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#62-65) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#72-75) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#47-55) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#37-40) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#492-498):
+	- (success) = recipient.call{value: amount}() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#496)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#553-560):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#558)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#578-584):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#582)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#602-608):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#606)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function ICrosswisePair.DOMAIN_SEPARATOR() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#897) is not in mixedCase
+Function ICrosswisePair.PERMIT_TYPEHASH() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#898) is not in mixedCase
+Function ICrosswisePair.MINIMUM_LIQUIDITY() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#915) is not in mixedCase
+Function ICrosswiseRouter01.WBNB() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#939) is not in mixedCase
+Variable Initializable.______gap (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1235) is not in mixedCase
+Event CrssTokenInit_router(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1318) is not in CapWords
+Function CrssToken.init_router(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1374-1383) is not in mixedCase
+Parameter CrssToken.setSwapAndLiquifyEnabled(bool)._enabled (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1581) is not in mixedCase
+Parameter CrssToken.setMaxTransferAmountRate(uint256)._maxTransferAmountRate (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1586) is not in mixedCase
+Parameter CrssToken.setWhiteList(address,bool)._addr (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1592) is not in mixedCase
+Parameter CrssToken.setWhiteList(address,bool)._status (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1592) is not in mixedCase
+Parameter CrssToken.mint(address,uint256)._to (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1662) is not in mixedCase
+Parameter CrssToken.mint(address,uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1662) is not in mixedCase
+Parameter CrssToken.isExcludedFromAntiWhale(address)._account (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1892) is not in mixedCase
+Parameter CrssToken.setExcludedFromAntiWhale(address,bool)._account (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1896) is not in mixedCase
+Parameter CrssToken.setExcludedFromAntiWhale(address,bool)._excluded (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1896) is not in mixedCase
+Constant CrssToken.maxSupply (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1287) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant CrssToken.burnAddress (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1296) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable CrssToken._delegates (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1676) is not in mixedCase
+Function ContextUpgradeSafe.__Context_init() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1933-1935) is not in mixedCase
+Function ContextUpgradeSafe.__Context_init_unchained() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1937) is not in mixedCase
+Variable ContextUpgradeSafe.__gap (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1948) is not in mixedCase
+Function BEP20UpgradeSafe.__BEP20_init(string,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2008-2011) is not in mixedCase
+Function BEP20UpgradeSafe.__BEP20_init_unchained(string,string) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2013-2017) is not in mixedCase
+Variable BEP20UpgradeSafe.__gap (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2280) is not in mixedCase
+Contract xCrssToken (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2293-2450) is not in CapWords
+Parameter xCrssToken.initialize(IBEP20,address,address)._crssToken (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2327) is not in mixedCase
+Parameter xCrssToken.initialize(IBEP20,address,address)._masterChef (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2328) is not in mixedCase
+Parameter xCrssToken.initialize(IBEP20,address,address)._stakingVault (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2329) is not in mixedCase
+Parameter xCrssToken.removeDepositedElement(address,uint256)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2342) is not in mixedCase
+Parameter xCrssToken.removeDepositedElement(address,uint256)._index (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2342) is not in mixedCase
+Parameter xCrssToken.unlockedToken(address)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2353) is not in mixedCase
+Parameter xCrssToken.withdrawByElement(address,uint256)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2376) is not in mixedCase
+Parameter xCrssToken.withdrawByElement(address,uint256)._withdrawAmount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2376) is not in mixedCase
+Parameter xCrssToken.depositToken(address,uint256)._depositUser (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2410) is not in mixedCase
+Parameter xCrssToken.depositToken(address,uint256)._rewardAmount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2410) is not in mixedCase
+Parameter xCrssToken.withdrawToken(uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2432) is not in mixedCase
+Function xCrssToken._getNow() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2447-2449) is not in mixedCase
+Constant xCrssToken.oneMonth (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2320) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant xCrssToken.unlockPerMonth (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2321) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter MasterChef.getUserDepositBalanceByPid(uint256,address)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2647) is not in mixedCase
+Parameter MasterChef.getUserDepositBalanceByPid(uint256,address)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2647) is not in mixedCase
+Parameter MasterChef.stakedTokens(uint256,address)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2663) is not in mixedCase
+Parameter MasterChef.stakedTokens(uint256,address)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2663) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,uint256,address,bool)._allocPoint (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2689) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,uint256,address,bool)._lpToken (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2689) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,uint256,address,bool)._depositFeeBP (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2689) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,uint256,address,bool)._strategy (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2689) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,uint256,address,bool)._withUpdate (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2689) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint256,address,bool)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2710) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint256,address,bool)._allocPoint (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2710) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint256,address,bool)._depositFeeBP (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2710) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint256,address,bool)._strategy (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2710) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,uint256,address,bool)._withUpdate (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2710) is not in mixedCase
+Parameter MasterChef.getMultiplier(uint256,uint256)._from (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2722) is not in mixedCase
+Parameter MasterChef.getMultiplier(uint256,uint256)._to (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2722) is not in mixedCase
+Parameter MasterChef.pendingCrss(uint256,address)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2727) is not in mixedCase
+Parameter MasterChef.pendingCrss(uint256,address)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2727) is not in mixedCase
+Parameter MasterChef.updatePool(uint256)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2781) is not in mixedCase
+Parameter MasterChef.earn(uint256)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2806) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256,address,bool,bool)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256,address,bool,bool)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256,address,bool,bool)._referrer (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2901) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2965) is not in mixedCase
+Parameter MasterChef.enterStaking(uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3024) is not in mixedCase
+Parameter MasterChef.leaveStaking(uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3053) is not in mixedCase
+Parameter MasterChef.emergencyWithdraw(uint256)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3076) is not in mixedCase
+Parameter MasterChef.payOrLockuppendingCrss(uint256)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3111) is not in mixedCase
+Parameter MasterChef.safeCrssTransfer(address,uint256)._to (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3147) is not in mixedCase
+Parameter MasterChef.safeCrssTransfer(address,uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3147) is not in mixedCase
+Parameter MasterChef.setDevAddress(address)._devAddress (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3157) is not in mixedCase
+Parameter MasterChef.setTreasuryAddress(address)._treasuryAddress (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3163) is not in mixedCase
+Parameter MasterChef.updateAutoCompFee(uint256)._autoCompFee (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3170) is not in mixedCase
+Parameter MasterChef.updateEmissionRate(uint256)._crssPerBlock (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3176) is not in mixedCase
+Parameter MasterChef.setCrssReferral(ICrssReferral)._crssReferral (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3183) is not in mixedCase
+Parameter MasterChef.setReferralCommissionRate(uint256)._referralCommissionRate (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3189) is not in mixedCase
+Parameter MasterChef.setTrustedForwarder(address)._trustedForwarder (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3195) is not in mixedCase
+Parameter MasterChef.payReferralCommission(address,uint256)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3201) is not in mixedCase
+Parameter MasterChef.payReferralCommission(address,uint256)._pending (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3201) is not in mixedCase
+Parameter MasterChef.autoUserIndex(uint256,address)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3214) is not in mixedCase
+Parameter MasterChef.autoUserIndex(uint256,address)._user (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3214) is not in mixedCase
+Parameter MasterChef.updateLockedByPid(uint256,uint256)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3238) is not in mixedCase
+Parameter MasterChef.updateLockedByPid(uint256,uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3238) is not in mixedCase
+Parameter MasterChef.updateLeftCrssByPid(uint256,uint256)._pid (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3242) is not in mixedCase
+Parameter MasterChef.updateLeftCrssByPid(uint256,uint256)._amount (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3242) is not in mixedCase
+Constant MasterChef.burnAddress (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2524) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant MasterChef.stakePoolId (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2532) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant MasterChef.routerDeadlineDuration (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2535) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1098)" inContext (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1092-1101)
+Redundant expression "this (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1944)" inContextUpgradeSafe (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1929-1949)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable ICrosswiseRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#944) is too similar to ICrosswiseRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#945)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+CrssToken.slitherConstructorConstantVariables() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1272-1912) uses literals with too many digits:
+	- maxSupply = 50000000000000000000000000 (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1287)
+CrssToken.slitherConstructorConstantVariables() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1272-1912) uses literals with too many digits:
+	- burnAddress = 0x000000000000000000000000000000000000dEaD (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1296)
+MasterChef.slitherConstructorConstantVariables() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2476-3246) uses literals with too many digits:
+	- burnAddress = 0x000000000000000000000000000000000000dEaD (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2524)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+Initializable.______gap (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1235) is never used in CrssToken (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1272-1912)
+Initializable.______gap (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1235) is never used in xCrssToken (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2293-2450)
+BEP20UpgradeSafe.__gap (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2280) is never used in xCrssToken (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2293-2450)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1156-1159)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1165-1169)
+init_router(address) should be declared external:
+	- CrssToken.init_router(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1374-1383)
+decimals() should be declared external:
+	- CrssToken.decimals() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1391-1393)
+symbol() should be declared external:
+	- CrssToken.symbol() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1394-1396)
+approve(address,uint256) should be declared external:
+	- BEP20UpgradeSafe.approve(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2092-2095)
+	- CrssToken.approve(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1406-1409)
+increaseAllowance(address,uint256) should be declared external:
+	- CrssToken.increaseAllowance(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1410-1413)
+decreaseAllowance(address,uint256) should be declared external:
+	- CrssToken.decreaseAllowance(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1414-1421)
+setSwapAndLiquifyEnabled(bool) should be declared external:
+	- CrssToken.setSwapAndLiquifyEnabled(bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1581-1584)
+setMaxTransferAmountRate(uint256) should be declared external:
+	- CrssToken.setMaxTransferAmountRate(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1586-1590)
+mint(address,uint256) should be declared external:
+	- CrssToken.mint(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1662-1668)
+isExcludedFromAntiWhale(address) should be declared external:
+	- CrssToken.isExcludedFromAntiWhale(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1892-1894)
+setExcludedFromAntiWhale(address,bool) should be declared external:
+	- CrssToken.setExcludedFromAntiWhale(address,bool) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1896-1900)
+name() should be declared external:
+	- BEP20UpgradeSafe.name() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2022-2024)
+symbol() should be declared external:
+	- BEP20UpgradeSafe.symbol() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2030-2032)
+decimals() should be declared external:
+	- BEP20UpgradeSafe.decimals() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2047-2049)
+transfer(address,uint256) should be declared external:
+	- BEP20UpgradeSafe.transfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2073-2076)
+	- CrssToken.transfer(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1446-1494)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20UpgradeSafe.transferFrom(address,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2109-2117)
+	- CrssToken.transferFrom(address,address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#1496-1550)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20UpgradeSafe.increaseAllowance(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2131-2134)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20UpgradeSafe.decreaseAllowance(address,uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2150-2153)
+initialize(IBEP20,address,address) should be declared external:
+	- xCrssToken.initialize(IBEP20,address,address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2326-2340)
+withdrawToken(uint256) should be declared external:
+	- xCrssToken.withdrawToken(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2432-2445)
+renounceOwnership() should be declared external:
+	- MasterChef.renounceOwnership() (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2628-2631)
+transferOwnership(address) should be declared external:
+	- MasterChef.transferOwnership(address) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#2633-2637)
+emergencyWithdraw(uint256) should be declared external:
+	- MasterChef.emergencyWithdraw(uint256) (../../sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol#3076-3108)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x70873211cb64c1d4ec027ea63a399a7d07c4085b.sol analyzed (22 contracts with 78 detectors), 262 result(s) found

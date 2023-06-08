@@ -1,0 +1,258 @@
+[91m
+ZapBSC.withdraw(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2099-2106) ignores return value by IBEP20(token).transfer(owner(),IBEP20(token).balanceOf(address(this))) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2105)
+BunnyMinterV2._mint(uint256,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2367-2378) ignores return value by tokenBUNNY.transfer(to,amount) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2372)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:
+	-valueInBNB = amount.mul(IBEP20(WBNB).balanceOf(address(asset))).mul(2).div(IPancakePair(asset).totalSupply()) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1715)
+	-valueInUSD = valueInBNB.mul(priceOfBNB()).div(1e18) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1716)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:
+	-valueInBNB = amount.mul(balanceToken0).mul(2).mul(token0PriceInBNB).div(1e18).div(IPancakePair(asset).totalSupply()) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1721)
+	-valueInUSD = valueInBNB.mul(priceOfBNB()).div(1e18) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1735)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:
+	-valueInBNB = amount.mul(balanceToken0).mul(2).mul(token0PriceInBNB).div(1e18).div(IPancakePair(asset).totalSupply()) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1721)
+	-valueInBNB = valueInBNB.mul(pairValueInBNB).div(1e18) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1733)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) performs a multiplication on the result of a division:
+	-valueInUSD = valueInBNB.mul(priceOfBNB()).div(1e18) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1722)
+	-valueInBNB = valueInBNB.mul(pairValueInBNB).div(1e18) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1733)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) uses a dangerous strict equality:
+	- IBEP20(asset).balanceOf(pair) == 0 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1728)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+ZapBSC.zapInToken(address,uint256,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1887-1909) ignores return value by ROUTER.addLiquidity(_from,other,amount.sub(sellAmount),otherAmount,0,0,msg.sender,block.timestamp) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1901)
+ZapBSC.zapOut(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915-1931) ignores return value by ROUTER.removeLiquidity(token0,token1,amount,0,0,msg.sender,block.timestamp) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1928)
+ZapBSC.zapOut(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915-1931) ignores return value by ROUTER.removeLiquidityETH(token0,amount,0,0,msg.sender,block.timestamp) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1926)
+ZapBSC.zapOut(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915-1931) ignores return value by ROUTER.removeLiquidityETH(token1,amount,0,0,msg.sender,block.timestamp) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1926)
+ZapBSC._swapBNBToFlip(address,uint256,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1941-1966) ignores return value by ROUTER.addLiquidityETH{value: amount.sub(swapValue)}(token,tokenAmount,0,0,receiver,block.timestamp) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1955)
+ZapBSC._swapBNBToFlip(address,uint256,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1941-1966) ignores return value by ROUTER.addLiquidity(token0,token1,token0Amount,token1Amount,0,0,receiver,block.timestamp) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1963)
+BunnyMinterV2.initialize() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2163-2172) ignores return value by IBEP20(BUNNY).approve(BUNNY_POOL,uint256(- 1)) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2171)
+BunnyMinterV2._mint(uint256,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2367-2378) ignores return value by tokenBUNNY.mint(amount) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2370)
+BunnyMinterV2._mint(uint256,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2367-2378) ignores return value by tokenBUNNY.mint(bunnyForDev) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2376)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+BEP20.constructor(string,string).name (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1198) shadows:
+	- BEP20.name() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1214-1216) (function)
+	- IBEP20.name() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#767) (function)
+BEP20.constructor(string,string).symbol (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1198) shadows:
+	- BEP20.symbol() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1228-1230) (function)
+	- IBEP20.symbol() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#762) (function)
+BEP20.allowance(address,address).owner (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1262) shadows:
+	- Ownable.owner() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1104-1106) (function)
+BEP20._approve(address,address,uint256).owner (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1434) shadows:
+	- Ownable.owner() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1104-1106) (function)
+BunnyMinterV2.transferBunnyOwner(address)._owner (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2176) shadows:
+	- OwnableUpgradeable._owner (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#396) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+BunnyMinterV2.setBunnyChef(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2211-2214) should emit an event for: 
+	- bunnyChef = _bunnyChef (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2213) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+BunnyMinterV2.setWithdrawalFee(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2180-2184) should emit an event for: 
+	- WITHDRAWAL_FEE = _fee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2183) 
+BunnyMinterV2.setPerformanceFee(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2186-2189) should emit an event for: 
+	- PERFORMANCE_FEE = _fee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2188) 
+BunnyMinterV2.setWithdrawalFeeFreePeriod(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2191-2193) should emit an event for: 
+	- WITHDRAWAL_FEE_FREE_PERIOD = _period (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2192) 
+BunnyMinterV2.setBunnyPerProfitBNB(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2203-2205) should emit an event for: 
+	- bunnyPerProfitBNB = _ratio (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2204) 
+BunnyMinterV2.setBunnyPerBunnyBNBFlip(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2207-2209) should emit an event for: 
+	- bunnyPerBunnyBNBFlip = _bunnyPerBunnyBNBFlip (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2208) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+BunnyMinterV2.setBunnyChef(address)._bunnyChef (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2211) lacks a zero-check on :
+		- bunnyChef = _bunnyChef (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2213)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+PriceCalculatorBSC.priceOfBNB() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1682-1685) has external calls inside a loop: (price) = bnbPriceFeed.latestRoundData() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1683)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: keccak256(bytes)(abi.encodePacked(IPancakePair(asset).symbol())) == keccak256(bytes)(Cake-LP) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1711)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: IPancakePair(asset).totalSupply() == 0 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1712)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: IPancakePair(asset).token0() == WBNB || IPancakePair(asset).token1() == WBNB (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1714)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: valueInBNB = amount.mul(IBEP20(WBNB).balanceOf(address(asset))).mul(2).div(IPancakePair(asset).totalSupply()) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1715)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: balanceToken0 = IBEP20(IPancakePair(asset).token0()).balanceOf(asset) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1718)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: (token0PriceInBNB) = valueOfAsset(IPancakePair(asset).token0(),1e18) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1719)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: valueInBNB = IBEP20(pairToken).balanceOf(pair).mul(amount).div(IBEP20(asset).balanceOf(pair)) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1730)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: pair = factory.getPair(asset,pairToken) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1727)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: valueInBNB = amount.mul(balanceToken0).mul(2).mul(token0PriceInBNB).div(1e18).div(IPancakePair(asset).totalSupply()) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1721)
+PriceCalculatorBSC.valueOfAsset(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1706-1737) has external calls inside a loop: IBEP20(asset).balanceOf(pair) == 0 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1728)
+ZapBSC.sweep() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2088-2097) has external calls inside a loop: amount = IBEP20(token).balanceOf(address(this)) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2092)
+ZapBSC._swapTokenForBNB(address,uint256,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1986-2001) has external calls inside a loop: amounts = ROUTER.swapExactTokensForETH(amount,0,path,receiver,block.timestamp) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1999)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+BunnyMinterV2.withdrawalFee(uint256,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2233-2238) uses timestamp for comparisons
+	Dangerous comparisons:
+	- depositedAt.add(WITHDRAWAL_FEE_FREE_PERIOD) > block.timestamp (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2234)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+AddressUpgradeable.isContract(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#162-171) uses assembly
+	- INLINE ASM (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#169)
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#283-300) uses assembly
+	- INLINE ASM (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#292-295)
+Address.isContract(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#867-878) uses assembly
+	- INLINE ASM (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#874-876)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#975-1001) uses assembly
+	- INLINE ASM (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#993-996)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+ZapBSC.setNotFlip(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2073-2079) compares to a boolean constant:
+	-needPush = notFlip[token] == false (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2074)
+BunnyMinterV2.onlyMinter() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2149-2152) compares to a boolean constant:
+	-require(bool,string)(isMinter(msg.sender) == true,BunnyMinterV2: caller is not the minter) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2150)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#922-924) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#951-957) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#965-973) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#896-902) is never used and should be removed
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#283-300) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#215-217) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#225-227) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#240-242) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#250-257) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#265-267) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#275-281) is never used and should be removed
+AddressUpgradeable.sendValue(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#189-195) is never used and should be removed
+BEP20._burn(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1412-1418) is never used and should be removed
+BEP20._burnFrom(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1451-1458) is never used and should be removed
+Context._msgData() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#120-123) is never used and should be removed
+ContextUpgradeable.__Context_init() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#365-367) is never used and should be removed
+ContextUpgradeable._msgData() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#375-378) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1531-1541) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1522-1529) is never used and should be removed
+SafeMath.min(uint256,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#675-677) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#650-652) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#666-673) is never used and should be removed
+SafeMath.sqrt(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#680-691) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in AddressUpgradeable.sendValue(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#189-195):
+	- (success) = recipient.call{value: amount}() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#193)
+Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#250-257):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#255)
+Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#275-281):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#279)
+Low level call in Address.sendValue(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#896-902):
+	- (success) = recipient.call{value: amount}() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#900)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#975-1001):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#984)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IPancakeRouter01.WETH() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#6) is not in mixedCase
+Function ContextUpgradeable.__Context_init() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#365-367) is not in mixedCase
+Function ContextUpgradeable.__Context_init_unchained() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#369-370) is not in mixedCase
+Variable ContextUpgradeable.__gap (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#379) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#403-406) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init_unchained() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#408-412) is not in mixedCase
+Variable OwnableUpgradeable.__gap (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is not in mixedCase
+Function IPancakePair.DOMAIN_SEPARATOR() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#470) is not in mixedCase
+Function IPancakePair.PERMIT_TYPEHASH() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#471) is not in mixedCase
+Function IPancakePair.MINIMUM_LIQUIDITY() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#488) is not in mixedCase
+Function IBunnyMinterV2.WITHDRAWAL_FEE_FREE_PERIOD() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1022) is not in mixedCase
+Function IBunnyMinterV2.WITHDRAWAL_FEE() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1023) is not in mixedCase
+Constant PriceCalculatorBSC.factory (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1660) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant PriceCalculatorBSC.bnbPriceFeed (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1661) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter ZapBSC.isFlip(address)._address (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1877) is not in mixedCase
+Parameter ZapBSC.routePair(address)._address (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1881) is not in mixedCase
+Parameter ZapBSC.zapInToken(address,uint256,address)._from (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1887) is not in mixedCase
+Parameter ZapBSC.zapInToken(address,uint256,address)._to (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1887) is not in mixedCase
+Parameter ZapBSC.zapIn(address)._to (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1911) is not in mixedCase
+Parameter ZapBSC.zapOut(address,uint256)._from (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1915) is not in mixedCase
+Parameter BunnyMinterV2.transferBunnyOwner(address)._owner (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2176) is not in mixedCase
+Parameter BunnyMinterV2.setWithdrawalFee(uint256)._fee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2180) is not in mixedCase
+Parameter BunnyMinterV2.setPerformanceFee(uint256)._fee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2186) is not in mixedCase
+Parameter BunnyMinterV2.setWithdrawalFeeFreePeriod(uint256)._period (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2191) is not in mixedCase
+Parameter BunnyMinterV2.setBunnyPerProfitBNB(uint256)._ratio (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2203) is not in mixedCase
+Parameter BunnyMinterV2.setBunnyPerBunnyBNBFlip(uint256)._bunnyPerBunnyBNBFlip (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2207) is not in mixedCase
+Parameter BunnyMinterV2.setBunnyChef(address)._bunnyChef (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2211) is not in mixedCase
+Parameter BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246) is not in mixedCase
+Parameter BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246) is not in mixedCase
+Parameter BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270) is not in mixedCase
+Parameter BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270) is not in mixedCase
+Parameter BunnyMinterV2.safeBunnyTransfer(address,uint256)._to (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2299) is not in mixedCase
+Parameter BunnyMinterV2.safeBunnyTransfer(address,uint256)._amount (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2299) is not in mixedCase
+Constant BunnyMinterV2.zapBSC (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2127) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant BunnyMinterV2.zapBSCV2 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2128) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant BunnyMinterV2.priceCalculator (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2129) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant BunnyMinterV2.routerV1 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2131) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant BunnyMinterV2.routerV2 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2132) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable BunnyMinterV2._deprecated_helper (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2138) is not in mixedCase
+Variable BunnyMinterV2.PERFORMANCE_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is not in mixedCase
+Variable BunnyMinterV2.WITHDRAWAL_FEE_FREE_PERIOD (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2141) is not in mixedCase
+Variable BunnyMinterV2.WITHDRAWAL_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#121)" inContext (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#111-124)
+Redundant expression "this (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#376)" inContextUpgradeable (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#364-380)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#11) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#12)
+Variable ZapBSC._swapBNBToFlip(address,uint256,address).token0Amount (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1958) is too similar to ZapBSC._swapBNBToFlip(address,uint256,address).token1Amount (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1959)
+Variable BunnyMinterV2.PERFORMANCE_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246)
+Variable BunnyMinterV2.PERFORMANCE_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to IBunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1018)
+Variable BunnyMinterV2.PERFORMANCE_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270)
+Variable BunnyMinterV2.PERFORMANCE_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2140) is too similar to IBunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1019)
+Variable BunnyMinterV2.WITHDRAWAL_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to IBunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1018)
+Variable BunnyMinterV2.WITHDRAWAL_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to BunnyMinterV2.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2246)
+Variable BunnyMinterV2.WITHDRAWAL_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to BunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2270)
+Variable BunnyMinterV2.WITHDRAWAL_FEE (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2142) is too similar to IBunnyMinterV2.mintForV2(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1019)
+Variable BunnyMinterV2._zapAssetsToBunnyBNB(address,uint256,bool).amountToken0 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2344) is too similar to BunnyMinterV2._zapAssetsToBunnyBNB(address,uint256,bool).amountToken1 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2344)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+BunnyMinterV2.slitherConstructorConstantVariables() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2110-2379) uses literals with too many digits:
+	- DEAD = 0x000000000000000000000000000000000000dEaD (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2123)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+OwnableUpgradeable.__gap (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is never used in PriceCalculatorBSC (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1651-1738)
+OwnableUpgradeable.__gap (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is never used in ZapBSC (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1827-2107)
+OwnableUpgradeable.__gap (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#450) is never used in BunnyMinterV2 (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2110-2379)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+BunnyMinterV2._deprecated_helper (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2138) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+renounceOwnership() should be declared external:
+	- OwnableUpgradeable.renounceOwnership() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#436-439)
+transferOwnership(address) should be declared external:
+	- OwnableUpgradeable.transferOwnership(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#445-449)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1123-1126)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1132-1134)
+name() should be declared external:
+	- BEP20.name() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1214-1216)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1221-1223)
+symbol() should be declared external:
+	- BEP20.symbol() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1228-1230)
+totalSupply() should be declared external:
+	- BEP20.totalSupply() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1235-1237)
+balanceOf(address) should be declared external:
+	- BEP20.balanceOf(address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1242-1244)
+transfer(address,uint256) should be declared external:
+	- BEP20.transfer(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1254-1257)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1262-1264)
+approve(address,uint256) should be declared external:
+	- BEP20.approve(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1273-1276)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20.transferFrom(address,address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1290-1302)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20.increaseAllowance(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1316-1319)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20.decreaseAllowance(address,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1335-1342)
+mint(uint256) should be declared external:
+	- BEP20.mint(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1352-1355)
+priceOfCake() should be declared external:
+	- PriceCalculatorBSC.priceOfCake() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1687-1690)
+priceOfBunny() should be declared external:
+	- PriceCalculatorBSC.priceOfBunny() (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1692-1695)
+pricesInUSD(address[]) should be declared external:
+	- PriceCalculatorBSC.pricesInUSD(address[]) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#1697-1704)
+amountBunnyToMintForBunnyBNB(uint256,uint256) should be declared external:
+	- BunnyMinterV2.amountBunnyToMintForBunnyBNB(uint256,uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2229-2231)
+performanceFee(uint256) should be declared external:
+	- BunnyMinterV2.performanceFee(uint256) (../../sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol#2240-2242)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x819eea71d3f93bb604816f1797d4828c90219b5d.sol analyzed (22 contracts with 78 detectors), 157 result(s) found

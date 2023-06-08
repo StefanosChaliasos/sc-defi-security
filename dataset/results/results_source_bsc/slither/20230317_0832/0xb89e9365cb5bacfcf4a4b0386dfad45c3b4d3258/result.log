@@ -1,0 +1,209 @@
+Compilation warnings/errors on /sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol:1425:1:
+     |
+1425 | library SwapUtils {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol:2745:1:
+     |
+2745 | contract Swap is OwnerPausable, ReentrancyGuard {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[93m
+SwapUtils.getYD(uint256,uint8,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1750-1785) performs a multiplication on the result of a division:
+	-c = c.mul(d).div(xp[i].mul(numTokens)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1766)
+	-c = c.mul(d).mul(A_PRECISION).div(nA.mul(numTokens)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1772)
+SwapUtils.getD(uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1795-1836) performs a multiplication on the result of a division:
+	-dP = dP.mul(d).div(xp[j].mul(numTokens)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1816)
+	-d = nA.mul(s).div(A_PRECISION).add(dP.mul(numTokens)).mul(d).div(nA.sub(A_PRECISION).mul(d).div(A_PRECISION).add(numTokens.add(1).mul(dP))) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1822-1826)
+SwapUtils.getY(SwapUtils.Swap,uint8,uint8,uint256,uint256[]) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1933-1985) performs a multiplication on the result of a division:
+	-c = c.mul(d).div(_x.mul(numTokens)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1966)
+	-c = c.mul(d).mul(A_PRECISION).div(nA.mul(numTokens)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1971)
+SwapUtils._calculateRemoveLiquidity(SwapUtils.Swap,address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2058-2081) performs a multiplication on the result of a division:
+	-feeAdjustedAmount = amount.mul(FEE_DENOMINATOR.sub(calculateCurrentWithdrawFee(self,account))).div(FEE_DENOMINATOR) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2066-2071)
+	-amounts[i] = self.balances[i].mul(feeAdjustedAmount).div(totalSupply) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2076-2078)
+SwapUtils.calculateTokenAmount(SwapUtils.Swap,address,uint256[],bool) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2126-2159) performs a multiplication on the result of a division:
+	-d0.sub(d1).mul(totalSupply).div(d0).mul(FEE_DENOMINATOR).div(FEE_DENOMINATOR.sub(calculateCurrentWithdrawFee(self,account))) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2152-2157)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+SwapUtils._xp(uint256[],uint256[]) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1860-1874) uses a dangerous strict equality:
+	- require(bool,string)(numTokens == precisionMultipliers.length,Balances must match multipliers) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1865-1868)
+SwapUtils.getD(uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1795-1836) uses a dangerous strict equality:
+	- s == 0 (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1805)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+SwapUtils.getYD(uint256,uint8,uint256[],uint256).s (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1760) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376) has external calls inside a loop: beforeBalance = self.pooledTokens[i].balanceOf(address(this)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2313-2314)
+SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376) has external calls inside a loop: amounts[i] = self.pooledTokens[i].balanceOf(address(this)).sub(beforeBalance) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2322-2324)
+SwapUtils.withdrawAdminFees(SwapUtils.Swap,address) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2604-2613) has external calls inside a loop: balance = token.balanceOf(address(this)).sub(self.balances[i]) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2607-2608)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376):
+	External calls:
+	- self.lpToken.mint(to,toMint) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2365)
+	Event emitted after the call(s):
+	- AddLiquidity(msg.sender,amounts,fees,v.d1,totalSupply.add(toMint)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2367-2373)
+Reentrancy in SwapUtils.removeLiquidity(SwapUtils.Swap,address,uint256,uint256[]) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2434-2460):
+	External calls:
+	- self.lpToken.burnFrom(msg.sender,amount) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2455)
+	Event emitted after the call(s):
+	- RemoveLiquidity(msg.sender,amounts,self.lpToken.totalSupply()) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2457)
+Reentrancy in SwapUtils.removeLiquidityImbalance(SwapUtils.Swap,address,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2526-2597):
+	External calls:
+	- self.lpToken.burnFrom(msg.sender,tokenAmount) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2582)
+	Event emitted after the call(s):
+	- RemoveLiquidityImbalance(msg.sender,amounts,fees,v.d1,tokenSupply.sub(tokenAmount)) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2588-2594)
+Reentrancy in SwapUtils.removeLiquidityOneToken(SwapUtils.Swap,address,uint256,uint8,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2471-2513):
+	External calls:
+	- self.lpToken.burnFrom(msg.sender,tokenAmount) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2501)
+	- self.pooledTokens[tokenIndex].safeTransfer(to,dy) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2502)
+	Event emitted after the call(s):
+	- RemoveLiquidityOne(msg.sender,tokenAmount,totalSupply,tokenIndex,dy) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2504-2510)
+Reentrancy in SwapUtils.swap(SwapUtils.Swap,address,uint8,uint8,uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2203-2250):
+	External calls:
+	- self.pooledTokens[tokenIndexFrom].safeTransferFrom(msg.sender,address(this),dx) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2219-2223)
+	- self.pooledTokens[tokenIndexTo].safeTransfer(to,dy) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2237)
+	Event emitted after the call(s):
+	- TokenSwap(msg.sender,transferredDx,dy,tokenIndexFrom,tokenIndexTo) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2239-2245)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+SwapUtils._getAPrecise(SwapUtils.Swap) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1598-1621) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < t1 (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1602)
+SwapUtils.calculateWithdrawOneTokenDY(SwapUtils.Swap,uint8,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1681-1730) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(tokenAmount <= xp[tokenIndex],Withdraw exceeds available) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1700)
+SwapUtils.getYD(uint256,uint8,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1750-1785) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(tokenIndex < numTokens,Token not found) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1757)
+	- i < numTokens (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1763)
+SwapUtils.getD(uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1795-1836) uses timestamp for comparisons
+	Dangerous comparisons:
+	- i < numTokens (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1802)
+	- s == 0 (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1805)
+	- j < numTokens (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1815)
+SwapUtils._xp(uint256[],uint256[]) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1860-1874) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(numTokens == precisionMultipliers.length,Balances must match multipliers) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1865-1868)
+	- i < numTokens (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1870)
+SwapUtils._calculateSwap(SwapUtils.Swap,uint8,uint8,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2019-2038) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(tokenIndexFrom < xp.length && tokenIndexTo < xp.length,Token index out of range) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2026-2029)
+SwapUtils.calculateCurrentWithdrawFee(SwapUtils.Swap,address) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2089-2106) uses timestamp for comparisons
+	Dangerous comparisons:
+	- endTime > block.timestamp (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2095)
+SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(v.d1 > v.d0,D should increase) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2333)
+	- require(bool,string)(toMint >= minToMint,Couldn't mint min requested) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2362)
+SwapUtils.removeLiquidityOneToken(SwapUtils.Swap,address,uint256,uint8,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2471-2513) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(dy >= minAmount,dy < minAmount) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2496)
+SwapUtils.removeLiquidityImbalance(SwapUtils.Swap,address,uint256[],uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2526-2597) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(tokenAmount != 0,Burnt amount cannot be zero) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2575)
+	- require(bool,string)(tokenAmount <= maxBurnAmount,tokenAmount > maxBurnAmount) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2580)
+SwapUtils.rampA(SwapUtils.Swap,uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2663-2707) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp >= self.initialATime.add(86400),Wait 1 day before starting ramp) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2668-2671)
+	- require(bool,string)(futureTime_ >= block.timestamp.add(MIN_RAMP_TIME),Insufficient ramp time) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2672-2675)
+	- futureAPrecise < initialAPrecise (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2684)
+	- require(bool,string)(futureAPrecise.mul(MAX_A_CHANGE) >= initialAPrecise,futureA_ is too small) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2685-2688)
+	- require(bool,string)(futureAPrecise <= initialAPrecise.mul(MAX_A_CHANGE),futureA_ is too large) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2690-2693)
+SwapUtils.stopRampA(SwapUtils.Swap) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2714-2724) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(self.futureATime > block.timestamp,Ramp is already stopped) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2715)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1007-1016) uses assembly
+	- INLINE ASM (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1014)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1152-1169) uses assembly
+	- INLINE ASM (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1161-1164)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1060-1062) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1085-1087) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1134-1136) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1144-1150) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1110-1112) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1120-1126) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1034-1040) is never used and should be removed
+Context._msgData() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#311-314) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1201-1210) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1217-1220) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1212-1215) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#190-193) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#152-155) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#210-213) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#24-28) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#60-63) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#70-73) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#45-53) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#35-38) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1034-1040):
+	- (success) = recipient.call{value: amount}() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1038)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1095-1102):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1100)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1120-1126):
+	- (success,returndata) = target.staticcall(data) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1124)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1144-1150):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1148)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._pooledTokens (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2828) is not in mixedCase
+Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._a (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2832) is not in mixedCase
+Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._fee (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2833) is not in mixedCase
+Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._adminFee (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2834) is not in mixedCase
+Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._withdrawFee (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2835) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#312)" inContext (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#306-315)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Swap.initialized (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2756) is never used in Swap (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2745-3288)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+Swap.initialized (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2756) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+name() should be declared external:
+	- ERC20.name() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#398-400)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#406-408)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#423-425)
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#430-432)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#437-439)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#449-452)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#468-471)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#486-490)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#504-507)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#523-526)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#840-843)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#849-853)
+burn(uint256) should be declared external:
+	- ERC20Burnable.burn(uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1337-1339)
+burnFrom(address,uint256) should be declared external:
+	- ERC20Burnable.burnFrom(address,uint256) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1352-1357)
+getLPToken() should be declared external:
+	- Swap.getLPToken() (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2933-2935)
+getTokenIndex(address) should be declared external:
+	- Swap.getTokenIndex(address) (../../sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2953-2960)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol analyzed (17 contracts with 78 detectors), 77 result(s) found

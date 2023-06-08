@@ -1,0 +1,376 @@
+Compilation warnings/errors on /sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol:
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> /sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol
+
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol:1164:1:
+     |
+1164 | contract Vault is IVault, ERC20UpgradeSafe, ReentrancyGuardUpgradeSafe, OwnableUpgradeSafe {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+WNativeRelayer.withdraw(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155-1159) sends eth to arbitrary user
+	Dangerous calls:
+	- (success) = msg.sender.call{value: _amount}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1157)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)
+	- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+		- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)
+	External calls sending eth:
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	State variables written after the call(s):
+	- debt = _removeDebt(id).add(loan) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)
+		- pos.debtShare = 0 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1478)
+	- debt = _removeDebt(id).add(loan) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)
+		- vaultDebtVal = vaultDebtVal.sub(debtVal) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1480)
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)
+	- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)
+	- IERC20(token).transfer(worker,sendERC20) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)
+	- IWorker(worker).work(id,msg.sender,debt,data) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1390)
+	- IDebtToken(debtToken).mint(address(this),debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1401)
+	- IFairLaunch(config.getFairLaunchAddr()).deposit(msg.sender,fairLaunchPoolId,debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1402)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+		- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)
+	External calls sending eth:
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	State variables written after the call(s):
+	- _addDebt(id,debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)
+		- pos.debtShare = pos.debtShare.add(debtShare) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1466)
+	- _addDebt(id,debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)
+		- vaultDebtShare = vaultDebtShare.add(debtShare) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1467)
+	- _addDebt(id,debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)
+		- vaultDebtVal = vaultDebtVal.add(debtVal) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1468)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[91m
+Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417) ignores return value by IERC20(token).transfer(worker,sendERC20) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+Vault.debtShareToVal(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1297-1300) uses a dangerous strict equality:
+	- vaultDebtShare == 0 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1298)
+Vault.debtValToShare(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1304-1307) uses a dangerous strict equality:
+	- vaultDebtShare == 0 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1305)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Vault.initialize(IVaultConfig,address,string,string,uint8,address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1252-1280) ignores return value by IERC20(debtToken).approve(config.getFairLaunchAddr(),uint256(- 1)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1274)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+ERC20UpgradeSafe.__ERC20_init(string,string).name (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#507) shadows:
+	- ERC20UpgradeSafe.name() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#525-527) (function)
+ERC20UpgradeSafe.__ERC20_init(string,string).symbol (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#507) shadows:
+	- ERC20UpgradeSafe.symbol() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#533-535) (function)
+ERC20UpgradeSafe.__ERC20_init_unchained(string,string).name (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#512) shadows:
+	- ERC20UpgradeSafe.name() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#525-527) (function)
+ERC20UpgradeSafe.__ERC20_init_unchained(string,string).symbol (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#512) shadows:
+	- ERC20UpgradeSafe.symbol() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#533-535) (function)
+Vault.initialize(IVaultConfig,address,string,string,uint8,address)._name (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1255) shadows:
+	- ERC20UpgradeSafe._name (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#493) (state variable)
+Vault.initialize(IVaultConfig,address,string,string,uint8,address)._symbol (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1256) shadows:
+	- ERC20UpgradeSafe._symbol (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#494) (state variable)
+Vault.initialize(IVaultConfig,address,string,string,uint8,address)._decimals (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1257) shadows:
+	- ERC20UpgradeSafe._decimals (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#495) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+Vault.withdrawReserve(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1501-1504) should emit an event for: 
+	- reservePool = reservePool.sub(value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1502) 
+Vault.reduceReserve(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1508-1510) should emit an event for: 
+	- reservePool = reservePool.sub(value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1509) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+WNativeRelayer.constructor(address)._wnative (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1139) lacks a zero-check on :
+		- wnative = _wnative (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1140)
+Vault.initialize(IVaultConfig,address,string,string,uint8,address)._token (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1254) lacks a zero-check on :
+		- token = _token (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1268)
+Vault.initialize(IVaultConfig,address,string,string,uint8,address)._debtToken (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1258) lacks a zero-check on :
+		- debtToken = _debtToken (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1272)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in Vault.initialize(IVaultConfig,address,string,string,uint8,address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1252-1280):
+	External calls:
+	- IERC20(debtToken).approve(config.getFairLaunchAddr(),uint256(- 1)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1274)
+	State variables written after the call(s):
+	- POSITION_ID = _NO_ID (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1278)
+	- STRATEGY = _NO_ADDRESS (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1279)
+	- _IN_EXEC_LOCK = _NOT_ENTERED (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1277)
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+		- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)
+	External calls sending eth:
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	State variables written after the call(s):
+	- nonReentrant() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- _notEntered = false (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#850)
+		- _notEntered = true (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#856)
+	- accrue(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- lastAccrueTime = now (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1247)
+	- id = nextPositionID ++ (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1365)
+	- positions[id].worker = worker (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1366)
+	- positions[id].owner = msg.sender (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1367)
+	- accrue(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- reservePool = reservePool.add(toReserve) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1245)
+	- accrue(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- vaultDebtVal = vaultDebtVal.add(interest) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1246)
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)
+	- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+		- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)
+	External calls sending eth:
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	State variables written after the call(s):
+	- POSITION_ID = id (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1377)
+	- (STRATEGY,None) = abi.decode(data,(address,bytes)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1378)
+	- debt = _removeDebt(id).add(loan) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)
+		- vaultDebtShare = vaultDebtShare.sub(debtShare) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1479)
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)
+	- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)
+	- IERC20(token).transfer(worker,sendERC20) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)
+	- IWorker(worker).work(id,msg.sender,debt,data) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1390)
+	- IDebtToken(debtToken).mint(address(this),debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1401)
+	- IFairLaunch(config.getFairLaunchAddr()).deposit(msg.sender,fairLaunchPoolId,debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1402)
+	- SafeToken.safeTransfer(token,config.getWNativeRelayer(),back.sub(lessDebt)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1408)
+	- WNativeRelayer(uint160(config.getWNativeRelayer())).withdraw(back.sub(lessDebt)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1409)
+	- SafeToken.safeTransfer(token,msg.sender,back.sub(lessDebt)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1412)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+		- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)
+	External calls sending eth:
+	- msg.sender.transfer(back.sub(lessDebt)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1410)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	State variables written after the call(s):
+	- POSITION_ID = _NO_ID (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1415)
+	- STRATEGY = _NO_ADDRESS (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1416)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in Vault.kill(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1421-1460):
+	External calls:
+	- IWorker(pos.worker).liquidate(id) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1432)
+	- SafeToken.safeTransfer(token,config.getWNativeRelayer(),prize) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1439)
+	- WNativeRelayer(uint160(config.getWNativeRelayer())).withdraw(prize) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1440)
+	- SafeToken.safeTransfer(token,msg.sender,prize) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1443)
+	- SafeToken.safeTransfer(token,config.getWNativeRelayer(),left) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1449)
+	- WNativeRelayer(uint160(config.getWNativeRelayer())).withdraw(left) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1450)
+	- SafeToken.safeTransfer(token,pos.owner,left) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1453)
+	- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(pos.owner,fairLaunchPoolId) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1457)
+	- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1458)
+	External calls sending eth:
+	- msg.sender.transfer(prize) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1441)
+	- msg.sender.transfer(left) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1451)
+	Event emitted after the call(s):
+	- Kill(id,msg.sender,prize,left) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1459)
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)
+	- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+		- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)
+	External calls sending eth:
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	Event emitted after the call(s):
+	- RemoveDebt(id,debtShare) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1481)
+		- debt = _removeDebt(id).add(loan) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1382)
+	- Work(id,loan) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1375)
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- IFairLaunch(config.getFairLaunchAddr()).withdrawAll(msg.sender,fairLaunchPoolId) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1372)
+	- IDebtToken(debtToken).burn(address(this),debtToken.balanceOf(address(this))) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1373)
+	- IERC20(token).transfer(worker,sendERC20) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1389)
+	- IWorker(worker).work(id,msg.sender,debt,data) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1390)
+	- IDebtToken(debtToken).mint(address(this),debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1401)
+	- IFairLaunch(config.getFairLaunchAddr()).deposit(msg.sender,fairLaunchPoolId,debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1402)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+		- SafeToken.safeTransferFrom(token,msg.sender,address(this),value) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1225)
+	External calls sending eth:
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	Event emitted after the call(s):
+	- AddDebt(id,debtShare) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1469)
+		- _addDebt(id,debt) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1403)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Vault.pendingInterest(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1284-1293) uses timestamp for comparisons
+	Dangerous comparisons:
+	- now > lastAccrueTime (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1285)
+Vault.debtShareToVal(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1297-1300) uses timestamp for comparisons
+	Dangerous comparisons:
+	- vaultDebtShare == 0 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1298)
+Vault.debtValToShare(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1304-1307) uses timestamp for comparisons
+	Dangerous comparisons:
+	- vaultDebtShare == 0 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1305)
+Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(positions[id].worker == worker,bad position worker) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1370)
+	- require(bool,string)(positions[id].owner == msg.sender,not position owner) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1371)
+	- debt > 0 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1396)
+	- require(bool,string)(debt >= config.minDebtSize(),too small debt size) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1397)
+	- require(bool,string)(health.mul(workFactor) >= debt.mul(10000),bad work factor) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1400)
+	- back > lessDebt (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1406)
+Vault.kill(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1421-1460) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(health.mul(killFactor) < debt.mul(10000),can't liquidate) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1429)
+	- left > 0 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1447)
+	- rest > debt (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1446)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Initializable.isConstructor() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#51-61) uses assembly
+	- INLINE ASM (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#59)
+Address.isContract(address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#423-432) uses assembly
+	- INLINE ASM (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#430)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+WNativeRelayer.onlyWhitelistedCaller() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1143-1146) compares to a boolean constant:
+	-require(bool,string)(okCallers[msg.sender] == true,wnativeRelayer: !okCaller) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1144)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Address.isContract(address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#423-432) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#450-456) is never used and should be removed
+Context._msgData() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1065-1068) is never used and should be removed
+ContextUpgradeSafe.__Context_init() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#81-83) is never used and should be removed
+ContextUpgradeSafe._msgData() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#95-98) is never used and should be removed
+ERC20UpgradeSafe._mint(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#690-698) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#794-797) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#779-781) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#381-383) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#396-399) is never used and should be removed
+SafeToken.myBalance(address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#968-970) is never used and should be removed
+SafeToken.safeApprove(address,address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#976-980) is never used and should be removed
+SafeToken.safeTransferETH(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#994-998) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.6.6 (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#5) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#450-456):
+	- (success) = recipient.call{value: amount}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#454)
+Low level call in SafeToken.safeApprove(address,address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#976-980):
+	- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#978)
+Low level call in SafeToken.safeTransfer(address,address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#982-986):
+	- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#984)
+Low level call in SafeToken.safeTransferFrom(address,address,address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#988-992):
+	- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#990)
+Low level call in SafeToken.safeTransferETH(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#994-998):
+	- (success) = to.call{value: value}(new bytes(0)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#996)
+Low level call in WNativeRelayer.withdraw(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155-1159):
+	- (success) = msg.sender.call{value: _amount}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1157)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable Initializable.______gap (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#64) is not in mixedCase
+Function ContextUpgradeSafe.__Context_init() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#81-83) is not in mixedCase
+Function ContextUpgradeSafe.__Context_init_unchained() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#85-88) is not in mixedCase
+Variable ContextUpgradeSafe.__gap (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#100) is not in mixedCase
+Function OwnableUpgradeSafe.__Ownable_init() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#124-127) is not in mixedCase
+Function OwnableUpgradeSafe.__Ownable_init_unchained() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#129-136) is not in mixedCase
+Variable OwnableUpgradeSafe.__gap (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#176) is not in mixedCase
+Function ERC20UpgradeSafe.__ERC20_init(string,string) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#507-510) is not in mixedCase
+Function ERC20UpgradeSafe.__ERC20_init_unchained(string,string) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#512-519) is not in mixedCase
+Variable ERC20UpgradeSafe.__gap (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#769) is not in mixedCase
+Function ReentrancyGuardUpgradeSafe.__ReentrancyGuard_init() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#820-822) is not in mixedCase
+Function ReentrancyGuardUpgradeSafe.__ReentrancyGuard_init_unchained() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#824-835) is not in mixedCase
+Variable ReentrancyGuardUpgradeSafe.__gap (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#859) is not in mixedCase
+Parameter WNativeRelayer.withdraw(uint256)._amount (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155) is not in mixedCase
+Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._config (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1253) is not in mixedCase
+Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._token (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1254) is not in mixedCase
+Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._name (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1255) is not in mixedCase
+Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._symbol (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1256) is not in mixedCase
+Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._decimals (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1257) is not in mixedCase
+Parameter Vault.initialize(IVaultConfig,address,string,string,uint8,address)._debtToken (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1258) is not in mixedCase
+Parameter Vault.updateConfig(IVaultConfig)._config (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1490) is not in mixedCase
+Parameter Vault.setFairLaunchPoolId(uint256)._poolId (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1494) is not in mixedCase
+Variable Vault._IN_EXEC_LOCK (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1182) is not in mixedCase
+Variable Vault.POSITION_ID (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1183) is not in mixedCase
+Variable Vault.STRATEGY (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1184) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#96)" inContextUpgradeSafe (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#77-101)
+Redundant expression "this (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1066)" inContext (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1060-1069)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Reentrancy in Vault.kill(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1421-1460):
+	External calls:
+	- msg.sender.transfer(prize) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1441)
+	- msg.sender.transfer(left) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1451)
+	Event emitted after the call(s):
+	- Kill(id,msg.sender,prize,left) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1459)
+Reentrancy in Vault.work(uint256,address,uint256,uint256,uint256,bytes) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1358-1417):
+	External calls:
+	- msg.sender.transfer(back.sub(lessDebt)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1410)
+	External calls sending eth:
+	- msg.sender.transfer(back.sub(lessDebt)) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1410)
+	- transferTokenToVault(principalAmount) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1360)
+		- IWETH(config.getWrappedNativeAddr()).deposit{value: msg.value}() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1223)
+	State variables written after the call(s):
+	- POSITION_ID = _NO_ID (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1415)
+	- STRATEGY = _NO_ADDRESS (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1416)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4[0m
+[92m
+Initializable.______gap (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#64) is never used in Vault (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1164-1515)
+OwnableUpgradeSafe.__gap (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#176) is never used in Vault (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1164-1515)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+owner() should be declared external:
+	- OwnableUpgradeSafe.owner() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#142-144)
+renounceOwnership() should be declared external:
+	- OwnableUpgradeSafe.renounceOwnership() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#161-164)
+transferOwnership(address) should be declared external:
+	- OwnableUpgradeSafe.transferOwnership(address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#170-174)
+name() should be declared external:
+	- ERC20UpgradeSafe.name() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#525-527)
+symbol() should be declared external:
+	- ERC20UpgradeSafe.symbol() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#533-535)
+decimals() should be declared external:
+	- ERC20UpgradeSafe.decimals() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#550-552)
+balanceOf(address) should be declared external:
+	- ERC20UpgradeSafe.balanceOf(address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#564-566)
+transfer(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.transfer(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#576-579)
+allowance(address,address) should be declared external:
+	- ERC20UpgradeSafe.allowance(address,address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#584-586)
+approve(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.approve(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#595-598)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20UpgradeSafe.transferFrom(address,address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#612-616)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.increaseAllowance(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#630-633)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.decreaseAllowance(address,uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#649-652)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1119-1122)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1128-1132)
+withdraw(uint256) should be declared external:
+	- WNativeRelayer.withdraw(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1155-1159)
+initialize(IVaultConfig,address,string,string,uint8,address) should be declared external:
+	- Vault.initialize(IVaultConfig,address,string,string,uint8,address) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1252-1280)
+positionInfo(uint256) should be declared external:
+	- Vault.positionInfo(uint256) (../../sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol#1311-1314)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x4fe4b0fa3d082cdd9f7f630d6ab271a23bcdb4c4.sol analyzed (22 contracts with 78 detectors), 103 result(s) found

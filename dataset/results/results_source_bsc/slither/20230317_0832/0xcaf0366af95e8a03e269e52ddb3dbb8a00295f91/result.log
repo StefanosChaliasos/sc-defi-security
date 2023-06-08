@@ -1,0 +1,108 @@
+Compilation warnings/errors on /sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol:
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+   --> /sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol:378:74:
+    |
+378 |     function calcLiquidityShare(uint units, address token, address pool, address member) public view returns (uint share){
+    |                                                                          ^^^^^^^^^^^^^^
+
+
+[93m
+Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405-418) performs a multiplication on the result of a division:
+	-_units = (P.mul(part1.add(part2))).div(part3) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#415)
+	-_units.mul(slipAdjustment).div(one) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#416)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Contract locking ether found:
+	Contract Utils (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#89-450) has payable functions:
+	 - Utils.constructor() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#146-149)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#contracts-that-lock-ether[0m
+[92m
+Utils._DAO() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#151-153) has external calls inside a loop: iBASE(BASE).DAO() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#152)
+Utils.tokensInRange(uint256,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#210-219) has external calls inside a loop: result[i] = iROUTER(_DAO().ROUTER()).getToken(i) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#216)
+Utils.poolsInRange(uint256,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#223-232) has external calls inside a loop: result[i] = getPool(iROUTER(_DAO().ROUTER()).getToken(i)) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#229)
+Utils.getPool(address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#201-203) has external calls inside a loop: iROUTER(_DAO().ROUTER()).getPool(token) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#202)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Utils.getPoolAge(address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#288-296) uses timestamp for comparisons
+	Dangerous comparisons:
+	- now < genesis.add(86400) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#291)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Pragma version^0.6.8 (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#2) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Contract iBEP20 (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#5-11) is not in CapWords
+Contract iBASE (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#13-16) is not in CapWords
+Function iBASE.DAO() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#15) is not in mixedCase
+Contract iROUTER (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#18-29) is not in CapWords
+Contract iPOOL (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#31-46) is not in CapWords
+Contract iDAO (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#48-50) is not in CapWords
+Function iDAO.ROUTER() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#49) is not in mixedCase
+Function Utils._DAO() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#151-153) is not in mixedCase
+Parameter Utils.calcSwapOutput(uint256,uint256,uint256).X (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#391) is not in mixedCase
+Parameter Utils.calcSwapOutput(uint256,uint256,uint256).Y (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#391) is not in mixedCase
+Parameter Utils.calcSwapFee(uint256,uint256,uint256).X (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#398) is not in mixedCase
+Parameter Utils.calcSwapFee(uint256,uint256,uint256).Y (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#398) is not in mixedCase
+Parameter Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).B (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405) is not in mixedCase
+Parameter Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).T (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405) is not in mixedCase
+Parameter Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).P (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405) is not in mixedCase
+Parameter Utils.getSlipAdustment(uint256,uint256,uint256,uint256).B (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#420) is not in mixedCase
+Parameter Utils.getSlipAdustment(uint256,uint256,uint256,uint256).T (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#420) is not in mixedCase
+Parameter Utils.calcAsymmetricShare(uint256,uint256,uint256).U (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#437) is not in mixedCase
+Parameter Utils.calcAsymmetricShare(uint256,uint256,uint256).A (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#437) is not in mixedCase
+Variable Utils.BASE (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#93) is not in mixedCase
+Variable Utils.DEPLOYER (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#94) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Utils.getTokenDetailsWithMember(address,address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#161-177) uses literals with too many digits:
+	- tokenDetails.totalSupply = 100000000 * one (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#166)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+Utils.one (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#96) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+getTokenDetails(address) should be declared external:
+	- Utils.getTokenDetails(address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#157-159)
+getUnclaimedAssetWithBalance(address,address) should be declared external:
+	- Utils.getUnclaimedAssetWithBalance(address,address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#179-188)
+getGlobalDetails() should be declared external:
+	- Utils.getGlobalDetails() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#190-199)
+allTokens() should be declared external:
+	- Utils.allTokens() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#207-209)
+allPools() should be declared external:
+	- Utils.allPools() (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#220-222)
+getPoolData(address) should be declared external:
+	- Utils.getPoolData(address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#234-248)
+getMemberShare(address,address) should be declared external:
+	- Utils.getMemberShare(address,address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#250-254)
+getShareOfBaseAmount(address,address) should be declared external:
+	- Utils.getShareOfBaseAmount(address,address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#263-267)
+getShareOfTokenAmount(address,address) should be declared external:
+	- Utils.getShareOfTokenAmount(address,address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#268-272)
+getPoolShareAssym(address,uint256,bool) should be declared external:
+	- Utils.getPoolShareAssym(address,uint256,bool) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#274-286)
+getPoolAPY(address) should be declared external:
+	- Utils.getPoolAPY(address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#309-313)
+isMember(address,address) should be declared external:
+	- Utils.isMember(address,address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#315-322)
+calcValueInBase(address,uint256) should be declared external:
+	- Utils.calcValueInBase(address,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#326-329)
+calcValueInToken(address,uint256) should be declared external:
+	- Utils.calcValueInToken(address,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#331-334)
+calcTokenPPinBase(address,uint256) should be declared external:
+	- Utils.calcTokenPPinBase(address,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#336-339)
+calcBasePPinToken(address,uint256) should be declared external:
+	- Utils.calcBasePPinToken(address,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#341-344)
+calcBasePPinTokenWithPool(address,uint256) should be declared external:
+	- Utils.calcBasePPinTokenWithPool(address,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#364-368)
+calcPart(uint256,uint256) should be declared external:
+	- Utils.calcPart(uint256,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#372-376)
+calcLiquidityShare(uint256,address,address,address) should be declared external:
+	- Utils.calcLiquidityShare(uint256,address,address,address) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#378-384)
+calcSwapFee(uint256,uint256,uint256) should be declared external:
+	- Utils.calcSwapFee(uint256,uint256,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#398-403)
+calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256) should be declared external:
+	- Utils.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256) (../../sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol#405-418)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xcaf0366af95e8a03e269e52ddb3dbb8a00295f91.sol analyzed (7 contracts with 78 detectors), 52 result(s) found

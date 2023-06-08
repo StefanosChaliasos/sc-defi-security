@@ -1,0 +1,304 @@
+Compilation warnings/errors on /sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+   --> /sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol:863:1:
+    |
+863 | contract MultiStablesVault is ERC20UpgradeSafe, IValueMultiVault {
+    | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[93m
+MultiStablesVault.withdrawFor(address,uint256,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258-1324) performs a multiplication on the result of a division:
+	-_output_amount = (balance_to_sell().mul(_shares)).div(totalSupply()) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1259)
+	-_withdrawalProtection = _output_amount.mul(_withdrawalProtectionFee).div(10000) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1264)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+MultiStablesVault._deposit(address,uint256,uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229) uses a dangerous strict equality:
+	- _amount == 0 (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1214)
+MultiStablesVault._deposit(address,uint256,uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229) uses a dangerous strict equality:
+	- totalSupply() == 0 (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1219)
+MultiStablesVault.calc_token_amount_withdraw(uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123-1134) uses a dangerous strict equality:
+	- (_totalSupply == 0) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1129)
+MultiStablesVault.getPricePerFullShare() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1326-1328) uses a dangerous strict equality:
+	- (totalSupply() == 0) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1327)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in MultiStablesVault._deposit(address,uint256,uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229):
+	External calls:
+	- earn(_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1226)
+		- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+		- IERC20(_want).safeTransfer(controller,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)
+		- _contrl.earn(_want,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)
+	State variables written after the call(s):
+	- _mint(_mintTo,_shares) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1227)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#615)
+Reentrancy in MultiStablesVault.claimInsurance() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1019-1025):
+	External calls:
+	- basedToken.safeTransfer(vaultMaster.insuranceFund(),insurance) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1022)
+	State variables written after the call(s):
+	- insurance = 0 (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1024)
+Reentrancy in MultiStablesVault.depositAllFor(address,address,uint256[],uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182-1202):
+	External calls:
+	- _converter.convertAll(_amounts) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1197)
+	- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)
+		- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+		- IERC20(_want).safeTransfer(controller,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)
+		- _contrl.earn(_want,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)
+	State variables written after the call(s):
+	- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)
+		- insurance = insurance.add(_insurance) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1209)
+Reentrancy in MultiStablesVault.depositFor(address,address,address,uint256,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144-1174):
+	External calls:
+	- basedToken.safeTransferFrom(_account,address(this),_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1155)
+	- IERC20(_input).safeTransferFrom(_account,address(_converter),_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1166)
+	- _converter.convert(_input,_want,_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1167)
+	- _mint_amount = _deposit(_to,_pool,_amount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)
+		- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+		- IERC20(_want).safeTransfer(controller,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)
+		- _contrl.earn(_want,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)
+	State variables written after the call(s):
+	- _mint_amount = _deposit(_to,_pool,_amount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)
+		- insurance = insurance.add(_insurance) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1209)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+MultiStablesVault.convert_nonbased_want(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093-1100) ignores return value by shareConverter.convert_shares(_want,address(basedToken),_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1099)
+MultiStablesVault.earnExtra(address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1103-1113) ignores return value by Converter(_converter).convert(_token) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1112)
+MultiStablesVault.depositFor(address,address,address,uint256,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144-1174) ignores return value by _converter.convert(_input,_want,_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1167)
+MultiStablesVault.depositAllFor(address,address,uint256[],uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182-1202) ignores return value by _converter.convertAll(_amounts) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1197)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+ERC20UpgradeSafe.__ERC20_init(string,string).name (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#429) shadows:
+	- ERC20UpgradeSafe.name() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#447-449) (function)
+ERC20UpgradeSafe.__ERC20_init(string,string).symbol (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#429) shadows:
+	- ERC20UpgradeSafe.symbol() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#455-457) (function)
+ERC20UpgradeSafe.__ERC20_init_unchained(string,string).name (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#434) shadows:
+	- ERC20UpgradeSafe.name() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#447-449) (function)
+ERC20UpgradeSafe.__ERC20_init_unchained(string,string).symbol (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#434) shadows:
+	- ERC20UpgradeSafe.symbol() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#455-457) (function)
+MultiStablesVault.calc_token_amount_withdraw(uint256,address)._totalSupply (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1128) shadows:
+	- ERC20UpgradeSafe._totalSupply (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#413) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+MultiStablesVault.setMin(uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#970-973) should emit an event for: 
+	- min = _min (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#972) 
+MultiStablesVault.setEarnLowerlimit(uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1007-1010) should emit an event for: 
+	- earnLowerlimit = _earnLowerlimit (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1009) 
+MultiStablesVault.setCap(uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1012-1015) should emit an event for: 
+	- totalDepositCap = _cap (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1014) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+MultiStablesVault.setGovernance(address)._governance (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#975) lacks a zero-check on :
+		- governance = _governance (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#977)
+MultiStablesVault.setController(address)._controller (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#980) lacks a zero-check on :
+		- controller = _controller (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#982)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in MultiStablesVault._deposit(address,uint256,uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229):
+	External calls:
+	- earn(_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1226)
+		- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+		- IERC20(_want).safeTransfer(controller,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)
+		- _contrl.earn(_want,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)
+	State variables written after the call(s):
+	- _mint(_mintTo,_shares) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1227)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#616)
+Reentrancy in MultiStablesVault.setConverter(address,IMultiVaultConverter) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#985-990):
+	External calls:
+	- require(bool,string)(_converter.token() == _want,!_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#987)
+	State variables written after the call(s):
+	- basedConverter = _converter (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#989)
+	- converters[_want] = _converter (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#988)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in MultiStablesVault._deposit(address,uint256,uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1204-1229):
+	External calls:
+	- earn(_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1226)
+		- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+		- IERC20(_want).safeTransfer(controller,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)
+		- _contrl.earn(_want,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#617)
+		- _mint(_mintTo,_shares) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1227)
+Reentrancy in MultiStablesVault.depositAllFor(address,address,uint256[],uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182-1202):
+	External calls:
+	- _converter.convertAll(_amounts) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1197)
+	- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)
+		- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+		- IERC20(_want).safeTransfer(controller,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)
+		- _contrl.earn(_want,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#617)
+		- _mint_amount = _deposit(_to,_pool,_totalDepositAmount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1200)
+Reentrancy in MultiStablesVault.depositFor(address,address,address,uint256,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144-1174):
+	External calls:
+	- basedToken.safeTransferFrom(_account,address(this),_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1155)
+	- IERC20(_input).safeTransferFrom(_account,address(_converter),_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1166)
+	- _converter.convert(_input,_want,_amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1167)
+	- _mint_amount = _deposit(_to,_pool,_amount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)
+		- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+		- IERC20(_want).safeTransfer(controller,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1085)
+		- _contrl.earn(_want,_bal) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1086)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#617)
+		- _mint_amount = _deposit(_to,_pool,_amount,_want) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1172)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#249-258) uses assembly
+	- INLINE ASM (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#256)
+Initializable.isConstructor() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#329-339) uses assembly
+	- INLINE ASM (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#337)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#276-282) is never used and should be removed
+ContextUpgradeSafe.__Context_init() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#359-361) is never used and should be removed
+ContextUpgradeSafe._msgData() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#373-376) is never used and should be removed
+ERC20UpgradeSafe._setupDecimals(uint8) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#669-671) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#713-722) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#729-732) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#724-727) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#207-209) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#222-225) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#276-282):
+	- (success) = recipient.call{value: amount}() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#280)
+Low level call in SafeERC20._callOptionalReturn(IERC20,bytes) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#740-759):
+	- (success,returndata) = address(token).call(data) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#752)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable Initializable.______gap (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#342) is not in mixedCase
+Function ContextUpgradeSafe.__Context_init() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#359-361) is not in mixedCase
+Function ContextUpgradeSafe.__Context_init_unchained() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#363-366) is not in mixedCase
+Variable ContextUpgradeSafe.__gap (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#378) is not in mixedCase
+Function ERC20UpgradeSafe.__ERC20_init(string,string) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#429-432) is not in mixedCase
+Function ERC20UpgradeSafe.__ERC20_init_unchained(string,string) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#434-441) is not in mixedCase
+Variable ERC20UpgradeSafe.__gap (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#689) is not in mixedCase
+Function IValueMultiVault.withdraw_fee(uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#779) is not in mixedCase
+Function IValueMultiVault.calc_token_amount_deposit(uint256[]) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#780) is not in mixedCase
+Function IValueMultiVault.calc_token_amount_withdraw(uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#781) is not in mixedCase
+Function IValueMultiVault.convert_rate(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#782) is not in mixedCase
+Function IValueMultiVault.get_virtual_price() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#784) is not in mixedCase
+Parameter IValueMultiVault.deposit(address,uint256,uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#786) is not in mixedCase
+Parameter IValueMultiVault.depositFor(address,address,address,uint256,uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#787) is not in mixedCase
+Parameter IValueMultiVault.depositAll(uint256[],uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#788) is not in mixedCase
+Parameter IValueMultiVault.depositAllFor(address,address,uint256[],uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#789) is not in mixedCase
+Parameter IValueMultiVault.withdraw(uint256,address,uint256)._min_output_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#790) is not in mixedCase
+Parameter IValueMultiVault.withdrawFor(address,uint256,address,uint256)._min_output_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#791) is not in mixedCase
+Function IMultiVaultController.withdraw_fee(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#834) is not in mixedCase
+Function IMultiVaultConverter.get_virtual_price() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#847) is not in mixedCase
+Function IMultiVaultConverter.convert_rate(address,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#849) is not in mixedCase
+Function IMultiVaultConverter.calc_token_amount_deposit(uint256[]) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#850) is not in mixedCase
+Function IMultiVaultConverter.calc_token_amount_withdraw(uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#851) is not in mixedCase
+Function IShareConverter.convert_shares_rate(address,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#858) is not in mixedCase
+Function IShareConverter.convert_shares(address,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#860) is not in mixedCase
+Parameter MultiStablesVault.initialize(IERC20,IValueVaultMaster)._basedToken (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#908) is not in mixedCase
+Parameter MultiStablesVault.initialize(IERC20,IValueVaultMaster)._vaultMaster (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#908) is not in mixedCase
+Parameter MultiStablesVault.setAcceptContractDepositor(bool)._acceptContractDepositor (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#925) is not in mixedCase
+Parameter MultiStablesVault.whitelistContract(address)._contract (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#930) is not in mixedCase
+Parameter MultiStablesVault.unwhitelistContract(address)._contract (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#935) is not in mixedCase
+Parameter MultiStablesVault.getConverter(address)._want (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#944) is not in mixedCase
+Parameter MultiStablesVault.accept(address)._input (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#952) is not in mixedCase
+Function MultiStablesVault.balance_to_sell() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#964-968) is not in mixedCase
+Parameter MultiStablesVault.setMin(uint256)._min (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#970) is not in mixedCase
+Parameter MultiStablesVault.setGovernance(address)._governance (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#975) is not in mixedCase
+Parameter MultiStablesVault.setController(address)._controller (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#980) is not in mixedCase
+Parameter MultiStablesVault.setConverter(address,IMultiVaultConverter)._want (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#985) is not in mixedCase
+Parameter MultiStablesVault.setConverter(address,IMultiVaultConverter)._converter (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#985) is not in mixedCase
+Parameter MultiStablesVault.setShareConverter(IShareConverter)._shareConverter (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#992) is not in mixedCase
+Parameter MultiStablesVault.setConverterMap(address,address)._token (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#997) is not in mixedCase
+Parameter MultiStablesVault.setConverterMap(address,address)._converter (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#997) is not in mixedCase
+Parameter MultiStablesVault.setVaultMaster(IValueVaultMaster)._vaultMaster (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1002) is not in mixedCase
+Parameter MultiStablesVault.setEarnLowerlimit(uint256)._earnLowerlimit (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1007) is not in mixedCase
+Parameter MultiStablesVault.setCap(uint256)._cap (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1012) is not in mixedCase
+Parameter MultiStablesVault.setInputTokens(IERC20[])._inputTokens (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1027) is not in mixedCase
+Parameter MultiStablesVault.setInputToken(uint256,IERC20)._index (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1039) is not in mixedCase
+Parameter MultiStablesVault.setInputToken(uint256,IERC20)._inputToken (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1039) is not in mixedCase
+Parameter MultiStablesVault.setWantTokens(IERC20[])._wantTokens (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1046) is not in mixedCase
+Parameter MultiStablesVault.setInput2Want(address,address)._inputToken (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1058) is not in mixedCase
+Parameter MultiStablesVault.setInput2Want(address,address)._wantToken (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1058) is not in mixedCase
+Parameter MultiStablesVault.setAllowWithdrawFromOtherWant(address,bool)._token (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1063) is not in mixedCase
+Parameter MultiStablesVault.setAllowWithdrawFromOtherWant(address,bool)._allow (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1063) is not in mixedCase
+Parameter MultiStablesVault.available(address)._want (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1074) is not in mixedCase
+Parameter MultiStablesVault.earn(address)._want (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1079) is not in mixedCase
+Function MultiStablesVault.convert_nonbased_want(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093-1100) is not in mixedCase
+Parameter MultiStablesVault.convert_nonbased_want(address,uint256)._want (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093) is not in mixedCase
+Parameter MultiStablesVault.convert_nonbased_want(address,uint256)._amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1093) is not in mixedCase
+Parameter MultiStablesVault.earnExtra(address)._token (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1103) is not in mixedCase
+Function MultiStablesVault.withdraw_fee(uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1115-1117) is not in mixedCase
+Parameter MultiStablesVault.withdraw_fee(uint256)._shares (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1115) is not in mixedCase
+Function MultiStablesVault.calc_token_amount_deposit(uint256[]) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1119-1121) is not in mixedCase
+Parameter MultiStablesVault.calc_token_amount_deposit(uint256[])._amounts (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1119) is not in mixedCase
+Function MultiStablesVault.calc_token_amount_withdraw(uint256,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123-1134) is not in mixedCase
+Parameter MultiStablesVault.calc_token_amount_withdraw(uint256,address)._shares (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123) is not in mixedCase
+Parameter MultiStablesVault.calc_token_amount_withdraw(uint256,address)._output (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1123) is not in mixedCase
+Function MultiStablesVault.convert_rate(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1136-1138) is not in mixedCase
+Parameter MultiStablesVault.convert_rate(address,uint256)._input (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1136) is not in mixedCase
+Parameter MultiStablesVault.convert_rate(address,uint256)._amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1136) is not in mixedCase
+Parameter MultiStablesVault.deposit(address,uint256,uint256)._input (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1140) is not in mixedCase
+Parameter MultiStablesVault.deposit(address,uint256,uint256)._amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1140) is not in mixedCase
+Parameter MultiStablesVault.deposit(address,uint256,uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1140) is not in mixedCase
+Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._account (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase
+Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._to (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase
+Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._input (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase
+Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase
+Parameter MultiStablesVault.depositFor(address,address,address,uint256,uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1144) is not in mixedCase
+Parameter MultiStablesVault.depositAll(uint256[],uint256)._amounts (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1176) is not in mixedCase
+Parameter MultiStablesVault.depositAll(uint256[],uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1176) is not in mixedCase
+Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._account (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase
+Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._to (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase
+Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._amounts (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase
+Parameter MultiStablesVault.depositAllFor(address,address,uint256[],uint256)._min_mint_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1182) is not in mixedCase
+Parameter MultiStablesVault.harvestStrategy(address)._strategy (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1238) is not in mixedCase
+Parameter MultiStablesVault.harvestWant(address)._want (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1243) is not in mixedCase
+Parameter MultiStablesVault.withdraw(uint256,address,uint256)._shares (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1253) is not in mixedCase
+Parameter MultiStablesVault.withdraw(uint256,address,uint256)._output (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1253) is not in mixedCase
+Parameter MultiStablesVault.withdraw(uint256,address,uint256)._min_output_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1253) is not in mixedCase
+Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._account (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase
+Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._shares (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase
+Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._output (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase
+Parameter MultiStablesVault.withdrawFor(address,uint256,address,uint256)._min_output_amount (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1258) is not in mixedCase
+Function MultiStablesVault.get_virtual_price() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1331-1333) is not in mixedCase
+Parameter MultiStablesVault.governanceRecoverUnsupported(IERC20,uint256,address)._token (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1339) is not in mixedCase
+Constant MultiStablesVault.max (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#886) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#374)" inContextUpgradeSafe (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#355-379)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable MultiStablesVault.setInput2Want(address,address)._inputToken (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1058) is too similar to MultiStablesVault.inputTokens (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#877)
+Variable MultiStablesVault.setInputToken(uint256,IERC20)._inputToken (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1039) is too similar to MultiStablesVault.inputTokens (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#877)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+MultiStablesVault.slitherConstructorVariables() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#863-1347) uses literals with too many digits:
+	- totalDepositCap = 10000000000000000000000000 (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#889)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+Initializable.______gap (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#342) is never used in MultiStablesVault (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#863-1347)
+ERC20UpgradeSafe.__gap (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#689) is never used in MultiStablesVault (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#863-1347)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+name() should be declared external:
+	- ERC20UpgradeSafe.name() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#447-449)
+symbol() should be declared external:
+	- ERC20UpgradeSafe.symbol() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#455-457)
+decimals() should be declared external:
+	- ERC20UpgradeSafe.decimals() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#472-474)
+balanceOf(address) should be declared external:
+	- ERC20UpgradeSafe.balanceOf(address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#486-488)
+transfer(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.transfer(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#498-501)
+allowance(address,address) should be declared external:
+	- ERC20UpgradeSafe.allowance(address,address) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#506-508)
+approve(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.approve(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#517-520)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20UpgradeSafe.transferFrom(address,address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#534-538)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.increaseAllowance(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#552-555)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20UpgradeSafe.decreaseAllowance(address,uint256) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#571-574)
+initialize(IERC20,IValueVaultMaster) should be declared external:
+	- MultiStablesVault.initialize(IERC20,IValueVaultMaster) (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#908-913)
+token() should be declared external:
+	- MultiStablesVault.token() (../../sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol#1068-1070)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xddd7df28b1fb668b77860b473af819b03db61101.sol analyzed (14 contracts with 78 detectors), 153 result(s) found

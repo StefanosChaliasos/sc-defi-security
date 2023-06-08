@@ -1,0 +1,245 @@
+[93m
+Staking.getAmountOutAndPenalty(uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1261-1316) performs a multiplication on the result of a division:
+	-daysStaked = (now.sub(sessionDataOf[msg.sender][sessionId].start)).div(stepTimestamp) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1273-1276)
+	-payOutAmount = amountAndInterest.mul(daysStaked).div(stakingDays) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1284-1286)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Reentrancy in Staking._getPayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1346-1372):
+	External calls:
+	- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	State variables written after the call(s):
+	- globalPayin = globalPayin.add(inflation) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1369)
+Reentrancy in Staking.externalStake(uint256,uint256,address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	State variables written after the call(s):
+	- sharesTotalSupply = sharesTotalSupply.add(shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1121)
+Reentrancy in Staking.makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330):
+	External calls:
+	- payout = _getPayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1321)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	State variables written after the call(s):
+	- nextPayoutCall = nextPayoutCall.add(stepTimestamp) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1327)
+Reentrancy in Staking.stake(uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- IToken(mainToken).burn(msg.sender,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1079)
+	State variables written after the call(s):
+	- sharesTotalSupply = sharesTotalSupply.add(shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1083)
+Reentrancy in Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- _initPayout(auction,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1206)
+		- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	State variables written after the call(s):
+	- _initPayout(auction,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1206)
+		- globalPayout = globalPayout.add(amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)
+Reentrancy in Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	State variables written after the call(s):
+	- sharesTotalSupply = sharesTotalSupply.sub(shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1229)
+Reentrancy in Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- _initPayout(auction,penalty) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)
+		- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	State variables written after the call(s):
+	- _initPayout(auction,penalty) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)
+		- globalPayout = globalPayout.add(amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)
+Reentrancy in Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- _initPayout(auction,penalty) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)
+		- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	- IAuction(auction).callIncomeDailyTokensTrigger(penalty) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1238)
+	- _initPayout(msg.sender,amountOut) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1241)
+		- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	State variables written after the call(s):
+	- _initPayout(msg.sender,amountOut) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1241)
+		- globalPayout = globalPayout.add(amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+Staking.init(address,address,address,address,uint256)._mainToken (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1044) lacks a zero-check on :
+		- mainToken = _mainToken (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1053)
+Staking.init(address,address,address,address,uint256)._auction (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1045) lacks a zero-check on :
+		- auction = _auction (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1054)
+Staking.init(address,address,address,address,uint256)._subBalances (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1046) lacks a zero-check on :
+		- subBalances = _subBalances (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1055)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in Staking._initPayout(address,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1144-1147):
+	External calls:
+	- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	State variables written after the call(s):
+	- globalPayout = globalPayout.add(amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)
+Reentrancy in Staking.externalStake(uint256,uint256,address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	State variables written after the call(s):
+	- _sessionsIds = _sessionsIds.add(1) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1118)
+	- sessionDataOf[staker][sessionId] = Session(amount,start,end,shares,payouts.length) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1123-1129)
+	- sessionsOf[staker].push(sessionId) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1131)
+Reentrancy in Staking.makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330):
+	External calls:
+	- payout = _getPayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1321)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	State variables written after the call(s):
+	- payouts.push(Payout(payout,sharesTotalSupply)) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1323-1325)
+Reentrancy in Staking.stake(uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- IToken(mainToken).burn(msg.sender,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1079)
+	State variables written after the call(s):
+	- _sessionsIds = _sessionsIds.add(1) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1080)
+	- sessionDataOf[msg.sender][sessionId] = Session(amount,start,end,shares,payouts.length) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1085-1091)
+	- sessionsOf[msg.sender].push(sessionId) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1093)
+Reentrancy in Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	State variables written after the call(s):
+	- sessionDataOf[msg.sender][sessionId].shares = 0 (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1200)
+	- _updateShareRate(msg.sender,shares,stakingInterest,sessionId) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1227)
+		- shareRate = newShareRate (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1186)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in Staking.externalStake(uint256,uint256,address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- ISubBalances(subBalances).callIncomeStakerTrigger(staker,sessionId,start,end,shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1133-1139)
+	Event emitted after the call(s):
+	- Stake(staker,sessionId,amount,start,end,shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1141)
+Reentrancy in Staking.makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330):
+	External calls:
+	- payout = _getPayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1321)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	Event emitted after the call(s):
+	- MakePayout(payout,sharesTotalSupply,now) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1329)
+Reentrancy in Staking.stake(uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- IToken(mainToken).burn(msg.sender,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1079)
+	- ISubBalances(subBalances).callIncomeStakerTrigger(msg.sender,sessionId,start,end,shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1095-1101)
+	Event emitted after the call(s):
+	- Stake(msg.sender,sessionId,amount,start,end,shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1103)
+Reentrancy in Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- _initPayout(auction,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1206)
+		- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	- IAuction(auction).callIncomeDailyTokensTrigger(amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1207)
+	Event emitted after the call(s):
+	- Unstake(msg.sender,sessionId,amount,sessionDataOf[msg.sender][sessionId].start,sessionDataOf[msg.sender][sessionId].end,shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1209-1216)
+Reentrancy in Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):
+	External calls:
+	- makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+		- IToken(mainToken).burn(address(this),amountTokenInDay) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)
+	- _initPayout(auction,penalty) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)
+		- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	- IAuction(auction).callIncomeDailyTokensTrigger(penalty) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1238)
+	- _initPayout(msg.sender,amountOut) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1241)
+		- IToken(mainToken).mint(to,amount) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)
+	Event emitted after the call(s):
+	- Unstake(msg.sender,sessionId,amountOut,sessionDataOf[msg.sender][sessionId].start,sessionDataOf[msg.sender][sessionId].end,shares) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1243-1250)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Staking.stake(uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104) uses timestamp for comparisons
+	Dangerous comparisons:
+	- now >= nextPayoutCall (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)
+Staking.externalStake(uint256,uint256,address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142) uses timestamp for comparisons
+	Dangerous comparisons:
+	- now >= nextPayoutCall (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)
+Staking.calculateStakingInterest(uint256,address,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1149-1169) uses timestamp for comparisons
+	Dangerous comparisons:
+	- i < payouts.length (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1158)
+Staking._updateShareRate(address,uint256,uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1171-1188) uses timestamp for comparisons
+	Dangerous comparisons:
+	- newShareRate > shareRate (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1185)
+Staking.unstake(uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259) uses timestamp for comparisons
+	Dangerous comparisons:
+	- now >= nextPayoutCall (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)
+	- sessionDataOf[msg.sender][sessionId].nextPayout >= payouts.length (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1202)
+Staking.getAmountOutAndPenalty(uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1261-1316) uses timestamp for comparisons
+	Dangerous comparisons:
+	- stakingDays > daysStaked (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1283)
+	- stakingDays <= daysStaked && daysStaked < stakingDays.add(14) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1293)
+	- stakingDays.add(14) <= daysStaked && daysStaked < stakingDays.add(714) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1298-1299)
+	- stakingDays.add(714) <= daysStaked (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1311)
+Staking.makePayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now >= nextPayoutCall,NativeSwap: Wrong payout time) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1319)
+Staking._getPayout() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1346-1372) uses timestamp for comparisons
+	Dangerous comparisons:
+	- globalPayin > globalPayout (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1351)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#354-363) uses assembly
+	- INLINE ASM (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#361)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#447-468) uses assembly
+	- INLINE ASM (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#460-463)
+AccessControl.checkRole() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#661-667) uses assembly
+	- INLINE ASM (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#662-666)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+AccessControl._setRoleAdmin(bytes32,bytes32) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#714-717) is never used and should be removed
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#447-468) is never used and should be removed
+Address.functionCall(address,bytes) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#407-409) is never used and should be removed
+Address.functionCall(address,bytes,string) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#417-419) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#432-434) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#442-445) is never used and should be removed
+Address.isContract(address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#354-363) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#381-387) is never used and should be removed
+Context._msgData() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#492-495) is never used and should be removed
+EnumerableSet.add(EnumerableSet.UintSet,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#284-286) is never used and should be removed
+EnumerableSet.at(EnumerableSet.UintSet,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#322-324) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#301-303) is never used and should be removed
+EnumerableSet.length(EnumerableSet.UintSet) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#308-310) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#294-296) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#872-874) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#888-891) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#381-387):
+	- (success) = recipient.call{value: amount}() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#385)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#447-468):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#451)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter Staking.init(address,address,address,address,uint256)._mainToken (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1044) is not in mixedCase
+Parameter Staking.init(address,address,address,address,uint256)._auction (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1045) is not in mixedCase
+Parameter Staking.init(address,address,address,address,uint256)._subBalances (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1046) is not in mixedCase
+Parameter Staking.init(address,address,address,address,uint256)._foreignSwap (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1047) is not in mixedCase
+Parameter Staking.init(address,address,address,address,uint256)._stepTimestamp (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1048) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#493)" inContext (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#487-496)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+getRoleMemberCount(bytes32) should be declared external:
+	- AccessControl.getRoleMemberCount(bytes32) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#593-595)
+getRoleMember(bytes32,uint256) should be declared external:
+	- AccessControl.getRoleMember(bytes32,uint256) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#609-611)
+getRoleAdmin(bytes32) should be declared external:
+	- AccessControl.getRoleAdmin(bytes32) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#619-621)
+grantRole(bytes32,address) should be declared external:
+	- AccessControl.grantRole(bytes32,address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#633-637)
+revokeRole(bytes32,address) should be declared external:
+	- AccessControl.revokeRole(bytes32,address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#648-652)
+checkRole() should be declared external:
+	- AccessControl.checkRole() (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#661-667)
+renounceRole(bytes32,address) should be declared external:
+	- AccessControl.renounceRole(bytes32,address) (../../sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#683-687)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol analyzed (11 contracts with 78 detectors), 64 result(s) found

@@ -1,0 +1,110 @@
+[93m
+yVault.deposit(uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326-339) uses a dangerous strict equality:
+	- totalSupply() == 0 (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#333)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[92m
+ERC20Detailed.constructor(string,string,uint8).name (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#138) shadows:
+	- ERC20Detailed.name() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#143-145) (function)
+ERC20Detailed.constructor(string,string,uint8).symbol (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#138) shadows:
+	- ERC20Detailed.symbol() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#146-148) (function)
+ERC20Detailed.constructor(string,string,uint8).decimals (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#138) shadows:
+	- ERC20Detailed.decimals() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#149-151) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+yVault.setMin(uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#295-298) should emit an event for: 
+	- min = _min (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#297) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+yVault.constructor(address,address)._controller (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#280) lacks a zero-check on :
+		- controller = _controller (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#287)
+yVault.setGovernance(address)._governance (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#300) lacks a zero-check on :
+		- governance = _governance (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#302)
+yVault.setController(address)._controller (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#305) lacks a zero-check on :
+		- controller = _controller (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#307)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in yVault.deposit(uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326-339):
+	External calls:
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#329)
+	State variables written after the call(s):
+	- _mint(msg.sender,shares) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#338)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#110)
+	- _mint(msg.sender,shares) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#338)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#109)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in yVault.deposit(uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326-339):
+	External calls:
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#329)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#111)
+		- _mint(msg.sender,shares) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#338)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#200-206) uses assembly
+	- INLINE ASM (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#204)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#210-216) is never used and should be removed
+Address.toPayable(address) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#207-209) is never used and should be removed
+Context._msgData() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#22-25) is never used and should be removed
+ERC20._burnFrom(address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#127-130) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#231-236) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#243-246) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#238-241) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#190-192) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#193-196) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#210-216):
+	- (success) = recipient.call.value(amount)() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#214)
+Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#247-258):
+	- (success,returndata) = address(token).call(data) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#251)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Contract yVault (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#267-377) is not in CapWords
+Parameter yVault.setMin(uint256)._min (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#295) is not in mixedCase
+Parameter yVault.setGovernance(address)._governance (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#300) is not in mixedCase
+Parameter yVault.setController(address)._controller (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#305) is not in mixedCase
+Parameter yVault.deposit(uint256)._amount (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326) is not in mixedCase
+Parameter yVault.withdraw(uint256)._shares (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#354) is not in mixedCase
+Constant yVault.max (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#275) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#23)" inContext (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#14-26)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#36-38)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#46-49)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#50-52)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#74-77)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#78-80)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#81-84)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#85-89)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#90-93)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#94-97)
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#143-145)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#146-148)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#149-151)
+setGovernance(address) should be declared external:
+	- yVault.setGovernance(address) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#300-303)
+setController(address) should be declared external:
+	- yVault.setController(address) (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#305-308)
+earn() should be declared external:
+	- yVault.earn() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#316-320)
+getPricePerFullShare() should be declared external:
+	- yVault.getPricePerFullShare() (../../sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#373-375)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol analyzed (10 contracts with 78 detectors), 46 result(s) found

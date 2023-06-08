@@ -1,0 +1,920 @@
+{
+    "errors": [
+        "EXIT_CODE_100"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateAndReturn",
+            "impact": "High",
+            "line": 856,
+            "line_end": 867,
+            "message": "CErc20Delegator.delegateAndReturn() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#856-867) uses delegatecall to a input-controlled function id\n\t- (success) = implementation.delegatecall(msg.data) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#857)\n",
+            "name": "controlled-delegatecall"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateTo",
+            "impact": "High",
+            "line": 806,
+            "line_end": 814,
+            "message": "CErc20Delegator.delegateTo(address,bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#806-814) uses delegatecall to a input-controlled function id\n\t- (success,returnData) = callee.delegatecall(data) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)\n",
+            "name": "controlled-delegatecall"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setImplementation",
+            "impact": "Medium",
+            "line": 463,
+            "line_end": 476,
+            "message": "Reentrancy in CErc20Delegator._setImplementation(address,bool,bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463-476):\n\tExternal calls:\n\t- delegateToImplementation(abi.encodeWithSignature(_resignImplementation())) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#467)\n\t\t- (success,returnData) = callee.delegatecall(data) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)\n\tState variables written after the call(s):\n\t- implementation = implementation_ (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#471)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Low",
+            "line": 434,
+            "message": "CErc20Delegator.constructor(address,ComptrollerInterface,InterestRateModel,uint256,string,string,uint8,address,address,bytes).admin_ (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#434) lacks a zero-check on :\n\t\t- admin = admin_ (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#454)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Low",
+            "line": 463,
+            "message": "CErc20Delegator._setImplementation(address,bool,bytes).implementation_ (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463) lacks a zero-check on :\n\t\t- implementation = implementation_ (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#471)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setImplementation",
+            "impact": "Low",
+            "line": 463,
+            "line_end": 476,
+            "message": "Reentrancy in CErc20Delegator._setImplementation(address,bool,bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463-476):\n\tExternal calls:\n\t- delegateToImplementation(abi.encodeWithSignature(_resignImplementation())) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#467)\n\t\t- (success,returnData) = callee.delegatecall(data) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)\n\t- delegateToImplementation(abi.encodeWithSignature(_becomeImplementation(bytes),becomeImplementationData)) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#473)\n\t\t- (success,returnData) = callee.delegatecall(data) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)\n\tEvent emitted after the call(s):\n\t- NewImplementation(oldImplementation,implementation) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#475)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateTo",
+            "impact": "Informational",
+            "line": 806,
+            "line_end": 814,
+            "message": "CErc20Delegator.delegateTo(address,bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#806-814) uses assembly\n\t- INLINE ASM (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#808-812)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateAndReturn",
+            "impact": "Informational",
+            "line": 856,
+            "line_end": 867,
+            "message": "CErc20Delegator.delegateAndReturn() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#856-867) uses assembly\n\t- INLINE ASM (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#859-866)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateToViewAndReturn",
+            "impact": "Informational",
+            "line": 843,
+            "line_end": 854,
+            "message": "CErc20Delegator.delegateToViewAndReturn() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#843-854) uses assembly\n\t- INLINE ASM (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#846-853)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateToViewImplementation",
+            "impact": "Informational",
+            "line": 833,
+            "line_end": 841,
+            "message": "CErc20Delegator.delegateToViewImplementation(bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#833-841) uses assembly\n\t- INLINE ASM (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#835-839)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateTo",
+            "impact": "Informational",
+            "line": 806,
+            "line_end": 814,
+            "message": "Low level call in CErc20Delegator.delegateTo(address,bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#806-814):\n\t- (success,returnData) = callee.delegatecall(data) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateToViewAndReturn",
+            "impact": "Informational",
+            "line": 843,
+            "line_end": 854,
+            "message": "Low level call in CErc20Delegator.delegateToViewAndReturn() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#843-854):\n\t- (success) = address(this).staticcall(abi.encodeWithSignature(delegateToImplementation(bytes),msg.data)) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#844)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateToViewImplementation",
+            "impact": "Informational",
+            "line": 833,
+            "line_end": 841,
+            "message": "Low level call in CErc20Delegator.delegateToViewImplementation(bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#833-841):\n\t- (success,returnData) = address(this).staticcall(abi.encodeWithSignature(delegateToImplementation(bytes),data)) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#834)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateAndReturn",
+            "impact": "Informational",
+            "line": 856,
+            "line_end": 867,
+            "message": "Low level call in CErc20Delegator.delegateAndReturn() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#856-867):\n\t- (success) = implementation.delegatecall(msg.data) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#857)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_reduceReserves",
+            "impact": "Informational",
+            "line": 783,
+            "line_end": 786,
+            "message": "Function CErc20Delegator._reduceReserves(uint256) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#783-786) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 134,
+            "message": "Constant CTokenStorage.borrowRateMaxMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#134) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setInterestRateModel",
+            "impact": "Informational",
+            "line": 343,
+            "message": "Function CTokenInterface._setInterestRateModel(InterestRateModel) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#343) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_acceptAdmin",
+            "impact": "Informational",
+            "line": 339,
+            "message": "Function CTokenInterface._acceptAdmin() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#339) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setComptroller",
+            "impact": "Informational",
+            "line": 340,
+            "message": "Function CTokenInterface._setComptroller(ComptrollerInterface) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#340) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 113,
+            "message": "Variable CTokenStorage._notEntered (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#113) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_addReserves",
+            "impact": "Informational",
+            "line": 368,
+            "message": "Function CErc20Interface._addReserves(uint256) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#368) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setInterestRateModel",
+            "impact": "Informational",
+            "line": 794,
+            "line_end": 797,
+            "message": "Function CErc20Delegator._setInterestRateModel(InterestRateModel) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#794-797) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setPendingAdmin",
+            "impact": "Informational",
+            "line": 338,
+            "message": "Function CTokenInterface._setPendingAdmin(address) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#338) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setImplementation",
+            "impact": "Informational",
+            "line": 390,
+            "message": "Function CDelegatorInterface._setImplementation(address,bool,bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#390) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 9,
+            "message": "Constant ComptrollerInterface.isComptroller (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#9) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_reduceReserves",
+            "impact": "Informational",
+            "line": 342,
+            "message": "Function CTokenInterface._reduceReserves(uint256) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#342) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 139,
+            "message": "Constant CTokenStorage.reserveFactorMaxMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#139) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_becomeImplementation",
+            "impact": "Informational",
+            "line": 399,
+            "message": "Function CDelegateInterface._becomeImplementation(bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#399) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setImplementation",
+            "impact": "Informational",
+            "line": 463,
+            "line_end": 476,
+            "message": "Function CErc20Delegator._setImplementation(address,bool,bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463-476) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_acceptAdmin",
+            "impact": "Informational",
+            "line": 764,
+            "line_end": 766,
+            "message": "Function CErc20Delegator._acceptAdmin() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#764-766) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setPendingAdmin",
+            "impact": "Informational",
+            "line": 734,
+            "line_end": 737,
+            "message": "Function CErc20Delegator._setPendingAdmin(address) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#734-737) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 226,
+            "message": "Constant CTokenInterface.isCToken (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#226) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setComptroller",
+            "impact": "Informational",
+            "line": 744,
+            "line_end": 747,
+            "message": "Function CErc20Delegator._setComptroller(ComptrollerInterface) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#744-747) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setReserveFactor",
+            "impact": "Informational",
+            "line": 754,
+            "line_end": 757,
+            "message": "Function CErc20Delegator._setReserveFactor(uint256) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#754-757) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 85,
+            "message": "Constant InterestRateModel.isInterestRateModel (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#85) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setReserveFactor",
+            "impact": "Informational",
+            "line": 341,
+            "message": "Function CTokenInterface._setReserveFactor(uint256) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#341) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_addReserves",
+            "impact": "Informational",
+            "line": 773,
+            "line_end": 776,
+            "message": "Function CErc20Delegator._addReserves(uint256) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#773-776) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_resignImplementation",
+            "impact": "Informational",
+            "line": 404,
+            "message": "Function CDelegateInterface._resignImplementation() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#404) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 664,
+            "message": "Redundant expression \"account (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#664)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 674,
+            "message": "Redundant expression \"account (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#674)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 485,
+            "message": "Redundant expression \"mintAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#485)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 496,
+            "message": "Redundant expression \"redeemTokens (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#496)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 745,
+            "message": "Redundant expression \"newComptroller (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#745)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 735,
+            "message": "Redundant expression \"newPendingAdmin (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#735)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Redundant expression \"liquidator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#722)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 574,
+            "message": "Redundant expression \"dst (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#574)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 598,
+            "message": "Redundant expression \"owner (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#598)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 598,
+            "message": "Redundant expression \"spender (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#598)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Redundant expression \"seizeTokens (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#722)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 795,
+            "message": "Redundant expression \"newInterestRateModel (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#795)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 527,
+            "message": "Redundant expression \"repayAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#527)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 517,
+            "message": "Redundant expression \"borrowAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#517)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 630,
+            "message": "Redundant expression \"account (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#630)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 608,
+            "message": "Redundant expression \"owner (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#608)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 574,
+            "message": "Redundant expression \"src (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#574)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 551,
+            "message": "Redundant expression \"cTokenCollateral (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#551)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 538,
+            "message": "Redundant expression \"repayAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#538)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 551,
+            "message": "Redundant expression \"repayAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#551)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 587,
+            "message": "Redundant expression \"amount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#587)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 507,
+            "message": "Redundant expression \"redeemAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#507)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 538,
+            "message": "Redundant expression \"borrower (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#538)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 774,
+            "message": "Redundant expression \"addAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#774)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 562,
+            "message": "Redundant expression \"dst (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#562)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Redundant expression \"borrower (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#722)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 551,
+            "message": "Redundant expression \"borrower (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#551)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 784,
+            "message": "Redundant expression \"reduceAmount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#784)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 587,
+            "message": "Redundant expression \"spender (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#587)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 562,
+            "message": "Redundant expression \"amount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#562)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 755,
+            "message": "Redundant expression \"newReserveFactorMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#755)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 619,
+            "message": "Redundant expression \"owner (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#619)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 574,
+            "message": "Redundant expression \"amount (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#574)\" inCErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 204,
+            "message": "CTokenStorage.transferAllowances (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#204) is never used in CErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 219,
+            "message": "CTokenStorage.accountBorrows (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#219) is never used in CErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 134,
+            "message": "CTokenStorage.borrowRateMaxMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#134) is never used in CErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 164,
+            "message": "CTokenStorage.initialExchangeRateMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#164) is never used in CErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 113,
+            "message": "CTokenStorage._notEntered (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#113) is never used in CErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 139,
+            "message": "CTokenStorage.reserveFactorMaxMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#139) is never used in CErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "CErc20Delegator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Informational",
+            "line": 199,
+            "message": "CTokenStorage.accountTokens (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#199) is never used in CErc20Delegator (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 350,
+            "message": "CErc20Storage.underlying (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#350) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 174,
+            "message": "CTokenStorage.accrualBlockNumber (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#174) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 164,
+            "message": "CTokenStorage.initialExchangeRateMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#164) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 194,
+            "message": "CTokenStorage.totalSupply (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#194) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 189,
+            "message": "CTokenStorage.totalReserves (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#189) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 149,
+            "message": "CTokenStorage.pendingAdmin (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#149) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 184,
+            "message": "CTokenStorage.totalBorrows (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#184) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 169,
+            "message": "CTokenStorage.reserveFactorMantissa (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#169) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 113,
+            "message": "CTokenStorage._notEntered (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#113) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 123,
+            "message": "CTokenStorage.symbol (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#123) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 118,
+            "message": "CTokenStorage.name (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#118) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 179,
+            "message": "CTokenStorage.borrowIndex (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#179) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "impact": "Optimization",
+            "line": 128,
+            "message": "CTokenStorage.decimals (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#128) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setInterestRateModel",
+            "impact": "Optimization",
+            "line": 794,
+            "line_end": 797,
+            "message": "_setInterestRateModel(InterestRateModel) should be declared external:\n\t- CErc20Delegator._setInterestRateModel(InterestRateModel) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#794-797)\n\t- CTokenInterface._setInterestRateModel(InterestRateModel) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#343)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "exchangeRateCurrent",
+            "impact": "Optimization",
+            "line": 682,
+            "line_end": 684,
+            "message": "exchangeRateCurrent() should be declared external:\n\t- CErc20Delegator.exchangeRateCurrent() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#682-684)\n\t- CTokenInterface.exchangeRateCurrent() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#329)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_resignImplementation",
+            "impact": "Optimization",
+            "line": 404,
+            "message": "_resignImplementation() should be declared external:\n\t- CDelegateInterface._resignImplementation() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#404)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "accrueInterest",
+            "impact": "Optimization",
+            "line": 708,
+            "line_end": 710,
+            "message": "accrueInterest() should be declared external:\n\t- CErc20Delegator.accrueInterest() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#708-710)\n\t- CTokenInterface.accrueInterest() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#332)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_setComptroller",
+            "impact": "Optimization",
+            "line": 744,
+            "line_end": 747,
+            "message": "_setComptroller(ComptrollerInterface) should be declared external:\n\t- CErc20Delegator._setComptroller(ComptrollerInterface) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#744-747)\n\t- CTokenInterface._setComptroller(ComptrollerInterface) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#340)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "borrowBalanceStored",
+            "impact": "Optimization",
+            "line": 673,
+            "line_end": 676,
+            "message": "borrowBalanceStored(address) should be declared external:\n\t- CErc20Delegator.borrowBalanceStored(address) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#673-676)\n\t- CTokenInterface.borrowBalanceStored(address) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#328)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "exchangeRateStored",
+            "impact": "Optimization",
+            "line": 691,
+            "line_end": 693,
+            "message": "exchangeRateStored() should be declared external:\n\t- CErc20Delegator.exchangeRateStored() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#691-693)\n\t- CTokenInterface.exchangeRateStored() (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#330)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "delegateToViewImplementation",
+            "impact": "Optimization",
+            "line": 833,
+            "line_end": 841,
+            "message": "delegateToViewImplementation(bytes) should be declared external:\n\t- CErc20Delegator.delegateToViewImplementation(bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#833-841)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol",
+            "function": "_becomeImplementation",
+            "impact": "Optimization",
+            "line": 399,
+            "message": "_becomeImplementation(bytes) should be declared external:\n\t- CDelegateInterface._becomeImplementation(bytes) (../..0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#399)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

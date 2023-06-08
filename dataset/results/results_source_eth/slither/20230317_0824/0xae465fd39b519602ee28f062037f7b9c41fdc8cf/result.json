@@ -1,0 +1,1728 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_55"
+    ],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "accrueInterest",
+            "impact": "Medium",
+            "line": 1765,
+            "line_end": 1838,
+            "message": "WarpVaultSC.accrueInterest() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1765-1838) uses a dangerous strict equality:\n\t- accrualBlockNumberPrior == currentBlockNumber (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1771)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mulExp",
+            "impact": "Medium",
+            "line": 1098,
+            "line_end": 1118,
+            "message": "Exponential.mulExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1098-1118) uses a dangerous strict equality:\n\t- assert(bool)(err2 == MathError.NO_ERROR) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1115)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "divUInt",
+            "impact": "Medium",
+            "line": 906,
+            "line_end": 912,
+            "message": "CarefulMath.divUInt(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#906-912) uses a dangerous strict equality:\n\t- b == 0 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#907)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "repayBorrow",
+            "impact": "Medium",
+            "line": 2217,
+            "line_end": 2279,
+            "message": "WarpVaultSC.repayBorrow(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279) uses a dangerous strict equality:\n\t- require(bool,string)(vars.mathErr == MathError.NO_ERROR,Repay borrow new account balance calculation failed) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2253-2256)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mulUInt",
+            "impact": "Medium",
+            "line": 889,
+            "line_end": 901,
+            "message": "CarefulMath.mulUInt(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#889-901) uses a dangerous strict equality:\n\t- a == 0 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#890)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "repayBorrow",
+            "impact": "Medium",
+            "line": 2217,
+            "line_end": 2279,
+            "message": "WarpVaultSC.repayBorrow(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279) uses a dangerous strict equality:\n\t- require(bool,string)(vars.mathErr == MathError.NO_ERROR,Repay borrow new total balance calculation failed) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2263-2266)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewHistoricalReward",
+            "impact": "Medium",
+            "line": 2133,
+            "line_end": 2157,
+            "message": "WarpVaultSC.viewHistoricalReward(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2133-2157) uses a dangerous strict equality:\n\t- currentWarpBalance == 0 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2142)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "repayBorrow",
+            "impact": "Medium",
+            "line": 2217,
+            "line_end": 2279,
+            "message": "Reentrancy in WarpVaultSC.repayBorrow(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279):\n\tExternal calls:\n\t- stablecoin.safeTransferFrom(msg.sender,address(this),vars.repayAmount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2241-2245)\n\tState variables written after the call(s):\n\t- accountBorrows[msg.sender].principal = vars.accountBorrowsNew (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2270)\n\t- accountBorrows[msg.sender].interestIndex = borrowIndex (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2271)\n\t- totalBorrows = vars.totalBorrowsNew (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2269)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Medium",
+            "line": 2049,
+            "message": "WarpVaultSC.redeem(uint256).vars (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2049) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Medium",
+            "line": 2014,
+            "message": "WarpVaultSC.lendToWarpVault(uint256).vars (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2014) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Medium",
+            "line": 2219,
+            "message": "WarpVaultSC.repayBorrow(uint256).vars (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2219) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Medium",
+            "line": 2177,
+            "message": "WarpVaultSC._borrow(uint256,address).vars (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2177) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 536,
+            "message": "ERC20.constructor(string,string).name (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#536) shadows:\n\t- ERC20.name() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#545-547) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "fraction",
+            "impact": "Low",
+            "line": 1087,
+            "message": "Exponential.divScalarByExpTruncate(uint256,Exponential.Exp).fraction (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1087) shadows:\n\t- Exponential.fraction(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1299-1301) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 536,
+            "message": "ERC20.constructor(string,string).symbol (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#536) shadows:\n\t- ERC20.symbol() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#553-555) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_repayLiquidatedLoan",
+            "impact": "Low",
+            "line": 2288,
+            "line_end": 2304,
+            "message": "WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304) should emit an event for: \n\t- totalBorrows = totalBorrows.sub(_amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2301) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Low",
+            "line": 1650,
+            "message": "WarpVaultSC.constructor(address,address,address,address,uint256,uint256,uint256)._warpTeam (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1650) lacks a zero-check on :\n\t\t- warpTeam = _warpTeam (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1661)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Low",
+            "line": 1705,
+            "message": "WarpVaultSC.updateTeam(address)._team (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1705) lacks a zero-check on :\n\t\t- warpTeam = _team (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1707)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Low",
+            "line": 1407,
+            "message": "WarpWrapperToken.constructor(address,string,string)._SC (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1407) lacks a zero-check on :\n\t\t- stablecoin = _SC (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1411)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_repayLiquidatedLoan",
+            "impact": "Low",
+            "line": 2288,
+            "line_end": 2304,
+            "message": "Reentrancy in WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304):\n\tExternal calls:\n\t- stablecoin.safeTransferFrom(_liquidator,address(this),_amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2293)\n\tState variables written after the call(s):\n\t- accountBorrows[_borrower].principal = 0 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2299)\n\t- accountBorrows[_borrower].interestIndex = 0 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2300)\n\t- totalBorrows = totalBorrows.sub(_amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2301)\n\t- totalReserves = totalReserves.add(fee) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2297)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "lendToWarpVault",
+            "impact": "Low",
+            "line": 2012,
+            "line_end": 2032,
+            "message": "Reentrancy in WarpVaultSC.lendToWarpVault(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012-2032):\n\tExternal calls:\n\t- stablecoin.safeTransferFrom(msg.sender,address(this),_amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2025)\n\tState variables written after the call(s):\n\t- principalBalance[msg.sender] = principalBalance[msg.sender] + _amount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2027)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "redeem",
+            "impact": "Low",
+            "line": 2048,
+            "line_end": 2105,
+            "message": "Reentrancy in WarpVaultSC.redeem(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2048-2105):\n\tExternal calls:\n\t- wStableCoin.burn(msg.sender,vars.burnTokens) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2102)\n\t- stablecoin.safeTransfer(msg.sender,vars.amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2103)\n\tEvent emitted after the call(s):\n\t- StableCoinWithdraw(msg.sender,vars.amount,vars.burnTokens) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2104)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "withdrawFees",
+            "impact": "Low",
+            "line": 1731,
+            "line_end": 1739,
+            "message": "Reentrancy in WarpVaultSC.withdrawFees(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1731-1739):\n\tExternal calls:\n\t- stablecoin.safeTransfer(warpTeam,_amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1737)\n\tEvent emitted after the call(s):\n\t- ReserveWithdraw(_amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1738)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "lendToWarpVault",
+            "impact": "Low",
+            "line": 2012,
+            "line_end": 2032,
+            "message": "Reentrancy in WarpVaultSC.lendToWarpVault(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012-2032):\n\tExternal calls:\n\t- stablecoin.safeTransferFrom(msg.sender,address(this),_amount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2025)\n\t- wStableCoin.mint(msg.sender,vars.mintTokens) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2030)\n\tEvent emitted after the call(s):\n\t- StableCoinLent(msg.sender,_amount,vars.mintTokens) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2031)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "repayBorrow",
+            "impact": "Low",
+            "line": 2217,
+            "line_end": 2279,
+            "message": "Reentrancy in WarpVaultSC.repayBorrow(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279):\n\tExternal calls:\n\t- stablecoin.safeTransferFrom(msg.sender,address(this),vars.repayAmount) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2241-2245)\n\tEvent emitted after the call(s):\n\t- LoanRepayed(msg.sender,_repayAmount,accountBorrows[msg.sender].principal,accountBorrows[msg.sender].interestIndex) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2273-2278)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 363,
+            "line_end": 372,
+            "message": "Address.isContract(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#363-372) uses assembly\n\t- INLINE ASM (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#370)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 456,
+            "line_end": 477,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#456-477) uses assembly\n\t- INLINE ASM (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#469-472)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "divExp",
+            "impact": "Informational",
+            "line": 1143,
+            "line_end": 1145,
+            "message": "Exponential.divExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1143-1145) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "divScalar",
+            "impact": "Informational",
+            "line": 1054,
+            "line_end": 1061,
+            "message": "Exponential.divScalar(Exponential.Exp,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1054-1061) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "sub_",
+            "impact": "Informational",
+            "line": 1216,
+            "line_end": 1218,
+            "message": "Exponential.sub_(Exponential.Double,Exponential.Double) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1216-1218) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "safe32",
+            "impact": "Informational",
+            "line": 1189,
+            "line_end": 1192,
+            "message": "Exponential.safe32(uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1189-1192) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 390,
+            "line_end": 396,
+            "message": "Address.sendValue(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#390-396) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 441,
+            "line_end": 443,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#441-443) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "add_",
+            "impact": "Informational",
+            "line": 1202,
+            "line_end": 1204,
+            "message": "Exponential.add_(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1202-1204) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mulExp3",
+            "impact": "Informational",
+            "line": 1130,
+            "line_end": 1136,
+            "message": "Exponential.mulExp3(Exponential.Exp,Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1130-1136) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1286,
+            "line_end": 1288,
+            "message": "Exponential.div_(uint256,Exponential.Double) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1286-1288) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "add_",
+            "impact": "Informational",
+            "line": 1206,
+            "line_end": 1210,
+            "message": "Exponential.add_(uint256,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1206-1210) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "add_",
+            "impact": "Informational",
+            "line": 1198,
+            "line_end": 1200,
+            "message": "Exponential.add_(Exponential.Double,Exponential.Double) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1198-1200) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "safe224",
+            "impact": "Informational",
+            "line": 1184,
+            "line_end": 1187,
+            "message": "Exponential.safe224(uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1184-1187) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1245,
+            "line_end": 1247,
+            "message": "Exponential.mul_(Exponential.Double,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1245-1247) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "subExp",
+            "impact": "Informational",
+            "line": 1009,
+            "line_end": 1013,
+            "message": "Exponential.subExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1009-1013) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1290,
+            "line_end": 1292,
+            "message": "Exponential.div_(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1290-1292) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "fraction",
+            "impact": "Informational",
+            "line": 1299,
+            "line_end": 1301,
+            "message": "Exponential.fraction(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1299-1301) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1282,
+            "line_end": 1284,
+            "message": "Exponential.div_(Exponential.Double,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1282-1284) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 835,
+            "line_end": 838,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#835-838) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1229,
+            "line_end": 1231,
+            "message": "Exponential.mul_(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1229-1231) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1241,
+            "line_end": 1243,
+            "message": "Exponential.mul_(Exponential.Double,Exponential.Double) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1241-1243) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "lessThanExp",
+            "impact": "Informational",
+            "line": 1159,
+            "line_end": 1161,
+            "message": "Exponential.lessThanExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1159-1161) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1253,
+            "line_end": 1255,
+            "message": "Exponential.mul_(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1253-1255) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "isZeroExp",
+            "impact": "Informational",
+            "line": 1180,
+            "line_end": 1182,
+            "message": "Exponential.isZeroExp(Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1180-1182) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 824,
+            "line_end": 833,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#824-833) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 331,
+            "line_end": 334,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#331-334) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1249,
+            "line_end": 1251,
+            "message": "Exponential.mul_(uint256,Exponential.Double) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1249-1251) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "addExp",
+            "impact": "Informational",
+            "line": 1000,
+            "line_end": 1004,
+            "message": "Exponential.addExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1000-1004) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1237,
+            "line_end": 1239,
+            "message": "Exponential.mul_(uint256,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1237-1239) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1294,
+            "line_end": 1297,
+            "message": "Exponential.div_(uint256,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1294-1297) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 451,
+            "line_end": 454,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#451-454) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "greaterThanExp",
+            "impact": "Informational",
+            "line": 1173,
+            "line_end": 1175,
+            "message": "Exponential.greaterThanExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1173-1175) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mulExp",
+            "impact": "Informational",
+            "line": 1098,
+            "line_end": 1118,
+            "message": "Exponential.mulExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1098-1118) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 767,
+            "line_end": 769,
+            "message": "ERC20._setupDecimals(uint8) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#767-769) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1274,
+            "line_end": 1276,
+            "message": "Exponential.div_(uint256,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1274-1276) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 22,
+            "line_end": 25,
+            "message": "Context._msgData() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#22-25) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 315,
+            "line_end": 317,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#315-317) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mulExp",
+            "impact": "Informational",
+            "line": 1123,
+            "line_end": 1125,
+            "message": "Exponential.mulExp(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1123-1125) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1270,
+            "line_end": 1272,
+            "message": "Exponential.div_(Exponential.Exp,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1270-1272) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "sub_",
+            "impact": "Informational",
+            "line": 1224,
+            "line_end": 1227,
+            "message": "Exponential.sub_(uint256,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1224-1227) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1266,
+            "line_end": 1268,
+            "message": "Exponential.div_(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1266-1268) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "lessThanOrEqualExp",
+            "impact": "Informational",
+            "line": 1166,
+            "line_end": 1168,
+            "message": "Exponential.lessThanOrEqualExp(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1166-1168) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 840,
+            "line_end": 843,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#840-843) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "sub_",
+            "impact": "Informational",
+            "line": 1212,
+            "line_end": 1214,
+            "message": "Exponential.sub_(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1212-1214) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1257,
+            "line_end": 1264,
+            "message": "Exponential.mul_(uint256,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1257-1264) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "add_",
+            "impact": "Informational",
+            "line": 1194,
+            "line_end": 1196,
+            "message": "Exponential.add_(Exponential.Exp,Exponential.Exp) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1194-1196) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "sub_",
+            "impact": "Informational",
+            "line": 1220,
+            "line_end": 1222,
+            "message": "Exponential.sub_(uint256,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1220-1222) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mul_",
+            "impact": "Informational",
+            "line": 1233,
+            "line_end": 1235,
+            "message": "Exponential.mul_(Exponential.Exp,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1233-1235) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 416,
+            "line_end": 418,
+            "message": "Address.functionCall(address,bytes) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#416-418) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "div_",
+            "impact": "Informational",
+            "line": 1278,
+            "line_end": 1280,
+            "message": "Exponential.div_(Exponential.Double,Exponential.Double) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1278-1280) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 866,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#866) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 483,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#483) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 791,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#791) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 31,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#31) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1306,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1306) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1435,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1435) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 954,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#954) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1339,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1339) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 179,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#179) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 340,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#340) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1527,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1527) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1390,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1390) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 100,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#100) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 5,
+            "message": "Pragma version^0.6.6 (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#5) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 390,
+            "line_end": 396,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#390-396):\n\t- (success) = recipient.call{value: amount}() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#394)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 456,
+            "line_end": 477,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#456-477):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#460)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 968,
+            "message": "Constant Exponential.mantissaOne (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#968) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2133,
+            "message": "Parameter WarpVaultSC.viewHistoricalReward(address)._account (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2133) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1755,
+            "message": "Parameter WarpVaultSC.updateReserve(uint256)._newReserveMantissa (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1755) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 967,
+            "message": "Constant Exponential.halfExpScale (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#967) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_repayLiquidatedLoan",
+            "impact": "Informational",
+            "line": 2288,
+            "line_end": 2304,
+            "message": "Function WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1419,
+            "message": "Parameter WarpWrapperToken.mint(address,uint256)._to (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1419) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_borrow",
+            "impact": "Informational",
+            "line": 2171,
+            "line_end": 2199,
+            "message": "Function WarpVaultSC._borrow(uint256,address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2171-2199) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2171,
+            "message": "Parameter WarpVaultSC._borrow(uint256,address)._borrower (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2171) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2171,
+            "message": "Parameter WarpVaultSC._borrow(uint256,address)._borrowAmount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2171) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1560,
+            "message": "Constant WarpVaultSC.borrowRateMaxMantissa (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1560) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2217,
+            "message": "Parameter WarpVaultSC.repayBorrow(uint256)._repayAmount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1359,
+            "message": "Parameter UniswapLPOracleFactoryI.getUnderlyingPrice(address)._MMI (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1359) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1705,
+            "message": "Parameter WarpVaultSC.updateTeam(address)._team (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1705) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2289,
+            "message": "Parameter WarpVaultSC._repayLiquidatedLoan(address,address,uint256)._borrower (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2289) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 966,
+            "message": "Constant Exponential.doubleScale (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#966) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2291,
+            "message": "Parameter WarpVaultSC._repayLiquidatedLoan(address,address,uint256)._amount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2291) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2290,
+            "message": "Parameter WarpVaultSC._repayLiquidatedLoan(address,address,uint256)._liquidator (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2290) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1721,
+            "message": "Parameter WarpVaultSC.calculateFee(uint256)._payedAmount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1721) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "OneUSDC",
+            "impact": "Informational",
+            "line": 1357,
+            "message": "Function UniswapLPOracleFactoryI.OneUSDC() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1357) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1731,
+            "message": "Parameter WarpVaultSC.withdrawFees(uint256)._amount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1731) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1569,
+            "message": "Variable WarpVaultSC.InterestRate (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1569) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2111,
+            "message": "Parameter WarpVaultSC.viewAccountBalance(address)._account (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2111) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1746,
+            "message": "Parameter WarpVaultSC.setNewInterestModel(address)._newModel (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1746) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 965,
+            "message": "Constant Exponential.expScale (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#965) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1428,
+            "message": "Parameter WarpWrapperToken.burn(address,uint256)._amount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1428) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1700,
+            "message": "Parameter WarpVaultSC.updateWarpControl(address)._warpControl (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1361,
+            "message": "Parameter UniswapLPOracleFactoryI.viewUnderlyingPrice(address)._MMI (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1361) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1428,
+            "message": "Parameter WarpWrapperToken.burn(address,uint256)._from (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1428) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_calculatePriceOfLP",
+            "impact": "Informational",
+            "line": 1380,
+            "line_end": 1385,
+            "message": "Function UniswapLPOracleFactoryI._calculatePriceOfLP(uint256,uint256,uint256,uint8) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1380-1385) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2012,
+            "message": "Parameter WarpVaultSC.lendToWarpVault(uint256)._amount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1314,
+            "message": "Constant InterestRateModel.isInterestRateModel (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1314) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1419,
+            "message": "Parameter WarpWrapperToken.mint(address,uint256)._amount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1419) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 2048,
+            "message": "Parameter WarpVaultSC.redeem(uint256)._amount (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2048) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 23,
+            "message": "Redundant expression \"this (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#23)\" inContext (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#17-26)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Informational",
+            "line": 1648,
+            "message": "Variable WarpVaultSC.constructor(address,address,address,address,uint256,uint256,uint256)._StableCoin (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1648) is too similar to WarpVaultSC.wStableCoin (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1567)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Optimization",
+            "line": 1562,
+            "message": "WarpVaultSC.divisor (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1562) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "impact": "Optimization",
+            "line": 1561,
+            "message": "WarpVaultSC.percent (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1561) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getTotalBorrowedValue",
+            "impact": "Optimization",
+            "line": 1497,
+            "line_end": 1500,
+            "message": "getTotalBorrowedValue(address) should be declared external:\n\t- WarpControlI.getTotalBorrowedValue(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1497-1500)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getSCAddress",
+            "impact": "Optimization",
+            "line": 1692,
+            "line_end": 1694,
+            "message": "getSCAddress() should be declared external:\n\t- WarpVaultSC.getSCAddress() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1692-1694)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "withdrawFees",
+            "impact": "Optimization",
+            "line": 1731,
+            "line_end": 1739,
+            "message": "withdrawFees(uint256) should be declared external:\n\t- WarpVaultSC.withdrawFees(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1731-1739)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getMaxWithdrawAllowed",
+            "impact": "Optimization",
+            "line": 1447,
+            "line_end": 1450,
+            "message": "getMaxWithdrawAllowed(address,address) should be declared external:\n\t- WarpControlI.getMaxWithdrawAllowed(address,address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1447-1450)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewPriceOfCollateral",
+            "impact": "Optimization",
+            "line": 1458,
+            "line_end": 1462,
+            "message": "viewPriceOfCollateral(address) should be declared external:\n\t- WarpControlI.viewPriceOfCollateral(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1458-1462)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "checkIfGroupMember",
+            "impact": "Optimization",
+            "line": 1468,
+            "line_end": 1472,
+            "message": "checkIfGroupMember(address) should be declared external:\n\t- WarpControlI.checkIfGroupMember(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1468-1472)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewAccountBalance",
+            "impact": "Optimization",
+            "line": 2111,
+            "line_end": 2127,
+            "message": "viewAccountBalance(address) should be declared external:\n\t- WarpVaultSC.viewAccountBalance(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2111-2127)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 632,
+            "line_end": 636,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#632-636)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "redeem",
+            "impact": "Optimization",
+            "line": 2048,
+            "line_end": 2105,
+            "message": "redeem(uint256) should be declared external:\n\t- WarpVaultSC.redeem(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2048-2105)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 81,
+            "line_end": 84,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#81-84)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "calcBorrowLimit",
+            "impact": "Optimization",
+            "line": 1502,
+            "line_end": 1506,
+            "message": "calcBorrowLimit(uint256) should be declared external:\n\t- WarpControlI.calcBorrowLimit(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1502-1506)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "setNewInterestModel",
+            "impact": "Optimization",
+            "line": 1746,
+            "line_end": 1749,
+            "message": "setNewInterestModel(address) should be declared external:\n\t- WarpVaultSC.setNewInterestModel(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1746-1749)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "updateTeam",
+            "impact": "Optimization",
+            "line": 1705,
+            "line_end": 1708,
+            "message": "updateTeam(address) should be declared external:\n\t- WarpVaultSC.updateTeam(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1705-1708)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 570,
+            "line_end": 572,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#570-572)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 669,
+            "line_end": 672,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#669-672)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_repayLiquidatedLoan",
+            "impact": "Optimization",
+            "line": 2288,
+            "line_end": 2304,
+            "message": "_repayLiquidatedLoan(address,address,uint256) should be declared external:\n\t- WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 553,
+            "line_end": 555,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#553-555)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 584,
+            "line_end": 586,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#584-586)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 596,
+            "line_end": 599,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#596-599)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "repayBorrow",
+            "impact": "Optimization",
+            "line": 2217,
+            "line_end": 2279,
+            "message": "repayBorrow(uint256) should be declared external:\n\t- WarpVaultSC.repayBorrow(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 62,
+            "line_end": 64,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#62-64)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewHistoricalReward",
+            "impact": "Optimization",
+            "line": 2133,
+            "line_end": 2157,
+            "message": "viewHistoricalReward(address) should be declared external:\n\t- WarpVaultSC.viewHistoricalReward(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2133-2157)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 650,
+            "line_end": 653,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#650-653)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "updateWarpControl",
+            "impact": "Optimization",
+            "line": 1700,
+            "line_end": 1703,
+            "message": "updateWarpControl(address) should be declared external:\n\t- WarpVaultSC.updateWarpControl(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1700-1703)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "borrowRatePerBlock",
+            "impact": "Optimization",
+            "line": 1899,
+            "line_end": 1906,
+            "message": "borrowRatePerBlock() should be declared external:\n\t- WarpVaultSC.borrowRatePerBlock() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1899-1906)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewTotalAvailableCollateralValue",
+            "impact": "Optimization",
+            "line": 1479,
+            "line_end": 1483,
+            "message": "viewTotalAvailableCollateralValue(address) should be declared external:\n\t- WarpControlI.viewTotalAvailableCollateralValue(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1479-1483)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getSCDecimals",
+            "impact": "Optimization",
+            "line": 1685,
+            "line_end": 1687,
+            "message": "getSCDecimals() should be declared external:\n\t- WarpVaultSC.getSCDecimals() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1685-1687)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getBorrowLimit",
+            "impact": "Optimization",
+            "line": 1514,
+            "message": "getBorrowLimit(address) should be declared external:\n\t- WarpControlI.getBorrowLimit(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1514)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewPriceOfToken",
+            "impact": "Optimization",
+            "line": 1372,
+            "line_end": 1376,
+            "message": "viewPriceOfToken(address,uint256) should be declared external:\n\t- UniswapLPOracleFactoryI.viewPriceOfToken(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1372-1376)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 90,
+            "line_end": 94,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#90-94)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 545,
+            "line_end": 547,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#545-547)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "createNewOracles",
+            "impact": "Optimization",
+            "line": 1351,
+            "line_end": 1355,
+            "message": "createNewOracles(address,address,address) should be declared external:\n\t- UniswapLPOracleFactoryI.createNewOracles(address,address,address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1351-1355)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewUnderlyingPrice",
+            "impact": "Optimization",
+            "line": 1361,
+            "line_end": 1365,
+            "message": "viewUnderlyingPrice(address) should be declared external:\n\t- UniswapLPOracleFactoryI.viewUnderlyingPrice(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1361-1365)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getUnderlyingPrice",
+            "impact": "Optimization",
+            "line": 1359,
+            "message": "getUnderlyingPrice(address) should be declared external:\n\t- UniswapLPOracleFactoryI.getUnderlyingPrice(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1359)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "updateReserve",
+            "impact": "Optimization",
+            "line": 1755,
+            "line_end": 1758,
+            "message": "updateReserve(uint256) should be declared external:\n\t- WarpVaultSC.updateReserve(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1755-1758)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "liquidateAccount",
+            "impact": "Optimization",
+            "line": 1522,
+            "message": "liquidateAccount(address) should be declared external:\n\t- WarpControlI.liquidateAccount(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1522)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewMaxWithdrawAllowed",
+            "impact": "Optimization",
+            "line": 1452,
+            "line_end": 1456,
+            "message": "viewMaxWithdrawAllowed(address,address) should be declared external:\n\t- WarpControlI.viewMaxWithdrawAllowed(address,address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1452-1456)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "burn",
+            "impact": "Optimization",
+            "line": 1428,
+            "line_end": 1430,
+            "message": "burn(address,uint256) should be declared external:\n\t- WarpWrapperToken.burn(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1428-1430)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewBorrowLimit",
+            "impact": "Optimization",
+            "line": 1516,
+            "line_end": 1520,
+            "message": "viewBorrowLimit(address) should be declared external:\n\t- WarpControlI.viewBorrowLimit(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1516-1520)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getTotalAvailableCollateralValue",
+            "impact": "Optimization",
+            "line": 1474,
+            "line_end": 1477,
+            "message": "getTotalAvailableCollateralValue(address) should be declared external:\n\t- WarpControlI.getTotalAvailableCollateralValue(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1474-1477)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "mint",
+            "impact": "Optimization",
+            "line": 1419,
+            "line_end": 1421,
+            "message": "mint(address,uint256) should be declared external:\n\t- WarpWrapperToken.mint(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1419-1421)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 577,
+            "line_end": 579,
+            "message": "totalSupply() should be declared external:\n\t- ERC20.totalSupply() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#577-579)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 615,
+            "line_end": 618,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#615-618)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "_calculatePriceOfLP",
+            "impact": "Optimization",
+            "line": 1380,
+            "line_end": 1385,
+            "message": "_calculatePriceOfLP(uint256,uint256,uint256,uint8) should be declared external:\n\t- UniswapLPOracleFactoryI._calculatePriceOfLP(uint256,uint256,uint256,uint8) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1380-1385)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewTotalBorrowedValue",
+            "impact": "Optimization",
+            "line": 1491,
+            "line_end": 1495,
+            "message": "viewTotalBorrowedValue(address) should be declared external:\n\t- WarpControlI.viewTotalBorrowedValue(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1491-1495)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "viewPriceOfToken",
+            "impact": "Optimization",
+            "line": 1485,
+            "line_end": 1489,
+            "message": "viewPriceOfToken(address) should be declared external:\n\t- WarpControlI.viewPriceOfToken(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1485-1489)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "getPriceOfToken",
+            "impact": "Optimization",
+            "line": 1367,
+            "line_end": 1370,
+            "message": "getPriceOfToken(address,uint256) should be declared external:\n\t- UniswapLPOracleFactoryI.getPriceOfToken(address,uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1367-1370)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "supplyRatePerBlock",
+            "impact": "Optimization",
+            "line": 1912,
+            "line_end": 1920,
+            "message": "supplyRatePerBlock() should be declared external:\n\t- WarpVaultSC.supplyRatePerBlock() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1912-1920)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "OneUSDC",
+            "impact": "Optimization",
+            "line": 1357,
+            "message": "OneUSDC() should be declared external:\n\t- UniswapLPOracleFactoryI.OneUSDC() (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1357)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 1378,
+            "message": "transferOwnership(address) should be declared external:\n\t- UniswapLPOracleFactoryI.transferOwnership(address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1378)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "addMemberToGroup",
+            "impact": "Optimization",
+            "line": 1464,
+            "line_end": 1466,
+            "message": "addMemberToGroup(address,address) should be declared external:\n\t- WarpControlI.addMemberToGroup(address,address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1464-1466)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "lendToWarpVault",
+            "impact": "Optimization",
+            "line": 2012,
+            "line_end": 2032,
+            "message": "lendToWarpVault(uint256) should be declared external:\n\t- WarpVaultSC.lendToWarpVault(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012-2032)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "calcCollateralRequired",
+            "impact": "Optimization",
+            "line": 1508,
+            "line_end": 1512,
+            "message": "calcCollateralRequired(uint256) should be declared external:\n\t- WarpControlI.calcCollateralRequired(uint256) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1508-1512)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 604,
+            "line_end": 606,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#604-606)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

@@ -1,0 +1,77 @@
+[93m
+Reentrancy in LPTokenMaster._transfer(address,address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#136-150):
+	External calls:
+	- pair.accrueAccount(_sender) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)
+	- pair.accrueAccount(_recipient) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)
+	State variables written after the call(s):
+	- balanceOf[_sender] -= _amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#145)
+	- balanceOf[_recipient] += _amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#146)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+Reentrancy in LPTokenMaster.transferFrom(address,address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130-134):
+	External calls:
+	- _transfer(_sender,_recipient,_amount) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#131)
+		- pair.accrueAccount(_sender) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)
+		- pair.accrueAccount(_recipient) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)
+	State variables written after the call(s):
+	- _approve(_sender,msg.sender,allowance[_sender][msg.sender] - _amount) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#132)
+		- allowance[_owner][_spender] = _amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#184)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in LPTokenMaster._transfer(address,address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#136-150):
+	External calls:
+	- pair.accrueAccount(_sender) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)
+	- pair.accrueAccount(_recipient) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)
+	Event emitted after the call(s):
+	- Transfer(_sender,_recipient,_amount) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#149)
+Reentrancy in LPTokenMaster.transferFrom(address,address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130-134):
+	External calls:
+	- _transfer(_sender,_recipient,_amount) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#131)
+		- pair.accrueAccount(_sender) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)
+		- pair.accrueAccount(_recipient) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)
+	Event emitted after the call(s):
+	- Approval(_owner,_spender,_amount) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#185)
+		- _approve(_sender,msg.sender,allowance[_sender][msg.sender] - _amount) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#132)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+LPTokenMaster._concat(string,string,string,string,string) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#188-196) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.8.1 (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#6) allows old versions
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Parameter LPTokenMaster.transfer(address,uint256)._recipient (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#120) is not in mixedCase
+Parameter LPTokenMaster.transfer(address,uint256)._amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#120) is not in mixedCase
+Parameter LPTokenMaster.approve(address,uint256)._spender (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#125) is not in mixedCase
+Parameter LPTokenMaster.approve(address,uint256)._amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#125) is not in mixedCase
+Parameter LPTokenMaster.transferFrom(address,address,uint256)._sender (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130) is not in mixedCase
+Parameter LPTokenMaster.transferFrom(address,address,uint256)._recipient (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130) is not in mixedCase
+Parameter LPTokenMaster.transferFrom(address,address,uint256)._amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130) is not in mixedCase
+Parameter LPTokenMaster.mint(address,uint256)._account (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#152) is not in mixedCase
+Parameter LPTokenMaster.mint(address,uint256)._amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#152) is not in mixedCase
+Parameter LPTokenMaster.burn(address,uint256)._account (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#156) is not in mixedCase
+Parameter LPTokenMaster.burn(address,uint256)._amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#156) is not in mixedCase
+Parameter LPTokenMaster.selfBurn(uint256)._amount (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#160) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#87-90)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#92-94)
+initialize() should be declared external:
+	- LPTokenMaster.initialize() (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#116-118)
+transfer(address,uint256) should be declared external:
+	- LPTokenMaster.transfer(address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#120-123)
+approve(address,uint256) should be declared external:
+	- LPTokenMaster.approve(address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#125-128)
+transferFrom(address,address,uint256) should be declared external:
+	- LPTokenMaster.transferFrom(address,address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130-134)
+mint(address,uint256) should be declared external:
+	- LPTokenMaster.mint(address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#152-154)
+burn(address,uint256) should be declared external:
+	- LPTokenMaster.burn(address,uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#156-158)
+selfBurn(uint256) should be declared external:
+	- LPTokenMaster.selfBurn(uint256) (../../sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#160-162)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol analyzed (6 contracts with 78 detectors), 28 result(s) found

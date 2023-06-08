@@ -1,0 +1,131 @@
+[91m
+FinsPair._update(uint256,uint256,uint112,uint112) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#353-366) uses a weak PRNG: "blockTimestamp = uint32(block.timestamp % 2 ** 32) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#355)" 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#weak-PRNG[0m
+[93m
+FinsPair._safeTransfer(address,address,uint256) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#317-320) uses a dangerous strict equality:
+	- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),Fins: TRANSFER_FAILED) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#319)
+FinsPair.mint(address) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#390-411) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#399)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in FinsPair.burn(address) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#414-436):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#428)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#429)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#433)
+		- blockTimestampLast = blockTimestamp (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#364)
+	- kLast = uint256(reserve0).mul(reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#434)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#433)
+		- reserve0 = uint112(balance0) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#362)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#433)
+		- reserve1 = uint112(balance1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#363)
+Reentrancy in FinsPair.swap(uint256,uint256,address,bytes) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#439-468):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#450)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#451)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- IFinsCallee(to).FinsCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#452)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#466)
+		- blockTimestampLast = blockTimestamp (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#364)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#466)
+		- reserve0 = uint112(balance0) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#362)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#466)
+		- reserve1 = uint112(balance1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#363)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+FinsPair.setSwapFee(uint32) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#345-350) should emit an event for: 
+	- swapFee = _swapFee (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#349) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+FinsPair.initialize(address,address)._token0 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#339) lacks a zero-check on :
+		- token0 = _token0 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#341)
+FinsPair.initialize(address,address)._token1 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#339) lacks a zero-check on :
+		- token1 = _token1 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#342)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in FinsPair.burn(address) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#414-436):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#428)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#429)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#433)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#359)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#433)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#360)
+Reentrancy in FinsPair.swap(uint256,uint256,address,bytes) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#439-468):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#450)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#451)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- IFinsCallee(to).FinsCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#452)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#466)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#359)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#466)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#360)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in FinsPair.burn(address) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#414-436):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#428)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#429)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	Event emitted after the call(s):
+	- Burn(msg.sender,amount0,amount1,to) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#435)
+	- Sync(reserve0,reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#365)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#433)
+Reentrancy in FinsPair.swap(uint256,uint256,address,bytes) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#439-468):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#450)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#451)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+	- IFinsCallee(to).FinsCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#452)
+	Event emitted after the call(s):
+	- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#467)
+	- Sync(reserve0,reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#365)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#466)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+FinsERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#262-274) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(deadline >= block.timestamp,Fins: EXPIRED) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#263)
+FinsPair._update(uint256,uint256,uint112,uint112) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#353-366) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#357)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+FinsERC20.constructor() (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#205-219) uses assembly
+	- INLINE ASM (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#207-209)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Low level call in FinsPair._safeTransfer(address,address,uint256) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#317-320):
+	- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#318)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IFinsERC20.DOMAIN_SEPARATOR() (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#35) is not in mixedCase
+Function IFinsERC20.PERMIT_TYPEHASH() (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#36) is not in mixedCase
+Function IFinsCallee.FinsCall(address,uint256,uint256,bytes) (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#44) is not in mixedCase
+Function IFinsFactory.INIT_CODE_HASH() (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#53) is not in mixedCase
+Function IFinsPair.DOMAIN_SEPARATOR() (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#142) is not in mixedCase
+Function IFinsPair.PERMIT_TYPEHASH() (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#143) is not in mixedCase
+Function IFinsPair.MINIMUM_LIQUIDITY() (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#160) is not in mixedCase
+Variable FinsERC20.DOMAIN_SEPARATOR (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#197) is not in mixedCase
+Parameter FinsPair.initialize(address,address)._token0 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#339) is not in mixedCase
+Parameter FinsPair.initialize(address,address)._token1 (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#339) is not in mixedCase
+Parameter FinsPair.setSwapFee(uint32)._swapFee (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#345) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable FinsPair.swap(uint256,uint256,address,bytes).balance0Adjusted (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#461) is too similar to FinsPair.swap(uint256,uint256,address,bytes).balance1Adjusted (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#462)
+Variable FinsPair.price0CumulativeLast (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#298) is too similar to FinsPair.price1CumulativeLast (../../sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol#299)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+/sb/0x1bba5c6cc38ef04066042237b4298dc23405304d.sol analyzed (10 contracts with 78 detectors), 29 result(s) found

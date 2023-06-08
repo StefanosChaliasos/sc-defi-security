@@ -1,0 +1,361 @@
+Compilation warnings/errors on /sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol:2906:1:
+     |
+2906 | contract PToken is
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[93m
+Reentrancy in PToken.initialize(string,string,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935):
+	External calls:
+	- __ERC777_init(tokenName,tokenSymbol,defaultOperators) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2931)
+		- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC777Token),address(this)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1547)
+		- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC20Token),address(this)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1548)
+	State variables written after the call(s):
+	- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+		- _initialized = true (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#209)
+	- __ERC777WithAdminOperatorUpgreadable_init(defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2933)
+		- _initialized = true (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#209)
+	- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+		- _initializing = true (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#208)
+		- _initializing = false (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#215)
+	- __ERC777WithAdminOperatorUpgreadable_init(defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2933)
+		- _initializing = true (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#208)
+		- _initializing = false (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#215)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+PToken.initialize(string,string,address).defaultOperators (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2929) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+PToken.initialize(string,string,address).defaultOperators (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2929) shadows:
+	- ERC777Upgradeable.defaultOperators() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1680-1682) (function)
+	- IERC777Upgradeable.defaultOperators() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#906) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address)._adminOperator (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2860) lacks a zero-check on :
+		- adminOperator = _adminOperator (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2863)
+ERC777WithAdminOperatorUpgreadable.setAdminOperator(address).adminOperator_ (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2888) lacks a zero-check on :
+		- adminOperator = adminOperator_ (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2891)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in ERC777Upgradeable._burn(address,uint256,bytes,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1842-1865):
+	External calls:
+	- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1855)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	State variables written after the call(s):
+	- _balances[from] = _balances[from].sub(amount,ERC777: burn amount exceeds balance) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1860)
+	- _totalSupply = _totalSupply.sub(amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1861)
+Reentrancy in ERC777Upgradeable._send(address,address,uint256,bytes,bytes,bool) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1812-1833):
+	External calls:
+	- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1828)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	State variables written after the call(s):
+	- _move(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1830)
+		- _balances[from] = _balances[from].sub(amount,ERC777: transfer amount exceeds balance) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1879)
+		- _balances[to] = _balances[to].add(amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1880)
+Reentrancy in PToken.initialize(string,string,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935):
+	External calls:
+	- __ERC777_init(tokenName,tokenSymbol,defaultOperators) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2931)
+		- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC777Token),address(this)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1547)
+		- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC20Token),address(this)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1548)
+	State variables written after the call(s):
+	- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+		- _owner = msgSender (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2682)
+	- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+		- _relayHub = 0xD216153c06E857cD7f72665E0aF1d7D82172F494 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2435)
+	- __ERC777WithAdminOperatorUpgreadable_init(defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2933)
+		- adminOperator = _adminOperator (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2863)
+	- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+		- gsnExtraGas = 40000 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2762)
+	- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+		- gsnFeeTarget = _gsnFeeTarget (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2761)
+	- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+		- gsnTrustedSigner = _gsnTrustedSigner (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2758)
+Reentrancy in ERC777Upgradeable.transfer(address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1615-1627):
+	External calls:
+	- _callTokensToSend(from,from,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1620)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	State variables written after the call(s):
+	- _move(from,from,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1622)
+		- _balances[from] = _balances[from].sub(amount,ERC777: transfer amount exceeds balance) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1879)
+		- _balances[to] = _balances[to].add(amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1880)
+Reentrancy in ERC777Upgradeable.transferFrom(address,address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1745-1759):
+	External calls:
+	- _callTokensToSend(spender,holder,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1751)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	State variables written after the call(s):
+	- _approve(holder,spender,_allowances[holder][spender].sub(amount,ERC777: transfer amount exceeds allowance)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1754)
+		- _allowances[holder][spender] = value (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1895)
+	- _move(spender,holder,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1753)
+		- _balances[from] = _balances[from].sub(amount,ERC777: transfer amount exceeds balance) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1879)
+		- _balances[to] = _balances[to].add(amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1880)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in ERC777Upgradeable._burn(address,uint256,bytes,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1842-1865):
+	External calls:
+	- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1855)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	Event emitted after the call(s):
+	- Burned(operator,from,amount,data,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1863)
+	- Transfer(from,address(0),amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1864)
+Reentrancy in ERC777Upgradeable._mint(address,uint256,bytes,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1778-1801):
+	External calls:
+	- _callTokensReceived(operator,address(0),account,amount,userData,operatorData,true) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1797)
+		- IERC777RecipientUpgradeable(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1948)
+	Event emitted after the call(s):
+	- Minted(operator,account,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1799)
+	- Transfer(address(0),account,amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1800)
+Reentrancy in ERC777Upgradeable._send(address,address,uint256,bytes,bytes,bool) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1812-1833):
+	External calls:
+	- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1828)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	Event emitted after the call(s):
+	- Sent(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1882)
+		- _move(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1830)
+	- Transfer(from,to,amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1883)
+		- _move(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1830)
+Reentrancy in ERC777WithAdminOperatorUpgreadable.adminTransfer(address,address,uint256,bytes,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2871-2883):
+	External calls:
+	- _send(sender,recipient,amount,data,operatorData,false) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2881)
+		- IERC777RecipientUpgradeable(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1948)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	Event emitted after the call(s):
+	- AdminTransferInvoked(adminOperator) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2882)
+Reentrancy in PToken.initialize(string,string,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935):
+	External calls:
+	- __ERC777_init(tokenName,tokenSymbol,defaultOperators) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2931)
+		- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC777Token),address(this)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1547)
+		- _ERC1820_REGISTRY.setInterfaceImplementer(address(this),keccak256(bytes)(ERC20Token),address(this)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1548)
+	Event emitted after the call(s):
+	- OwnershipTransferred(address(0),msgSender) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2683)
+		- __ERC777GSNUpgreadable_init(defaultAdmin,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2932)
+	- RoleGranted(role,account,_msgSender()) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#773)
+		- _setupRole(DEFAULT_ADMIN_ROLE,defaultAdmin) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2934)
+Reentrancy in PToken.operatorRedeem(address,uint256,bytes,bytes,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2985-3000):
+	External calls:
+	- _burn(account,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2998)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	Event emitted after the call(s):
+	- Redeem(account,amount,underlyingAssetRecipient,userData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2999)
+Reentrancy in PToken.redeem(uint256,bytes,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2974-2983):
+	External calls:
+	- _burn(_msgSender(),amount,userData,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2981)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	Event emitted after the call(s):
+	- Redeem(_msgSender(),amount,underlyingAssetRecipient,userData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2982)
+Reentrancy in ERC777Upgradeable.transfer(address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1615-1627):
+	External calls:
+	- _callTokensToSend(from,from,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1620)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	Event emitted after the call(s):
+	- Sent(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1882)
+		- _move(from,from,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1622)
+	- Transfer(from,to,amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1883)
+		- _move(from,from,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1622)
+Reentrancy in ERC777Upgradeable.transferFrom(address,address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1745-1759):
+	External calls:
+	- _callTokensToSend(spender,holder,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1751)
+		- IERC777SenderUpgradeable(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1920)
+	Event emitted after the call(s):
+	- Approval(holder,spender,value) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1896)
+		- _approve(holder,spender,_allowances[holder][spender].sub(amount,ERC777: transfer amount exceeds allowance)) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1754)
+	- Sent(operator,from,to,amount,userData,operatorData) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1882)
+		- _move(spender,holder,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1753)
+	- Transfer(from,to,amount) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1883)
+		- _move(spender,holder,recipient,amount,,) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1753)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+AddressUpgradeable.isContract(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#28-37) uses assembly
+	- INLINE ASM (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#35)
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#149-166) uses assembly
+	- INLINE ASM (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#158-161)
+ECDSAUpgradeable.recover(bytes32,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1998-2019) uses assembly
+	- INLINE ASM (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2012-2016)
+GSNRecipientUpgradeable._getRelayedCallSender() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2611-2631) uses assembly
+	- INLINE ASM (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2626-2629)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+AccessControlUpgradeable._setRoleAdmin(bytes32,bytes32) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#766-769) is never used and should be removed
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#149-166) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#81-83) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#91-93) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#106-108) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#116-123) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#131-133) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#141-147) is never used and should be removed
+AddressUpgradeable.sendValue(address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#55-61) is never used and should be removed
+ContextUpgradeable.__Context_init() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#541-543) is never used and should be removed
+ContextUpgradeable._msgData() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#551-554) is never used and should be removed
+ContextUpgradeable._msgSender() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#547-549) is never used and should be removed
+ERC777GSNUpgreadable._msgData() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2769-2771) is never used and should be removed
+ERC777GSNUpgreadable._msgSender() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2765-2767) is never used and should be removed
+EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#372-374) is never used and should be removed
+EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#481-483) is never used and should be removed
+EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.Bytes32Set,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#410-412) is never used and should be removed
+EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#519-521) is never used and should be removed
+EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#389-391) is never used and should be removed
+EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#498-500) is never used and should be removed
+EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.Bytes32Set) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#396-398) is never used and should be removed
+EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.UintSet) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#505-507) is never used and should be removed
+EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#382-384) is never used and should be removed
+EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.UintSet,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#491-493) is never used and should be removed
+GSNRecipientUpgradeable._approveRelayedCall() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2581-2583) is never used and should be removed
+GSNRecipientUpgradeable._getRelayedCallData() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2633-2645) is never used and should be removed
+GSNRecipientUpgradeable._msgData() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2520-2526) is never used and should be removed
+GSNRecipientUpgradeable._upgradeRelayHub(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2465-2473) is never used and should be removed
+GSNRecipientUpgradeable._withdrawDeposits(uint256,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2491-2493) is never used and should be removed
+PToken._msgData() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3018-3020) is never used and should be removed
+SafeMathUpgradeable.div(uint256,uint256,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1316-1319) is never used and should be removed
+SafeMathUpgradeable.mod(uint256,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1278-1281) is never used and should be removed
+SafeMathUpgradeable.mod(uint256,uint256,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1336-1339) is never used and should be removed
+SafeMathUpgradeable.tryAdd(uint256,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1150-1154) is never used and should be removed
+SafeMathUpgradeable.tryDiv(uint256,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1186-1189) is never used and should be removed
+SafeMathUpgradeable.tryMod(uint256,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1196-1199) is never used and should be removed
+SafeMathUpgradeable.tryMul(uint256,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1171-1179) is never used and should be removed
+SafeMathUpgradeable.trySub(uint256,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1161-1164) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#5) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#173) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#228) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#527) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#561) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#788) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#978) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1014) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1050) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1129) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1345) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1458) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1975) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2063) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2141) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2411) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2652) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2727) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2848) allows old versions
+Pragma version^0.6.2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2899) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in AddressUpgradeable.sendValue(address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#55-61):
+	- (success) = recipient.call{value: amount}() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#59)
+Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#116-123):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#121)
+Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#141-147):
+	- (success,returndata) = target.staticcall(data) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#145)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function ContextUpgradeable.__Context_init() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#541-543) is not in mixedCase
+Function ContextUpgradeable.__Context_init_unchained() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#545-546) is not in mixedCase
+Variable ContextUpgradeable.__gap (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#555) is not in mixedCase
+Function AccessControlUpgradeable.__AccessControl_init() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#603-606) is not in mixedCase
+Function AccessControlUpgradeable.__AccessControl_init_unchained() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#608-609) is not in mixedCase
+Variable AccessControlUpgradeable.__gap (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#782) is not in mixedCase
+Function ERC777Upgradeable.__ERC777_init(string,string,address[]) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1524-1531) is not in mixedCase
+Function ERC777Upgradeable.__ERC777_init_unchained(string,string,address[]) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1533-1549) is not in mixedCase
+Variable ERC777Upgradeable.__gap (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1969) is not in mixedCase
+Function GSNRecipientUpgradeable.__GSNRecipient_init() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2429-2432) is not in mixedCase
+Function GSNRecipientUpgradeable.__GSNRecipient_init_unchained() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2434-2436) is not in mixedCase
+Variable GSNRecipientUpgradeable.__gap (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2646) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2675-2678) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init_unchained() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2680-2684) is not in mixedCase
+Variable OwnableUpgradeable.__gap (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2722) is not in mixedCase
+Function ERC777GSNUpgreadable.__ERC777GSNUpgreadable_init(address,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2747-2763) is not in mixedCase
+Parameter ERC777GSNUpgreadable.__ERC777GSNUpgreadable_init(address,address)._gsnTrustedSigner (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2748) is not in mixedCase
+Parameter ERC777GSNUpgreadable.__ERC777GSNUpgreadable_init(address,address)._gsnFeeTarget (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2749) is not in mixedCase
+Parameter ERC777GSNUpgreadable.setTrustedSigner(address)._gsnTrustedSigner (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2774) is not in mixedCase
+Parameter ERC777GSNUpgreadable.setFeeTarget(address)._gsnFeeTarget (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2779) is not in mixedCase
+Parameter ERC777GSNUpgreadable.setGSNExtraGas(uint256)._gsnExtraGas (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2784) is not in mixedCase
+Function ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2859-2864) is not in mixedCase
+Parameter ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address)._adminOperator (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2860) is not in mixedCase
+Parameter PToken.grantMinterRole(address)._account (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3002) is not in mixedCase
+Parameter PToken.revokeMinterRole(address)._account (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3006) is not in mixedCase
+Parameter PToken.hasMinterRole(address)._account (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#3010) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#552)" inContextUpgradeable (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#540-556)
+Redundant expression "this (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2482)" inGSNRecipientUpgradeable (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2428-2647)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable ERC777Upgradeable._defaultOperators (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1512) is too similar to ERC777Upgradeable.__ERC777_init_unchained(string,string,address[]).defaultOperators_ (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1536)
+Variable ERC777Upgradeable._defaultOperators (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1512) is too similar to ERC777Upgradeable.__ERC777_init(string,string,address[]).defaultOperators_ (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1527)
+Variable IRelayHubUpgradeable.penalizeRepeatedNonce(bytes,bytes,bytes,bytes).unsignedTx1 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2390) is too similar to IRelayHubUpgradeable.penalizeRepeatedNonce(bytes,bytes,bytes,bytes).unsignedTx2 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2390)
+Variable ERC777WithAdminOperatorUpgreadable.__ERC777WithAdminOperatorUpgreadable_init(address)._adminOperator (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2860) is too similar to ERC777WithAdminOperatorUpgreadable.setAdminOperator(address).adminOperator_ (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2888)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+PToken.slitherConstructorConstantVariables() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2906-3021) uses literals with too many digits:
+	- _POST_RELAYED_CALL_MAX_GAS = 100000 (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2444)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+ERC777Upgradeable.__gap (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1969) is never used in PToken (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2906-3021)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+getRoleMemberCount(bytes32) should be declared external:
+	- AccessControlUpgradeable.getRoleMemberCount(bytes32) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#660-662)
+getRoleMember(bytes32,uint256) should be declared external:
+	- AccessControlUpgradeable.getRoleMember(bytes32,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#676-678)
+getRoleAdmin(bytes32) should be declared external:
+	- AccessControlUpgradeable.getRoleAdmin(bytes32) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#686-688)
+renounceRole(bytes32,address) should be declared external:
+	- AccessControlUpgradeable.renounceRole(bytes32,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#735-739)
+name() should be declared external:
+	- ERC777Upgradeable.name() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1554-1556)
+symbol() should be declared external:
+	- ERC777Upgradeable.symbol() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1561-1563)
+decimals() should be declared external:
+	- ERC777Upgradeable.decimals() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1571-1573)
+granularity() should be declared external:
+	- ERC777Upgradeable.granularity() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1580-1582)
+totalSupply() should be declared external:
+	- ERC777Upgradeable.totalSupply() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1587-1589)
+balanceOf(address) should be declared external:
+	- ERC777Upgradeable.balanceOf(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1594-1596)
+send(address,uint256,bytes) should be declared external:
+	- ERC777Upgradeable.send(address,uint256,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1603-1605)
+transfer(address,uint256) should be declared external:
+	- ERC777Upgradeable.transfer(address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1615-1627)
+burn(uint256,bytes) should be declared external:
+	- ERC777Upgradeable.burn(uint256,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1634-1636)
+authorizeOperator(address) should be declared external:
+	- ERC777Upgradeable.authorizeOperator(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1650-1660)
+revokeOperator(address) should be declared external:
+	- ERC777Upgradeable.revokeOperator(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1665-1675)
+defaultOperators() should be declared external:
+	- ERC777Upgradeable.defaultOperators() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1680-1682)
+operatorSend(address,address,uint256,bytes,bytes) should be declared external:
+	- ERC777Upgradeable.operatorSend(address,address,uint256,bytes,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1689-1702)
+operatorBurn(address,uint256,bytes,bytes) should be declared external:
+	- ERC777Upgradeable.operatorBurn(address,uint256,bytes,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1709-1712)
+allowance(address,address) should be declared external:
+	- ERC777Upgradeable.allowance(address,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1721-1723)
+approve(address,uint256) should be declared external:
+	- ERC777Upgradeable.approve(address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1730-1734)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC777Upgradeable.transferFrom(address,address,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#1745-1759)
+relayHubVersion() should be declared external:
+	- GSNRecipientUpgradeable.relayHubVersion() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2481-2484)
+preRelayedCall(bytes) should be declared external:
+	- GSNRecipientUpgradeable.preRelayedCall(bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2540-2543)
+postRelayedCall(bytes,bool,uint256,bytes32) should be declared external:
+	- GSNRecipientUpgradeable.postRelayedCall(bytes,bool,uint256,bytes32) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2563-2566)
+renounceOwnership() should be declared external:
+	- OwnableUpgradeable.renounceOwnership() (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2708-2711)
+transferOwnership(address) should be declared external:
+	- OwnableUpgradeable.transferOwnership(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2717-2721)
+setTrustedSigner(address) should be declared external:
+	- ERC777GSNUpgreadable.setTrustedSigner(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2774-2777)
+setFeeTarget(address) should be declared external:
+	- ERC777GSNUpgreadable.setFeeTarget(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2779-2782)
+setGSNExtraGas(uint256) should be declared external:
+	- ERC777GSNUpgreadable.setGSNExtraGas(uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2784-2786)
+acceptRelayedCall(address,address,bytes,uint256,uint256,uint256,uint256,bytes,uint256) should be declared external:
+	- ERC777GSNUpgreadable.acceptRelayedCall(address,address,bytes,uint256,uint256,uint256,uint256,bytes,uint256) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2792-2826)
+adminTransfer(address,address,uint256,bytes,bytes) should be declared external:
+	- ERC777WithAdminOperatorUpgreadable.adminTransfer(address,address,uint256,bytes,bytes) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2871-2883)
+setAdminOperator(address) should be declared external:
+	- ERC777WithAdminOperatorUpgreadable.setAdminOperator(address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2888-2892)
+initialize(string,string,address) should be declared external:
+	- PToken.initialize(string,string,address) (../../sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol#2922-2935)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xd61372d1c3e0a0925467317425359fb2959fe186.sol analyzed (20 contracts with 78 detectors), 151 result(s) found

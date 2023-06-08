@@ -1,0 +1,169 @@
+Compilation warnings/errors on /sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol:
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> /sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol
+
+
+[91m
+PantherSwap.generateFlipToken() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1333-1347) ignores return value by IBEP20(_shark).transfer(msg.sender,IBEP20(_shark).balanceOf(address(this))) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1345)
+PantherSwap.generateFlipToken() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1333-1347) ignores return value by IBEP20(_wbnb).transfer(msg.sender,IBEP20(_wbnb).balanceOf(address(this))) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1346)
+SharkMinter.mint(uint256,address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1511-1521) ignores return value by shark.transfer(to,amount) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1513)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+PantherSwap._flipToSharkBNBFlip(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1232-1287) ignores return value by APE_ROUTER.removeLiquidity(_token0,_token1,amount,0,0,address(this),block.timestamp) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1239)
+PantherSwap._flipToSharkBNBFlip(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1232-1287) ignores return value by PANTHER_ROUTER.removeLiquidity(_token0_scope_0,_token1_scope_1,amount,0,0,address(this),block.timestamp) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1258)
+PantherSwap.swapToken(address,uint256,address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1289-1312) ignores return value by PANTHER_ROUTER.swapExactTokensForTokens(_amount,0,path,address(this),block.timestamp) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1310)
+PantherSwap.swapTokenAtApe(address,uint256,address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1314-1331) ignores return value by APE_ROUTER.swapExactTokensForTokens(_amount,0,path,address(this),block.timestamp) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1330)
+SharkMinter.constructor() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1402-1406) ignores return value by shark.approve(sharkPool,uint256(~ 0)) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1405)
+SharkMinter.mint(uint256,address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1511-1521) ignores return value by shark.mint(amount) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1512)
+SharkMinter.mint(uint256,address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1511-1521) ignores return value by shark.mint(sharkForDev) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1516)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+BEP20.constructor(string,string).name (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#593) shadows:
+	- BEP20.name() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#609-611) (function)
+	- IBEP20.name() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#123) (function)
+BEP20.constructor(string,string).symbol (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#593) shadows:
+	- BEP20.symbol() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#623-625) (function)
+	- IBEP20.symbol() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#118) (function)
+BEP20.allowance(address,address).owner (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#657) shadows:
+	- Ownable.owner() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#61-63) (function)
+BEP20._approve(address,address,uint256).owner (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#829) shadows:
+	- Ownable.owner() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#61-63) (function)
+SharkMinter.transferSharkOwner(address)._owner (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1408) shadows:
+	- Ownable._owner (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#45) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+SharkMinter.setWithdrawalFee(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1412-1415) should emit an event for: 
+	- WITHDRAWAL_FEE = _fee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1414) 
+SharkMinter.setPerformanceFee(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1417-1420) should emit an event for: 
+	- PERFORMANCE_FEE = _fee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1419) 
+SharkMinter.setWithdrawalFeeFreePeriod(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1422-1424) should emit an event for: 
+	- WITHDRAWAL_FEE_FREE_PERIOD = _period (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1423) 
+SharkMinter.setSharkPerProfitBNB(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1434-1436) should emit an event for: 
+	- sharkPerProfitBNB = _ratio (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1435) 
+SharkMinter.setSharkPerSharkBNBFlip(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1438-1440) should emit an event for: 
+	- sharkPerSharkBNBFlip = _sharkPerSharkBNBFlip (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1439) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+SharkMinter.isMinter(address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1447-1456) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < 1605585600 (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1452)
+SharkMinter.withdrawalFee(uint256,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1466-1471) uses timestamp for comparisons
+	Dangerous comparisons:
+	- depositedAt.add(WITHDRAWAL_FEE_FREE_PERIOD) > block.timestamp (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1467)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#408-419) uses assembly
+	- INLINE ASM (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#415-417)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#516-542) uses assembly
+	- INLINE ASM (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#534-537)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+SharkMinter.onlyMinter() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1397-1400) compares to a boolean constant:
+	-require(bool,string)(isMinter(msg.sender) == true,not minter) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1398)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#463-465) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#492-498) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#506-514) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#437-443) is never used and should be removed
+BEP20._burn(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#807-813) is never used and should be removed
+BEP20._burnFrom(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#846-853) is never used and should be removed
+Context._msgData() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#25-28) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#919-929) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#910-917) is never used and should be removed
+SafeMath.min(uint256,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#367-369) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#342-344) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#358-365) is never used and should be removed
+SafeMath.sqrt(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#372-383) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#437-443):
+	- (success) = recipient.call{value: amount}() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#441)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#516-542):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#525)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function ISharkMinter.WITHDRAWAL_FEE_FREE_PERIOD() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#963) is not in mixedCase
+Function ISharkMinter.WITHDRAWAL_FEE() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#964) is not in mixedCase
+Function IPantherRouter01.WETH() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#975) is not in mixedCase
+Function IPantherPair.DOMAIN_SEPARATOR() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1123) is not in mixedCase
+Function IPantherPair.PERMIT_TYPEHASH() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1124) is not in mixedCase
+Function IPantherPair.MINIMUM_LIQUIDITY() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1141) is not in mixedCase
+Parameter PantherSwap.swapToken(address,uint256,address)._from (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1289) is not in mixedCase
+Parameter PantherSwap.swapToken(address,uint256,address)._amount (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1289) is not in mixedCase
+Parameter PantherSwap.swapToken(address,uint256,address)._to (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1289) is not in mixedCase
+Parameter PantherSwap.swapTokenAtApe(address,uint256,address)._from (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1314) is not in mixedCase
+Parameter PantherSwap.swapTokenAtApe(address,uint256,address)._amount (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1314) is not in mixedCase
+Parameter PantherSwap.swapTokenAtApe(address,uint256,address)._to (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1314) is not in mixedCase
+Constant PantherSwap.factory (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1194) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant PantherSwap.panther (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1196) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant PantherSwap.banana (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1197) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant PantherSwap._shark (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1198) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant PantherSwap._wbnb (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1199) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter SharkMinter.transferSharkOwner(address)._owner (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1408) is not in mixedCase
+Parameter SharkMinter.setWithdrawalFee(uint256)._fee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1412) is not in mixedCase
+Parameter SharkMinter.setPerformanceFee(uint256)._fee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1417) is not in mixedCase
+Parameter SharkMinter.setWithdrawalFeeFreePeriod(uint256)._period (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1422) is not in mixedCase
+Parameter SharkMinter.setSharkPerProfitBNB(uint256)._ratio (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1434) is not in mixedCase
+Parameter SharkMinter.setSharkPerSharkBNBFlip(uint256)._sharkPerSharkBNBFlip (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1438) is not in mixedCase
+Parameter SharkMinter.setHelper(IStrategyHelper)._helper (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1442) is not in mixedCase
+Parameter SharkMinter.mintFor(address,uint256,uint256,address,uint256,uint256)._withdrawalFee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1477) is not in mixedCase
+Parameter SharkMinter.mintFor(address,uint256,uint256,address,uint256,uint256)._performanceFee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1477) is not in mixedCase
+Constant SharkMinter.shark (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1378) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant SharkMinter.dev (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1379) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable SharkMinter.WITHDRAWAL_FEE_FREE_PERIOD (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1383) is not in mixedCase
+Variable SharkMinter.WITHDRAWAL_FEE (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1384) is not in mixedCase
+Variable SharkMinter.PERFORMANCE_FEE (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1387) is not in mixedCase
+Constant SharkMinter.sharkPool (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1392) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#26)" inContext (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#16-29)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IPantherRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#980) is too similar to IPantherRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#981)
+Variable PantherSwap.generateFlipToken().amountADesired (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1334) is too similar to PantherSwap.generateFlipToken().amountBDesired (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1335)
+Variable SharkMinter.PERFORMANCE_FEE (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1387) is too similar to SharkMinter.mintFor(address,uint256,uint256,address,uint256,uint256)._performanceFee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1477)
+Variable SharkMinter.WITHDRAWAL_FEE (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1384) is too similar to SharkMinter.mintFor(address,uint256,uint256,address,uint256,uint256)._withdrawalFee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1477)
+Variable SharkMinter.PERFORMANCE_FEE (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1387) is too similar to ISharkMinter.mintFor(address,uint256,uint256,address,uint256,uint256)._performanceFee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#958)
+Variable SharkMinter.WITHDRAWAL_FEE (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1384) is too similar to ISharkMinter.mintFor(address,uint256,uint256,address,uint256,uint256)._withdrawalFee (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#958)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+SharkMinter.mintFor(address,uint256,uint256,address,uint256,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1477-1500) uses literals with too many digits:
+	- feeSum > 100000 (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1487)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+SharkMinter.WBNB (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1380) is never used in SharkMinter (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1374-1523)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#80-83)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#89-91)
+name() should be declared external:
+	- BEP20.name() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#609-611)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#616-618)
+symbol() should be declared external:
+	- BEP20.symbol() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#623-625)
+totalSupply() should be declared external:
+	- BEP20.totalSupply() (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#630-632)
+balanceOf(address) should be declared external:
+	- BEP20.balanceOf(address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#637-639)
+transfer(address,uint256) should be declared external:
+	- BEP20.transfer(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#649-652)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#657-659)
+approve(address,uint256) should be declared external:
+	- BEP20.approve(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#668-671)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20.transferFrom(address,address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#685-697)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20.increaseAllowance(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#711-714)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20.decreaseAllowance(address,uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#730-737)
+mint(uint256) should be declared external:
+	- BEP20.mint(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#747-750)
+performanceFee(uint256) should be declared external:
+	- SharkMinter.performanceFee(uint256) (../../sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol#1473-1475)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x37ee638d85e420532e35cd9dd831166514855e6d.sol analyzed (17 contracts with 78 detectors), 96 result(s) found

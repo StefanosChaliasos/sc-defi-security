@@ -1,0 +1,1063 @@
+{
+    "errors": [
+        "EXIT_CODE_116"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "safeRewardTransfer",
+            "impact": "High",
+            "line": 1103,
+            "line_end": 1114,
+            "message": "BvaultsBank.safeRewardTransfer(address,address,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1103-1114) ignores return value by IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "safeRewardTransfer",
+            "impact": "High",
+            "line": 1103,
+            "line_end": 1114,
+            "message": "BvaultsBank.safeRewardTransfer(address,address,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1103-1114) ignores return value by IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "migrateStrategy",
+            "impact": "High",
+            "line": 868,
+            "line_end": 878,
+            "message": "BvaultsBank.migrateStrategy(uint256,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#868-878) ignores return value by pool.want.transfer(_newStrategy,_oldWantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#875)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "pendingReward",
+            "impact": "Medium",
+            "line": 921,
+            "line_end": 937,
+            "message": "BvaultsBank.pendingReward(uint256,uint256,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#921-937) performs a multiplication on the result of a division:\n\t-_reward = _multiplier.mul(_rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#933)\n\t-_accRewardPerShare = _accRewardPerShare.add(_reward.mul(1e18).div(sharesTotal)) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#934)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 961,
+            "line_end": 982,
+            "message": "BvaultsBank.updatePool(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#961-982) performs a multiplication on the result of a division:\n\t-_reward = multiplier.mul(_rewardPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#978)\n\t-pool.accRewardPerShare[_rewardPid] = pool.accRewardPerShare[_rewardPid].add(_reward.mul(1e18).div(sharesTotal)) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#979)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "resetStrategy",
+            "impact": "Medium",
+            "line": 862,
+            "line_end": 866,
+            "message": "BvaultsBank.resetStrategy(uint256,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#862-866) uses a dangerous strict equality:\n\t- require(bool,string)(IERC20(pool.want).balanceOf(poolInfo[_pid].strategy) == 0 || pool.accRewardPerShare[_pid] == 0,strategy not empty) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#864)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "migrateStrategy",
+            "impact": "Medium",
+            "line": 868,
+            "line_end": 878,
+            "message": "Reentrancy in BvaultsBank.migrateStrategy(uint256,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#868-878):\n\tExternal calls:\n\t- IStrategy(_oldStrategy).withdraw(address(this),_oldWantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#874)\n\t- pool.want.transfer(_newStrategy,_oldWantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#875)\n\t- IStrategy(_newStrategy).migrateFrom(_oldStrategy,_oldWantAmt,_oldSharesTotal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#876)\n\tState variables written after the call(s):\n\t- pool.strategy = _newStrategy (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#877)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Medium",
+            "line": 1083,
+            "line_end": 1100,
+            "message": "Reentrancy in BvaultsBank.emergencyWithdraw(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1083-1100):\n\tExternal calls:\n\t- IStrategy(poolInfo[_pid].strategy).withdraw(msg.sender,amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1091)\n\t- pool.want.safeTransfer(address(msg.sender),amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1093)\n\tState variables written after the call(s):\n\t- user.shares = 0 (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1095)\n\t- user.rewardDebt[_rewardPid] = 0 (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1098)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "_getReward",
+            "impact": "Medium",
+            "line": 984,
+            "line_end": 1000,
+            "message": "Reentrancy in BvaultsBank._getReward(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#984-1000):\n\tExternal calls:\n\t- safeRewardTransfer(_rewardToken,msg.sender,_pending) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#994)\n\t\t- IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n\t\t- IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n\tState variables written after the call(s):\n\t- rewardPool.totalPaidRewards = rewardPool.totalPaidRewards.add(_pending) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#995)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1032,
+            "line_end": 1076,
+            "message": "Reentrancy in BvaultsBank.withdraw(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1032-1076):\n\tExternal calls:\n\t- _getReward(_pid) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1045)\n\t\t- IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n\t\t- IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n\t- sharesRemoved = IStrategy(poolInfo[_pid].strategy).withdraw(msg.sender,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1053)\n\tState variables written after the call(s):\n\t- user.shares = 0 (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1056)\n\t- user.shares = user.shares.sub(sharesRemoved) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1058)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1032,
+            "line_end": 1076,
+            "message": "Reentrancy in BvaultsBank.withdraw(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1032-1076):\n\tExternal calls:\n\t- _getReward(_pid) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1045)\n\t\t- IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n\t\t- IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n\t- sharesRemoved = IStrategy(poolInfo[_pid].strategy).withdraw(msg.sender,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1053)\n\t- pool.want.safeTransfer(address(msg.sender),_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1068)\n\tState variables written after the call(s):\n\t- user.rewardDebt[_rewardPid] = user.shares.mul(pool.accRewardPerShare[_rewardPid]).div(1e18) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1073)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1003,
+            "line_end": 1025,
+            "message": "Reentrancy in BvaultsBank.deposit(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1003-1025):\n\tExternal calls:\n\t- _getReward(_pid) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1010)\n\t\t- IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n\t\t- IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n\t- pool.want.safeTransferFrom(address(msg.sender),address(this),_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1013)\n\t- pool.want.safeIncreaseAllowance(pool.strategy,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1015)\n\t- sharesAdded = IStrategy(poolInfo[_pid].strategy).deposit(msg.sender,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1016)\n\tState variables written after the call(s):\n\t- user.shares = user.shares.add(sharesAdded) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1017)\n\t- user.lastStakeTime = block.timestamp (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1018)\n\t- user.rewardDebt[_rewardPid] = user.shares.mul(pool.accRewardPerShare[_rewardPid]).div(1e18) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1022)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "migrateStrategy",
+            "impact": "Medium",
+            "line": 868,
+            "line_end": 878,
+            "message": "BvaultsBank.migrateStrategy(uint256,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#868-878) ignores return value by IStrategy(_oldStrategy).withdraw(address(this),_oldWantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#874)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Medium",
+            "line": 1083,
+            "line_end": 1100,
+            "message": "BvaultsBank.emergencyWithdraw(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1083-1100) ignores return value by IStrategy(poolInfo[_pid].strategy).withdraw(msg.sender,amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1091)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "setTimelock",
+            "impact": "Low",
+            "line": 1130,
+            "line_end": 1133,
+            "message": "BvaultsBank.setTimelock(address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1130-1133) should emit an event for: \n\t- timelock = _timelock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1132) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 840,
+            "line_end": 853,
+            "message": "BvaultsBank.add(uint256,IERC20,bool,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#840-853) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#851) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "setUnstakingFrozenTime",
+            "impact": "Low",
+            "line": 910,
+            "line_end": 913,
+            "message": "BvaultsBank.setUnstakingFrozenTime(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#910-913) should emit an event for: \n\t- unstakingFrozenTime = _unstakingFrozenTime (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#912) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "set",
+            "impact": "Low",
+            "line": 856,
+            "line_end": 860,
+            "message": "BvaultsBank.set(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#856-860) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#858) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Low",
+            "line": 1130,
+            "message": "BvaultsBank.setTimelock(address)._timelock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1130) lacks a zero-check on :\n\t\t- timelock = _timelock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1132)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Low",
+            "line": 1149,
+            "message": "BvaultsBank.executeTransaction(address,uint256,string,bytes).target (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1149) lacks a zero-check on :\n\t\t- (success,returnData) = target.call{value: value}(callData) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1163)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 961,
+            "line_end": 982,
+            "message": "BvaultsBank.updatePool(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#961-982) has external calls inside a loop: sharesTotal = IStrategy(pool.strategy).sharesTotal() (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#966)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Low",
+            "line": 1083,
+            "line_end": 1100,
+            "message": "Reentrancy in BvaultsBank.emergencyWithdraw(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1083-1100):\n\tExternal calls:\n\t- IStrategy(poolInfo[_pid].strategy).withdraw(msg.sender,amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1091)\n\t- pool.want.safeTransfer(address(msg.sender),amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1093)\n\tEvent emitted after the call(s):\n\t- EmergencyWithdraw(msg.sender,_pid,amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1094)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "executeTransaction",
+            "impact": "Low",
+            "line": 1148,
+            "line_end": 1169,
+            "message": "Reentrancy in BvaultsBank.executeTransaction(address,uint256,string,bytes) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1148-1169):\n\tExternal calls:\n\t- (success,returnData) = target.call{value: value}(callData) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1163)\n\tEvent emitted after the call(s):\n\t- ExecuteTransaction(target,value,signature,data) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1166)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "_getReward",
+            "impact": "Low",
+            "line": 984,
+            "line_end": 1000,
+            "message": "Reentrancy in BvaultsBank._getReward(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#984-1000):\n\tExternal calls:\n\t- safeRewardTransfer(_rewardToken,msg.sender,_pending) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#994)\n\t\t- IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n\t\t- IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n\tEvent emitted after the call(s):\n\t- RewardPaid(_rewardPid,_rewardToken,msg.sender,_pending) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#996)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1032,
+            "line_end": 1076,
+            "message": "Reentrancy in BvaultsBank.withdraw(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1032-1076):\n\tExternal calls:\n\t- _getReward(_pid) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1045)\n\t\t- IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n\t\t- IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n\t- sharesRemoved = IStrategy(poolInfo[_pid].strategy).withdraw(msg.sender,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1053)\n\t- pool.want.safeTransfer(address(msg.sender),_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1068)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_pid,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1075)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1003,
+            "line_end": 1025,
+            "message": "Reentrancy in BvaultsBank.deposit(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1003-1025):\n\tExternal calls:\n\t- _getReward(_pid) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1010)\n\t\t- IERC20(_rewardToken).transfer(_to,_bal) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1110)\n\t\t- IERC20(_rewardToken).transfer(_to,_amount) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1112)\n\t- pool.want.safeTransferFrom(address(msg.sender),address(this),_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1013)\n\t- pool.want.safeIncreaseAllowance(pool.strategy,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1015)\n\t- sharesAdded = IStrategy(poolInfo[_pid].strategy).deposit(msg.sender,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1016)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_pid,_wantAmt) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1024)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1032,
+            "line_end": 1076,
+            "message": "BvaultsBank.withdraw(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1032-1076) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(whitelisted[msg.sender] || block.timestamp >= unfrozenStakeTime(_pid,msg.sender),BvaultsBank: frozen) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1067)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 516,
+            "line_end": 537,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#516-537) uses assembly\n\t- INLINE ASM (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#529-532)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 348,
+            "line_end": 359,
+            "message": "Address.isContract(address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#348-359) uses assembly\n\t- INLINE ASM (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#355-357)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 159,
+            "line_end": 162,
+            "message": "SafeMath.tryDiv(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#159-162) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 377,
+            "line_end": 383,
+            "message": "Address.sendValue(address,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#377-383) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 432,
+            "line_end": 438,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#432-438) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 169,
+            "line_end": 172,
+            "message": "SafeMath.tryMod(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#169-172) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 504,
+            "line_end": 514,
+            "message": "Address.functionDelegateCall(address,bytes,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#504-514) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 269,
+            "line_end": 276,
+            "message": "SafeMath.sub(uint256,uint256,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#269-276) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "checkPoolDuplicate",
+            "impact": "Informational",
+            "line": 833,
+            "line_end": 838,
+            "message": "BvaultsBank.checkPoolDuplicate(IERC20) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#833-838) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "_msgSender",
+            "impact": "Informational",
+            "line": 16,
+            "line_end": 18,
+            "message": "Context._msgSender() (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#16-18) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 494,
+            "line_end": 496,
+            "message": "Address.functionDelegateCall(address,bytes) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#494-496) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 577,
+            "line_end": 588,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#577-588) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 123,
+            "line_end": 127,
+            "message": "SafeMath.tryAdd(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#123-127) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 317,
+            "line_end": 324,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#317-324) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 293,
+            "line_end": 300,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#293-300) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 20,
+            "line_end": 23,
+            "message": "Context._msgData() (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#20-23) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 466,
+            "line_end": 468,
+            "message": "Address.functionStaticCall(address,bytes) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#466-468) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 251,
+            "line_end": 254,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#251-254) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 144,
+            "line_end": 152,
+            "message": "SafeMath.tryMul(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#144-152) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 134,
+            "line_end": 137,
+            "message": "SafeMath.trySub(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#134-137) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 599,
+            "line_end": 606,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#599-606) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 476,
+            "line_end": 486,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#476-486) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 403,
+            "line_end": 405,
+            "message": "Address.functionCall(address,bytes) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#403-405) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 476,
+            "line_end": 486,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#476-486):\n\t- (success,returndata) = target.staticcall(data) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#484)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 504,
+            "line_end": 514,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#504-514):\n\t- (success,returndata) = target.delegatecall(data) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#512)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "executeTransaction",
+            "impact": "Informational",
+            "line": 1148,
+            "line_end": 1169,
+            "message": "Low level call in BvaultsBank.executeTransaction(address,uint256,string,bytes) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1148-1169):\n\t- (success,returnData) = target.call{value: value}(callData) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1163)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 377,
+            "line_end": 383,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#377-383):\n\t- (success) = recipient.call{value: amount}() (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#381)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 458,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#446-458):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#456)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 922,
+            "message": "Parameter BvaultsBank.pendingReward(uint256,uint256,address)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#922) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 904,
+            "message": "Parameter BvaultsBank.updateRewardPerBlock(uint256,uint256)._rewardPerBlock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#904) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1137,
+            "message": "Parameter BvaultsBank.inCaseTokensGetStuck(address,uint256,address)._amount (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1137) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 862,
+            "message": "Parameter BvaultsBank.resetStrategy(uint256,address)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#862) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1130,
+            "message": "Parameter BvaultsBank.setTimelock(address)._timelock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1130) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1003,
+            "message": "Parameter BvaultsBank.deposit(uint256,uint256)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1003) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1120,
+            "message": "Parameter BvaultsBank.setStopRewardPool(uint256,bool)._stopRewardPool (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 800,
+            "message": "Parameter BvaultsBank.initialize(uint256,address,uint256,address,uint256)._bfiRewardRate (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#800) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 904,
+            "message": "Parameter BvaultsBank.updateRewardPerBlock(uint256,uint256)._rewardPid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#904) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 940,
+            "message": "Parameter BvaultsBank.stakedWantTokens(uint256,address)._user (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#940) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1032,
+            "message": "Parameter BvaultsBank.withdraw(uint256,uint256)._wantAmt (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1032) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 833,
+            "message": "Parameter BvaultsBank.checkPoolDuplicate(IERC20)._want (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#833) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1027,
+            "message": "Parameter BvaultsBank.unfrozenStakeTime(uint256,address)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1027) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 916,
+            "message": "Parameter BvaultsBank.getMultiplier(uint256,uint256)._to (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#916) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 961,
+            "message": "Parameter BvaultsBank.updatePool(uint256)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#961) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 802,
+            "message": "Parameter BvaultsBank.initialize(uint256,address,uint256,address,uint256)._bdoRewardRate (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#802) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 893,
+            "message": "Parameter BvaultsBank.updateRewardToken(uint256,address,uint256)._rewardPerBlock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#893) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 891,
+            "message": "Parameter BvaultsBank.updateRewardToken(uint256,address,uint256)._rewardPid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#891) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 892,
+            "message": "Parameter BvaultsBank.updateRewardToken(uint256,address,uint256)._rewardToken (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#892) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1106,
+            "message": "Parameter BvaultsBank.safeRewardTransfer(address,address,uint256)._amount (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1106) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 841,
+            "message": "Parameter BvaultsBank.add(uint256,IERC20,bool,address)._allocPoint (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#841) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 856,
+            "message": "Parameter BvaultsBank.set(uint256,uint256)._allocPoint (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#856) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1120,
+            "message": "Parameter BvaultsBank.setStopRewardPool(uint256,bool)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1124,
+            "message": "Parameter BvaultsBank.setPausePool(uint256,bool)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1124) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 884,
+            "message": "Parameter BvaultsBank.addRewardPool(address,uint256)._rewardToken (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#884) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 924,
+            "message": "Parameter BvaultsBank.pendingReward(uint256,uint256,address)._user (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#924) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 844,
+            "message": "Parameter BvaultsBank.add(uint256,IERC20,bool,address)._strategy (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#844) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 923,
+            "message": "Parameter BvaultsBank.pendingReward(uint256,uint256,address)._rewardPid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#923) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1116,
+            "message": "Parameter BvaultsBank.setWhitelisted(address,bool)._whitelisted (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1116) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 910,
+            "message": "Parameter BvaultsBank.setUnstakingFrozenTime(uint256)._unstakingFrozenTime (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#910) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 799,
+            "message": "Parameter BvaultsBank.initialize(uint256,address,uint256,address,uint256)._bfi (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#799) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1003,
+            "message": "Parameter BvaultsBank.deposit(uint256,uint256)._wantAmt (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1003) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1136,
+            "message": "Parameter BvaultsBank.inCaseTokensGetStuck(address,uint256,address)._token (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 940,
+            "message": "Parameter BvaultsBank.stakedWantTokens(uint256,address)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#940) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 856,
+            "message": "Parameter BvaultsBank.set(uint256,uint256)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#856) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1138,
+            "message": "Parameter BvaultsBank.inCaseTokensGetStuck(address,uint256,address)._to (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1138) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1116,
+            "message": "Parameter BvaultsBank.setWhitelisted(address,bool)._account (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1116) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1027,
+            "message": "Parameter BvaultsBank.unfrozenStakeTime(uint256,address)._account (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1027) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 843,
+            "message": "Parameter BvaultsBank.add(uint256,IERC20,bool,address)._withUpdate (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#843) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 801,
+            "message": "Parameter BvaultsBank.initialize(uint256,address,uint256,address,uint256)._bdo (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#801) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1083,
+            "message": "Parameter BvaultsBank.emergencyWithdraw(uint256)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1083) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 842,
+            "message": "Parameter BvaultsBank.add(uint256,IERC20,bool,address)._want (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#842) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1105,
+            "message": "Parameter BvaultsBank.safeRewardTransfer(address,address,uint256)._to (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1105) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 798,
+            "message": "Parameter BvaultsBank.initialize(uint256,address,uint256,address,uint256)._startBlock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#798) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 884,
+            "message": "Parameter BvaultsBank.addRewardPool(address,uint256)._rewardPerBlock (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#884) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 916,
+            "message": "Parameter BvaultsBank.getMultiplier(uint256,uint256)._from (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#916) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1032,
+            "message": "Parameter BvaultsBank.withdraw(uint256,uint256)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1032) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 868,
+            "message": "Parameter BvaultsBank.migrateStrategy(uint256,address)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#868) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1124,
+            "message": "Parameter BvaultsBank.setPausePool(uint256,bool)._pausePool (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1124) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 868,
+            "message": "Parameter BvaultsBank.migrateStrategy(uint256,address)._newStrategy (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#868) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 862,
+            "message": "Parameter BvaultsBank.resetStrategy(uint256,address)._strategy (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#862) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1078,
+            "message": "Parameter BvaultsBank.withdrawAll(uint256)._pid (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1078) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 1104,
+            "message": "Parameter BvaultsBank.safeRewardTransfer(address,address,uint256)._rewardToken (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1104) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "impact": "Informational",
+            "line": 21,
+            "message": "Redundant expression \"this (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#21)\" inContext (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#15-24)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "initialize",
+            "impact": "Optimization",
+            "line": 797,
+            "line_end": 812,
+            "message": "initialize(uint256,address,uint256,address,uint256) should be declared external:\n\t- BvaultsBank.initialize(uint256,address,uint256,address,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#797-812)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "set",
+            "impact": "Optimization",
+            "line": 856,
+            "line_end": 860,
+            "message": "set(uint256,uint256) should be declared external:\n\t- BvaultsBank.set(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#856-860)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "deposit",
+            "impact": "Optimization",
+            "line": 1003,
+            "line_end": 1025,
+            "message": "deposit(uint256,uint256) should be declared external:\n\t- BvaultsBank.deposit(uint256,uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1003-1025)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "resetStrategy",
+            "impact": "Optimization",
+            "line": 862,
+            "line_end": 866,
+            "message": "resetStrategy(uint256,address) should be declared external:\n\t- BvaultsBank.resetStrategy(uint256,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#862-866)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Optimization",
+            "line": 1083,
+            "line_end": 1100,
+            "message": "emergencyWithdraw(uint256) should be declared external:\n\t- BvaultsBank.emergencyWithdraw(uint256) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#1083-1100)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "migrateStrategy",
+            "impact": "Optimization",
+            "line": 868,
+            "line_end": 878,
+            "message": "migrateStrategy(uint256,address) should be declared external:\n\t- BvaultsBank.migrateStrategy(uint256,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#868-878)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol",
+            "function": "add",
+            "impact": "Optimization",
+            "line": 840,
+            "line_end": 853,
+            "message": "add(uint256,IERC20,bool,address) should be declared external:\n\t- BvaultsBank.add(uint256,IERC20,bool,address) (../..0x31b38ba067c8b9c63eca3fe14d724ffe10b6a2b2.sol#840-853)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

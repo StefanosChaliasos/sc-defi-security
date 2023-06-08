@@ -1,0 +1,183 @@
+Compilation warnings/errors on /sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+   --> /sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol:419:1:
+    |
+419 | contract ImpossiblePair is IImpossiblePair, ImpossibleERC20, ReentrancyGuard {
+    | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[93m
+ImpossiblePair._safeTransfer(address,address,uint256) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#530-537) uses a dangerous strict equality:
+	- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),IF: TRANSFER_FAILED) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#536)
+ImpossiblePair.mint(address) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#671-692) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#680)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in ImpossiblePair.burn(address) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):
+	External calls:
+	- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	State variables written after the call(s):
+	- _burn(address(this),liquidity.sub(liquidity.div(_FEE))) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#718)
+		- balanceOf[from] = balanceOf[from].sub(value) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#202)
+	- _burn(address(this),liquidity.sub(liquidity.div(_FEE))) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#718)
+		- totalSupply = totalSupply.sub(value) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#203)
+Reentrancy in ImpossiblePair.burn(address) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):
+	External calls:
+	- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#724)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#725)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	State variables written after the call(s):
+	- kLast = _xybkComputeK(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#733)
+	- kLast = balance0.mul(balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#733)
+	- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#732)
+		- reserve0 = uint128(balance0) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#642)
+	- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#732)
+		- reserve1 = uint128(balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#643)
+Reentrancy in ImpossiblePair.swap(uint256,uint256,address,bytes) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#768-825):
+	External calls:
+	- _safeTransfer(token0,to,amount0Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#784)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(token1,to,amount1Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#785)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#786)
+	State variables written after the call(s):
+	- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#822)
+		- reserve0 = uint128(balance0) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#642)
+	- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#822)
+		- reserve1 = uint128(balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#643)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#540-563) contains a tautology or contradiction:
+	- require(bool,string)(0 <= _ratioStart && _ratioStart < _ratioEnd && _ratioEnd <= 100,IF: IF: INVALID_RATIO) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#547)
+ImpossiblePair.updateHardstops(uint8,uint8) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#595-601) contains a tautology or contradiction:
+	- require(bool,string)(0 <= _ratioStart && _ratioStart < _ratioEnd && _ratioEnd <= 100,IF: INVALID_RATIO) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#597)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#tautology-or-contradiction[0m
+[93m
+ImpossiblePair.calcBoost()._newBoost1_scope_1 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524) is a local variable never initialized
+ImpossiblePair.calcBoost()._newBoost0_scope_0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+ImpossiblePair.initialize(address,address,address) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#622-637) should emit an event for: 
+	- router = _router (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#628) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+ImpossiblePair.initialize(address,address,address)._router (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#625) lacks a zero-check on :
+		- router = _router (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#628)
+ImpossiblePair.initialize(address,address,address)._token0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#623) lacks a zero-check on :
+		- token0 = _token0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#629)
+ImpossiblePair.initialize(address,address,address)._token1 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#624) lacks a zero-check on :
+		- token1 = _token1 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#630)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Variable 'ImpossiblePair.calcBoost()._newBoost1 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#520)' in ImpossiblePair.calcBoost() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#517-528) potentially used before declaration: (_newBoost0,_newBoost1,_oldBoost0,_oldBoost1) = getBoost() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524)
+Variable 'ImpossiblePair.calcBoost()._newBoost0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#520)' in ImpossiblePair.calcBoost() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#517-528) potentially used before declaration: (_newBoost0,_newBoost1,_oldBoost0,_oldBoost1) = getBoost() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#pre-declaration-usage-of-local-variables[0m
+[92m
+Reentrancy in ImpossiblePair.cheapSwap(uint256,uint256,address,bytes) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#739-764):
+	External calls:
+	- _safeTransfer(token0,to,amount0Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#745)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(token1,to,amount1Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#746)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#747)
+	State variables written after the call(s):
+	- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#762)
+		- reserve0 = uint128(balance0) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#642)
+	- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#762)
+		- reserve1 = uint128(balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#643)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in ImpossiblePair.burn(address) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):
+	External calls:
+	- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	Event emitted after the call(s):
+	- Transfer(from,address(0),value) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#204)
+		- _burn(address(this),liquidity.sub(liquidity.div(_FEE))) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#718)
+Reentrancy in ImpossiblePair.burn(address) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):
+	External calls:
+	- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#724)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#725)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	Event emitted after the call(s):
+	- Burn(msg.sender,amount0,amount1,to) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#735)
+	- Sync(reserve0,reserve1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#644)
+		- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#732)
+Reentrancy in ImpossiblePair.cheapSwap(uint256,uint256,address,bytes) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#739-764):
+	External calls:
+	- _safeTransfer(token0,to,amount0Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#745)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(token1,to,amount1Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#746)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#747)
+	Event emitted after the call(s):
+	- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#763)
+	- Sync(reserve0,reserve1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#644)
+		- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#762)
+Reentrancy in ImpossiblePair.swap(uint256,uint256,address,bytes) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#768-825):
+	External calls:
+	- _safeTransfer(token0,to,amount0Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#784)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- _safeTransfer(token1,to,amount1Out) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#785)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+	- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#786)
+	Event emitted after the call(s):
+	- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#824)
+	- Sync(reserve0,reserve1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#644)
+		- _update(balance0,balance1) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#822)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+ImpossibleERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#248-269) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(deadline >= block.timestamp,IF: EXPIRED) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#257)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+ImpossibleERC20.constructor() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#179-193) uses assembly
+	- INLINE ASM (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#181-183)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Low level call in ImpossiblePair._safeTransfer(address,address,uint256) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#530-537):
+	- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IImpossibleERC20.DOMAIN_SEPARATOR() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#19) is not in mixedCase
+Function IImpossibleERC20.PERMIT_TYPEHASH() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#20) is not in mixedCase
+Function IImpossibleCallee.ImpossibleCall(address,uint256,uint256,bytes) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#29) is not in mixedCase
+Variable ImpossibleERC20.DOMAIN_SEPARATOR (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#173) is not in mixedCase
+Event IImpossiblePairchangeInvariant(bool,uint256,uint256) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#355) is not in CapWords
+Event IImpossiblePairupdatedTradeFees(uint256,uint256) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#356) is not in CapWords
+Event IImpossiblePairupdatedDelay(uint256,uint256) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#357) is not in CapWords
+Event IImpossiblePairupdatedHardstops(uint8,uint8) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#358) is not in CapWords
+Event IImpossiblePairupdatedBoost(uint32,uint32,uint32,uint32,uint256,uint256) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#359-366) is not in CapWords
+Function IImpossiblePair.MINIMUM_LIQUIDITY() (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#368) is not in mixedCase
+Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._ratioStart (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#541) is not in mixedCase
+Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._ratioEnd (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#542) is not in mixedCase
+Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._boost0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#543) is not in mixedCase
+Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._boost1 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#544) is not in mixedCase
+Parameter ImpossiblePair.updateTradeFees(uint16)._fee (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#579) is not in mixedCase
+Parameter ImpossiblePair.updateDelay(uint256)._delay (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#588) is not in mixedCase
+Parameter ImpossiblePair.updateHardstops(uint8,uint8)._ratioStart (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#595) is not in mixedCase
+Parameter ImpossiblePair.updateHardstops(uint8,uint8)._ratioEnd (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#595) is not in mixedCase
+Parameter ImpossiblePair.updateBoost(uint32,uint32)._boost0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#604) is not in mixedCase
+Parameter ImpossiblePair.updateBoost(uint32,uint32)._boost1 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#604) is not in mixedCase
+Parameter ImpossiblePair.initialize(address,address,address)._token0 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#623) is not in mixedCase
+Parameter ImpossiblePair.initialize(address,address,address)._token1 (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#624) is not in mixedCase
+Parameter ImpossiblePair.initialize(address,address,address)._router (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#625) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable ImpossiblePair.swap(uint256,uint256,address,bytes).balance0Adjusted (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#809) is too similar to ImpossiblePair.swap(uint256,uint256,address,bytes).balance1Adjusted (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#810)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#540-563) uses literals with too many digits:
+	- require(bool,string)(_boost0 >= 1 && _boost1 >= 1 && _boost0 <= 1000000 && _boost1 <= 1000000,IF: INVALID_BOOST) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#548)
+ImpossiblePair.updateBoost(uint32,uint32) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#604-615) uses literals with too many digits:
+	- require(bool,string)(_boost0 >= 1 && _boost1 >= 1 && _boost0 <= 1000000 && _boost1 <= 1000000,IF: INVALID_BOOST) (../../sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#606)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+/sb/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol analyzed (10 contracts with 78 detectors), 49 result(s) found

@@ -1,0 +1,531 @@
+Compilation warnings/errors on /sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol:2262:1:
+     |
+2262 | contract SorbettoFragola is ERC20Permit, ReentrancyGuard, ISorbettoFragola {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+Reentrancy in SorbettoFragola.collectFees(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727-2749):
+	External calls:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- (amount0,amount1) = pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2744)
+	- updateVault(msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	External calls sending eth:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	State variables written after the call(s):
+	- user.token0Rewards = user.token0Rewards.sub(amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2746)
+	- user.token1Rewards = user.token1Rewards.sub(amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2747)
+Reentrancy in SorbettoFragola.collectProtocolFees(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2697-2722):
+	External calls:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2715)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2700)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	External calls sending eth:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	State variables written after the call(s):
+	- accruedProtocolFees0 = accruedProtocolFees0.sub(amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2719)
+	- accruedProtocolFees1 = accruedProtocolFees1.sub(amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2720)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[91m
+SorbettoFragola.pay(address,address,address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2674-2691) ignores return value by IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+PoolVariables.floor(int24,int24) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#642-646) performs a multiplication on the result of a division:
+	-compressed = tick / tickSpacing (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#643)
+	-compressed * tickSpacing (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#645)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-denominator = denominator / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)
+	-inv = (3 * denominator) ^ 2 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1866)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-denominator = denominator / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)
+	-inv *= 2 - denominator * inv (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1870)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-denominator = denominator / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)
+	-inv *= 2 - denominator * inv (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1871)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-denominator = denominator / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)
+	-inv *= 2 - denominator * inv (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1872)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-denominator = denominator / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)
+	-inv *= 2 - denominator * inv (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1873)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-denominator = denominator / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)
+	-inv *= 2 - denominator * inv (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1874)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-denominator = denominator / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)
+	-inv *= 2 - denominator * inv (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1875)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:
+	-prod0 = prod0 / twos (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1851)
+	-result = prod0 * inv (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1883)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+SorbettoFragola._updateFeesReward(address) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2766-2783) uses a dangerous strict equality:
+	- liquidity == 0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2768)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in SorbettoFragola.deposit(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2427-2460):
+	External calls:
+	- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(msg.sender))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2448-2453)
+	- updateVault(msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2436)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	State variables written after the call(s):
+	- _mint(msg.sender,shares) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2457)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1590)
+	- _mint(msg.sender,shares) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2457)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1589)
+Reentrancy in SorbettoFragola.rebalance() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):
+	External calls:
+	- pool.burnAllLiquidity(tickLower,tickUpper) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)
+	- pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	State variables written after the call(s):
+	- (tickLower,tickUpper) = pool.getPositionTicks(cache.amount0Desired,cache.amount1Desired,baseThreshold,tickSpacing) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2568)
+	- (tickLower,tickUpper) = pool.getPositionTicks(cache.amount0Desired,cache.amount1Desired,baseThreshold,tickSpacing) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2568)
+Reentrancy in SorbettoFragola.rerange() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487-2515):
+	External calls:
+	- pool.burnAllLiquidity(tickLower,tickUpper) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2490)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	State variables written after the call(s):
+	- (tickLower,tickUpper) = pool.getPositionTicks(balance0,balance1,baseThreshold,tickSpacing) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2501)
+	- (tickLower,tickUpper) = pool.getPositionTicks(balance0,balance1,baseThreshold,tickSpacing) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2501)
+Reentrancy in SorbettoFragola.withdraw(uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2463-2484):
+	External calls:
+	- (amount0,amount1) = pool.burnLiquidityShare(tickLower,tickUpper,totalSupply(),shares,msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2479)
+	- updateVault(msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2470)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	State variables written after the call(s):
+	- _burn(msg.sender,shares) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2482)
+		- _balances[account] = _balances[account].sub(amount,BEB) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1610)
+	- _burn(msg.sender,shares) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2482)
+		- _totalSupply = _totalSupply.sub(amount) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1611)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+SqrtPriceMath.getNextSqrtPriceFromAmount0RoundingUp(uint160,uint128,uint256,bool).product_scope_0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2087) is a local variable never initialized
+SqrtPriceMath.getNextSqrtPriceFromAmount0RoundingUp(uint160,uint128,uint256,bool).product (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2077) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+PoolActions.burnAllLiquidity(IUniswapV3Pool,int24,int24) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1017-1037) ignores return value by pool.burn(tickLower,tickUpper,liquidity) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1026)
+PoolActions.burnAllLiquidity(IUniswapV3Pool,int24,int24) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1017-1037) ignores return value by pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1030-1036)
+SorbettoFragola.rebalance() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580) ignores return value by pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)
+SorbettoFragola._earnFees() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604-2627) ignores return value by pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+SorbettoFragola.collectProtocolFees(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2697-2722) ignores return value by pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2715)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[93m
+PoolActions.burnExactLiquidity(IUniswapV3Pool,int24,int24,uint128,address).amount0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#994) is written in both
+	(amount0,amount0) = pool.collect(to,tickLower,tickUpper,amount0.toUint128(),amount1.toUint128()) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1001-1007)
+	(amount0,amount0) = pool.collect(to,tickLower,tickUpper,amount0.toUint128(),amount1.toUint128()) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1001-1007)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#write-after-write[0m
+[92m
+ERC20Permit.constructor(string).name (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1689) shadows:
+	- ERC20.name() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1420-1422) (function)
+SorbettoFragola._tokenPerShare(uint256,uint256)._totalSupply (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2807) shadows:
+	- ERC20._totalSupply (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1396) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+SorbettoFragola.setStrategy(address) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2846-2849) should emit an event for: 
+	- strategy = _strategy (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2848) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+SorbettoFragola.constructor(address,address)._strategy (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2404) lacks a zero-check on :
+		- strategy = _strategy (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2407)
+SorbettoFragola.setGovernance(address)._governance (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2830) lacks a zero-check on :
+		- pendingGovernance = _governance (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2831)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in SorbettoFragola._earnFees() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604-2627):
+	External calls:
+	- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+	- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	State variables written after the call(s):
+	- accruedProtocolFees0 = accruedProtocolFees0.add(feeToProtocol0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2620)
+	- accruedProtocolFees1 = accruedProtocolFees1.add(feeToProtocol1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2621)
+	- usersFees0 = usersFees0.add(userCollect0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2624)
+	- usersFees1 = usersFees1.add(userCollect1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2625)
+Reentrancy in SorbettoFragola._updateFeesReward(address) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2766-2783):
+	External calls:
+	- (collect0,collect1) = _earnFees() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2769)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	State variables written after the call(s):
+	- token0PerShareStored = _tokenPerShare(collect0,token0PerShareStored) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2772)
+	- token1PerShareStored = _tokenPerShare(collect1,token1PerShareStored) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2773)
+	- user.token0Rewards = _fee0Earned(account,token0PerShareStored) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2777)
+	- user.token0PerSharePaid = token0PerShareStored (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2778)
+	- user.token1Rewards = _fee1Earned(account,token1PerShareStored) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2780)
+	- user.token1PerSharePaid = token1PerShareStored (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2781)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in SorbettoFragola._earnFees() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604-2627):
+	External calls:
+	- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+	- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- CollectFees(collect0,collect1,usersFees0,usersFees1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2626)
+Reentrancy in SorbettoFragola.collectFees(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727-2749):
+	External calls:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- (amount0,amount1) = pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2744)
+	- updateVault(msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	External calls sending eth:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,amount0,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2748)
+Reentrancy in SorbettoFragola.collectProtocolFees(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2697-2722):
+	External calls:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+		- IWETH9(weth).transfer(recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+		- TransferHelper.safeTransfer(token,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)
+		- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)
+	- pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2715)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2700)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	External calls sending eth:
+	- pay(token0,address(this),msg.sender,amount0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	- pay(token1,address(this),msg.sender,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)
+		- IWETH9(weth).deposit{value: value}() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,amount0,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2721)
+Reentrancy in SorbettoFragola.deposit(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2427-2460):
+	External calls:
+	- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(msg.sender))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2448-2453)
+	- updateVault(msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2436)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1591)
+		- _mint(msg.sender,shares) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2457)
+Reentrancy in SorbettoFragola.deposit(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2427-2460):
+	External calls:
+	- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(msg.sender))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2448-2453)
+	- refundETH() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2458)
+		- (success) = to.call{value: value}(new bytes(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2178)
+		- TransferHelper.safeTransferETH(msg.sender,address(this).balance) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2823)
+	- updateVault(msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2436)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	External calls sending eth:
+	- refundETH() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2458)
+		- (success) = to.call{value: value}(new bytes(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2178)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,shares,amount0,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2459)
+Reentrancy in SorbettoFragola.rebalance() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):
+	External calls:
+	- pool.burnAllLiquidity(tickLower,tickUpper) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- Snapshot(cache.amount0Desired,cache.amount1Desired) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2532)
+Reentrancy in SorbettoFragola.rebalance() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):
+	External calls:
+	- pool.burnAllLiquidity(tickLower,tickUpper) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)
+	- pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- Snapshot(cache.amount0Desired,cache.amount1Desired) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2566)
+Reentrancy in SorbettoFragola.rebalance() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):
+	External calls:
+	- pool.burnAllLiquidity(tickLower,tickUpper) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)
+	- pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)
+	- (cache.amount0,cache.amount1) = pool.mint(address(this),tickLower,tickUpper,cache.liquidity,abi.encode(MintCallbackData(address(this)))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2573-2578)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- Rerange(tickLower,tickUpper,cache.amount0,cache.amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2579)
+Reentrancy in SorbettoFragola.rerange() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487-2515):
+	External calls:
+	- pool.burnAllLiquidity(tickLower,tickUpper) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2490)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- Snapshot(balance0,balance1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2496)
+Reentrancy in SorbettoFragola.rerange() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487-2515):
+	External calls:
+	- pool.burnAllLiquidity(tickLower,tickUpper) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2490)
+	- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(address(this)))) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2507-2512)
+	- updateVault(address(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- Rerange(tickLower,tickUpper,amount0,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2514)
+Reentrancy in SorbettoFragola.withdraw(uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2463-2484):
+	External calls:
+	- (amount0,amount1) = pool.burnLiquidityShare(tickLower,tickUpper,totalSupply(),shares,msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2479)
+	- updateVault(msg.sender) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2470)
+		- pool.burn(tickLower,tickUpper,0) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)
+		- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)
+	Event emitted after the call(s):
+	- Transfer(account,address(0),amount) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1612)
+		- _burn(msg.sender,shares) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2482)
+	- Withdraw(msg.sender,shares,amount0,amount1) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2483)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1695-1716) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp <= deadline,ED) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1697)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+TickMath.getTickAtSqrtRatio(uint160) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#238-381) uses assembly
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#246-250)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#251-255)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#256-260)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#261-265)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#266-270)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#271-275)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#276-280)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#281-284)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#291-296)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#297-302)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#303-308)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#309-314)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#315-320)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#321-326)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#327-332)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#333-338)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#339-344)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#345-350)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#351-356)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#357-362)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#363-368)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#369-373)
+ChainId.get() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1132-1136) uses assembly
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1133-1135)
+UnsafeMath.divRoundingUp(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1763-1767) uses assembly
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1764-1766)
+UnsafeMath.unsafeDiv(uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1774-1778) uses assembly
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1775-1777)
+FullMath.mulDiv(uint256,uint256,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) uses assembly
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1805-1809)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1814-1816)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1831-1833)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1835-1838)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1845-1847)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1850-1852)
+	- INLINE ASM (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1856-1858)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Babylonian.sqrt(uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) is never used and should be removed
+Context._msgData() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1354-1357) is never used and should be removed
+ERC20._setupDecimals(uint8) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1643-1645) is never used and should be removed
+LowGasSafeMath.add(int256,int256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1981-1983) is never used and should be removed
+LowGasSafeMath.add128(uint128,uint128) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1997-1999) is never used and should be removed
+LowGasSafeMath.mul128(uint128,uint128) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2013-2015) is never used and should be removed
+LowGasSafeMath.sub(int256,int256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1989-1991) is never used and should be removed
+LowGasSafeMath.sub128(uint128,uint128) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2005-2007) is never used and should be removed
+PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#599-613) is never used and should be removed
+SafeCast.toInt128(int256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1927-1929) is never used and should be removed
+SafeCast.toInt256(uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1934-1937) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in TransferHelper.safeTransferFrom(address,address,address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2148-2157):
+	- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)
+Low level call in TransferHelper.safeTransfer(address,address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2164-2171):
+	- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)
+Low level call in TransferHelper.safeTransferETH(address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2177-2180):
+	- (success) = to.call{value: value}(new bytes(0)) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2178)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter PoolVariables.amountsForLiquidity(IUniswapV3Pool,uint128,int24,int24)._tickLower (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#552) is not in mixedCase
+Parameter PoolVariables.amountsForLiquidity(IUniswapV3Pool,uint128,int24,int24)._tickUpper (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#553) is not in mixedCase
+Parameter PoolVariables.liquidityForAmounts(IUniswapV3Pool,uint256,uint256,int24,int24)._tickLower (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#577) is not in mixedCase
+Parameter PoolVariables.liquidityForAmounts(IUniswapV3Pool,uint256,uint256,int24,int24)._tickUpper (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#578) is not in mixedCase
+Parameter PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24)._tickLower (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#599) is not in mixedCase
+Parameter PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24)._tickUpper (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#599) is not in mixedCase
+Parameter PoolVariables.positionLiquidity(IUniswapV3Pool,int24,int24)._tickLower (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#620) is not in mixedCase
+Parameter PoolVariables.positionLiquidity(IUniswapV3Pool,int24,int24)._tickUpper (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#620) is not in mixedCase
+Parameter PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24)._tickLower (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is not in mixedCase
+Parameter PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24)._tickUpper (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is not in mixedCase
+Variable EIP712._CACHED_DOMAIN_SEPARATOR (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1213) is not in mixedCase
+Variable EIP712._CACHED_CHAIN_ID (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1214) is not in mixedCase
+Variable EIP712._HASHED_NAME (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1216) is not in mixedCase
+Variable EIP712._HASHED_VERSION (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1217) is not in mixedCase
+Variable EIP712._TYPE_HASH (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1218) is not in mixedCase
+Function IERC20Permit.DOMAIN_SEPARATOR() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1334) is not in mixedCase
+Function ERC20Permit.DOMAIN_SEPARATOR() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1729-1731) is not in mixedCase
+Variable ERC20Permit._PERMIT_TYPEHASH (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1682) is not in mixedCase
+Parameter SorbettoFragola.uniswapV3SwapCallback(int256,int256,bytes)._data (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2659) is not in mixedCase
+Parameter SorbettoFragola.setGovernance(address)._governance (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2830) is not in mixedCase
+Parameter SorbettoFragola.setStrategy(address)._strategy (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2846) is not in mixedCase
+Variable SorbettoFragola.GLOBAL_DIVISIONER (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2367) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1355)" inContext (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1349-1358)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable ISorbettoFragola.deposit(uint256,uint256).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117) is too similar to ISorbettoFragola.deposit(uint256,uint256).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117)
+Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)
+Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)
+Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)
+Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)
+Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)
+Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)
+Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)
+Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)
+Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)
+Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)
+Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)
+Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)
+Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)
+Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)
+Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)
+Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)
+Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)
+Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)
+Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)
+Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)
+Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)
+Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)
+Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)
+Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)
+Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)
+Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)
+Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)
+Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)
+Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)
+Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)
+Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)
+Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)
+Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)
+Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)
+Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)
+Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)
+Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656) is too similar to PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692)
+Variable PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713) is too similar to PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713)
+Variable PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is too similar to PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713)
+Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656) is too similar to PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713)
+Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656)
+Variable PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713) is too similar to PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692)
+Variable PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is too similar to PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692)
+Variable PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656)
+Variable PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656)
+Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).nextSqrtPrice0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#671) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).nextSqrtPrice1 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#675)
+Variable PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24).tokensOwed0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#607) is too similar to PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24).tokensOwed1 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#607)
+Variable IUniswapV3PoolActions.collect(address,int24,int24,uint128,uint128).amount0Requested (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#780) is too similar to IUniswapV3PoolActions.collect(address,int24,int24,uint128,uint128).amount1Requested (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#781)
+Variable IUniswapV3PoolState.positions(bytes32).feeGrowthInside0LastX128 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#883) is too similar to IUniswapV3PoolState.positions(bytes32).feeGrowthInside1LastX128 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#884)
+Variable IUniswapV3PoolState.positions(bytes32).tokensOwed0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#885) is too similar to IUniswapV3PoolState.positions(bytes32).tokensOwed1 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#886)
+Variable SorbettoFragola.accruedProtocolFees0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2372) is too similar to SorbettoFragola.accruedProtocolFees1 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2374)
+Variable ISorbettoFragola.deposit(uint256,uint256).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117) is too similar to SorbettoFragola.deposit(uint256,uint256).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2429)
+Variable SorbettoFragola.deposit(uint256,uint256).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2428) is too similar to SorbettoFragola.deposit(uint256,uint256).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2429)
+Variable SorbettoFragola.deposit(uint256,uint256).amount0Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2428) is too similar to ISorbettoFragola.deposit(uint256,uint256).amount1Desired (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117)
+Variable SorbettoFragola._fee0Earned(address,uint256).fee0PerShare_ (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2786) is too similar to SorbettoFragola._fee1Earned(address,uint256).fee1PerShare_ (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2796)
+Variable SorbettoFragola.position().feeGrowthInside0LastX128 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630) is too similar to SorbettoFragola.position().feeGrowthInside1LastX128 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630)
+Variable SorbettoFragola._earnFees().feeToProtocol0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2618) is too similar to SorbettoFragola._earnFees().feeToProtocol1 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2619)
+Variable SorbettoFragola.token0PerShareStored (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2380) is too similar to SorbettoFragola.token1PerShareStored (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2382)
+Variable SorbettoFragola.position().tokensOwed0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630) is too similar to SorbettoFragola.position().tokensOwed1 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630)
+Variable SorbettoFragola._earnFees().userCollect0 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604) is too similar to SorbettoFragola._earnFees().userCollect1 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+TickMath.getSqrtRatioAtTick(int24) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#200-231) uses literals with too many digits:
+	- ratio = 0x100000000000000000000000000000000 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#204)
+Babylonian.sqrt(uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) uses literals with too many digits:
+	- xx >= 0x100000000000000000000000000000000 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1053)
+Babylonian.sqrt(uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) uses literals with too many digits:
+	- xx >= 0x10000000000000000 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1057)
+Babylonian.sqrt(uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) uses literals with too many digits:
+	- xx >= 0x100000000 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1061)
+FixedPoint96.slitherConstructorConstantVariables() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1748-1751) uses literals with too many digits:
+	- Q96 = 0x1000000000000000000000000 (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1750)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+name() should be declared external:
+	- ERC20.name() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1420-1422)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1428-1430)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1445-1447)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1471-1474)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1479-1481)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1490-1493)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1508-1512)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1526-1529)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1545-1548)
+permit(address,address,uint256,uint256,uint8,bytes32,bytes32) should be declared external:
+	- ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1695-1716)
+nonces(address) should be declared external:
+	- ERC20Permit.nonces(address) (../../sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1721-1723)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol analyzed (32 contracts with 78 detectors), 163 result(s) found

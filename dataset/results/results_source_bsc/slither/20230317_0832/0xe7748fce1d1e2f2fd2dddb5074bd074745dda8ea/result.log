@@ -1,0 +1,108 @@
+[93m
+YEED._transfer(address,address,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#770-806) uses a dangerous strict equality:
+	- vipTime = activateTime == 0 || block.timestamp < activateTime + 600 (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#781)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Contract locking ether found:
+	Contract YEED (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#509-881) has payable functions:
+	 - YEED.receive() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#729)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#contracts-that-lock-ether[0m
+[92m
+YEED.allowance(address,address).owner (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#625) shadows:
+	- Ownable.owner() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#132-134) (function)
+YEED._approve(address,address,uint256).owner (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#759) shadows:
+	- Ownable.owner() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#132-134) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+Ownable.setOwner(address,bool).addr (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#158) lacks a zero-check on :
+		- _owner = addr (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#159)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+YEED._transfer(address,address,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#770-806) uses timestamp for comparisons
+	Dangerous comparisons:
+	- vipTime = activateTime == 0 || block.timestamp < activateTime + 600 (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#781)
+	- vipTime && takeFee (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#792)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+YEED.isContract(address) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#642-648) uses assembly
+	- INLINE ASM (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#644-646)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Context._msgData() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#111-114) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#62-64) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#66-73) is never used and should be removed
+YEED.isContract(address) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#642-648) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Variable Ownable._owner (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#118) is not in mixedCase
+Function IPancakeRouter01.WETH() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#167) is not in mixedCase
+Function IPancakePair.DOMAIN_SEPARATOR() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#433) is not in mixedCase
+Function IPancakePair.PERMIT_TYPEHASH() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#435) is not in mixedCase
+Function IPancakePair.MINIMUM_LIQUIDITY() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#466) is not in mixedCase
+Parameter YEED.activate(bool)._activate (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#634) is not in mixedCase
+Parameter YEED.calculateRewardFee(uint256)._amount (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#731) is not in mixedCase
+Parameter YEED.calculateBurnFee(uint256)._amount (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#739) is not in mixedCase
+Variable YEED._rewardFee (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#525) is not in mixedCase
+Variable YEED._burnFee (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#528) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#112)" inContext (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#106-115)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#172) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#173)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+YEED._excluded (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#519) is never used in YEED (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#509-881)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+YEED._name (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#521) should be constant
+YEED._symbol (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#522) should be constant
+YEED.hoAddress (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#540-541) should be constant
+YEED.ownerAddress (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#536-537) should be constant
+YEED.usdtAddress (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#542-543) should be constant
+YEED.zeedAddress (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#538-539) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#132-134)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#141-145)
+setOwner(address,bool) should be declared external:
+	- Ownable.setOwner(address,bool) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#158-161)
+name() should be declared external:
+	- YEED.name() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#596-598)
+symbol() should be declared external:
+	- YEED.symbol() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#600-602)
+decimals() should be declared external:
+	- YEED.decimals() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#604-606)
+totalSupply() should be declared external:
+	- YEED.totalSupply() (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#608-610)
+balanceOf(address) should be declared external:
+	- YEED.balanceOf(address) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#612-614)
+transfer(address,uint256) should be declared external:
+	- YEED.transfer(address,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#616-623)
+allowance(address,address) should be declared external:
+	- YEED.allowance(address,address) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#625-632)
+activate(bool) should be declared external:
+	- YEED.activate(bool) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#634-640)
+approve(address,uint256) should be declared external:
+	- YEED.approve(address,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#650-657)
+transferFrom(address,address,uint256) should be declared external:
+	- YEED.transferFrom(address,address,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#659-674)
+increaseAllowance(address,uint256) should be declared external:
+	- YEED.increaseAllowance(address,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#676-687)
+decreaseAllowance(address,uint256) should be declared external:
+	- YEED.decreaseAllowance(address,uint256) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#689-703)
+setSwapPair(address,bool) should be declared external:
+	- YEED.setSwapPair(address,bool) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#705-707)
+setExcludedFromFee(address,bool) should be declared external:
+	- YEED.setExcludedFromFee(address,bool) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#709-711)
+setVip(address,bool) should be declared external:
+	- YEED.setVip(address,bool) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#713-715)
+isExcludedFromFee(address) should be declared external:
+	- YEED.isExcludedFromFee(address) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#717-719)
+isVip(address) should be declared external:
+	- YEED.isVip(address) (../../sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#721-723)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol analyzed (9 contracts with 78 detectors), 50 result(s) found

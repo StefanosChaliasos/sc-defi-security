@@ -1,0 +1,150 @@
+Compilation warnings/errors on /sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol:2752:1:
+     |
+2752 | contract TransmuterEth is Context, ReentrancyGuard {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+Reentrancy in TransmuterEth.transmuteClaimAndWithdraw(bool) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3195-3200):
+	External calls:
+	- transmute() (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3196)
+		- IERC20Burnable(alToken).burn(pendingz) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3101)
+	- claim(asEth) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3197)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2360)
+		- (_withdrawnAmount,_decreasedValue) = _self.directWithdraw(_recipient,_amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2500)
+		- (_withdrawnAmount,_decreasedValue) = _vault.withdraw(address(this),_amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3423)
+		- _self.adapter.withdraw(_recipient,_amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2515)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2037)
+		- IWETH9(token).withdraw(value) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3033)
+		- IERC20Burnable(token).safeTransfer(sender,value) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3036)
+	- unstake(toWithdraw) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3199)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2360)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2037)
+		- IERC20Burnable(alToken).safeTransfer(sender,amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3052)
+	External calls sending eth:
+	- claim(asEth) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3197)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2037)
+		- address(sender).transfer(value) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3034)
+	- unstake(toWithdraw) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3199)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2037)
+	State variables written after the call(s):
+	- unstake(toWithdraw) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3199)
+		- depositedAlTokens[sender] = depositedAlTokens[sender].sub(amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3050)
+	- unstake(toWithdraw) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3199)
+		- lastDividendPoints[account] = totalDividendPoints (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2939)
+	- unstake(toWithdraw) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3199)
+		- tokensInBucket[account] = tokensInBucket[account].add(owing) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2937)
+	- unstake(toWithdraw) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3199)
+		- totalSupplyAltokens = totalSupplyAltokens.sub(amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3051)
+	- unstake(toWithdraw) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3199)
+		- unclaimedDividends = unclaimedDividends.sub(owing) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2936)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+TransmuterEth.userInfo(address) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3239-3258) performs a multiplication on the result of a division:
+	-_toDistribute = buffer.mul(block.number.sub(lastDepositBlock)).div(TRANSMUTATION_PERIOD) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3250)
+	-_pendingdivs = _toDistribute.mul(depositedAlTokens[user]).div(totalSupplyAltokens) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3254)
+TransmuterEth.getMultipleUserInfo(uint256,uint256) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3270-3292) performs a multiplication on the result of a division:
+	-_toDistribute = buffer.mul(block.number.sub(lastDepositBlock)).div(TRANSMUTATION_PERIOD) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3280)
+	-_theUserData[y + 1] = dividendsOwing(userList[i]).add(tokensInBucket[userList[i]]).add(_toDistribute.mul(depositedAlTokens[userList[i]]).div(totalSupplyAltokens)) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3287)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Reentrancy in TransmuterEth.distribute(address,uint256) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3209-3215):
+	External calls:
+	- IERC20Burnable(token).safeTransferFrom(origin,address(this),amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3211)
+	State variables written after the call(s):
+	- buffer = buffer.add(amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3212)
+Reentrancy in TransmuterEth.forceTransmute(address) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3122-3173):
+	External calls:
+	- IERC20Burnable(alToken).burn(pendingz) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3152)
+	State variables written after the call(s):
+	- tokensInBucket[msg.sender] = tokensInBucket[msg.sender].add(diff) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3157)
+	- totalSupplyAltokens = totalSupplyAltokens.sub(pendingz) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3154)
+Reentrancy in TransmuterEth.forceTransmute(address) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3122-3173):
+	External calls:
+	- IERC20Burnable(alToken).burn(pendingz) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3152)
+	- ensureSufficientFundsExistLocally(value) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3164)
+		- (_withdrawnAmount,_decreasedValue) = _self.directWithdraw(_recipient,_amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2500)
+		- (_withdrawnAmount,_decreasedValue) = _vault.withdraw(address(this),_amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3423)
+		- _self.adapter.withdraw(_recipient,_amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2515)
+	State variables written after the call(s):
+	- realisedTokens[toTransmute] = 0 (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3167)
+Reentrancy in TransmuterEth.stake(uint256) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3058-3074):
+	External calls:
+	- IERC20Burnable(alToken).safeTransferFrom(sender,address(this),amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3070)
+	State variables written after the call(s):
+	- depositedAlTokens[sender] = depositedAlTokens[sender].add(amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3072)
+	- totalSupplyAltokens = totalSupplyAltokens.add(amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3071)
+Reentrancy in TransmuterEth.transmute() (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3080-3113):
+	External calls:
+	- IERC20Burnable(alToken).burn(pendingz) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3101)
+	State variables written after the call(s):
+	- increaseAllocations(diff) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3107)
+		- buffer = buffer.add(amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3227)
+	- increaseAllocations(diff) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3107)
+		- totalDividendPoints = totalDividendPoints.add(amount.mul(pointMultiplier).div(totalSupplyAltokens)) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3222-3224)
+	- totalSupplyAltokens = totalSupplyAltokens.sub(pendingz) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3104)
+	- increaseAllocations(diff) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3107)
+		- unclaimedDividends = unclaimedDividends.add(amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3225)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+FixedPointMath.fromU256(uint256).x (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#1622) is a local variable never initialized
+FixedPointMath.add(FixedPointMath.FixedDecimal,FixedPointMath.FixedDecimal).x (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#1632) is a local variable never initialized
+FixedPointMath.mul(FixedPointMath.FixedDecimal,uint256).x (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#1652) is a local variable never initialized
+FixedPointMath.sub(FixedPointMath.FixedDecimal,FixedPointMath.FixedDecimal).x (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#1642) is a local variable never initialized
+TransmuterEth.transmute().diff (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3083) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+YearnVaultAdapter.deposit(uint256) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2229-2231) ignores return value by vault.deposit(_amount) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2230)
+YearnVaultAdapter.withdraw(address,uint256) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2239-2241) ignores return value by vault.withdraw(_tokensToShares(_amount),_recipient) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#2240)
+TransmuterEth._plantOrRecallExcessFunds() (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3438-3453) ignores return value by _activeVault.deposit(plantAmt) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3446)
+TransmuterEth.migrateFunds(address) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3549-3559) ignores return value by IERC20Burnable(token).approve(migrateTo,migratableFunds) (../../sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol#3556)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+Traceback (most recent call last):
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 744, in main_impl
+    ) = process_all(filename, args, detector_classes, printer_classes)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 87, in process_all
+    ) = process_single(compilation, args, detector_classes, printer_classes)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 72, in process_single
+    return _process(slither, detector_classes, printer_classes)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 113, in _process
+    detector_results = slither.run_detectors()
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/slither.py", line 201, in run_detectors
+    results = [d.detect() for d in self._detectors]
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/slither.py", line 201, in <listcomp>
+    results = [d.detect() for d in self._detectors]
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/abstract_detector.py", line 152, in detect
+    for r in [output.data for output in self._detect()]:
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/operations/missing_zero_address_validation.py", line 142, in _detect
+    missing_zero_address_validation = self._detect_missing_zero_address_validation(contract)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/operations/missing_zero_address_validation.py", line 123, in _detect_missing_zero_address_validation
+    var, function.modifiers_statements
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/operations/missing_zero_address_validation.py", line 60, in _zero_address_validation_in_modifier
+    mod.modifier.parameters[args.index(var)], mod.modifier.nodes[-1], []
+IndexError: list index out of range
+None
+Error in /sb/0x45f81ef5f2ae78f49851f7a62e4061ff54ff674b.sol
+Traceback (most recent call last):
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 744, in main_impl
+    ) = process_all(filename, args, detector_classes, printer_classes)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 87, in process_all
+    ) = process_single(compilation, args, detector_classes, printer_classes)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 72, in process_single
+    return _process(slither, detector_classes, printer_classes)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/__main__.py", line 113, in _process
+    detector_results = slither.run_detectors()
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/slither.py", line 201, in run_detectors
+    results = [d.detect() for d in self._detectors]
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/slither.py", line 201, in <listcomp>
+    results = [d.detect() for d in self._detectors]
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/abstract_detector.py", line 152, in detect
+    for r in [output.data for output in self._detect()]:
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/operations/missing_zero_address_validation.py", line 142, in _detect
+    missing_zero_address_validation = self._detect_missing_zero_address_validation(contract)
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/operations/missing_zero_address_validation.py", line 123, in _detect_missing_zero_address_validation
+    var, function.modifiers_statements
+  File "/home/ethsec/.local/lib/python3.6/site-packages/slither/detectors/operations/missing_zero_address_validation.py", line 60, in _zero_address_validation_in_modifier
+    mod.modifier.parameters[args.index(var)], mod.modifier.nodes[-1], []
+IndexError: list index out of range
+

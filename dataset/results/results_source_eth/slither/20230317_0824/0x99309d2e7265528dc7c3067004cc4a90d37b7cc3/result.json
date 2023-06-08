@@ -1,0 +1,815 @@
+{
+    "errors": [
+        "EXIT_CODE_83"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "voteProposal",
+            "impact": "Medium",
+            "line": 1476,
+            "line_end": 1516,
+            "message": "QBridge.voteProposal(uint8,uint64,bytes32,bytes) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1476-1516) uses a dangerous strict equality:\n\t- proposal._status == ProposalStatus.Passed (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1513)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "executeProposal",
+            "impact": "Medium",
+            "line": 1531,
+            "line_end": 1553,
+            "message": "Reentrancy in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553):\n\tExternal calls:\n\t- handler.executeProposal(resourceID,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1545-1550)\n\tState variables written after the call(s):\n\t- proposal._status = ProposalStatus.Passed (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1547)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Medium",
+            "line": 1546,
+            "message": "QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool).lowLevelData (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1546) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "setFee",
+            "impact": "Low",
+            "line": 1384,
+            "line_end": 1386,
+            "message": "QBridge.setFee(uint128) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1384-1386) should emit an event for: \n\t- fee = newFee (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1385) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 1326,
+            "line_end": 1336,
+            "message": "QBridge.initialize(uint8,uint8,uint128,uint40) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326-1336) should emit an event for: \n\t- fee = _fee (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1332) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "executeProposal",
+            "impact": "Low",
+            "line": 1546,
+            "message": "Variable 'QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool).lowLevelData (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1546)' in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553) potentially used before declaration: FailedHandlerExecution(lowLevelData) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1548)\n",
+            "name": "variable-scope"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "depositETH",
+            "impact": "Low",
+            "line": 1449,
+            "line_end": 1463,
+            "message": "Reentrancy in QBridge.depositETH(uint8,bytes32,bytes) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1449-1463):\n\tExternal calls:\n\t- IQBridgeHandler(handler).depositETH{value: amount}(resourceID,msg.sender,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1461)\n\tEvent emitted after the call(s):\n\t- Deposit(destinationDomainID,resourceID,depositNonce,msg.sender,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1462)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "executeProposal",
+            "impact": "Low",
+            "line": 1531,
+            "line_end": 1553,
+            "message": "Reentrancy in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553):\n\tExternal calls:\n\t- handler.executeProposal(resourceID,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1543)\n\t- handler.executeProposal(resourceID,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1545-1550)\n\tEvent emitted after the call(s):\n\t- ProposalEvent(originDomainID,depositNonce,ProposalStatus.Executed,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1552)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1437,
+            "line_end": 1447,
+            "message": "Reentrancy in QBridge.deposit(uint8,bytes32,bytes) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1437-1447):\n\tExternal calls:\n\t- IQBridgeHandler(handler).deposit(resourceID,msg.sender,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1445)\n\tEvent emitted after the call(s):\n\t- Deposit(destinationDomainID,resourceID,depositNonce,msg.sender,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1446)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "executeProposal",
+            "impact": "Low",
+            "line": 1531,
+            "line_end": 1553,
+            "message": "Reentrancy in QBridge.executeProposal(uint8,uint64,bytes32,bytes,bool) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1531-1553):\n\tExternal calls:\n\t- handler.executeProposal(resourceID,data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1545-1550)\n\tEvent emitted after the call(s):\n\t- FailedHandlerExecution(lowLevelData) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1548)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 911,
+            "line_end": 920,
+            "message": "AddressUpgradeable.isContract(address) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#911-920) uses assembly\n\t- INLINE ASM (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#918)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 1032,
+            "line_end": 1049,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1032-1049) uses assembly\n\t- INLINE ASM (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1041-1044)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "mul",
+            "impact": "Informational",
+            "line": 212,
+            "line_end": 217,
+            "message": "SafeMath.mul(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#212-217) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 474,
+            "line_end": 477,
+            "message": "ContextUpgradeable._msgData() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#474-477) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 989,
+            "line_end": 991,
+            "message": "AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#989-991) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 156,
+            "line_end": 159,
+            "message": "SafeMath.tryDiv(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#156-159) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 853,
+            "line_end": 855,
+            "message": "EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.UintSet,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#853-855) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 43,
+            "line_end": 52,
+            "message": "SafeToken.safeTransferFrom(address,address,address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#43-52) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 166,
+            "line_end": 169,
+            "message": "SafeMath.tryMod(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#166-169) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 1032,
+            "line_end": 1049,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1032-1049) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 266,
+            "line_end": 269,
+            "message": "SafeMath.sub(uint256,uint256,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#266-269) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 964,
+            "line_end": 966,
+            "message": "AddressUpgradeable.functionCall(address,bytes) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#964-966) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 23,
+            "line_end": 31,
+            "message": "SafeToken.safeApprove(address,address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#23-31) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 974,
+            "line_end": 976,
+            "message": "AddressUpgradeable.functionCall(address,bytes,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#974-976) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 938,
+            "line_end": 944,
+            "message": "AddressUpgradeable.sendValue(address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#938-944) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 33,
+            "line_end": 41,
+            "message": "SafeToken.safeTransfer(address,address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#33-41) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "myBalance",
+            "impact": "Informational",
+            "line": 15,
+            "line_end": 17,
+            "message": "SafeToken.myBalance(address) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#15-17) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 120,
+            "line_end": 124,
+            "message": "SafeMath.tryAdd(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#120-124) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 306,
+            "line_end": 309,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#306-309) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "_setRoleAdmin",
+            "impact": "Informational",
+            "line": 1261,
+            "line_end": 1264,
+            "message": "AccessControlIndexUpgradeable._setRoleAdmin(bytes32,bytes32) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1261-1264) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 744,
+            "line_end": 746,
+            "message": "EnumerableSetUpgradeable.remove(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#744-746) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 1014,
+            "line_end": 1016,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1014-1016) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 751,
+            "line_end": 753,
+            "message": "EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#751-753) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "balanceOf",
+            "impact": "Informational",
+            "line": 19,
+            "line_end": 21,
+            "message": "SafeToken.balanceOf(address,address) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#19-21) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 286,
+            "line_end": 289,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#286-289) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 843,
+            "line_end": 845,
+            "message": "EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.UintSet,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#843-845) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 248,
+            "line_end": 251,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#248-251) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 867,
+            "line_end": 869,
+            "message": "EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.UintSet) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#867-869) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 734,
+            "line_end": 736,
+            "message": "EnumerableSetUpgradeable.add(EnumerableSetUpgradeable.Bytes32Set,bytes32) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#734-736) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 231,
+            "line_end": 234,
+            "message": "SafeMath.div(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#231-234) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 881,
+            "line_end": 883,
+            "message": "EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.UintSet,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#881-883) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 141,
+            "line_end": 149,
+            "message": "SafeMath.tryMul(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#141-149) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 131,
+            "line_end": 134,
+            "message": "SafeMath.trySub(uint256,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#131-134) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 758,
+            "line_end": 760,
+            "message": "EnumerableSetUpgradeable.length(EnumerableSetUpgradeable.Bytes32Set) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#758-760) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 772,
+            "line_end": 774,
+            "message": "EnumerableSetUpgradeable.at(EnumerableSetUpgradeable.Bytes32Set,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#772-774) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 1024,
+            "line_end": 1030,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1024-1030) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 860,
+            "line_end": 862,
+            "message": "EnumerableSetUpgradeable.contains(EnumerableSetUpgradeable.UintSet,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#860-862) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 464,
+            "line_end": 466,
+            "message": "ContextUpgradeable.__Context_init() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#464-466) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 999,
+            "line_end": 1006,
+            "message": "AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#999-1006) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 999,
+            "line_end": 1006,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#999-1006):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1004)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 1024,
+            "line_end": 1030,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1024-1030):\n\t- (success,returndata) = target.staticcall(data) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1028)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 54,
+            "line_end": 57,
+            "message": "Low level call in SafeToken.safeTransferETH(address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#54-57):\n\t- (success) = to.call{value: value}(new bytes(0)) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#55)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 33,
+            "line_end": 41,
+            "message": "Low level call in SafeToken.safeTransfer(address,address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#33-41):\n\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#39)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 43,
+            "line_end": 52,
+            "message": "Low level call in SafeToken.safeTransferFrom(address,address,address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#43-52):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#50)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 938,
+            "line_end": 944,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#938-944):\n\t- (success) = recipient.call{value: amount}() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#942)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 23,
+            "line_end": 31,
+            "message": "Low level call in SafeToken.safeApprove(address,address,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#23-31):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#29)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1411,
+            "message": "Parameter QBridge.combinedProposalId(uint8,uint64)._domainID (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1411) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__AccessControl_init",
+            "impact": "Informational",
+            "line": 1091,
+            "line_end": 1094,
+            "message": "Function AccessControlIndexUpgradeable.__AccessControl_init() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1091-1094) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__AccessControl_init_unchained",
+            "impact": "Informational",
+            "line": 1096,
+            "line_end": 1097,
+            "message": "Function AccessControlIndexUpgradeable.__AccessControl_init_unchained() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1096-1097) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1278,
+            "message": "Variable AccessControlIndexUpgradeable.__gap (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1278) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "message": "Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._fee (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 478,
+            "message": "Variable ContextUpgradeable.__gap (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#478) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1379,
+            "message": "Parameter QBridge.setDepositNonce(uint8,uint64)._domainID (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1379) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 569,
+            "message": "Parameter PausableUpgradeable.setPaused(bool)._paused (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#569) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 501,
+            "line_end": 504,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#501-504) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 548,
+            "message": "Variable OwnableUpgradeable.__gap (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#548) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 581,
+            "message": "Variable PausableUpgradeable.__gap (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#581) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 468,
+            "line_end": 469,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#468-469) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1310,
+            "message": "Variable QBridge._depositCounts (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1310) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__PausableUpgradeable_init",
+            "impact": "Informational",
+            "line": 564,
+            "line_end": 567,
+            "message": "Function PausableUpgradeable.__PausableUpgradeable_init() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#564-567) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 506,
+            "line_end": 510,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#506-510) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "message": "Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._domainID (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "message": "Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._relayerThreshold (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 464,
+            "line_end": 466,
+            "message": "Function ContextUpgradeable.__Context_init() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#464-466) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "message": "Parameter QBridge.initialize(uint8,uint8,uint128,uint40)._expiry (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 475,
+            "message": "Redundant expression \"this (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#475)\" inContextUpgradeable (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#463-479)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "QBridge",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "impact": "Informational",
+            "line": 1278,
+            "message": "AccessControlIndexUpgradeable.__gap (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1278) is never used in QBridge (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1284-1596)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "cancelProposal",
+            "impact": "Optimization",
+            "line": 1565,
+            "line_end": 1578,
+            "message": "cancelProposal(uint8,uint64,bytes32,bytes) should be declared external:\n\t- QBridge.cancelProposal(uint8,uint64,bytes32,bytes) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1565-1578)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 543,
+            "line_end": 547,
+            "message": "transferOwnership(address) should be declared external:\n\t- OwnableUpgradeable.transferOwnership(address) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#543-547)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "renounceRole",
+            "impact": "Optimization",
+            "line": 1230,
+            "line_end": 1234,
+            "message": "renounceRole(bytes32,address) should be declared external:\n\t- AccessControlIndexUpgradeable.renounceRole(bytes32,address) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1230-1234)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "getRoleAdmin",
+            "impact": "Optimization",
+            "line": 1181,
+            "line_end": 1183,
+            "message": "getRoleAdmin(bytes32) should be declared external:\n\t- AccessControlIndexUpgradeable.getRoleAdmin(bytes32) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1181-1183)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 534,
+            "line_end": 537,
+            "message": "renounceOwnership() should be declared external:\n\t- OwnableUpgradeable.renounceOwnership() (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#534-537)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol",
+            "function": "getRoleMember",
+            "impact": "Optimization",
+            "line": 1164,
+            "line_end": 1166,
+            "message": "getRoleMember(bytes32,uint256) should be declared external:\n\t- AccessControlIndexUpgradeable.getRoleMember(bytes32,uint256) (../..0x99309d2e7265528dc7c3067004cc4a90d37b7cc3.sol#1164-1166)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

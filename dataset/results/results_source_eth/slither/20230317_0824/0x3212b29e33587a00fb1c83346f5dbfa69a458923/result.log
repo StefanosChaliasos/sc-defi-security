@@ -1,0 +1,156 @@
+[91m
+EarnERC777._defaultOperatorsArray (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#630) is never initialized. It is used in:
+	- EarnERC777.defaultOperators() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#791-793)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-state-variables[0m
+[93m
+EarnERC777._distributeRevenue(address) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1086-1100) performs a multiplication on the result of a division:
+	-_exchangeRate = _exchangeRate.mul(_totalSupply.mul(RATE_SCALE).div(_totalSupply.sub(value))).div(RATE_SCALE) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1094)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[92m
+IERC1820Registry.setInterfaceImplementer(address,bytes32,address).interfaceHash (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#534) shadows:
+	- IERC1820Registry.interfaceHash(string) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#552) (function)
+IERC1820Registry.getInterfaceImplementer(address,bytes32).interfaceHash (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#545) shadows:
+	- IERC1820Registry.interfaceHash(string) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#552) (function)
+EarnERC777.constructor(string,string,uint8).symbol (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#639) shadows:
+	- EarnERC777.symbol() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#666-668) (function)
+	- IERC777.symbol() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#24) (function)
+EarnERC777.constructor(string,string,uint8).name (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#640) shadows:
+	- EarnERC777.name() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#659-661) (function)
+	- IERC777.name() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#18) (function)
+EarnERC777.constructor(string,string,uint8).decimals (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#641) shadows:
+	- EarnERC777.decimals() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#676-678) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+Reentrancy in EarnERC777._burn(address,address,uint256,bytes,bytes) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#980-1000):
+	External calls:
+	- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#991)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	State variables written after the call(s):
+	- _subBalance(from,scaleAmount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#996)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)
+	- _totalSupply = _totalSupply.sub(scaleAmount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#995)
+Reentrancy in EarnERC777._mint(address,address,uint256,bytes,bytes) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#890-909):
+	External calls:
+	- _callTokensReceived(operator,address(0),account,amount,userData,operatorData,false) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#901)
+		- IERC777Recipient(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1080)
+	State variables written after the call(s):
+	- _addBalance(account,scaleAmount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#905)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)
+	- _totalSupply = _totalSupply.add(scaleAmount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#904)
+Reentrancy in EarnERC777._send(address,address,address,uint256,bytes,bytes,bool) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#951-970):
+	External calls:
+	- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#965)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	State variables written after the call(s):
+	- _move(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#967)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)
+Reentrancy in EarnERC777._transfer(address,uint256) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#732-744):
+	External calls:
+	- _callTokensToSend(from,from,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#737)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	State variables written after the call(s):
+	- _move(from,from,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#739)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)
+Reentrancy in EarnERC777._transferFrom(address,address,uint256) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#856-871):
+	External calls:
+	- _callTokensToSend(spender,holder,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#862)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	State variables written after the call(s):
+	- _approve(holder,spender,_allowances[holder][spender].sub(amount)) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#866)
+		- _allowances[holder][spender] = value (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1027)
+	- _move(spender,holder,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#864)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)
+		- _balances[account] = balance (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in EarnERC777._burn(address,address,uint256,bytes,bytes) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#980-1000):
+	External calls:
+	- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#991)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	Event emitted after the call(s):
+	- Burned(operator,from,amount,data,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#998)
+	- Transfer(from,address(0),amount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#999)
+Reentrancy in EarnERC777._mint(address,address,uint256,bytes,bytes) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#890-909):
+	External calls:
+	- _callTokensReceived(operator,address(0),account,amount,userData,operatorData,false) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#901)
+		- IERC777Recipient(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1080)
+	Event emitted after the call(s):
+	- Minted(operator,account,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#907)
+	- Transfer(address(0),account,amount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#908)
+Reentrancy in EarnERC777._send(address,address,address,uint256,bytes,bytes,bool) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#951-970):
+	External calls:
+	- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#965)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	Event emitted after the call(s):
+	- Sent(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1017)
+		- _move(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#967)
+	- Transfer(from,to,amount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1018)
+		- _move(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#967)
+Reentrancy in EarnERC777._transfer(address,uint256) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#732-744):
+	External calls:
+	- _callTokensToSend(from,from,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#737)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	Event emitted after the call(s):
+	- Sent(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1017)
+		- _move(from,from,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#739)
+	- Transfer(from,to,amount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1018)
+		- _move(from,from,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#739)
+Reentrancy in EarnERC777._transferFrom(address,address,uint256) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#856-871):
+	External calls:
+	- _callTokensToSend(spender,holder,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#862)
+		- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)
+	Event emitted after the call(s):
+	- Approval(holder,spender,value) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1028)
+		- _approve(holder,spender,_allowances[holder][spender].sub(amount)) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#866)
+	- Sent(operator,from,to,amount,userData,operatorData) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1017)
+		- _move(spender,holder,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#864)
+	- Transfer(from,to,amount) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1018)
+		- _move(spender,holder,recipient,amount,,) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#864)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#462-471) uses assembly
+	- INLINE ASM (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#469)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Pragma version^0.5.0 (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Variable EarnERC777._erc1820 (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#607) is not in mixedCase
+Variable EarnERC777._balances (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#609) is not in mixedCase
+Variable EarnERC777._totalSupply (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#611) is not in mixedCase
+Variable EarnERC777._exchangeRate (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#612) is not in mixedCase
+Variable EarnERC777._name (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#614) is not in mixedCase
+Variable EarnERC777._symbol (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#615) is not in mixedCase
+Variable EarnERC777._decimals (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#616) is not in mixedCase
+Variable EarnERC777._defaultOperatorsArray (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#630) is not in mixedCase
+Variable EarnERC777._operators (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#633) is not in mixedCase
+Variable EarnERC777._allowances (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#636) is not in mixedCase
+Variable IMBTC._revenueAddress (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1400) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1176-1178)
+newOwner() should be declared external:
+	- Ownable.newOwner() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1183-1185)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1206-1208)
+acceptOwnership() should be declared external:
+	- Ownable.acceptOwnership() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1224-1231)
+addMinter(address) should be declared external:
+	- MinterRole.addMinter(address) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1260-1262)
+removeMinter(address) should be declared external:
+	- MinterRole.removeMinter(address) (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1264-1266)
+paused() should be declared external:
+	- Pausable.paused() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1316-1318)
+pause() should be declared external:
+	- Pausable.pause() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1339-1342)
+unpause() should be declared external:
+	- Pausable.unpause() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1347-1350)
+enableTransfer() should be declared external:
+	- SwitchTransferable.enableTransfer() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1381-1384)
+disableTransfer() should be declared external:
+	- SwitchTransferable.disableTransfer() (../../sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1386-1389)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol analyzed (14 contracts with 78 detectors), 41 result(s) found

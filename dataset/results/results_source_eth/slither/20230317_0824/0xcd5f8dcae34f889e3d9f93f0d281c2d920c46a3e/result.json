@@ -1,0 +1,637 @@
+{
+    "errors": [
+        "EXIT_CODE_64"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "getAmountOutAndPenalty",
+            "impact": "Medium",
+            "line": 1261,
+            "line_end": 1316,
+            "message": "Staking.getAmountOutAndPenalty(uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1261-1316) performs a multiplication on the result of a division:\n\t-daysStaked = (now.sub(sessionDataOf[msg.sender][sessionId].start)).div(stepTimestamp) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1273-1276)\n\t-payOutAmount = amountAndInterest.mul(daysStaked).div(stakingDays) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1284-1286)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Medium",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Reentrancy in Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tState variables written after the call(s):\n\t- sharesTotalSupply = sharesTotalSupply.sub(shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1229)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "stake",
+            "impact": "Medium",
+            "line": 1071,
+            "line_end": 1104,
+            "message": "Reentrancy in Staking.stake(uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- IToken(mainToken).burn(msg.sender,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1079)\n\tState variables written after the call(s):\n\t- sharesTotalSupply = sharesTotalSupply.add(shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1083)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Medium",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Reentrancy in Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- _initPayout(auction,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1206)\n\t\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\tState variables written after the call(s):\n\t- _initPayout(auction,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1206)\n\t\t- globalPayout = globalPayout.add(amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "externalStake",
+            "impact": "Medium",
+            "line": 1106,
+            "line_end": 1142,
+            "message": "Reentrancy in Staking.externalStake(uint256,uint256,address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tState variables written after the call(s):\n\t- sharesTotalSupply = sharesTotalSupply.add(shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1121)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "makePayout",
+            "impact": "Medium",
+            "line": 1318,
+            "line_end": 1330,
+            "message": "Reentrancy in Staking.makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330):\n\tExternal calls:\n\t- payout = _getPayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1321)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tState variables written after the call(s):\n\t- nextPayoutCall = nextPayoutCall.add(stepTimestamp) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1327)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_getPayout",
+            "impact": "Medium",
+            "line": 1346,
+            "line_end": 1372,
+            "message": "Reentrancy in Staking._getPayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1346-1372):\n\tExternal calls:\n\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tState variables written after the call(s):\n\t- globalPayin = globalPayin.add(inflation) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1369)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Medium",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Reentrancy in Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- _initPayout(auction,penalty) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)\n\t\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\t- IAuction(auction).callIncomeDailyTokensTrigger(penalty) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1238)\n\t- _initPayout(msg.sender,amountOut) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1241)\n\t\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\tState variables written after the call(s):\n\t- _initPayout(msg.sender,amountOut) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1241)\n\t\t- globalPayout = globalPayout.add(amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Medium",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Reentrancy in Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- _initPayout(auction,penalty) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)\n\t\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\tState variables written after the call(s):\n\t- _initPayout(auction,penalty) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)\n\t\t- globalPayout = globalPayout.add(amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Low",
+            "line": 1044,
+            "message": "Staking.init(address,address,address,address,uint256)._mainToken (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1044) lacks a zero-check on :\n\t\t- mainToken = _mainToken (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1053)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Low",
+            "line": 1045,
+            "message": "Staking.init(address,address,address,address,uint256)._auction (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1045) lacks a zero-check on :\n\t\t- auction = _auction (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1054)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Low",
+            "line": 1046,
+            "message": "Staking.init(address,address,address,address,uint256)._subBalances (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1046) lacks a zero-check on :\n\t\t- subBalances = _subBalances (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1055)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "externalStake",
+            "impact": "Low",
+            "line": 1106,
+            "line_end": 1142,
+            "message": "Reentrancy in Staking.externalStake(uint256,uint256,address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tState variables written after the call(s):\n\t- _sessionsIds = _sessionsIds.add(1) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1118)\n\t- sessionDataOf[staker][sessionId] = Session(amount,start,end,shares,payouts.length) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1123-1129)\n\t- sessionsOf[staker].push(sessionId) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1131)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "makePayout",
+            "impact": "Low",
+            "line": 1318,
+            "line_end": 1330,
+            "message": "Reentrancy in Staking.makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330):\n\tExternal calls:\n\t- payout = _getPayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1321)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tState variables written after the call(s):\n\t- payouts.push(Payout(payout,sharesTotalSupply)) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1323-1325)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_initPayout",
+            "impact": "Low",
+            "line": 1144,
+            "line_end": 1147,
+            "message": "Reentrancy in Staking._initPayout(address,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1144-1147):\n\tExternal calls:\n\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\tState variables written after the call(s):\n\t- globalPayout = globalPayout.add(amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1146)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Low",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Reentrancy in Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tState variables written after the call(s):\n\t- sessionDataOf[msg.sender][sessionId].shares = 0 (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1200)\n\t- _updateShareRate(msg.sender,shares,stakingInterest,sessionId) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1227)\n\t\t- shareRate = newShareRate (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1186)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 1071,
+            "line_end": 1104,
+            "message": "Reentrancy in Staking.stake(uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- IToken(mainToken).burn(msg.sender,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1079)\n\tState variables written after the call(s):\n\t- _sessionsIds = _sessionsIds.add(1) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1080)\n\t- sessionDataOf[msg.sender][sessionId] = Session(amount,start,end,shares,payouts.length) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1085-1091)\n\t- sessionsOf[msg.sender].push(sessionId) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1093)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Low",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Reentrancy in Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- _initPayout(auction,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1206)\n\t\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\t- IAuction(auction).callIncomeDailyTokensTrigger(amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1207)\n\tEvent emitted after the call(s):\n\t- Unstake(msg.sender,sessionId,amount,sessionDataOf[msg.sender][sessionId].start,sessionDataOf[msg.sender][sessionId].end,shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1209-1216)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 1071,
+            "line_end": 1104,
+            "message": "Reentrancy in Staking.stake(uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- IToken(mainToken).burn(msg.sender,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1079)\n\t- ISubBalances(subBalances).callIncomeStakerTrigger(msg.sender,sessionId,start,end,shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1095-1101)\n\tEvent emitted after the call(s):\n\t- Stake(msg.sender,sessionId,amount,start,end,shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1103)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "externalStake",
+            "impact": "Low",
+            "line": 1106,
+            "line_end": 1142,
+            "message": "Reentrancy in Staking.externalStake(uint256,uint256,address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- ISubBalances(subBalances).callIncomeStakerTrigger(staker,sessionId,start,end,shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1133-1139)\n\tEvent emitted after the call(s):\n\t- Stake(staker,sessionId,amount,start,end,shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1141)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Low",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Reentrancy in Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259):\n\tExternal calls:\n\t- makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\t- _initPayout(auction,penalty) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1237)\n\t\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\t- IAuction(auction).callIncomeDailyTokensTrigger(penalty) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1238)\n\t- _initPayout(msg.sender,amountOut) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1241)\n\t\t- IToken(mainToken).mint(to,amount) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1145)\n\tEvent emitted after the call(s):\n\t- Unstake(msg.sender,sessionId,amountOut,sessionDataOf[msg.sender][sessionId].start,sessionDataOf[msg.sender][sessionId].end,shares) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1243-1250)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "makePayout",
+            "impact": "Low",
+            "line": 1318,
+            "line_end": 1330,
+            "message": "Reentrancy in Staking.makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330):\n\tExternal calls:\n\t- payout = _getPayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1321)\n\t\t- IToken(mainToken).burn(address(this),amountTokenInDay) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1363)\n\tEvent emitted after the call(s):\n\t- MakePayout(payout,sharesTotalSupply,now) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1329)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "calculateStakingInterest",
+            "impact": "Low",
+            "line": 1149,
+            "line_end": 1169,
+            "message": "Staking.calculateStakingInterest(uint256,address,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1149-1169) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- i < payouts.length (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1158)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "externalStake",
+            "impact": "Low",
+            "line": 1106,
+            "line_end": 1142,
+            "message": "Staking.externalStake(uint256,uint256,address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1106-1142) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now >= nextPayoutCall (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1111)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_updateShareRate",
+            "impact": "Low",
+            "line": 1171,
+            "line_end": 1188,
+            "message": "Staking._updateShareRate(address,uint256,uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1171-1188) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- newShareRate > shareRate (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1185)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "getAmountOutAndPenalty",
+            "impact": "Low",
+            "line": 1261,
+            "line_end": 1316,
+            "message": "Staking.getAmountOutAndPenalty(uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1261-1316) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- stakingDays > daysStaked (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1283)\n\t- stakingDays <= daysStaked && daysStaked < stakingDays.add(14) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1293)\n\t- stakingDays.add(14) <= daysStaked && daysStaked < stakingDays.add(714) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1298-1299)\n\t- stakingDays.add(714) <= daysStaked (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1311)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_getPayout",
+            "impact": "Low",
+            "line": 1346,
+            "line_end": 1372,
+            "message": "Staking._getPayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1346-1372) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- globalPayin > globalPayout (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1351)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 1071,
+            "line_end": 1104,
+            "message": "Staking.stake(uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1071-1104) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now >= nextPayoutCall (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1072)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "unstake",
+            "impact": "Low",
+            "line": 1190,
+            "line_end": 1259,
+            "message": "Staking.unstake(uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1190-1259) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now >= nextPayoutCall (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1191)\n\t- sessionDataOf[msg.sender][sessionId].nextPayout >= payouts.length (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1202)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "makePayout",
+            "impact": "Low",
+            "line": 1318,
+            "line_end": 1330,
+            "message": "Staking.makePayout() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1318-1330) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now >= nextPayoutCall,NativeSwap: Wrong payout time) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1319)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 354,
+            "line_end": 363,
+            "message": "Address.isContract(address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#354-363) uses assembly\n\t- INLINE ASM (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#361)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "checkRole",
+            "impact": "Informational",
+            "line": 661,
+            "line_end": 667,
+            "message": "AccessControl.checkRole() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#661-667) uses assembly\n\t- INLINE ASM (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#662-666)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 447,
+            "line_end": 468,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#447-468) uses assembly\n\t- INLINE ASM (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#460-463)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_setRoleAdmin",
+            "impact": "Informational",
+            "line": 714,
+            "line_end": 717,
+            "message": "AccessControl._setRoleAdmin(bytes32,bytes32) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#714-717) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 381,
+            "line_end": 387,
+            "message": "Address.sendValue(address,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#381-387) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 432,
+            "line_end": 434,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#432-434) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 294,
+            "line_end": 296,
+            "message": "EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#294-296) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 301,
+            "line_end": 303,
+            "message": "EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#301-303) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 888,
+            "line_end": 891,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#888-891) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 442,
+            "line_end": 445,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#442-445) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 492,
+            "line_end": 495,
+            "message": "Context._msgData() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#492-495) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 872,
+            "line_end": 874,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#872-874) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 308,
+            "line_end": 310,
+            "message": "EnumerableSet.length(EnumerableSet.UintSet) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#308-310) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 447,
+            "line_end": 468,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#447-468) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 322,
+            "line_end": 324,
+            "message": "EnumerableSet.at(EnumerableSet.UintSet,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#322-324) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 354,
+            "line_end": 363,
+            "message": "Address.isContract(address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#354-363) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 417,
+            "line_end": 419,
+            "message": "Address.functionCall(address,bytes,string) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#417-419) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 284,
+            "line_end": 286,
+            "message": "EnumerableSet.add(EnumerableSet.UintSet,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#284-286) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 407,
+            "line_end": 409,
+            "message": "Address.functionCall(address,bytes) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#407-409) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 381,
+            "line_end": 387,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#381-387):\n\t- (success) = recipient.call{value: amount}() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#385)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 447,
+            "line_end": 468,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#447-468):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#451)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Informational",
+            "line": 1045,
+            "message": "Parameter Staking.init(address,address,address,address,uint256)._auction (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1045) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Informational",
+            "line": 1044,
+            "message": "Parameter Staking.init(address,address,address,address,uint256)._mainToken (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1044) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Informational",
+            "line": 1047,
+            "message": "Parameter Staking.init(address,address,address,address,uint256)._foreignSwap (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1047) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Informational",
+            "line": 1048,
+            "message": "Parameter Staking.init(address,address,address,address,uint256)._stepTimestamp (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1048) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Informational",
+            "line": 1046,
+            "message": "Parameter Staking.init(address,address,address,address,uint256)._subBalances (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#1046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "impact": "Informational",
+            "line": 493,
+            "message": "Redundant expression \"this (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#493)\" inContext (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#487-496)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "checkRole",
+            "impact": "Optimization",
+            "line": 661,
+            "line_end": 667,
+            "message": "checkRole() should be declared external:\n\t- AccessControl.checkRole() (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#661-667)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "getRoleMemberCount",
+            "impact": "Optimization",
+            "line": 593,
+            "line_end": 595,
+            "message": "getRoleMemberCount(bytes32) should be declared external:\n\t- AccessControl.getRoleMemberCount(bytes32) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#593-595)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "grantRole",
+            "impact": "Optimization",
+            "line": 633,
+            "line_end": 637,
+            "message": "grantRole(bytes32,address) should be declared external:\n\t- AccessControl.grantRole(bytes32,address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#633-637)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "getRoleMember",
+            "impact": "Optimization",
+            "line": 609,
+            "line_end": 611,
+            "message": "getRoleMember(bytes32,uint256) should be declared external:\n\t- AccessControl.getRoleMember(bytes32,uint256) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#609-611)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "revokeRole",
+            "impact": "Optimization",
+            "line": 648,
+            "line_end": 652,
+            "message": "revokeRole(bytes32,address) should be declared external:\n\t- AccessControl.revokeRole(bytes32,address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#648-652)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "renounceRole",
+            "impact": "Optimization",
+            "line": 683,
+            "line_end": 687,
+            "message": "renounceRole(bytes32,address) should be declared external:\n\t- AccessControl.renounceRole(bytes32,address) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#683-687)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol",
+            "function": "getRoleAdmin",
+            "impact": "Optimization",
+            "line": 619,
+            "line_end": 621,
+            "message": "getRoleAdmin(bytes32) should be declared external:\n\t- AccessControl.getRoleAdmin(bytes32) (../..0xcd5f8dcae34f889e3d9f93f0d281c2d920c46a3e.sol#619-621)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

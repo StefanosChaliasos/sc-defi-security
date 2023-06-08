@@ -1,0 +1,1467 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_35"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "collectProtocolFees",
+            "impact": "High",
+            "line": 2697,
+            "line_end": 2722,
+            "message": "Reentrancy in SorbettoFragola.collectProtocolFees(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2697-2722):\n\tExternal calls:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2715)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2700)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tExternal calls sending eth:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\tState variables written after the call(s):\n\t- accruedProtocolFees0 = accruedProtocolFees0.sub(amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2719)\n\t- accruedProtocolFees1 = accruedProtocolFees1.sub(amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2720)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "collectFees",
+            "impact": "High",
+            "line": 2727,
+            "line_end": 2749,
+            "message": "Reentrancy in SorbettoFragola.collectFees(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727-2749):\n\tExternal calls:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- (amount0,amount1) = pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2744)\n\t- updateVault(msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tExternal calls sending eth:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\tState variables written after the call(s):\n\t- user.token0Rewards = user.token0Rewards.sub(amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2746)\n\t- user.token1Rewards = user.token1Rewards.sub(amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2747)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "pay",
+            "impact": "High",
+            "line": 2674,
+            "line_end": 2691,
+            "message": "SorbettoFragola.pay(address,address,address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2674-2691) ignores return value by IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-denominator = denominator / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)\n\t-inv *= 2 - denominator * inv (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1870)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-denominator = denominator / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)\n\t-inv *= 2 - denominator * inv (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1874)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-denominator = denominator / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)\n\t-inv *= 2 - denominator * inv (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1872)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-denominator = denominator / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)\n\t-inv *= 2 - denominator * inv (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1873)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "floor",
+            "impact": "Medium",
+            "line": 642,
+            "line_end": 646,
+            "message": "PoolVariables.floor(int24,int24) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#642-646) performs a multiplication on the result of a division:\n\t-compressed = tick / tickSpacing (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#643)\n\t-compressed * tickSpacing (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#645)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-prod0 = prod0 / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1851)\n\t-result = prod0 * inv (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1883)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-denominator = denominator / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)\n\t-inv *= 2 - denominator * inv (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1875)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-denominator = denominator / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)\n\t-inv *= 2 - denominator * inv (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1871)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) performs a multiplication on the result of a division:\n\t-denominator = denominator / twos (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1846)\n\t-inv = (3 * denominator) ^ 2 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1866)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "_updateFeesReward",
+            "impact": "Medium",
+            "line": 2766,
+            "line_end": 2783,
+            "message": "SorbettoFragola._updateFeesReward(address) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2766-2783) uses a dangerous strict equality:\n\t- liquidity == 0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2768)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rerange",
+            "impact": "Medium",
+            "line": 2487,
+            "line_end": 2515,
+            "message": "Reentrancy in SorbettoFragola.rerange() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487-2515):\n\tExternal calls:\n\t- pool.burnAllLiquidity(tickLower,tickUpper) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2490)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tState variables written after the call(s):\n\t- (tickLower,tickUpper) = pool.getPositionTicks(balance0,balance1,baseThreshold,tickSpacing) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2501)\n\t- (tickLower,tickUpper) = pool.getPositionTicks(balance0,balance1,baseThreshold,tickSpacing) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2501)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 2463,
+            "line_end": 2484,
+            "message": "Reentrancy in SorbettoFragola.withdraw(uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2463-2484):\n\tExternal calls:\n\t- (amount0,amount1) = pool.burnLiquidityShare(tickLower,tickUpper,totalSupply(),shares,msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2479)\n\t- updateVault(msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2470)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,shares) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2482)\n\t\t- _balances[account] = _balances[account].sub(amount,BEB) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1610)\n\t- _burn(msg.sender,shares) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2482)\n\t\t- _totalSupply = _totalSupply.sub(amount) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1611)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 2427,
+            "line_end": 2460,
+            "message": "Reentrancy in SorbettoFragola.deposit(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2427-2460):\n\tExternal calls:\n\t- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(msg.sender))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2448-2453)\n\t- updateVault(msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2436)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,shares) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2457)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1590)\n\t- _mint(msg.sender,shares) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2457)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1589)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rebalance",
+            "impact": "Medium",
+            "line": 2518,
+            "line_end": 2580,
+            "message": "Reentrancy in SorbettoFragola.rebalance() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):\n\tExternal calls:\n\t- pool.burnAllLiquidity(tickLower,tickUpper) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)\n\t- pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tState variables written after the call(s):\n\t- (tickLower,tickUpper) = pool.getPositionTicks(cache.amount0Desired,cache.amount1Desired,baseThreshold,tickSpacing) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2568)\n\t- (tickLower,tickUpper) = pool.getPositionTicks(cache.amount0Desired,cache.amount1Desired,baseThreshold,tickSpacing) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2568)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Medium",
+            "line": 2087,
+            "message": "SqrtPriceMath.getNextSqrtPriceFromAmount0RoundingUp(uint160,uint128,uint256,bool).product_scope_0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2087) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Medium",
+            "line": 2077,
+            "message": "SqrtPriceMath.getNextSqrtPriceFromAmount0RoundingUp(uint160,uint128,uint256,bool).product (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2077) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "burnAllLiquidity",
+            "impact": "Medium",
+            "line": 1017,
+            "line_end": 1037,
+            "message": "PoolActions.burnAllLiquidity(IUniswapV3Pool,int24,int24) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1017-1037) ignores return value by pool.burn(tickLower,tickUpper,liquidity) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1026)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "collectProtocolFees",
+            "impact": "Medium",
+            "line": 2697,
+            "line_end": 2722,
+            "message": "SorbettoFragola.collectProtocolFees(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2697-2722) ignores return value by pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2715)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "_earnFees",
+            "impact": "Medium",
+            "line": 2604,
+            "line_end": 2627,
+            "message": "SorbettoFragola._earnFees() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604-2627) ignores return value by pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rebalance",
+            "impact": "Medium",
+            "line": 2518,
+            "line_end": 2580,
+            "message": "SorbettoFragola.rebalance() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580) ignores return value by pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "burnAllLiquidity",
+            "impact": "Medium",
+            "line": 1017,
+            "line_end": 1037,
+            "message": "PoolActions.burnAllLiquidity(IUniswapV3Pool,int24,int24) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1017-1037) ignores return value by pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1030-1036)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Medium",
+            "line": 994,
+            "message": "PoolActions.burnExactLiquidity(IUniswapV3Pool,int24,int24,uint128,address).amount0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#994) is written in both\n\t(amount0,amount0) = pool.collect(to,tickLower,tickUpper,amount0.toUint128(),amount1.toUint128()) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1001-1007)\n\t(amount0,amount0) = pool.collect(to,tickLower,tickUpper,amount0.toUint128(),amount1.toUint128()) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1001-1007)\n",
+            "name": "write-after-write"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1689,
+            "message": "ERC20Permit.constructor(string).name (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1689) shadows:\n\t- ERC20.name() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1420-1422) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Low",
+            "line": 2807,
+            "message": "SorbettoFragola._tokenPerShare(uint256,uint256)._totalSupply (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2807) shadows:\n\t- ERC20._totalSupply (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1396) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "setStrategy",
+            "impact": "Low",
+            "line": 2846,
+            "line_end": 2849,
+            "message": "SorbettoFragola.setStrategy(address) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2846-2849) should emit an event for: \n\t- strategy = _strategy (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2848) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Low",
+            "line": 2830,
+            "message": "SorbettoFragola.setGovernance(address)._governance (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2830) lacks a zero-check on :\n\t\t- pendingGovernance = _governance (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2831)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Low",
+            "line": 2404,
+            "message": "SorbettoFragola.constructor(address,address)._strategy (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2404) lacks a zero-check on :\n\t\t- strategy = _strategy (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2407)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "_updateFeesReward",
+            "impact": "Low",
+            "line": 2766,
+            "line_end": 2783,
+            "message": "Reentrancy in SorbettoFragola._updateFeesReward(address) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2766-2783):\n\tExternal calls:\n\t- (collect0,collect1) = _earnFees() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2769)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tState variables written after the call(s):\n\t- token0PerShareStored = _tokenPerShare(collect0,token0PerShareStored) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2772)\n\t- token1PerShareStored = _tokenPerShare(collect1,token1PerShareStored) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2773)\n\t- user.token0Rewards = _fee0Earned(account,token0PerShareStored) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2777)\n\t- user.token0PerSharePaid = token0PerShareStored (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2778)\n\t- user.token1Rewards = _fee1Earned(account,token1PerShareStored) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2780)\n\t- user.token1PerSharePaid = token1PerShareStored (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2781)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "_earnFees",
+            "impact": "Low",
+            "line": 2604,
+            "line_end": 2627,
+            "message": "Reentrancy in SorbettoFragola._earnFees() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604-2627):\n\tExternal calls:\n\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tState variables written after the call(s):\n\t- accruedProtocolFees0 = accruedProtocolFees0.add(feeToProtocol0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2620)\n\t- accruedProtocolFees1 = accruedProtocolFees1.add(feeToProtocol1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2621)\n\t- usersFees0 = usersFees0.add(userCollect0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2624)\n\t- usersFees1 = usersFees1.add(userCollect1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2625)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "_earnFees",
+            "impact": "Low",
+            "line": 2604,
+            "line_end": 2627,
+            "message": "Reentrancy in SorbettoFragola._earnFees() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604-2627):\n\tExternal calls:\n\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- CollectFees(collect0,collect1,usersFees0,usersFees1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2626)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rerange",
+            "impact": "Low",
+            "line": 2487,
+            "line_end": 2515,
+            "message": "Reentrancy in SorbettoFragola.rerange() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487-2515):\n\tExternal calls:\n\t- pool.burnAllLiquidity(tickLower,tickUpper) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2490)\n\t- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(address(this)))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2507-2512)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- Rerange(tickLower,tickUpper,amount0,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2514)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rebalance",
+            "impact": "Low",
+            "line": 2518,
+            "line_end": 2580,
+            "message": "Reentrancy in SorbettoFragola.rebalance() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):\n\tExternal calls:\n\t- pool.burnAllLiquidity(tickLower,tickUpper) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)\n\t- pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- Snapshot(cache.amount0Desired,cache.amount1Desired) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2566)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 2463,
+            "line_end": 2484,
+            "message": "Reentrancy in SorbettoFragola.withdraw(uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2463-2484):\n\tExternal calls:\n\t- (amount0,amount1) = pool.burnLiquidityShare(tickLower,tickUpper,totalSupply(),shares,msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2479)\n\t- updateVault(msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2470)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- Transfer(account,address(0),amount) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1612)\n\t\t- _burn(msg.sender,shares) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2482)\n\t- Withdraw(msg.sender,shares,amount0,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2483)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rerange",
+            "impact": "Low",
+            "line": 2487,
+            "line_end": 2515,
+            "message": "Reentrancy in SorbettoFragola.rerange() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487-2515):\n\tExternal calls:\n\t- pool.burnAllLiquidity(tickLower,tickUpper) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2490)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2487)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- Snapshot(balance0,balance1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2496)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "collectProtocolFees",
+            "impact": "Low",
+            "line": 2697,
+            "line_end": 2722,
+            "message": "Reentrancy in SorbettoFragola.collectProtocolFees(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2697-2722):\n\tExternal calls:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2715)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2700)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tExternal calls sending eth:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2709)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2710)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\tEvent emitted after the call(s):\n\t- RewardPaid(msg.sender,amount0,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2721)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rebalance",
+            "impact": "Low",
+            "line": 2518,
+            "line_end": 2580,
+            "message": "Reentrancy in SorbettoFragola.rebalance() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):\n\tExternal calls:\n\t- pool.burnAllLiquidity(tickLower,tickUpper) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)\n\t- pool.swap(address(this),zeroForOne,amountSpecified,sqrtPriceLimitX96,abi.encode(SwapCallbackData(zeroForOne))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2552-2558)\n\t- (cache.amount0,cache.amount1) = pool.mint(address(this),tickLower,tickUpper,cache.liquidity,abi.encode(MintCallbackData(address(this)))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2573-2578)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- Rerange(tickLower,tickUpper,cache.amount0,cache.amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2579)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 2427,
+            "line_end": 2460,
+            "message": "Reentrancy in SorbettoFragola.deposit(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2427-2460):\n\tExternal calls:\n\t- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(msg.sender))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2448-2453)\n\t- updateVault(msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2436)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1591)\n\t\t- _mint(msg.sender,shares) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2457)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 2427,
+            "line_end": 2460,
+            "message": "Reentrancy in SorbettoFragola.deposit(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2427-2460):\n\tExternal calls:\n\t- (amount0,amount1) = pool.mint(address(this),tickLower,tickUpper,liquidity,abi.encode(MintCallbackData(msg.sender))) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2448-2453)\n\t- refundETH() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2458)\n\t\t- (success) = to.call{value: value}(new bytes(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2178)\n\t\t- TransferHelper.safeTransferETH(msg.sender,address(this).balance) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2823)\n\t- updateVault(msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2436)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tExternal calls sending eth:\n\t- refundETH() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2458)\n\t\t- (success) = to.call{value: value}(new bytes(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2178)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,shares,amount0,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2459)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "rebalance",
+            "impact": "Low",
+            "line": 2518,
+            "line_end": 2580,
+            "message": "Reentrancy in SorbettoFragola.rebalance() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518-2580):\n\tExternal calls:\n\t- pool.burnAllLiquidity(tickLower,tickUpper) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2521)\n\t- updateVault(address(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2518)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tEvent emitted after the call(s):\n\t- Snapshot(cache.amount0Desired,cache.amount1Desired) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2532)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "collectFees",
+            "impact": "Low",
+            "line": 2727,
+            "line_end": 2749,
+            "message": "Reentrancy in SorbettoFragola.collectFees(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727-2749):\n\tExternal calls:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t\t- IWETH9(weth).transfer(recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2683)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n\t\t- TransferHelper.safeTransfer(token,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2686)\n\t\t- TransferHelper.safeTransferFrom(token,payer,recipient,value) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2689)\n\t- (amount0,amount1) = pool.burnExactLiquidity(tickLower,tickUpper,liquidity,msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2744)\n\t- updateVault(msg.sender) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2727)\n\t\t- pool.burn(tickLower,tickUpper,0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2606)\n\t\t- (collect0,collect1) = pool.collect(address(this),tickLower,tickUpper,type()(uint128).max,type()(uint128).max) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2608-2615)\n\tExternal calls sending eth:\n\t- pay(token0,address(this),msg.sender,amount0) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2738)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\t- pay(token1,address(this),msg.sender,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2739)\n\t\t- IWETH9(weth).deposit{value: value}() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2682)\n\tEvent emitted after the call(s):\n\t- RewardPaid(msg.sender,amount0,amount1) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2748)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 1695,
+            "line_end": 1716,
+            "message": "ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1695-1716) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp <= deadline,ED) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1697)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "getTickAtSqrtRatio",
+            "impact": "Informational",
+            "line": 238,
+            "line_end": 381,
+            "message": "TickMath.getTickAtSqrtRatio(uint160) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#238-381) uses assembly\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#246-250)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#251-255)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#256-260)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#261-265)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#266-270)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#271-275)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#276-280)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#281-284)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#291-296)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#297-302)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#303-308)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#309-314)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#315-320)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#321-326)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#327-332)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#333-338)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#339-344)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#345-350)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#351-356)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#357-362)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#363-368)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#369-373)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "get",
+            "impact": "Informational",
+            "line": 1132,
+            "line_end": 1136,
+            "message": "ChainId.get() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1132-1136) uses assembly\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1133-1135)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "divRoundingUp",
+            "impact": "Informational",
+            "line": 1763,
+            "line_end": 1767,
+            "message": "UnsafeMath.divRoundingUp(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1763-1767) uses assembly\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1764-1766)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "unsafeDiv",
+            "impact": "Informational",
+            "line": 1774,
+            "line_end": 1778,
+            "message": "UnsafeMath.unsafeDiv(uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1774-1778) uses assembly\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1775-1777)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mulDiv",
+            "impact": "Informational",
+            "line": 1793,
+            "line_end": 1885,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1793-1885) uses assembly\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1805-1809)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1814-1816)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1831-1833)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1835-1838)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1845-1847)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1850-1852)\n\t- INLINE ASM (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1856-1858)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "add128",
+            "impact": "Informational",
+            "line": 1997,
+            "line_end": 1999,
+            "message": "LowGasSafeMath.add128(uint128,uint128) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1997-1999) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 1981,
+            "line_end": 1983,
+            "message": "LowGasSafeMath.add(int256,int256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1981-1983) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "toInt256",
+            "impact": "Informational",
+            "line": 1934,
+            "line_end": 1937,
+            "message": "SafeCast.toInt256(uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1934-1937) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "sub128",
+            "impact": "Informational",
+            "line": 2005,
+            "line_end": 2007,
+            "message": "LowGasSafeMath.sub128(uint128,uint128) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2005-2007) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "mul128",
+            "impact": "Informational",
+            "line": 2013,
+            "line_end": 2015,
+            "message": "LowGasSafeMath.mul128(uint128,uint128) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2013-2015) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "toInt128",
+            "impact": "Informational",
+            "line": 1927,
+            "line_end": 1929,
+            "message": "SafeCast.toInt128(int256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1927-1929) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 1989,
+            "line_end": 1991,
+            "message": "LowGasSafeMath.sub(int256,int256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1989-1991) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 1643,
+            "line_end": 1645,
+            "message": "ERC20._setupDecimals(uint8) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1643-1645) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 1354,
+            "line_end": 1357,
+            "message": "Context._msgData() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1354-1357) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "positionAmounts",
+            "impact": "Informational",
+            "line": 599,
+            "line_end": 613,
+            "message": "PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#599-613) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 1047,
+            "line_end": 1089,
+            "message": "Babylonian.sqrt(uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 2148,
+            "line_end": 2157,
+            "message": "Low level call in TransferHelper.safeTransferFrom(address,address,address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2148-2157):\n\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transferFrom.selector,from,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2154-2155)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 2164,
+            "line_end": 2171,
+            "message": "Low level call in TransferHelper.safeTransfer(address,address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2164-2171):\n\t- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2169)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 2177,
+            "line_end": 2180,
+            "message": "Low level call in TransferHelper.safeTransferETH(address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2177-2180):\n\t- (success) = to.call{value: value}(new bytes(0)) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2178)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 692,
+            "message": "Parameter PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24)._tickLower (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2830,
+            "message": "Parameter SorbettoFragola.setGovernance(address)._governance (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2830) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 578,
+            "message": "Parameter PoolVariables.liquidityForAmounts(IUniswapV3Pool,uint256,uint256,int24,int24)._tickUpper (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#578) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 620,
+            "message": "Parameter PoolVariables.positionLiquidity(IUniswapV3Pool,int24,int24)._tickUpper (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#620) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 552,
+            "message": "Parameter PoolVariables.amountsForLiquidity(IUniswapV3Pool,uint128,int24,int24)._tickLower (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#552) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2846,
+            "message": "Parameter SorbettoFragola.setStrategy(address)._strategy (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2846) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 599,
+            "message": "Parameter PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24)._tickLower (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#599) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 1218,
+            "message": "Variable EIP712._TYPE_HASH (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1218) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 599,
+            "message": "Parameter PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24)._tickUpper (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#599) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 620,
+            "message": "Parameter PoolVariables.positionLiquidity(IUniswapV3Pool,int24,int24)._tickLower (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#620) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2367,
+            "message": "Variable SorbettoFragola.GLOBAL_DIVISIONER (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2367) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 1682,
+            "message": "Variable ERC20Permit._PERMIT_TYPEHASH (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1682) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 1334,
+            "message": "Function IERC20Permit.DOMAIN_SEPARATOR() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1334) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2659,
+            "message": "Parameter SorbettoFragola.uniswapV3SwapCallback(int256,int256,bytes)._data (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2659) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 1214,
+            "message": "Variable EIP712._CACHED_CHAIN_ID (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1214) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 577,
+            "message": "Parameter PoolVariables.liquidityForAmounts(IUniswapV3Pool,uint256,uint256,int24,int24)._tickLower (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#577) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 1729,
+            "line_end": 1731,
+            "message": "Function ERC20Permit.DOMAIN_SEPARATOR() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1729-1731) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 692,
+            "message": "Parameter PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24)._tickUpper (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 553,
+            "message": "Parameter PoolVariables.amountsForLiquidity(IUniswapV3Pool,uint128,int24,int24)._tickUpper (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#553) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 1216,
+            "message": "Variable EIP712._HASHED_NAME (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1216) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 1213,
+            "message": "Variable EIP712._CACHED_DOMAIN_SEPARATOR (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1213) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 1217,
+            "message": "Variable EIP712._HASHED_VERSION (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1217) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 1355,
+            "message": "Redundant expression \"this (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1355)\" inContext (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1349-1358)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 464,
+            "message": "Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 117,
+            "message": "Variable ISorbettoFragola.deposit(uint256,uint256).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117) is too similar to SorbettoFragola.deposit(uint256,uint256).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2429)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 780,
+            "message": "Variable IUniswapV3PoolActions.collect(address,int24,int24,uint128,uint128).amount0Requested (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#780) is too similar to IUniswapV3PoolActions.collect(address,int24,int24,uint128,uint128).amount1Requested (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#781)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 713,
+            "message": "Variable PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713) is too similar to PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 671,
+            "message": "Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).nextSqrtPrice0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#671) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).nextSqrtPrice1 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#675)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2630,
+            "message": "Variable SorbettoFragola.position().feeGrowthInside0LastX128 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630) is too similar to SorbettoFragola.position().feeGrowthInside1LastX128 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 421,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 421,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2604,
+            "message": "Variable SorbettoFragola._earnFees().userCollect0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604) is too similar to SorbettoFragola._earnFees().userCollect1 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2604)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 713,
+            "message": "Variable PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2618,
+            "message": "Variable SorbettoFragola._earnFees().feeToProtocol0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2618) is too similar to SorbettoFragola._earnFees().feeToProtocol1 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2619)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 484,
+            "message": "Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 656,
+            "message": "Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656) is too similar to PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2428,
+            "message": "Variable SorbettoFragola.deposit(uint256,uint256).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2428) is too similar to ISorbettoFragola.deposit(uint256,uint256).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 885,
+            "message": "Variable IUniswapV3PoolState.positions(bytes32).tokensOwed0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#885) is too similar to IUniswapV3PoolState.positions(bytes32).tokensOwed1 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#886)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 883,
+            "message": "Variable IUniswapV3PoolState.positions(bytes32).feeGrowthInside0LastX128 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#883) is too similar to IUniswapV3PoolState.positions(bytes32).feeGrowthInside1LastX128 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#884)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 464,
+            "message": "Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 464,
+            "message": "Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 713,
+            "message": "Variable PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713) is too similar to PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 692,
+            "message": "Variable PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is too similar to PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2630,
+            "message": "Variable SorbettoFragola.position().tokensOwed0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630) is too similar to SorbettoFragola.position().tokensOwed1 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2630)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 421,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 421,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 464,
+            "message": "Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 692,
+            "message": "Variable PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is too similar to PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 117,
+            "message": "Variable ISorbettoFragola.deposit(uint256,uint256).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117) is too similar to ISorbettoFragola.deposit(uint256,uint256).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#117)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 484,
+            "message": "Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 464,
+            "message": "Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 484,
+            "message": "Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 692,
+            "message": "Variable PoolVariables.amountsForTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#692) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 484,
+            "message": "Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 484,
+            "message": "Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 421,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 607,
+            "message": "Variable PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24).tokensOwed0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#607) is too similar to PoolVariables.positionAmounts(IUniswapV3Pool,int24,int24).tokensOwed1 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#607)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Variable LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#503) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 421,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#421) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2372,
+            "message": "Variable SorbettoFragola.accruedProtocolFees0 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2372) is too similar to SorbettoFragola.accruedProtocolFees1 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2374)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2380,
+            "message": "Variable SorbettoFragola.token0PerShareStored (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2380) is too similar to SorbettoFragola.token1PerShareStored (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2382)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#440)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2786,
+            "message": "Variable SorbettoFragola._fee0Earned(address,uint256).fee0PerShare_ (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2786) is too similar to SorbettoFragola._fee1Earned(address,uint256).fee1PerShare_ (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2796)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 656,
+            "message": "Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656) is too similar to PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 484,
+            "message": "Variable LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#484) is too similar to LiquidityAmounts.getLiquidityForAmount1(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#422)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 405,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#405) is too similar to LiquidityAmounts.getLiquidityForAmount0(uint160,uint160,uint256).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#406)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getAmount1ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#485)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 464,
+            "message": "Variable LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#464) is too similar to LiquidityAmounts.getAmount0ForLiquidity(uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#465)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 656,
+            "message": "Variable PoolVariables.getPositionTicks(IUniswapV3Pool,uint256,uint256,int24,int24).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#656) is too similar to PoolVariables.amountsDirection(uint256,uint256,uint256,uint256).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#713)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 2428,
+            "message": "Variable SorbettoFragola.deposit(uint256,uint256).amount0Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2428) is too similar to SorbettoFragola.deposit(uint256,uint256).amount1Desired (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#2429)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Variable LiquidityAmounts.getLiquidityForAmounts(uint160,uint160,uint160,uint256,uint256).sqrtRatioAX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#439) is too similar to LiquidityAmounts.getAmountsForLiquidity(uint160,uint160,uint160,uint128).sqrtRatioBX96 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#504)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 1748,
+            "line_end": 1751,
+            "message": "FixedPoint96.slitherConstructorConstantVariables() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1748-1751) uses literals with too many digits:\n\t- Q96 = 0x1000000000000000000000000 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1750)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "getSqrtRatioAtTick",
+            "impact": "Informational",
+            "line": 200,
+            "line_end": 231,
+            "message": "TickMath.getSqrtRatioAtTick(int24) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#200-231) uses literals with too many digits:\n\t- ratio = 0x100000000000000000000000000000000 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#204)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 1047,
+            "line_end": 1089,
+            "message": "Babylonian.sqrt(uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) uses literals with too many digits:\n\t- xx >= 0x100000000000000000000000000000000 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1053)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 1047,
+            "line_end": 1089,
+            "message": "Babylonian.sqrt(uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) uses literals with too many digits:\n\t- xx >= 0x100000000 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1061)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 1047,
+            "line_end": 1089,
+            "message": "Babylonian.sqrt(uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1047-1089) uses literals with too many digits:\n\t- xx >= 0x10000000000000000 (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1057)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 1508,
+            "line_end": 1512,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1508-1512)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "permit",
+            "impact": "Optimization",
+            "line": 1695,
+            "line_end": 1716,
+            "message": "permit(address,address,uint256,uint256,uint8,bytes32,bytes32) should be declared external:\n\t- ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1695-1716)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 1445,
+            "line_end": 1447,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1445-1447)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 1545,
+            "line_end": 1548,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1545-1548)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 1428,
+            "line_end": 1430,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1428-1430)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 1471,
+            "line_end": 1474,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1471-1474)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 1526,
+            "line_end": 1529,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1526-1529)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "nonces",
+            "impact": "Optimization",
+            "line": 1721,
+            "line_end": 1723,
+            "message": "nonces(address) should be declared external:\n\t- ERC20Permit.nonces(address) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1721-1723)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 1420,
+            "line_end": 1422,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1420-1422)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 1490,
+            "line_end": 1493,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1490-1493)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 1479,
+            "line_end": 1481,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0xd63b340f6e9cccf0c997c83c8d036fa53b113546.sol#1479-1481)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

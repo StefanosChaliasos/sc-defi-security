@@ -1,0 +1,245 @@
+{
+    "errors": [
+        "EXIT_CODE_25"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "_update",
+            "impact": "High",
+            "line": 366,
+            "line_end": 379,
+            "message": "PancakePair._update(uint256,uint256,uint112,uint112) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#366-379) uses a weak PRNG: \"blockTimestamp = uint32(block.timestamp % 2 ** 32) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#368)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "mint",
+            "impact": "Medium",
+            "line": 403,
+            "line_end": 424,
+            "message": "PancakePair.mint(address) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#403-424) uses a dangerous strict equality:\n\t- _totalSupply == 0 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#412)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "_safeTransfer",
+            "impact": "Medium",
+            "line": 337,
+            "line_end": 340,
+            "message": "PancakePair._safeTransfer(address,address,uint256) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#337-340) uses a dangerous strict equality:\n\t- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),Pancake: TRANSFER_FAILED) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#339)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 427,
+            "line_end": 449,
+            "message": "Reentrancy in PancakePair.burn(address) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#427-449):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#441)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- _safeTransfer(_token1,to,amount1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#442)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#446)\n\t\t- blockTimestampLast = blockTimestamp (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#377)\n\t- kLast = uint256(reserve0).mul(reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#447)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#446)\n\t\t- reserve0 = uint112(balance0) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#375)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#446)\n\t\t- reserve1 = uint112(balance1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#376)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 452,
+            "line_end": 480,
+            "message": "Reentrancy in PancakePair.swap(uint256,uint256,address,bytes) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#452-480):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#463)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#464)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- IPancakeCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#465)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#478)\n\t\t- blockTimestampLast = blockTimestamp (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#377)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#478)\n\t\t- reserve0 = uint112(balance0) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#375)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#478)\n\t\t- reserve1 = uint112(balance1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#376)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "impact": "Low",
+            "line": 359,
+            "message": "PancakePair.initialize(address,address)._token0 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#359) lacks a zero-check on :\n\t\t- token0 = _token0 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#361)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "impact": "Low",
+            "line": 359,
+            "message": "PancakePair.initialize(address,address)._token1 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#359) lacks a zero-check on :\n\t\t- token1 = _token1 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#362)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 427,
+            "line_end": 449,
+            "message": "Reentrancy in PancakePair.burn(address) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#427-449):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#441)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- _safeTransfer(_token1,to,amount1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#442)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#446)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#372)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#446)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#373)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 452,
+            "line_end": 480,
+            "message": "Reentrancy in PancakePair.swap(uint256,uint256,address,bytes) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#452-480):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#463)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#464)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- IPancakeCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#465)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#478)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#372)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#478)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#373)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 452,
+            "line_end": 480,
+            "message": "Reentrancy in PancakePair.swap(uint256,uint256,address,bytes) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#452-480):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#463)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#464)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- IPancakeCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#465)\n\tEvent emitted after the call(s):\n\t- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#479)\n\t- Sync(reserve0,reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#378)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#478)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 427,
+            "line_end": 449,
+            "message": "Reentrancy in PancakePair.burn(address) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#427-449):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#441)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\t- _safeTransfer(_token1,to,amount1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#442)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,amount0,amount1,to) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#448)\n\t- Sync(reserve0,reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#378)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#446)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 182,
+            "line_end": 194,
+            "message": "PancakeERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#182-194) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,Pancake: EXPIRED) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#183)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "_update",
+            "impact": "Low",
+            "line": 366,
+            "line_end": 379,
+            "message": "PancakePair._update(uint256,uint256,uint112,uint112) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#366-379) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#370)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 125,
+            "line_end": 139,
+            "message": "PancakeERC20.constructor() (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#125-139) uses assembly\n\t- INLINE ASM (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#127-129)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "_safeTransfer",
+            "impact": "Informational",
+            "line": 337,
+            "line_end": 340,
+            "message": "Low level call in PancakePair._safeTransfer(address,address,uint256) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#337-340):\n\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#338)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Function IPancakeERC20.PERMIT_TYPEHASH() (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "impact": "Informational",
+            "line": 359,
+            "message": "Parameter PancakePair.initialize(address,address)._token0 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#359) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "impact": "Informational",
+            "line": 359,
+            "message": "Parameter PancakePair.initialize(address,address)._token1 (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#359) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "impact": "Informational",
+            "line": 117,
+            "message": "Variable PancakeERC20.DOMAIN_SEPARATOR (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#117) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 38,
+            "message": "Function IPancakePair.MINIMUM_LIQUIDITY() (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#38) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 21,
+            "message": "Function IPancakePair.PERMIT_TYPEHASH() (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#21) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 75,
+            "message": "Function IPancakeERC20.DOMAIN_SEPARATOR() (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#75) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 20,
+            "message": "Function IPancakePair.DOMAIN_SEPARATOR() (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#20) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "impact": "Informational",
+            "line": 473,
+            "message": "Variable PancakePair.swap(uint256,uint256,address,bytes).balance0Adjusted (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#473) is too similar to PancakePair.swap(uint256,uint256,address,bytes).balance1Adjusted (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#474)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol",
+            "impact": "Informational",
+            "line": 319,
+            "message": "Variable PancakePair.price0CumulativeLast (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#319) is too similar to PancakePair.price1CumulativeLast (../..0xb3e708a6d1221ed7c58b88622fdbee2c03e4db4d.sol#320)\n",
+            "name": "similar-names"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

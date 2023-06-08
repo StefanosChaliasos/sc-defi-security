@@ -1,0 +1,121 @@
+[91m
+Reentrancy in Bank.work(uint256,address,uint256,uint256,bytes) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#784-824):
+	External calls:
+	- Goblin(goblin).work.value(sendETH)(id,msg.sender,debt,data) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#809)
+	State variables written after the call(s):
+	- _addDebt(id,debt) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)
+		- glbDebtShare = glbDebtShare.add(debtShare) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#854)
+	- _addDebt(id,debt) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)
+		- glbDebtVal = glbDebtVal.add(debtVal) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#855)
+	- _addDebt(id,debt) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)
+		- pos.debtShare = pos.debtShare.add(debtShare) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#853)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+Bank.debtShareToVal(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#740-743) uses a dangerous strict equality:
+	- glbDebtShare == 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#741)
+Bank.debtValToShare(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#747-750) uses a dangerous strict equality:
+	- glbDebtShare == 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#748)
+Bank.deposit() (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#765-769) uses a dangerous strict equality:
+	- total == 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#767)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[92m
+Bank.withdrawReserve(address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#884-887) should emit an event for: 
+	- reservePool = reservePool.sub(value) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#885) 
+Bank.reduceReserve(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#891-893) should emit an event for: 
+	- reservePool = reservePool.sub(value) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#892) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+Reentrancy in Bank.kill(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#828-847):
+	External calls:
+	- Goblin(pos.goblin).liquidate(id) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#838)
+	- SafeToken.safeTransferETH(msg.sender,prize) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#843)
+	- SafeToken.safeTransferETH(pos.owner,left) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#845)
+	Event emitted after the call(s):
+	- Kill(id,msg.sender,prize,left) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#846)
+Reentrancy in Bank.work(uint256,address,uint256,uint256,bytes) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#784-824):
+	External calls:
+	- Goblin(goblin).work.value(sendETH)(id,msg.sender,debt,data) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#809)
+	Event emitted after the call(s):
+	- AddDebt(id,debtShare) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#856)
+		- _addDebt(id,debt) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Bank.pendingInterest(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#727-736) uses timestamp for comparisons
+	Dangerous comparisons:
+	- now > lastAccrueTime (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#728)
+Bank.debtShareToVal(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#740-743) uses timestamp for comparisons
+	Dangerous comparisons:
+	- glbDebtShare == 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#741)
+Bank.debtValToShare(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#747-750) uses timestamp for comparisons
+	Dangerous comparisons:
+	- glbDebtShare == 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#748)
+Bank.deposit() (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#765-769) uses timestamp for comparisons
+	Dangerous comparisons:
+	- total == 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#767)
+Bank.work(uint256,address,uint256,uint256,bytes) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#784-824) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(positions[id].goblin == goblin,bad position goblin) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#795)
+	- require(bool,string)(positions[id].owner == msg.sender,not position owner) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#796)
+	- debt > 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#815)
+	- require(bool,string)(debt >= config.minDebtSize(),too small debt size) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#816)
+	- require(bool,string)(health.mul(workFactor) >= debt.mul(10000),bad work factor) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#819)
+	- back > lessDebt (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#823)
+Bank.kill(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#828-847) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(health.mul(killFactor) < debt.mul(10000),can't liquidate) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#835)
+	- left > 0 (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#845)
+	- rest > debt (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#844)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+ERC20._burnFrom(address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#492-495) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#524-527) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#509-511) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#262-265) is never used and should be removed
+SafeToken.balanceOf(address,address) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#632-634) is never used and should be removed
+SafeToken.myBalance(address) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#628-630) is never used and should be removed
+SafeToken.safeApprove(address,address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#636-640) is never used and should be removed
+SafeToken.safeTransferFrom(address,address,address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#648-652) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in SafeToken.safeApprove(address,address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#636-640):
+	- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#638)
+Low level call in SafeToken.safeTransfer(address,address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#642-646):
+	- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#644)
+Low level call in SafeToken.safeTransferFrom(address,address,address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#648-652):
+	- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#650)
+Low level call in SafeToken.safeTransferETH(address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#654-657):
+	- (success) = to.call.value(value)(new bytes(0)) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#655)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter Bank.updateConfig(BankConfig)._config (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#877) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Bank.decimals (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#685) should be constant
+Bank.name (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#683) should be constant
+Bank.symbol (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#684) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#30-32)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#56-59)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#65-67)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#316-318)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#328-331)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#336-338)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#347-350)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#364-368)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#382-385)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#401-404)
+positionInfo(uint256) should be declared external:
+	- Bank.positionInfo(uint256) (../../sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#754-757)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol analyzed (11 contracts with 78 detectors), 41 result(s) found

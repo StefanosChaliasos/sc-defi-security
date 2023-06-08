@@ -1,0 +1,411 @@
+[91m
+Reentrancy in VaultFlipToCake.withdrawAll() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2134-2141):
+	External calls:
+	- withdraw(_withdraw) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2137)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#817)
+		- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+		- CAKE_MASTER_CHEF.withdraw(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2116)
+		- _minter.mintFor(address(_stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,depositTimestamp) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2123)
+		- _stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2128)
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#817)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+		- _rewardsToken.withdraw(reward) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2147)
+		- _minter.mintFor(CAKE,0,performanceFee,msg.sender,_depositedAt[msg.sender]) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2153)
+		- IBEP20(CAKE).safeTransfer(msg.sender,cakeBalance.sub(performanceFee)) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2156)
+	External calls sending eth:
+	- withdraw(_withdraw) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2137)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+	State variables written after the call(s):
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1997)
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1996)
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- rewards[msg.sender] = 0 (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2146)
+		- rewards[account] = earned(account) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1999)
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2000)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+VaultFlipToCake._notifyRewardAmount(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2203-2222) performs a multiplication on the result of a division:
+	-rewardRate = reward.div(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2205)
+	-leftover = remaining.mul(rewardRate) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2208)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+VaultFlipToCake.rewardPerToken() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2072-2080) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2073)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in VaultFlipToCake._deposit(uint256,address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2092-2102):
+	External calls:
+	- _stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2097)
+	- CAKE_MASTER_CHEF.deposit(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2098)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+	State variables written after the call(s):
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1997)
+		- lastUpdateTime = block.timestamp (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2219)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- periodFinish = block.timestamp.add(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2220)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1996)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- rewardRate = reward.div(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2205)
+		- rewardRate = reward.add(leftover).div(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2209)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- rewards[account] = earned(account) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1999)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2000)
+Reentrancy in VaultFlipToCake.withdraw(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2112-2132):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2116)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,depositTimestamp) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2123)
+	- _stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2128)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+	State variables written after the call(s):
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1997)
+		- lastUpdateTime = block.timestamp (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2219)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- periodFinish = block.timestamp.add(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2220)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1996)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- rewardRate = reward.div(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2205)
+		- rewardRate = reward.add(leftover).div(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2209)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- rewards[account] = earned(account) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1999)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2000)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+VaultFlipToCake._getReward().performanceFee (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2149) is a local variable never initialized
+VaultFlipToCake.withdraw(uint256).withdrawalFee (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2117) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+BEP20.constructor(string,string).name (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1472) shadows:
+	- BEP20.name() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1488-1490) (function)
+	- IBEP20.name() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#471) (function)
+BEP20.constructor(string,string).symbol (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1472) shadows:
+	- BEP20.symbol() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1502-1504) (function)
+	- IBEP20.symbol() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#466) (function)
+BEP20.allowance(address,address).owner (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1536) shadows:
+	- Ownable.owner() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1378-1380) (function)
+BEP20._approve(address,address,uint256).owner (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1708) shadows:
+	- Ownable.owner() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1378-1380) (function)
+VaultFlipToCake.initialize(uint256,address,address,address,address,address)._minter (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) shadows:
+	- VaultController._minter (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1880) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+RewardsDistributionRecipientUpgradeable.setRewardsDistribution(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1236-1238) should emit an event for: 
+	- rewardsDistribution = _rewardsDistribution (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1237) 
+VaultController.setKeeper(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1938-1941) should emit an event for: 
+	- keeper = _keeper (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1940) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+RewardsDistributionRecipientUpgradeable.setRewardsDistribution(address)._rewardsDistribution (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1236) lacks a zero-check on :
+		- rewardsDistribution = _rewardsDistribution (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1237)
+VaultFlipToCake.initialize(uint256,address,address,address,address,address)._cake (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) lacks a zero-check on :
+		- CAKE = _cake (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2013)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in VaultFlipToCake._harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2170-2179):
+	External calls:
+	- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+	State variables written after the call(s):
+	- _notifyRewardAmount(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2176)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1997)
+		- lastUpdateTime = block.timestamp (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2219)
+	- _notifyRewardAmount(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2176)
+		- periodFinish = block.timestamp.add(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2220)
+	- _notifyRewardAmount(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2176)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1996)
+	- _notifyRewardAmount(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2176)
+		- rewardRate = reward.div(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2205)
+		- rewardRate = reward.add(leftover).div(rewardsDuration) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2209)
+	- _notifyRewardAmount(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2176)
+		- rewards[account] = earned(account) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1999)
+	- _notifyRewardAmount(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2176)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2000)
+Reentrancy in VaultFlipToCake.initialize(uint256,address,address,address,address,address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012-2028):
+	External calls:
+	- _stakingToken.safeApprove(address(CAKE_MASTER_CHEF),uint256(~ 0)) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2020)
+	State variables written after the call(s):
+	- pid = _pid (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2022)
+	- rewardsDistribution = msg.sender (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2025)
+	- rewardsDuration = 86400 (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2023)
+Reentrancy in VaultFlipToCake.initialize(uint256,address,address,address,address,address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012-2028):
+	External calls:
+	- _stakingToken.safeApprove(address(CAKE_MASTER_CHEF),uint256(~ 0)) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2020)
+	- setMinter(_minter) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2026)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#817)
+		- IBEP20(CAKE).safeApprove(newMinter,0) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2186)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+		- _stakingToken.safeApprove(newMinter,0) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1948)
+		- IBEP20(CAKE).safeApprove(newMinter,uint256(~ 0)) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2187)
+		- _stakingToken.safeApprove(newMinter,uint256(- 1)) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1949)
+	External calls sending eth:
+	- setMinter(_minter) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2026)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+	State variables written after the call(s):
+	- setMinter(_minter) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2026)
+		- _minter = IMerlinMinter(newMinter) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1945)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in VaultFlipToCake._deposit(uint256,address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2092-2102):
+	External calls:
+	- _stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2097)
+	- CAKE_MASTER_CHEF.deposit(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2098)
+	Event emitted after the call(s):
+	- Deposited(_to,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2099)
+Reentrancy in VaultFlipToCake._deposit(uint256,address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2092-2102):
+	External calls:
+	- _stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2097)
+	- CAKE_MASTER_CHEF.deposit(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2098)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+		- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+	Event emitted after the call(s):
+	- Harvested(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2177)
+		- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+	- RewardAdded(reward) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2221)
+		- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2101)
+Reentrancy in VaultFlipToCake._getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2143-2159):
+	External calls:
+	- _rewardsToken.withdraw(reward) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2147)
+	- _minter.mintFor(CAKE,0,performanceFee,msg.sender,_depositedAt[msg.sender]) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2153)
+	- IBEP20(CAKE).safeTransfer(msg.sender,cakeBalance.sub(performanceFee)) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2156)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,cakeBalance,performanceFee) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2157)
+Reentrancy in VaultFlipToCake._harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2170-2179):
+	External calls:
+	- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+	Event emitted after the call(s):
+	- Harvested(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2177)
+	- RewardAdded(reward) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2221)
+		- _notifyRewardAmount(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2176)
+Reentrancy in VaultFlipToCake.harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2165-2168):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(pid,0) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2166)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2167)
+		- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+	Event emitted after the call(s):
+	- Harvested(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2177)
+		- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2167)
+	- RewardAdded(reward) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2221)
+		- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2167)
+Reentrancy in VaultController.recoverToken(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1955-1960):
+	External calls:
+	- IBEP20(_token).safeTransfer(owner(),amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1957)
+	Event emitted after the call(s):
+	- Recovered(_token,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1959)
+Reentrancy in VaultFlipToCake.recoverToken(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2232-2236):
+	External calls:
+	- IBEP20(tokenAddress).safeTransfer(owner(),tokenAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2234)
+	Event emitted after the call(s):
+	- Recovered(tokenAddress,tokenAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2235)
+Reentrancy in VaultFlipToCake.withdraw(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2112-2132):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2116)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,depositTimestamp) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2123)
+	- _stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2128)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,amount,withdrawalFee) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2129)
+Reentrancy in VaultFlipToCake.withdraw(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2112-2132):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2116)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,depositTimestamp) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2123)
+	- _stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2128)
+	- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+		- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+	Event emitted after the call(s):
+	- Harvested(amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2177)
+		- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+	- RewardAdded(reward) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2221)
+		- _harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2131)
+Reentrancy in VaultFlipToCake.withdrawAll() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2134-2141):
+	External calls:
+	- withdraw(_withdraw) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2137)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#817)
+		- _rewardsToken.deposit(cakeAmount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2173)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+		- CAKE_MASTER_CHEF.withdraw(pid,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2116)
+		- _minter.mintFor(address(_stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,depositTimestamp) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2123)
+		- _stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2128)
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#817)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+		- _rewardsToken.withdraw(reward) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2147)
+		- _minter.mintFor(CAKE,0,performanceFee,msg.sender,_depositedAt[msg.sender]) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2153)
+		- IBEP20(CAKE).safeTransfer(msg.sender,cakeBalance.sub(performanceFee)) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2156)
+	External calls sending eth:
+	- withdraw(_withdraw) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2137)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+	- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,cakeBalance,performanceFee) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2157)
+		- _getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2140)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+VaultFlipToCake._getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2143-2159) uses timestamp for comparisons
+	Dangerous comparisons:
+	- reward > 0 (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2145)
+VaultFlipToCake._notifyRewardAmount(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2203-2222) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= periodFinish (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2204)
+	- require(bool,string)(rewardRate <= _balance.div(rewardsDuration),VaultFlipToCake: reward rate must be in the right range) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2217)
+VaultFlipToCake.setRewardsDuration(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2224-2228) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(periodFinish == 0 || block.timestamp > periodFinish,VaultFlipToCake: reward duration can only be updated after the period ends) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2225)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#123-134) uses assembly
+	- INLINE ASM (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#130-132)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#231-257) uses assembly
+	- INLINE ASM (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#249-252)
+AddressUpgradeable.isContract(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#930-939) uses assembly
+	- INLINE ASM (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#937)
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1051-1068) uses assembly
+	- INLINE ASM (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1060-1063)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#178-180) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#207-213) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#221-229) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#152-158) is never used and should be removed
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1051-1068) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#983-985) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#993-995) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1008-1010) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1018-1025) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1033-1035) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1043-1049) is never used and should be removed
+AddressUpgradeable.sendValue(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#957-963) is never used and should be removed
+BEP20._burn(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1686-1692) is never used and should be removed
+BEP20._burnFrom(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1725-1732) is never used and should be removed
+Context._msgData() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1342-1345) is never used and should be removed
+ContextUpgradeable.__Context_init() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1133-1135) is never used and should be removed
+ContextUpgradeable._msgData() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1143-1146) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#717-720) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#702-704) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#794-804) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#785-792) is never used and should be removed
+SafeMath.min(uint256,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#430-432) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#405-407) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#421-428) is never used and should be removed
+SafeMath.sqrt(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#435-446) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#152-158):
+	- (success) = recipient.call{value: amount}() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#156)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#231-257):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#240)
+Low level call in AddressUpgradeable.sendValue(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#957-963):
+	- (success) = recipient.call{value: amount}() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#961)
+Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1018-1025):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1023)
+Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1043-1049):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1047)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IPancakeRouter01.WETH() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#6) is not in mixedCase
+Function IMerlinMinter.WITHDRAWAL_FEE_FREE_PERIOD() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#564) is not in mixedCase
+Function IMerlinMinter.WITHDRAWAL_FEE() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#565) is not in mixedCase
+Function IPancakePair.DOMAIN_SEPARATOR() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#607) is not in mixedCase
+Function IPancakePair.PERMIT_TYPEHASH() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#608) is not in mixedCase
+Function IPancakePair.MINIMUM_LIQUIDITY() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#625) is not in mixedCase
+Function ContextUpgradeable.__Context_init() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1133-1135) is not in mixedCase
+Function ContextUpgradeable.__Context_init_unchained() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1137-1138) is not in mixedCase
+Variable ContextUpgradeable.__gap (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1147) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1171-1174) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init_unchained() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1176-1180) is not in mixedCase
+Variable OwnableUpgradeable.__gap (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1218) is not in mixedCase
+Function RewardsDistributionRecipientUpgradeable.__RewardsDistributionRecipient_init() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1230-1232) is not in mixedCase
+Parameter RewardsDistributionRecipientUpgradeable.setRewardsDistribution(address)._rewardsDistribution (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1236) is not in mixedCase
+Variable RewardsDistributionRecipientUpgradeable.__gap (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1240) is not in mixedCase
+Function PausableUpgradeable.__PausableUpgradeable_init() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1805-1808) is not in mixedCase
+Parameter PausableUpgradeable.setPaused(bool)._paused (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1810) is not in mixedCase
+Variable PausableUpgradeable.__gap (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1822) is not in mixedCase
+Function WhitelistUpgradeable.__WhitelistUpgradeable_init() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1843-1845) is not in mixedCase
+Parameter WhitelistUpgradeable.isWhitelist(address)._address (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1847) is not in mixedCase
+Parameter WhitelistUpgradeable.setWhitelist(address,bool)._address (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1851) is not in mixedCase
+Parameter WhitelistUpgradeable.setWhitelist(address,bool)._on (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1851) is not in mixedCase
+Variable WhitelistUpgradeable.__gap (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1866) is not in mixedCase
+Function VaultController.__VaultController_init(IBEP20,address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1913-1920) is not in mixedCase
+Parameter VaultController.__VaultController_init(IBEP20,address)._merlin (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1913) is not in mixedCase
+Parameter VaultController.setKeeper(address)._keeper (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1938) is not in mixedCase
+Parameter VaultController.recoverToken(address,uint256)._token (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1955) is not in mixedCase
+Variable VaultController.__gap (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1884) is not in mixedCase
+Variable VaultController.MERLIN (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1874) is not in mixedCase
+Variable VaultController._stakingToken (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1879) is not in mixedCase
+Variable VaultController._minter (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1880) is not in mixedCase
+Parameter VaultFlipToCake.initialize(uint256,address,address,address,address,address)._pid (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) is not in mixedCase
+Parameter VaultFlipToCake.initialize(uint256,address,address,address,address,address)._merlin (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) is not in mixedCase
+Parameter VaultFlipToCake.initialize(uint256,address,address,address,address,address)._cake (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) is not in mixedCase
+Parameter VaultFlipToCake.initialize(uint256,address,address,address,address,address)._masterChef (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) is not in mixedCase
+Parameter VaultFlipToCake.initialize(uint256,address,address,address,address,address)._minter (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) is not in mixedCase
+Parameter VaultFlipToCake.initialize(uint256,address,address,address,address,address)._vaultCakeToCake (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2012) is not in mixedCase
+Parameter VaultFlipToCake.setRewardsDuration(uint256)._rewardsDuration (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2224) is not in mixedCase
+Variable VaultFlipToCake.CAKE (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1970) is not in mixedCase
+Variable VaultFlipToCake.CAKE_MASTER_CHEF (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1971) is not in mixedCase
+Constant VaultFlipToCake.poolType (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1972) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1144)" inContextUpgradeable (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1132-1148)
+Redundant expression "this (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1343)" inContext (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1333-1346)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#11) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#12)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+RewardsDistributionRecipientUpgradeable.__gap (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1240) is never used in VaultFlipToCake (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1964-2237)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+renounceOwnership() should be declared external:
+	- OwnableUpgradeable.renounceOwnership() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1204-1207)
+transferOwnership(address) should be declared external:
+	- OwnableUpgradeable.transferOwnership(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1213-1217)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1397-1400)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1406-1408)
+name() should be declared external:
+	- BEP20.name() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1488-1490)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1495-1497)
+symbol() should be declared external:
+	- BEP20.symbol() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1502-1504)
+totalSupply() should be declared external:
+	- BEP20.totalSupply() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1509-1511)
+balanceOf(address) should be declared external:
+	- BEP20.balanceOf(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1516-1518)
+transfer(address,uint256) should be declared external:
+	- BEP20.transfer(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1528-1531)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1536-1538)
+approve(address,uint256) should be declared external:
+	- BEP20.approve(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1547-1550)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20.transferFrom(address,address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1564-1576)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20.increaseAllowance(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1590-1593)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20.decreaseAllowance(address,uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1609-1616)
+mint(uint256) should be declared external:
+	- BEP20.mint(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1626-1629)
+isWhitelist(address) should be declared external:
+	- WhitelistUpgradeable.isWhitelist(address) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#1847-1849)
+getReward() should be declared external:
+	- VaultFlipToCake.getReward() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2161-2163)
+harvest() should be declared external:
+	- VaultFlipToCake.harvest() (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2165-2168)
+notifyRewardAmount(uint256) should be declared external:
+	- VaultFlipToCake.notifyRewardAmount(uint256) (../../sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol#2199-2201)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x8927f48b12814beda29844ed73b21232720b1d07.sol analyzed (26 contracts with 78 detectors), 131 result(s) found

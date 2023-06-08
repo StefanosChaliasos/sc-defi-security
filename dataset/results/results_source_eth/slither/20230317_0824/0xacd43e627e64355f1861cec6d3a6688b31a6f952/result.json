@@ -1,0 +1,452 @@
+{
+    "errors": [
+        "EXIT_CODE_46"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 326,
+            "line_end": 339,
+            "message": "yVault.deposit(uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326-339) uses a dangerous strict equality:\n\t- totalSupply() == 0 (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#333)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 138,
+            "message": "ERC20Detailed.constructor(string,string,uint8).symbol (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#138) shadows:\n\t- ERC20Detailed.symbol() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#146-148) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "decimals",
+            "impact": "Low",
+            "line": 138,
+            "message": "ERC20Detailed.constructor(string,string,uint8).decimals (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#138) shadows:\n\t- ERC20Detailed.decimals() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#149-151) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 138,
+            "message": "ERC20Detailed.constructor(string,string,uint8).name (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#138) shadows:\n\t- ERC20Detailed.name() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#143-145) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "setMin",
+            "impact": "Low",
+            "line": 295,
+            "line_end": 298,
+            "message": "yVault.setMin(uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#295-298) should emit an event for: \n\t- min = _min (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#297) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Low",
+            "line": 305,
+            "message": "yVault.setController(address)._controller (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#305) lacks a zero-check on :\n\t\t- controller = _controller (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#307)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Low",
+            "line": 280,
+            "message": "yVault.constructor(address,address)._controller (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#280) lacks a zero-check on :\n\t\t- controller = _controller (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#287)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Low",
+            "line": 300,
+            "message": "yVault.setGovernance(address)._governance (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#300) lacks a zero-check on :\n\t\t- governance = _governance (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#302)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 326,
+            "line_end": 339,
+            "message": "Reentrancy in yVault.deposit(uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326-339):\n\tExternal calls:\n\t- token.safeTransferFrom(msg.sender,address(this),_amount) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#329)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,shares) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#338)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#110)\n\t- _mint(msg.sender,shares) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#338)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#109)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 326,
+            "line_end": 339,
+            "message": "Reentrancy in yVault.deposit(uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326-339):\n\tExternal calls:\n\t- token.safeTransferFrom(msg.sender,address(this),_amount) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#329)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#111)\n\t\t- _mint(msg.sender,shares) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#338)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 200,
+            "line_end": 206,
+            "message": "Address.isContract(address) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#200-206) uses assembly\n\t- INLINE ASM (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#204)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 216,
+            "message": "Address.sendValue(address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#210-216) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "_burnFrom",
+            "impact": "Informational",
+            "line": 127,
+            "line_end": 130,
+            "message": "ERC20._burnFrom(address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#127-130) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 238,
+            "line_end": 241,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#238-241) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 231,
+            "line_end": 236,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#231-236) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 193,
+            "line_end": 196,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#193-196) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 22,
+            "line_end": 25,
+            "message": "Context._msgData() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#22-25) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "toPayable",
+            "impact": "Informational",
+            "line": 207,
+            "line_end": 209,
+            "message": "Address.toPayable(address) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#207-209) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 190,
+            "line_end": 192,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#190-192) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 243,
+            "line_end": 246,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#243-246) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "callOptionalReturn",
+            "impact": "Informational",
+            "line": 247,
+            "line_end": 258,
+            "message": "Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#247-258):\n\t- (success,returndata) = address(token).call(data) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#251)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 216,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#210-216):\n\t- (success) = recipient.call.value(amount)() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#214)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 326,
+            "message": "Parameter yVault.deposit(uint256)._amount (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 275,
+            "message": "Constant yVault.max (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#275) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 295,
+            "message": "Parameter yVault.setMin(uint256)._min (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#295) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 305,
+            "message": "Parameter yVault.setController(address)._controller (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#305) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "yVault",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 267,
+            "line_end": 377,
+            "message": "Contract yVault (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#267-377) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 300,
+            "message": "Parameter yVault.setGovernance(address)._governance (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#300) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 354,
+            "message": "Parameter yVault.withdraw(uint256)._shares (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#354) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "impact": "Informational",
+            "line": 23,
+            "message": "Redundant expression \"this (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#23)\" inContext (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#14-26)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 149,
+            "line_end": 151,
+            "message": "decimals() should be declared external:\n\t- ERC20Detailed.decimals() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#149-151)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 146,
+            "line_end": 148,
+            "message": "symbol() should be declared external:\n\t- ERC20Detailed.symbol() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#146-148)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 143,
+            "line_end": 145,
+            "message": "name() should be declared external:\n\t- ERC20Detailed.name() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#143-145)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 85,
+            "line_end": 89,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#85-89)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 46,
+            "line_end": 49,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#46-49)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "setGovernance",
+            "impact": "Optimization",
+            "line": 300,
+            "line_end": 303,
+            "message": "setGovernance(address) should be declared external:\n\t- yVault.setGovernance(address) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#300-303)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "getPricePerFullShare",
+            "impact": "Optimization",
+            "line": 373,
+            "line_end": 375,
+            "message": "getPricePerFullShare() should be declared external:\n\t- yVault.getPricePerFullShare() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#373-375)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 94,
+            "line_end": 97,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#94-97)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 74,
+            "line_end": 77,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#74-77)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 36,
+            "line_end": 38,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#36-38)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 90,
+            "line_end": 93,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#90-93)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "earn",
+            "impact": "Optimization",
+            "line": 316,
+            "line_end": 320,
+            "message": "earn() should be declared external:\n\t- yVault.earn() (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#316-320)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 50,
+            "line_end": 52,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#50-52)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 81,
+            "line_end": 84,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#81-84)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "setController",
+            "impact": "Optimization",
+            "line": 305,
+            "line_end": 308,
+            "message": "setController(address) should be declared external:\n\t- yVault.setController(address) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#305-308)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 78,
+            "line_end": 80,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0xacd43e627e64355f1861cec6d3a6688b31a6f952.sol#78-80)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

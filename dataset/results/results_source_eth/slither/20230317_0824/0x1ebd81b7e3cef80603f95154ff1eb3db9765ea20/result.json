@@ -1,0 +1,238 @@
+{
+    "errors": [
+        "EXIT_CODE_24"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "_update",
+            "impact": "High",
+            "line": 272,
+            "line_end": 285,
+            "message": "UniswapV2Pair._update(uint256,uint256,uint112,uint112) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#272-285) uses a weak PRNG: \"blockTimestamp = uint32(block.timestamp % 2 ** 32) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#274)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "emergencyWithdraw",
+            "impact": "High",
+            "line": 409,
+            "line_end": 412,
+            "message": "UniswapV2Pair.emergencyWithdraw(address) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#409-412) ignores return value by IERC20Uniswap(_token).transfer(IUniswapV2Factory(factory).feeToSetter(),IERC20Uniswap(_token).balanceOf(address(this))) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#411)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "_safeTransfer",
+            "impact": "Medium",
+            "line": 243,
+            "line_end": 246,
+            "message": "UniswapV2Pair._safeTransfer(address,address,uint256) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#243-246) uses a dangerous strict equality:\n\t- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),UniswapV2: TRANSFER_FAILED) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#245)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "mint",
+            "impact": "Medium",
+            "line": 309,
+            "line_end": 337,
+            "message": "UniswapV2Pair.mint(address) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#309-337) uses a dangerous strict equality:\n\t- _totalSupply == 0 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#318)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 340,
+            "line_end": 362,
+            "message": "Reentrancy in UniswapV2Pair.burn(address) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#340-362):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#354)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- _safeTransfer(_token1,to,amount1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#355)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#359)\n\t\t- blockTimestampLast = blockTimestamp (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#283)\n\t- kLast = uint256(reserve0).mul(reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#360)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#359)\n\t\t- reserve0 = uint112(balance0) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#281)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#359)\n\t\t- reserve1 = uint112(balance1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#282)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 365,
+            "line_end": 393,
+            "message": "Reentrancy in UniswapV2Pair.swap(uint256,uint256,address,bytes) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#365-393):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#376)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#377)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- IUniswapV2Callee(to).uniswapV2Call(msg.sender,amount0Out,amount1Out,data) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#378)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#391)\n\t\t- blockTimestampLast = blockTimestamp (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#283)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#391)\n\t\t- reserve0 = uint112(balance0) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#281)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#391)\n\t\t- reserve1 = uint112(balance1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#282)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Medium",
+            "line": 409,
+            "line_end": 412,
+            "message": "UniswapV2Pair.emergencyWithdraw(address) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#409-412) uses tx.origin for authorization: require(bool,string)(tx.origin == IUniswapV2Factory(factory).feeToSetter(),UniswapV2: Not from feeToSetter) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#410)\n",
+            "name": "tx-origin"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Low",
+            "line": 265,
+            "message": "UniswapV2Pair.initialize(address,address)._token1 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#265) lacks a zero-check on :\n\t\t- token1 = _token1 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#268)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Low",
+            "line": 265,
+            "message": "UniswapV2Pair.initialize(address,address)._token0 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#265) lacks a zero-check on :\n\t\t- token0 = _token0 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#267)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 340,
+            "line_end": 362,
+            "message": "Reentrancy in UniswapV2Pair.burn(address) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#340-362):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#354)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- _safeTransfer(_token1,to,amount1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#355)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#359)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#278)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#359)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#279)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 365,
+            "line_end": 393,
+            "message": "Reentrancy in UniswapV2Pair.swap(uint256,uint256,address,bytes) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#365-393):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#376)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#377)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- IUniswapV2Callee(to).uniswapV2Call(msg.sender,amount0Out,amount1Out,data) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#378)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#391)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#278)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#391)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#279)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 365,
+            "line_end": 393,
+            "message": "Reentrancy in UniswapV2Pair.swap(uint256,uint256,address,bytes) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#365-393):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#376)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#377)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- IUniswapV2Callee(to).uniswapV2Call(msg.sender,amount0Out,amount1Out,data) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#378)\n\tEvent emitted after the call(s):\n\t- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#392)\n\t- Sync(reserve0,reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#284)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#391)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 340,
+            "line_end": 362,
+            "message": "Reentrancy in UniswapV2Pair.burn(address) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#340-362):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#354)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\t- _safeTransfer(_token1,to,amount1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#355)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,amount0,amount1,to) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#361)\n\t- Sync(reserve0,reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#284)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#359)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 181,
+            "line_end": 193,
+            "message": "UniswapV2ERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#181-193) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,UniswapV2: EXPIRED) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#182)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "_update",
+            "impact": "Low",
+            "line": 272,
+            "line_end": 285,
+            "message": "UniswapV2Pair._update(uint256,uint256,uint112,uint112) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#272-285) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#276)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 124,
+            "line_end": 138,
+            "message": "UniswapV2ERC20.constructor() (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#124-138) uses assembly\n\t- INLINE ASM (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#126-128)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "_safeTransfer",
+            "impact": "Informational",
+            "line": 243,
+            "line_end": 246,
+            "message": "Low level call in UniswapV2Pair._safeTransfer(address,address,uint256) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#243-246):\n\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#244)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Informational",
+            "line": 409,
+            "message": "Parameter UniswapV2Pair.emergencyWithdraw(address)._token (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#409) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Informational",
+            "line": 116,
+            "message": "Variable UniswapV2ERC20.DOMAIN_SEPARATOR (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#116) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Informational",
+            "line": 265,
+            "message": "Parameter UniswapV2Pair.initialize(address,address)._token0 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#265) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Informational",
+            "line": 265,
+            "message": "Parameter UniswapV2Pair.initialize(address,address)._token1 (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#265) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Informational",
+            "line": 386,
+            "message": "Variable UniswapV2Pair.swap(uint256,uint256,address,bytes).balance0Adjusted (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#386) is too similar to UniswapV2Pair.swap(uint256,uint256,address,bytes).balance1Adjusted (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#387)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "impact": "Informational",
+            "line": 225,
+            "message": "Variable UniswapV2Pair.price0CumulativeLast (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#225) is too similar to UniswapV2Pair.price1CumulativeLast (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#226)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Optimization",
+            "line": 409,
+            "line_end": 412,
+            "message": "emergencyWithdraw(address) should be declared external:\n\t- UniswapV2Pair.emergencyWithdraw(address) (../..0x1ebd81b7e3cef80603f95154ff1eb3db9765ea20.sol#409-412)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

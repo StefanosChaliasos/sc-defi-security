@@ -1,0 +1,198 @@
+Compilation warnings/errors on /sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol:
+Warning: Unused local variable.
+   --> /sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol:593:24:
+    |
+593 |         (bool success, bytes memory returndata) = governance.call(_setupData);
+    |                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+[91m
+UniCatFarm.safeMEOWTransfer(address,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701-708) ignores return value by MEOW.transfer(_to,MEOWBal) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)
+UniCatFarm.safeMEOWTransfer(address,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701-708) ignores return value by MEOW.transfer(_to,_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+UniCatFarm.pendingMEOW(uint256,address) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#618-629) performs a multiplication on the result of a division:
+	-MEOWReward = multiplier.mul(MEOWPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#625)
+	-accMEOWPerShare = accMEOWPerShare.add(MEOWReward.mul(1e12).div(lpSupply)) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#626)
+UniCatFarm.updatePool(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) performs a multiplication on the result of a division:
+	-MEOWReward = multiplier.mul(MEOWPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#651)
+	-pool.accMEOWPerShare = pool.accMEOWPerShare.add(MEOWReward.mul(1e12).div(lpSupply)) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#655)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+UniCatFarm.updatePool(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) uses a dangerous strict equality:
+	- lpSupply == 0 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#646)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in UniCatFarm.add(uint256,IERC20,bool) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567-579):
+	External calls:
+	- massUpdatePools() (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#569)
+		- MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+	State variables written after the call(s):
+	- poolInfo.push(PoolInfo(_lpToken,_allocPoint,lastRewardBlock,0)) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#573-578)
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#572)
+Reentrancy in UniCatFarm.deposit(uint256,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662-674):
+	External calls:
+	- updatePool(_pid) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#665)
+		- MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+	- safeMEOWTransfer(msg.sender,pending) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#668)
+		- MEOW.transfer(_to,MEOWBal) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)
+		- MEOW.transfer(_to,_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#670)
+	State variables written after the call(s):
+	- user.amount = user.amount.add(_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#671)
+	- user.rewardDebt = user.amount.mul(pool.accMEOWPerShare).div(1e12) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#672)
+Reentrancy in UniCatFarm.devFee() (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#718-723):
+	External calls:
+	- MEOW.mint(devaddr,MEOW.totalSupply().div(200)) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#721)
+	State variables written after the call(s):
+	- devFeeDelivered = true (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#722)
+Reentrancy in UniCatFarm.emergencyWithdraw(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691-698):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#694)
+	State variables written after the call(s):
+	- user.amount = 0 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#696)
+	- user.rewardDebt = 0 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#697)
+Reentrancy in UniCatFarm.updateAllocPoint(uint256,uint256,bool) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582-588):
+	External calls:
+	- massUpdatePools() (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#584)
+		- MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+	State variables written after the call(s):
+	- poolInfo[_pid].allocPoint = _allocPoint (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#587)
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#586)
+Reentrancy in UniCatFarm.updatePool(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657):
+	External calls:
+	- MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+	State variables written after the call(s):
+	- pool.accMEOWPerShare = pool.accMEOWPerShare.add(MEOWReward.mul(1e12).div(lpSupply)) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#655)
+	- pool.lastRewardBlock = block.number (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#656)
+Reentrancy in UniCatFarm.withdraw(uint256,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677-688):
+	External calls:
+	- updatePool(_pid) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#681)
+		- MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+	- safeMEOWTransfer(msg.sender,pending) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#683)
+		- MEOW.transfer(_to,MEOWBal) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)
+		- MEOW.transfer(_to,_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)
+	State variables written after the call(s):
+	- user.amount = user.amount.sub(_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#684)
+	- user.rewardDebt = user.amount.mul(pool.accMEOWPerShare).div(1e12) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#685)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+UniCatFarm.constructor(UniCat,address,uint256,uint256,uint256,uint256)._devaddr (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#541) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#548)
+UniCatFarm.setGovernance(address,bytes)._governance (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591) lacks a zero-check on :
+		- governance = _governance (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#592)
+UniCatFarm.dev(address)._devaddr (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#711) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#713)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+UniCatFarm.updatePool(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) has external calls inside a loop: lpSupply = pool.lpToken.balanceOf(address(this)) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#645)
+UniCatFarm.updatePool(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) has external calls inside a loop: MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in UniCatFarm.deposit(uint256,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662-674):
+	External calls:
+	- updatePool(_pid) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#665)
+		- MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+	- safeMEOWTransfer(msg.sender,pending) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#668)
+		- MEOW.transfer(_to,MEOWBal) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)
+		- MEOW.transfer(_to,_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#670)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,_pid,_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#673)
+Reentrancy in UniCatFarm.emergencyWithdraw(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691-698):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#694)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(msg.sender,_pid,user.amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#695)
+Reentrancy in UniCatFarm.withdraw(uint256,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677-688):
+	External calls:
+	- updatePool(_pid) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#681)
+		- MEOW.mint(address(this),MEOWReward) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)
+	- safeMEOWTransfer(msg.sender,pending) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#683)
+		- MEOW.transfer(_to,MEOWBal) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)
+		- MEOW.transfer(_to,_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#686)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_pid,_amount) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#687)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+UniCatFarm.devFee() (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#718-723) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp >= devFeeUnlockTime,devFee: wait until unlock time) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#719)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#250-259) uses assembly
+	- INLINE ASM (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#257)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#293-314) uses assembly
+	- INLINE ASM (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#306-309)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#279-281) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#61) allows old versions
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#97) allows old versions
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#227) allows old versions
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#319) allows old versions
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#364) allows old versions
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#385) allows old versions
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#454) allows old versions
+Pragma version^0.7.1 (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#466) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#293-314):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#297)
+Low level call in UniCatFarm.setGovernance(address,bytes) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591-596):
+	- (success,returndata) = governance.call(_setupData) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#593)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter UniCatFarm.add(uint256,IERC20,bool)._allocPoint (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567) is not in mixedCase
+Parameter UniCatFarm.add(uint256,IERC20,bool)._lpToken (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567) is not in mixedCase
+Parameter UniCatFarm.add(uint256,IERC20,bool)._withUpdate (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567) is not in mixedCase
+Parameter UniCatFarm.updateAllocPoint(uint256,uint256,bool)._pid (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582) is not in mixedCase
+Parameter UniCatFarm.updateAllocPoint(uint256,uint256,bool)._allocPoint (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582) is not in mixedCase
+Parameter UniCatFarm.updateAllocPoint(uint256,uint256,bool)._withUpdate (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582) is not in mixedCase
+Parameter UniCatFarm.setGovernance(address,bytes)._governance (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591) is not in mixedCase
+Parameter UniCatFarm.setGovernance(address,bytes)._setupData (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591) is not in mixedCase
+Parameter UniCatFarm.getMultiplier(uint256,uint256)._from (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#599) is not in mixedCase
+Parameter UniCatFarm.getMultiplier(uint256,uint256)._to (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#599) is not in mixedCase
+Parameter UniCatFarm.pendingMEOW(uint256,address)._pid (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#618) is not in mixedCase
+Parameter UniCatFarm.pendingMEOW(uint256,address)._user (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#618) is not in mixedCase
+Parameter UniCatFarm.updatePool(uint256)._pid (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640) is not in mixedCase
+Parameter UniCatFarm.deposit(uint256,uint256)._pid (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662) is not in mixedCase
+Parameter UniCatFarm.deposit(uint256,uint256)._amount (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662) is not in mixedCase
+Parameter UniCatFarm.withdraw(uint256,uint256)._pid (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677) is not in mixedCase
+Parameter UniCatFarm.withdraw(uint256,uint256)._amount (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677) is not in mixedCase
+Parameter UniCatFarm.emergencyWithdraw(uint256)._pid (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691) is not in mixedCase
+Parameter UniCatFarm.safeMEOWTransfer(address,uint256)._to (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701) is not in mixedCase
+Parameter UniCatFarm.safeMEOWTransfer(address,uint256)._amount (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701) is not in mixedCase
+Parameter UniCatFarm.dev(address)._devaddr (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#711) is not in mixedCase
+Variable UniCatFarm.MEOW (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#506) is not in mixedCase
+Variable UniCatFarm.MEOWPerBlock (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#512) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+UniCatFarm.devFeeUnlockTime (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#531) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#435-438)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#444-448)
+add(uint256,IERC20,bool) should be declared external:
+	- UniCatFarm.add(uint256,IERC20,bool) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567-579)
+updateAllocPoint(uint256,uint256,bool) should be declared external:
+	- UniCatFarm.updateAllocPoint(uint256,uint256,bool) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582-588)
+setGovernance(address,bytes) should be declared external:
+	- UniCatFarm.setGovernance(address,bytes) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591-596)
+deposit(uint256,uint256) should be declared external:
+	- UniCatFarm.deposit(uint256,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662-674)
+withdraw(uint256,uint256) should be declared external:
+	- UniCatFarm.withdraw(uint256,uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677-688)
+emergencyWithdraw(uint256) should be declared external:
+	- UniCatFarm.emergencyWithdraw(uint256) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691-698)
+dev(address) should be declared external:
+	- UniCatFarm.dev(address) (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#711-714)
+devFee() should be declared external:
+	- UniCatFarm.devFee() (../../sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#718-723)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol analyzed (8 contracts with 78 detectors), 68 result(s) found

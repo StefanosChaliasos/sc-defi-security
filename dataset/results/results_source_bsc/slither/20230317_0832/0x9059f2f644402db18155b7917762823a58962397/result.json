@@ -1,0 +1,999 @@
+{
+    "errors": [
+        "EXIT_CODE_106"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "High",
+            "line": 1342,
+            "message": "BaseMerlinStrategy.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#1342) shadows:\n\t- WhitelistUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#837)\n\t- PausableUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#793)\n\t- OwnableUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#617)\n\t- ContextUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#539)\n\t- ReentrancyGuardUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#906)\n",
+            "name": "shadowing-state"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_swap",
+            "impact": "High",
+            "line": 1382,
+            "line_end": 1389,
+            "message": "BaseMerlinStrategy._swap(address,address,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1382-1389) ignores return value by IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1386)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "balanceOf",
+            "impact": "Medium",
+            "line": 1411,
+            "line_end": 1417,
+            "message": "BaseMerlinStrategy.balanceOf(address) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1411-1417) uses a dangerous strict equality:\n\t- totalShares == 0 (../..0x9059f2f644402db18155b7917762823a58962397.sol#1413)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "balanceOf",
+            "impact": "Medium",
+            "line": 1411,
+            "line_end": 1417,
+            "message": "BaseMerlinStrategy.balanceOf(address) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1411-1417) uses a dangerous strict equality:\n\t- sharesOf(account) == 0 (../..0x9059f2f644402db18155b7917762823a58962397.sol#1414)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "updateSafeSwapThreshold",
+            "impact": "Low",
+            "line": 994,
+            "line_end": 996,
+            "message": "SwapUtils.updateSafeSwapThreshold(uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#994-996) should emit an event for: \n\t- safeSwapThreshold = threshold (../..0x9059f2f644402db18155b7917762823a58962397.sol#995) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "updateThresholds",
+            "impact": "Low",
+            "line": 1362,
+            "line_end": 1367,
+            "message": "BaseMerlinStrategy.updateThresholds(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1362-1367) should emit an event for: \n\t- rewardTokenSwapThreshold = _rewardTokenSwapThreshold (../..0x9059f2f644402db18155b7917762823a58962397.sol#1364) \n\t- stakingTokenReinvestThreshold = _stakingTokenReinvestThreshold (../..0x9059f2f644402db18155b7917762823a58962397.sol#1365) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Low",
+            "line": 974,
+            "message": "SwapUtils.initialize(address,address,address)._FACTORY (../..0x9059f2f644402db18155b7917762823a58962397.sol#974) lacks a zero-check on :\n\t\t- FACTORY = _FACTORY (../..0x9059f2f644402db18155b7917762823a58962397.sol#979)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Low",
+            "line": 975,
+            "message": "SwapUtils.initialize(address,address,address)._ROUTER (../..0x9059f2f644402db18155b7917762823a58962397.sol#975) lacks a zero-check on :\n\t\t- PCS_LIKE_ROUTER = _ROUTER (../..0x9059f2f644402db18155b7917762823a58962397.sol#980)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Low",
+            "line": 976,
+            "message": "SwapUtils.initialize(address,address,address)._WRAPPED_NATIVE_TOKEN (../..0x9059f2f644402db18155b7917762823a58962397.sol#976) lacks a zero-check on :\n\t\t- WRAPPED_NATIVE_TOKEN = _WRAPPED_NATIVE_TOKEN (../..0x9059f2f644402db18155b7917762823a58962397.sol#981)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1782,
+            "line_end": 1784,
+            "message": "Reentrancy in MerlinStrategyAlpacaBNB.deposit(uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1782-1784):\n\tExternal calls:\n\t- _deposit(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1783)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1881)\n\t\t- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1385)\n\t\t- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1794)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1386)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1799)\n\t- transferTokenToVault(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1782)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1741)\n\t\t- IERC20Upgradeable(WRAPPED_NATIVE_TOKEN).safeTransferFrom(msg.sender,address(this),value) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1743)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tExternal calls sending eth:\n\t- _deposit(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1783)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- transferTokenToVault(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1782)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1741)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tState variables written after the call(s):\n\t- _deposit(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1783)\n\t\t- _depositedAt[msg.sender] = block.timestamp (../..0x9059f2f644402db18155b7917762823a58962397.sol#1510)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "emergencyExit",
+            "impact": "Low",
+            "line": 1946,
+            "line_end": 1952,
+            "message": "Reentrancy in MerlinStrategyAlpacaBNB.emergencyExit() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1946-1952):\n\tExternal calls:\n\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).withdrawAll(address(this),ALPACA_FAIR_LAUNCH_POOL_ID) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1948)\n\t- IAlpacaVault(ALPACA_VAULT).withdraw(IERC20Upgradeable(ALPACA_VAULT).balanceOf(address(this))) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1949)\n\tState variables written after the call(s):\n\t- IS_EMERGENCY_MODE = true (../..0x9059f2f644402db18155b7917762823a58962397.sol#1950)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_getRewards",
+            "impact": "Low",
+            "line": 1565,
+            "line_end": 1605,
+            "message": "Reentrancy in BaseMerlinStrategy._getRewards() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1565-1605):\n\tExternal calls:\n\t- earnedWantTokenAmount = earnedWantTokenAmount.sub(_addProfitReward(msg.sender,earnedWantTokenAmount,false)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1591)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t\t- merlinMinter.mintFor(STAKING_TOKEN,amount,0,msg.sender,depositTimestamp) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1620)\n\t\t- merlinMinter.mintFor(STAKING_TOKEN,0,amount,msg.sender,depositTimestamp) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1620)\n\tExternal calls sending eth:\n\t- earnedWantTokenAmount = earnedWantTokenAmount.sub(_addProfitReward(msg.sender,earnedWantTokenAmount,false)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1591)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tEvent emitted after the call(s):\n\t- GetReward(msg.sender,earnedWantTokenAmount,shareRemoved) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1600)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 1517,
+            "line_end": 1563,
+            "message": "Reentrancy in BaseMerlinStrategy._withdraw(uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1517-1563):\n\tExternal calls:\n\t- withdrawnWantTokenAmount = withdrawnWantTokenAmount.sub(_addProfitReward(msg.sender,withdrawnWantTokenAmount,true)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1556)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t\t- merlinMinter.mintFor(STAKING_TOKEN,amount,0,msg.sender,depositTimestamp) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1620)\n\t\t- merlinMinter.mintFor(STAKING_TOKEN,0,amount,msg.sender,depositTimestamp) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1620)\n\tExternal calls sending eth:\n\t- withdrawnWantTokenAmount = withdrawnWantTokenAmount.sub(_addProfitReward(msg.sender,withdrawnWantTokenAmount,true)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1556)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,wantTokenAmount,withdrawnWantTokenAmount,shareRemoved) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1562)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_harvest",
+            "impact": "Low",
+            "line": 1869,
+            "line_end": 1876,
+            "message": "Reentrancy in MerlinStrategyAlpacaBNB._harvest() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1869-1876):\n\tExternal calls:\n\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).harvest(ALPACA_FAIR_LAUNCH_POOL_ID) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1873)\n\t- _tryReinvest() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1875)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1881)\n\t\t- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1385)\n\t\t- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1794)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1386)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1799)\n\tExternal calls sending eth:\n\t- _tryReinvest() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1875)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tEvent emitted after the call(s):\n\t- Reinvest(msg.sender,stakingTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1902)\n\t\t- _tryReinvest() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1875)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_tryReinvest",
+            "impact": "Low",
+            "line": 1878,
+            "line_end": 1904,
+            "message": "Reentrancy in MerlinStrategyAlpacaBNB._tryReinvest() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1878-1904):\n\tExternal calls:\n\t- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1881)\n\t- stakingTokenAmount = _swap(UNDERLYING_REWARD_TOKEN,WRAPPED_NATIVE_TOKEN,rewardTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1891)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1385)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1386)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- _depositUnderlying(stakingTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1900)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1794)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1799)\n\tExternal calls sending eth:\n\t- stakingTokenAmount = _swap(UNDERLYING_REWARD_TOKEN,WRAPPED_NATIVE_TOKEN,rewardTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1891)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- _depositUnderlying(stakingTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1900)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tEvent emitted after the call(s):\n\t- Reinvest(msg.sender,stakingTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1902)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1782,
+            "line_end": 1784,
+            "message": "Reentrancy in MerlinStrategyAlpacaBNB.deposit(uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1782-1784):\n\tExternal calls:\n\t- _deposit(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1783)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1881)\n\t\t- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1385)\n\t\t- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1794)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1386)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1799)\n\t- transferTokenToVault(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1782)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1741)\n\t\t- IERC20Upgradeable(WRAPPED_NATIVE_TOKEN).safeTransferFrom(msg.sender,address(this),value) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1743)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tExternal calls sending eth:\n\t- _deposit(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1783)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- transferTokenToVault(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1782)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1741)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,wantTokenAmount,wantTokenAdded,sharesAdded) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1514)\n\t\t- _deposit(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1783)\n\t- Reinvest(msg.sender,stakingTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1902)\n\t\t- _deposit(wantTokenAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1783)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 1822,
+            "line_end": 1859,
+            "message": "Reentrancy in MerlinStrategyAlpacaBNB.withdrawAll() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1822-1859):\n\tExternal calls:\n\t- amount = _withdrawUnderlying(amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1837)\n\t\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).withdraw(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,masterChefShares) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1810)\n\t\t- IAlpacaVault(ALPACA_VAULT).withdraw(ibBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1815)\n\t- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1842)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1843)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1847)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- merlinMinter.mintFor(WRAPPED_NATIVE_TOKEN,withdrawalFee1,performanceFee1,msg.sender,depositTimestamp) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1848)\n\t- _sendToken(msg.sender,amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1855)\n\t\t- SafeToken.safeTransferETH(receiver,amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1866)\n\t\t- (success) = to.call{value: value}(new bytes(0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1698)\n\tExternal calls sending eth:\n\t- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1842)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1843)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1847)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- _sendToken(msg.sender,amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1855)\n\t\t- (success) = to.call{value: value}(new bytes(0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1698)\n\tEvent emitted after the call(s):\n\t- WithdrawAll(msg.sender,amount,shares) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1857)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 1441,
+            "line_end": 1472,
+            "message": "Reentrancy in BaseMerlinStrategy.withdrawAll() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1441-1472):\n\tExternal calls:\n\t- approveToken(STAKING_TOKEN,address(merlinMinter),withdrawalFee.add(performanceFee)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1462)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- merlinMinter.mintFor(STAKING_TOKEN,withdrawalFee,performanceFee,msg.sender,depositTimestamp) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1463)\n\tExternal calls sending eth:\n\t- approveToken(STAKING_TOKEN,address(merlinMinter),withdrawalFee.add(performanceFee)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1462)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tEvent emitted after the call(s):\n\t- ProfitPaid(msg.sender,profit,performanceFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1465)\n\t- WithdrawAll(msg.sender,amount,shares) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1471)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 1822,
+            "line_end": 1859,
+            "message": "Reentrancy in MerlinStrategyAlpacaBNB.withdrawAll() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1822-1859):\n\tExternal calls:\n\t- amount = _withdrawUnderlying(amount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1837)\n\t\t- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).withdraw(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,masterChefShares) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1810)\n\t\t- IAlpacaVault(ALPACA_VAULT).withdraw(ibBNBAmount) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1815)\n\t- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1842)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1843)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1847)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x9059f2f644402db18155b7917762823a58962397.sol#744)\n\t\t- IERC20Upgradeable(token).safeApprove(to,0) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1376)\n\t\t- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1377)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\t- merlinMinter.mintFor(WRAPPED_NATIVE_TOKEN,withdrawalFee1,performanceFee1,msg.sender,depositTimestamp) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1848)\n\tExternal calls sending eth:\n\t- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1842)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1843)\n\t\t- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1936)\n\t- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1847)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n\tEvent emitted after the call(s):\n\t- ProfitPaid(msg.sender,profit,performanceFee) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1850)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 26,
+            "line_end": 35,
+            "message": "AddressUpgradeable.isContract(address) (../..0x9059f2f644402db18155b7917762823a58962397.sol#26-35) uses assembly\n\t- INLINE ASM (../..0x9059f2f644402db18155b7917762823a58962397.sol#33)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 147,
+            "line_end": 164,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../..0x9059f2f644402db18155b7917762823a58962397.sol#147-164) uses assembly\n\t- INLINE ASM (../..0x9059f2f644402db18155b7917762823a58962397.sol#156-159)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "onlyEmergency",
+            "impact": "Informational",
+            "line": 1668,
+            "line_end": 1671,
+            "message": "BaseMerlinStrategy.onlyEmergency() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1668-1671) compares to a boolean constant:\n\t-require(bool,string)(IS_EMERGENCY_MODE == true,MerlinStrategy: not emergency mode.) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1669)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "nonEmergency",
+            "impact": "Informational",
+            "line": 1663,
+            "line_end": 1666,
+            "message": "BaseMerlinStrategy.nonEmergency() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1663-1666) compares to a boolean constant:\n\t-require(bool,string)(IS_EMERGENCY_MODE == false,MerlinStrategy: emergency mode.) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1664)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 335,
+            "line_end": 338,
+            "message": "SafeMathUpgradeable.sub(uint256,uint256,string) (../..0x9059f2f644402db18155b7917762823a58962397.sol#335-338) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 535,
+            "line_end": 538,
+            "message": "ContextUpgradeable._msgData() (../..0x9059f2f644402db18155b7917762823a58962397.sol#535-538) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 104,
+            "line_end": 106,
+            "message": "AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#104-106) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "min",
+            "impact": "Informational",
+            "line": 933,
+            "line_end": 935,
+            "message": "MathUpgradeable.min(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#933-935) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 200,
+            "line_end": 203,
+            "message": "SafeMathUpgradeable.trySub(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#200-203) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 723,
+            "line_end": 726,
+            "message": "SafeERC20Upgradeable.safeIncreaseAllowance(IERC20Upgradeable,address,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#723-726) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 355,
+            "line_end": 358,
+            "message": "SafeMathUpgradeable.div(uint256,uint256,string) (../..0x9059f2f644402db18155b7917762823a58962397.sol#355-358) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 79,
+            "line_end": 81,
+            "message": "AddressUpgradeable.functionCall(address,bytes) (../..0x9059f2f644402db18155b7917762823a58962397.sol#79-81) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 630,
+            "line_end": 632,
+            "message": "Math.max(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#630-632) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "average",
+            "impact": "Informational",
+            "line": 645,
+            "line_end": 648,
+            "message": "Math.average(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#645-648) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_addProfitReward",
+            "impact": "Informational",
+            "line": 1607,
+            "line_end": 1626,
+            "message": "BaseMerlinStrategy._addProfitReward(address,uint256,bool) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1607-1626) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 53,
+            "line_end": 59,
+            "message": "AddressUpgradeable.sendValue(address,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#53-59) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 218,
+            "message": "SafeMathUpgradeable.tryMul(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#210-218) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 129,
+            "line_end": 131,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes) (../..0x9059f2f644402db18155b7917762823a58962397.sol#129-131) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 375,
+            "line_end": 378,
+            "message": "SafeMathUpgradeable.mod(uint256,uint256,string) (../..0x9059f2f644402db18155b7917762823a58962397.sol#375-378) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "average",
+            "impact": "Informational",
+            "line": 941,
+            "line_end": 944,
+            "message": "MathUpgradeable.average(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#941-944) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 728,
+            "line_end": 731,
+            "message": "SafeERC20Upgradeable.safeDecreaseAllowance(IERC20Upgradeable,address,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#728-731) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 189,
+            "line_end": 193,
+            "message": "SafeMathUpgradeable.tryAdd(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#189-193) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 139,
+            "line_end": 145,
+            "message": "AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0x9059f2f644402db18155b7917762823a58962397.sol#139-145) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 225,
+            "line_end": 228,
+            "message": "SafeMathUpgradeable.tryDiv(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#225-228) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 697,
+            "line_end": 699,
+            "message": "SafeERC20Upgradeable.safeTransfer(IERC20Upgradeable,address,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#697-699) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 317,
+            "line_end": 320,
+            "message": "SafeMathUpgradeable.mod(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#317-320) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 235,
+            "line_end": 238,
+            "message": "SafeMathUpgradeable.tryMod(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#235-238) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 926,
+            "line_end": 928,
+            "message": "MathUpgradeable.max(uint256,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#926-928) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 525,
+            "line_end": 527,
+            "message": "ContextUpgradeable.__Context_init() (../..0x9059f2f644402db18155b7917762823a58962397.sol#525-527) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 139,
+            "line_end": 145,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../..0x9059f2f644402db18155b7917762823a58962397.sol#139-145):\n\t- (success,returndata) = target.staticcall(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#143)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 114,
+            "line_end": 121,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../..0x9059f2f644402db18155b7917762823a58962397.sol#114-121):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x9059f2f644402db18155b7917762823a58962397.sol#119)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 1696,
+            "line_end": 1700,
+            "message": "Low level call in SafeToken.safeTransferETH(address,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1696-1700):\n\t- (success) = to.call{value: value}(new bytes(0)) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1698)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 53,
+            "line_end": 59,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (../..0x9059f2f644402db18155b7917762823a58962397.sol#53-59):\n\t- (success) = recipient.call{value: amount}() (../..0x9059f2f644402db18155b7917762823a58962397.sol#57)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1342,
+            "message": "Variable BaseMerlinStrategy.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#1342) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "STAKING_TOKEN",
+            "impact": "Informational",
+            "line": 1160,
+            "message": "Function IMerlinStrategy.STAKING_TOKEN() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1160) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1362,
+            "message": "Parameter BaseMerlinStrategy.updateThresholds(uint256,uint256)._stakingTokenReinvestThreshold (../..0x9059f2f644402db18155b7917762823a58962397.sol#1362) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 822,
+            "message": "Parameter WhitelistUpgradeable.setWhitelist(address,bool)._address (../..0x9059f2f644402db18155b7917762823a58962397.sol#822) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1329,
+            "message": "Variable BaseMerlinStrategy.SWAP_UTILS (../..0x9059f2f644402db18155b7917762823a58962397.sol#1329) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1645,
+            "message": "Parameter BaseMerlinStrategy.setMinter(address)._minter (../..0x9059f2f644402db18155b7917762823a58962397.sol#1645) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_underlyingWantTokenAmount",
+            "impact": "Informational",
+            "line": 1774,
+            "line_end": 1776,
+            "message": "Function MerlinStrategyAlpacaBNB._underlyingWantTokenAmount() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1774-1776) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 539,
+            "message": "Variable ContextUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#539) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "IS_EMERGENCY_MODE",
+            "impact": "Informational",
+            "line": 1164,
+            "message": "Function IMerlinStrategyWithEmergency.IS_EMERGENCY_MODE() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1164) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 882,
+            "line_end": 884,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (../..0x9059f2f644402db18155b7917762823a58962397.sol#882-884) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 975,
+            "message": "Parameter SwapUtils.initialize(address,address,address)._ROUTER (../..0x9059f2f644402db18155b7917762823a58962397.sol#975) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1725,
+            "message": "Parameter MerlinStrategyAlpacaBNB.initialize(address)._SWAP_UTILS (../..0x9059f2f644402db18155b7917762823a58962397.sol#1725) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1661,
+            "message": "Variable BaseMerlinStrategy.IS_EMERGENCY_MODE (../..0x9059f2f644402db18155b7917762823a58962397.sol#1661) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1032,
+            "message": "Variable SwapUtils.PCS_LIKE_ROUTER (../..0x9059f2f644402db18155b7917762823a58962397.sol#1032) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 991,
+            "message": "Variable SwapUtils.FACTORY (../..0x9059f2f644402db18155b7917762823a58962397.sol#991) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 822,
+            "message": "Parameter WhitelistUpgradeable.setWhitelist(address,bool)._on (../..0x9059f2f644402db18155b7917762823a58962397.sol#822) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 781,
+            "message": "Parameter PausableUpgradeable.setPaused(bool)._paused (../..0x9059f2f644402db18155b7917762823a58962397.sol#781) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 570,
+            "line_end": 573,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (../..0x9059f2f644402db18155b7917762823a58962397.sol#570-573) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__WhitelistUpgradeable_init",
+            "impact": "Informational",
+            "line": 814,
+            "line_end": 816,
+            "message": "Function WhitelistUpgradeable.__WhitelistUpgradeable_init() (../..0x9059f2f644402db18155b7917762823a58962397.sol#814-816) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 617,
+            "message": "Variable OwnableUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#617) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 793,
+            "message": "Variable PausableUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#793) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1718,
+            "message": "Variable MerlinStrategyAlpacaBNB.UNDERLYING_REWARD_TOKEN (../..0x9059f2f644402db18155b7917762823a58962397.sol#1718) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 998,
+            "message": "Parameter SwapUtils.tokenPriceInBNB(address,uint256)._token (../..0x9059f2f644402db18155b7917762823a58962397.sol#998) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 974,
+            "message": "Parameter SwapUtils.initialize(address,address,address)._FACTORY (../..0x9059f2f644402db18155b7917762823a58962397.sol#974) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_underlyingShareAmount",
+            "impact": "Informational",
+            "line": 1756,
+            "line_end": 1761,
+            "message": "Function MerlinStrategyAlpacaBNB._underlyingShareAmount() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1756-1761) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 878,
+            "line_end": 880,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (../..0x9059f2f644402db18155b7917762823a58962397.sol#878-880) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 529,
+            "line_end": 530,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../..0x9059f2f644402db18155b7917762823a58962397.sol#529-530) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1345,
+            "message": "Parameter BaseMerlinStrategy.__Base_init(address)._SWAP_UTILS (../..0x9059f2f644402db18155b7917762823a58962397.sol#1345) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_underlyingShareAmount",
+            "impact": "Informational",
+            "line": 1158,
+            "message": "Function IMerlinStrategy._underlyingShareAmount() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1158) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "_underlyingWantTokenAmount",
+            "impact": "Informational",
+            "line": 1632,
+            "message": "Function BaseMerlinStrategy._underlyingWantTokenAmount() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1632) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 906,
+            "message": "Variable ReentrancyGuardUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#906) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__Base_init",
+            "impact": "Informational",
+            "line": 1344,
+            "line_end": 1356,
+            "message": "Function BaseMerlinStrategy.__Base_init(address) (../..0x9059f2f644402db18155b7917762823a58962397.sol#1344-1356) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1338,
+            "message": "Variable BaseMerlinStrategy.STAKING_TOKEN (../..0x9059f2f644402db18155b7917762823a58962397.sol#1338) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 837,
+            "message": "Variable WhitelistUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#837) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__PausableUpgradeable_init",
+            "impact": "Informational",
+            "line": 776,
+            "line_end": 779,
+            "message": "Function PausableUpgradeable.__PausableUpgradeable_init() (../..0x9059f2f644402db18155b7917762823a58962397.sol#776-779) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1362,
+            "message": "Parameter BaseMerlinStrategy.updateThresholds(uint256,uint256)._rewardTokenSwapThreshold (../..0x9059f2f644402db18155b7917762823a58962397.sol#1362) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 970,
+            "message": "Variable SwapUtils.WRAPPED_NATIVE_TOKEN (../..0x9059f2f644402db18155b7917762823a58962397.sol#970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 575,
+            "line_end": 579,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (../..0x9059f2f644402db18155b7917762823a58962397.sol#575-579) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 976,
+            "message": "Parameter SwapUtils.initialize(address,address,address)._WRAPPED_NATIVE_TOKEN (../..0x9059f2f644402db18155b7917762823a58962397.sol#976) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "WITHDRAWAL_FEE_FREE_PERIOD",
+            "impact": "Informational",
+            "line": 661,
+            "message": "Function IMerlinMinter.WITHDRAWAL_FEE_FREE_PERIOD() (../..0x9059f2f644402db18155b7917762823a58962397.sol#661) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__underlyingWantTokenPerShares",
+            "impact": "Informational",
+            "line": 1763,
+            "line_end": 1772,
+            "message": "Function MerlinStrategyAlpacaBNB.__underlyingWantTokenPerShares() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1763-1772) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1340,
+            "message": "Variable BaseMerlinStrategy._depositedAt (../..0x9059f2f644402db18155b7917762823a58962397.sol#1340) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1012,
+            "message": "Parameter SwapUtils.checkNeedSwap(address,uint256)._token (../..0x9059f2f644402db18155b7917762823a58962397.sol#1012) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 818,
+            "message": "Parameter WhitelistUpgradeable.isWhitelist(address)._address (../..0x9059f2f644402db18155b7917762823a58962397.sol#818) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 525,
+            "line_end": 527,
+            "message": "Function ContextUpgradeable.__Context_init() (../..0x9059f2f644402db18155b7917762823a58962397.sol#525-527) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "WITHDRAWAL_FEE",
+            "impact": "Informational",
+            "line": 662,
+            "message": "Function IMerlinMinter.WITHDRAWAL_FEE() (../..0x9059f2f644402db18155b7917762823a58962397.sol#662) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 536,
+            "message": "Redundant expression \"this (../..0x9059f2f644402db18155b7917762823a58962397.sol#536)\" inContextUpgradeable (../..0x9059f2f644402db18155b7917762823a58962397.sol#524-540)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "MerlinStrategyAlpacaBNB",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 1342,
+            "message": "BaseMerlinStrategy.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#1342) is never used in MerlinStrategyAlpacaBNB (../..0x9059f2f644402db18155b7917762823a58962397.sol#1703-1971)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "SwapUtils",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Informational",
+            "line": 617,
+            "message": "OwnableUpgradeable.__gap (../..0x9059f2f644402db18155b7917762823a58962397.sol#617) is never used in SwapUtils (../..0x9059f2f644402db18155b7917762823a58962397.sol#965-1070)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "impact": "Optimization",
+            "line": 1338,
+            "message": "BaseMerlinStrategy.STAKING_TOKEN (../..0x9059f2f644402db18155b7917762823a58962397.sol#1338) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 612,
+            "line_end": 616,
+            "message": "transferOwnership(address) should be declared external:\n\t- OwnableUpgradeable.transferOwnership(address) (../..0x9059f2f644402db18155b7917762823a58962397.sol#612-616)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "totalBalance",
+            "impact": "Optimization",
+            "line": 1407,
+            "line_end": 1409,
+            "message": "totalBalance() should be declared external:\n\t- BaseMerlinStrategy.totalBalance() (../..0x9059f2f644402db18155b7917762823a58962397.sol#1407-1409)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 603,
+            "line_end": 606,
+            "message": "renounceOwnership() should be declared external:\n\t- OwnableUpgradeable.renounceOwnership() (../..0x9059f2f644402db18155b7917762823a58962397.sol#603-606)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x9059f2f644402db18155b7917762823a58962397.sol",
+            "function": "isWhitelist",
+            "impact": "Optimization",
+            "line": 818,
+            "line_end": 820,
+            "message": "isWhitelist(address) should be declared external:\n\t- WhitelistUpgradeable.isWhitelist(address) (../..0x9059f2f644402db18155b7917762823a58962397.sol#818-820)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

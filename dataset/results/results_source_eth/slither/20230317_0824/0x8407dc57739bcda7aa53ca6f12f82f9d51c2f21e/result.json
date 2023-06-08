@@ -1,0 +1,1249 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_14"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "_withdrawETHFor",
+            "impact": "High",
+            "line": 1205,
+            "line_end": 1214,
+            "message": "MainchainGatewayManager._withdrawETHFor(address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1205-1214) sends eth to arbitrary user\n\tDangerous calls:\n\t- _user.toPayable().transfer(_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Validator",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "High",
+            "line": 488,
+            "line_end": 589,
+            "message": "Validator (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#488-589) contract sets array length with a user-controlled value:\n\t- validators.push(_validator) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#542)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MainchainGatewayManager",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "High",
+            "line": 850,
+            "line_end": 1234,
+            "message": "MainchainGatewayManager (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#850-1234) contract sets array length with a user-controlled value:\n\t- deposits.push(_entry) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Medium",
+            "line": 613,
+            "message": "MainchainValidator.addValidators(address[])._i (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#613) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Medium",
+            "line": 554,
+            "message": "Validator._removeValidator(uint256,address)._index (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#554) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "verifySignatures",
+            "impact": "Low",
+            "line": 1124,
+            "line_end": 1149,
+            "message": "MainchainGatewayManager.verifySignatures(bytes32,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1124-1149) has external calls inside a loop: _validator.isValidator(_signer) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1140)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "_createDepositEntry",
+            "impact": "Low",
+            "line": 1151,
+            "line_end": 1183,
+            "message": "MainchainGatewayManager._createDepositEntry(address,address,uint32,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1151-1183) has external calls inside a loop: (_sidechainToken,_tokenStandard) = registry.getMappedToken(_token,true) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1161)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositBulkFor",
+            "impact": "Low",
+            "line": 932,
+            "line_end": 955,
+            "message": "MainchainGatewayManager.depositBulkFor(address,address[],uint256[]) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#932-955) has external calls inside a loop: (_standard) = registry.getMappedToken(_token,true) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#945)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "onlyMappedToken",
+            "impact": "Low",
+            "line": 855,
+            "line_end": 861,
+            "message": "MainchainGatewayManager.onlyMappedToken(address,uint32) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#855-861) has external calls inside a loop: require(bool,string)(registry.isTokenMapped(_token,_standard,true),MainchainGatewayManager: Token is not mapped) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#856-859)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositERC20For",
+            "impact": "Low",
+            "line": 911,
+            "line_end": 921,
+            "message": "MainchainGatewayManager.depositERC20For(address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911-921) has external calls inside a loop: require(bool,string)(IERC20(_token).transferFrom(msg.sender,address(this),_amount),MainchainGatewayManager: ERC-20 token transfer failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#916-919)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositERC721For",
+            "impact": "Low",
+            "line": 923,
+            "line_end": 930,
+            "message": "MainchainGatewayManager.depositERC721For(address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923-930) has external calls inside a loop: IERC721(_token).transferFrom(msg.sender,address(this),_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#928)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositERC20For",
+            "impact": "Low",
+            "line": 911,
+            "line_end": 921,
+            "message": "Reentrancy in MainchainGatewayManager.depositERC20For(address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911-921):\n\tExternal calls:\n\t- require(bool,string)(IERC20(_token).transferFrom(msg.sender,address(this),_amount),MainchainGatewayManager: ERC-20 token transfer failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#916-919)\n\tState variables written after the call(s):\n\t- _createDepositEntry(_user,_token,20,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#920)\n\t\t- _depositId = depositCount ++ (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)\n\t- _createDepositEntry(_user,_token,20,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#920)\n\t\t- deposits.push(_entry) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositERC721For",
+            "impact": "Low",
+            "line": 923,
+            "line_end": 930,
+            "message": "Reentrancy in MainchainGatewayManager.depositERC721For(address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923-930):\n\tExternal calls:\n\t- IERC721(_token).transferFrom(msg.sender,address(this),_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#928)\n\tState variables written after the call(s):\n\t- _createDepositEntry(_user,_token,721,_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#929)\n\t\t- _depositId = depositCount ++ (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)\n\t- _createDepositEntry(_user,_token,721,_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#929)\n\t\t- deposits.push(_entry) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositEthFor",
+            "impact": "Low",
+            "line": 900,
+            "line_end": 909,
+            "message": "Reentrancy in MainchainGatewayManager.depositEthFor(address) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#900-909):\n\tExternal calls:\n\t- WETH(_weth).deposit.value(msg.value)() (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#907)\n\tState variables written after the call(s):\n\t- _createDepositEntry(_owner,_weth,20,msg.value) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#908)\n\t\t- _depositId = depositCount ++ (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)\n\t- _createDepositEntry(_owner,_weth,20,msg.value) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#908)\n\t\t- deposits.push(_entry) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawERC721For",
+            "impact": "Low",
+            "line": 1088,
+            "line_end": 1119,
+            "message": "Reentrancy in MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1088-1119):\n\tExternal calls:\n\t- ! _tryERC721TransferFrom(_token,address(this),_user,_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1111)\n\t\t- (success) = _token.call(abi.encodeWithSelector(IERC721(_token).transferFrom.selector,_from,_to,_tokenId)) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1226-1230)\n\t- require(bool,string)(IERC721Mintable(_token).mint(_user,_tokenId),MainchainGatewayManager: Minting ERC721 token to gateway failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1112-1115)\n\tState variables written after the call(s):\n\t- _insertWithdrawalEntry(_withdrawalId,_user,_token,_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1118)\n\t\t- withdrawals[_withdrawalId] = _entry (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1200)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawERC20For",
+            "impact": "Low",
+            "line": 1024,
+            "line_end": 1068,
+            "message": "Reentrancy in MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1024-1068):\n\tExternal calls:\n\t- _withdrawETHFor(_user,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)\n\t\t- WETH(_weth).withdraw(_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1212)\n\t- require(bool,string)(IERC20Mintable(_token).mint(address(this),_amount.sub(_gatewayBalance)),MainchainGatewayManager: Minting ERC20 token to gateway failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1053-1056)\n\t- require(bool,string)(IERC20(_token).transfer(_user,_amount),Transfer failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1059)\n\tExternal calls sending eth:\n\t- _withdrawETHFor(_user,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)\n\t\t- _user.toPayable().transfer(_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)\n\tState variables written after the call(s):\n\t- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)\n\t\t- withdrawals[_withdrawalId] = _entry (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1200)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositERC721For",
+            "impact": "Low",
+            "line": 923,
+            "line_end": 930,
+            "message": "Reentrancy in MainchainGatewayManager.depositERC721For(address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923-930):\n\tExternal calls:\n\t- IERC721(_token).transferFrom(msg.sender,address(this),_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#928)\n\tEvent emitted after the call(s):\n\t- TokenDeposited(_depositId,_owner,_token,_sidechainToken,_standard,_number) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1175-1182)\n\t\t- _createDepositEntry(_user,_token,721,_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#929)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawERC721For",
+            "impact": "Low",
+            "line": 1088,
+            "line_end": 1119,
+            "message": "Reentrancy in MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1088-1119):\n\tExternal calls:\n\t- ! _tryERC721TransferFrom(_token,address(this),_user,_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1111)\n\t\t- (success) = _token.call(abi.encodeWithSelector(IERC721(_token).transferFrom.selector,_from,_to,_tokenId)) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1226-1230)\n\t- require(bool,string)(IERC721Mintable(_token).mint(_user,_tokenId),MainchainGatewayManager: Minting ERC721 token to gateway failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1112-1115)\n\tEvent emitted after the call(s):\n\t- TokenWithdrew(_withdrawalId,_owner,_token,_number) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1202)\n\t\t- _insertWithdrawalEntry(_withdrawalId,_user,_token,_tokenId) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1118)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositERC20For",
+            "impact": "Low",
+            "line": 911,
+            "line_end": 921,
+            "message": "Reentrancy in MainchainGatewayManager.depositERC20For(address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911-921):\n\tExternal calls:\n\t- require(bool,string)(IERC20(_token).transferFrom(msg.sender,address(this),_amount),MainchainGatewayManager: ERC-20 token transfer failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#916-919)\n\tEvent emitted after the call(s):\n\t- TokenDeposited(_depositId,_owner,_token,_sidechainToken,_standard,_number) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1175-1182)\n\t\t- _createDepositEntry(_user,_token,20,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#920)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawERC20For",
+            "impact": "Low",
+            "line": 1024,
+            "line_end": 1068,
+            "message": "Reentrancy in MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1024-1068):\n\tExternal calls:\n\t- _withdrawETHFor(_user,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)\n\t\t- WETH(_weth).withdraw(_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1212)\n\t- require(bool,string)(IERC20Mintable(_token).mint(address(this),_amount.sub(_gatewayBalance)),MainchainGatewayManager: Minting ERC20 token to gateway failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1053-1056)\n\t- require(bool,string)(IERC20(_token).transfer(_user,_amount),Transfer failed) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1059)\n\tExternal calls sending eth:\n\t- _withdrawETHFor(_user,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)\n\t\t- _user.toPayable().transfer(_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)\n\tEvent emitted after the call(s):\n\t- TokenWithdrew(_withdrawalId,_owner,_token,_number) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1202)\n\t\t- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositEthFor",
+            "impact": "Low",
+            "line": 900,
+            "line_end": 909,
+            "message": "Reentrancy in MainchainGatewayManager.depositEthFor(address) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#900-909):\n\tExternal calls:\n\t- WETH(_weth).deposit.value(msg.value)() (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#907)\n\tEvent emitted after the call(s):\n\t- TokenDeposited(_depositId,_owner,_token,_sidechainToken,_standard,_number) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1175-1182)\n\t\t- _createDepositEntry(_owner,_weth,20,msg.value) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#908)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "recover",
+            "impact": "Informational",
+            "line": 19,
+            "line_end": 47,
+            "message": "ECVerify.recover(bytes32,bytes,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19-47) uses assembly\n\t- INLINE ASM (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#28-32)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 178,
+            "line_end": 183,
+            "message": "AddressUtils.isContract(address) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#178-183) uses assembly\n\t- INLINE ASM (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#181)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "addValidators",
+            "impact": "Informational",
+            "line": 612,
+            "line_end": 616,
+            "message": "MainchainValidator.addValidators(address[]) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#612-616) has costly operations inside a loop:\n\t- _addValidator(nonce ++,_validators[_i]) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#614)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "_createDepositEntry",
+            "impact": "Informational",
+            "line": 1151,
+            "line_end": 1183,
+            "message": "MainchainGatewayManager._createDepositEntry(address,address,uint32,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1151-1183) has costly operations inside a loop:\n\t- _depositId = depositCount ++ (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "removeMinters",
+            "impact": "Informational",
+            "line": 319,
+            "line_end": 344,
+            "message": "HasMinters.removeMinters(address[]) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#319-344) has costly operations inside a loop:\n\t- delete minters[minters.length - 1] (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#338)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "addU8",
+            "impact": "Informational",
+            "line": 101,
+            "line_end": 104,
+            "message": "SafeMath.addU8(uint8,uint8) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#101-104) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "subU64",
+            "impact": "Informational",
+            "line": 96,
+            "line_end": 99,
+            "message": "SafeMath.subU64(uint64,uint64) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#96-99) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 178,
+            "line_end": 183,
+            "message": "AddressUtils.isContract(address) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#178-183) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "ecverify",
+            "impact": "Informational",
+            "line": 49,
+            "line_end": 51,
+            "message": "ECVerify.ecverify(bytes32,bytes,address) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49-51) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 86,
+            "line_end": 90,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#86-90) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "ceilingDiv",
+            "impact": "Informational",
+            "line": 92,
+            "line_end": 94,
+            "message": "SafeMath.ceilingDiv(uint256,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#92-94) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "recover",
+            "impact": "Informational",
+            "line": 14,
+            "line_end": 16,
+            "message": "ECVerify.recover(bytes32,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#14-16) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "_tryERC721TransferFrom",
+            "impact": "Informational",
+            "line": 1217,
+            "line_end": 1232,
+            "message": "Low level call in MainchainGatewayManager._tryERC721TransferFrom(address,address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1217-1232):\n\t- (success) = _token.call(abi.encodeWithSelector(IERC721(_token).transferFrom.selector,_from,_to,_tokenId)) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1226-1230)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Mintable",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 358,
+            "line_end": 369,
+            "message": "ERC20Mintable (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#358-369) should inherit from IERC20Mintable (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#130-132)\n",
+            "name": "missing-inheritance"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 214,
+            "message": "Parameter ERC20.transferFrom(address,address,uint256)._value (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1028,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._amount (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1028) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 684,
+            "message": "Parameter Registry.updateContract(string,address)._newAddress (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#684) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 827,
+            "message": "Parameter MainchainGatewayStorage.updateRegistry(address)._registry (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#827) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1126,
+            "message": "Parameter MainchainGatewayManager.verifySignatures(bytes32,bytes)._signatures (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1126) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 174,
+            "message": "Parameter AddressUtils.toPayable(address)._address (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#174) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 662,
+            "message": "Parameter Registry.getContract(string)._name (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#662) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 694,
+            "message": "Parameter Registry.mapToken(address,address,uint32)._standard (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#694) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 726,
+            "message": "Parameter Registry.getMappedToken(address,bool)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#726) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 200,
+            "message": "Parameter ERC20.approve(address,uint256)._spender (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#200) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 359,
+            "message": "Parameter ERC20Mintable.mint(address,uint256)._value (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#359) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1089,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._withdrawalId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1009,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._amount (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1009) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1008,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1008) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 49,
+            "message": "Parameter ECVerify.ecverify(bytes32,bytes,address)._signer (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 359,
+            "message": "Parameter ERC20Mintable.mint(address,uint256)._to (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#359) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1029,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._signatures (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1029) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 923,
+            "message": "Parameter MainchainGatewayManager.depositERC721For(address,address,uint256)._user (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 200,
+            "message": "Parameter ERC20.approve(address,uint256)._value (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#200) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1092,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._tokenId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1092) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 961,
+            "message": "Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._signatures (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#961) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 900,
+            "message": "Parameter MainchainGatewayManager.depositEthFor(address)._owner (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#900) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 978,
+            "message": "Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#978) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1025,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._withdrawalId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1025) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1093,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._signatures (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1093) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 935,
+            "message": "Parameter MainchainGatewayManager.depositBulkFor(address,address[],uint256[])._tokenNumbers (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#935) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1072,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1072) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 14,
+            "message": "Parameter ECVerify.recover(bytes32,bytes)._hash (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#14) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 934,
+            "message": "Parameter MainchainGatewayManager.depositBulkFor(address,address[],uint256[])._tokens (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#934) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 911,
+            "message": "Parameter MainchainGatewayManager.depositERC20For(address,address,uint256)._user (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 979,
+            "message": "Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._amount (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#979) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 206,
+            "message": "Parameter ERC20.transfer(address,uint256)._to (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#206) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1073,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._tokenId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1073) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 513,
+            "message": "Parameter Validator.isValidator(address)._addr (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#513) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 672,
+            "message": "Parameter Registry.isTokenMapped(address,uint32,bool)._isMainchain (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#672) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 684,
+            "message": "Parameter Registry.updateContract(string,address)._name (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#684) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 911,
+            "message": "Parameter MainchainGatewayManager.depositERC20For(address,address,uint256)._amount (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1091,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1091) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 743,
+            "message": "Parameter Registry.getCode(string)._name (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#743) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1125,
+            "message": "Parameter MainchainGatewayManager.verifySignatures(bytes32,bytes)._hash (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1125) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 672,
+            "message": "Parameter Registry.isTokenMapped(address,uint32,bool)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#672) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 622,
+            "message": "Parameter MainchainValidator.updateQuorum(uint256,uint256)._numerator (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#622) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 403,
+            "message": "Parameter WETH.withdraw(uint256)._wad (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#403) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 305,
+            "message": "Parameter HasMinters.addMinters(address[])._addedMinters (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#305) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 622,
+            "message": "Parameter MainchainValidator.updateQuorum(uint256,uint256)._denominator (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#622) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1090,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._user (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1090) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 892,
+            "message": "Parameter MainchainGatewayManager.depositERC721(address,uint256)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#892) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 959,
+            "message": "Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#959) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 892,
+            "message": "Parameter MainchainGatewayManager.depositERC721(address,uint256)._tokenId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#892) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1027,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1027) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 977,
+            "message": "Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._user (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#977) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1026,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._user (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1026) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 714,
+            "message": "Parameter Registry.clearMapToken(address,address)._sidechainToken (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#714) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 49,
+            "message": "Parameter ECVerify.ecverify(bytes32,bytes,address)._signature (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 49,
+            "message": "Parameter ECVerify.ecverify(bytes32,bytes,address)._hash (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 346,
+            "message": "Parameter HasMinters.isMinter(address)._addr (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#346) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 923,
+            "message": "Parameter MainchainGatewayManager.depositERC721For(address,address,uint256)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 958,
+            "message": "Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._withdrawalId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#958) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 923,
+            "message": "Parameter MainchainGatewayManager.depositERC721For(address,address,uint256)._tokenId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 319,
+            "message": "Parameter HasMinters.removeMinters(address[])._removedMinters (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#319) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 14,
+            "message": "Parameter ECVerify.recover(bytes32,bytes)._signature (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#14) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 529,
+            "message": "Parameter Validator.checkThreshold(uint256)._voteCount (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#529) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 884,
+            "message": "Parameter MainchainGatewayManager.depositERC20(address,uint256)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#884) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 694,
+            "message": "Parameter Registry.mapToken(address,address,uint32)._mainchainToken (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#694) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 960,
+            "message": "Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._amount (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#960) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 214,
+            "message": "Parameter ERC20.transferFrom(address,address,uint256)._to (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 714,
+            "message": "Parameter Registry.clearMapToken(address,address)._mainchainToken (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#714) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 206,
+            "message": "Parameter ERC20.transfer(address,uint256)._value (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#206) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 911,
+            "message": "Parameter MainchainGatewayManager.depositERC20For(address,address,uint256)._token (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 423,
+            "message": "Variable ProxyStorage._proxyTo (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#423) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1071,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._withdrawalId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1071) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 672,
+            "message": "Parameter Registry.isTokenMapped(address,uint32,bool)._standard (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#672) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1074,
+            "message": "Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._signatures (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1074) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Parameter ECVerify.recover(bytes32,bytes,uint256)._signature (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1007,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._withdrawalId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1007) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 612,
+            "message": "Parameter MainchainValidator.addValidators(address[])._validators (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#612) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 275,
+            "message": "Parameter HasAdmin.changeAdmin(address)._newAdmin (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#275) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 694,
+            "message": "Parameter Registry.mapToken(address,address,uint32)._sidechainToken (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#694) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Parameter ECVerify.recover(bytes32,bytes,uint256)._index (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Parameter ECVerify.recover(bytes32,bytes,uint256)._hash (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 980,
+            "message": "Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._signatures (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#980) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 976,
+            "message": "Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._withdrawalId (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#976) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 214,
+            "message": "Parameter ERC20.transferFrom(address,address,uint256)._from (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 933,
+            "message": "Parameter MainchainGatewayManager.depositBulkFor(address,address[],uint256[])._user (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#933) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 618,
+            "message": "Parameter MainchainValidator.removeValidator(address)._validator (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#618) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 1010,
+            "message": "Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._signatures (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1010) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 727,
+            "message": "Parameter Registry.getMappedToken(address,bool)._isMainchain (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#727) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 884,
+            "message": "Parameter MainchainGatewayManager.depositERC20(address,uint256)._amount (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#884) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdraw",
+            "impact": "Informational",
+            "line": 403,
+            "line_end": 411,
+            "message": "Reentrancy in WETH.withdraw(uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#403-411):\n\tExternal calls:\n\t- msg.sender.transfer(_wad) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#408)\n\tEvent emitted after the call(s):\n\t- Withdrawal(msg.sender,_wad) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#410)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawERC20For",
+            "impact": "Informational",
+            "line": 1024,
+            "line_end": 1068,
+            "message": "Reentrancy in MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1024-1068):\n\tExternal calls:\n\t- _withdrawETHFor(_user,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)\n\t\t- _user.toPayable().transfer(_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)\n\tState variables written after the call(s):\n\t- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)\n\t\t- withdrawals[_withdrawalId] = _entry (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1200)\n\tEvent emitted after the call(s):\n\t- TokenWithdrew(_withdrawalId,_owner,_token,_number) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1202)\n\t\t- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "contract": "MainchainGatewayManager",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Informational",
+            "line": 423,
+            "message": "ProxyStorage._proxyTo (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#423) is never used in MainchainGatewayManager (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#850-1234)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "impact": "Optimization",
+            "line": 423,
+            "message": "ProxyStorage._proxyTo (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#423) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 214,
+            "line_end": 221,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214-221)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawToken",
+            "impact": "Optimization",
+            "line": 957,
+            "line_end": 973,
+            "message": "withdrawToken(uint256,address,uint256,bytes) should be declared external:\n\t- MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#957-973)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawERC20",
+            "impact": "Optimization",
+            "line": 1006,
+            "line_end": 1022,
+            "message": "withdrawERC20(uint256,address,uint256,bytes) should be declared external:\n\t- MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1006-1022)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "pause",
+            "impact": "Optimization",
+            "line": 448,
+            "line_end": 451,
+            "message": "pause() should be declared external:\n\t- Pausable.pause() (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#448-451)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "withdrawERC721",
+            "impact": "Optimization",
+            "line": 1070,
+            "line_end": 1086,
+            "message": "withdrawERC721(uint256,address,uint256,bytes) should be declared external:\n\t- MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1070-1086)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "getValidators",
+            "impact": "Optimization",
+            "line": 476,
+            "message": "getValidators() should be declared external:\n\t- IValidator.getValidators() (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#476)\n\t- Validator.getValidators() (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#521-527)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "depositBulkFor",
+            "impact": "Optimization",
+            "line": 932,
+            "line_end": 955,
+            "message": "depositBulkFor(address,address[],uint256[]) should be declared external:\n\t- MainchainGatewayManager.depositBulkFor(address,address[],uint256[]) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#932-955)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "addMinters",
+            "impact": "Optimization",
+            "line": 305,
+            "line_end": 317,
+            "message": "addMinters(address[]) should be declared external:\n\t- HasMinters.addMinters(address[]) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#305-317)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 206,
+            "line_end": 212,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#206-212)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "mint",
+            "impact": "Optimization",
+            "line": 359,
+            "line_end": 361,
+            "message": "mint(address,uint256) should be declared external:\n\t- ERC20Mintable.mint(address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#359-361)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "unpause",
+            "impact": "Optimization",
+            "line": 453,
+            "line_end": 456,
+            "message": "unpause() should be declared external:\n\t- Pausable.unpause() (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#453-456)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "isMinter",
+            "impact": "Optimization",
+            "line": 346,
+            "line_end": 348,
+            "message": "isMinter(address) should be declared external:\n\t- HasMinters.isMinter(address) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#346-348)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "checkThreshold",
+            "impact": "Optimization",
+            "line": 478,
+            "message": "checkThreshold(uint256) should be declared external:\n\t- IValidator.checkThreshold(uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#478)\n\t- Validator.checkThreshold(uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#529-535)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 200,
+            "line_end": 204,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#200-204)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol",
+            "function": "removeMinters",
+            "impact": "Optimization",
+            "line": 319,
+            "line_end": 344,
+            "message": "removeMinters(address[]) should be declared external:\n\t- HasMinters.removeMinters(address[]) (../..0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#319-344)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

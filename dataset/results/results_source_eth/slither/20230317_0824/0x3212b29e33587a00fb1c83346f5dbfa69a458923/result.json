@@ -1,0 +1,394 @@
+{
+    "errors": [
+        "EXIT_CODE_41"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "defaultOperators",
+            "impact": "High",
+            "line": 630,
+            "message": "EarnERC777._defaultOperatorsArray (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#630) is never initialized. It is used in:\n\t- EarnERC777.defaultOperators() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#791-793)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_distributeRevenue",
+            "impact": "Medium",
+            "line": 1086,
+            "line_end": 1100,
+            "message": "EarnERC777._distributeRevenue(address) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1086-1100) performs a multiplication on the result of a division:\n\t-_exchangeRate = _exchangeRate.mul(_totalSupply.mul(RATE_SCALE).div(_totalSupply.sub(value))).div(RATE_SCALE) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1094)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "interfaceHash",
+            "impact": "Low",
+            "line": 545,
+            "message": "IERC1820Registry.getInterfaceImplementer(address,bytes32).interfaceHash (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#545) shadows:\n\t- IERC1820Registry.interfaceHash(string) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#552) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "interfaceHash",
+            "impact": "Low",
+            "line": 534,
+            "message": "IERC1820Registry.setInterfaceImplementer(address,bytes32,address).interfaceHash (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#534) shadows:\n\t- IERC1820Registry.interfaceHash(string) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#552) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 639,
+            "message": "EarnERC777.constructor(string,string,uint8).symbol (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#639) shadows:\n\t- EarnERC777.symbol() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#666-668) (function)\n\t- IERC777.symbol() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#24) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 640,
+            "message": "EarnERC777.constructor(string,string,uint8).name (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#640) shadows:\n\t- EarnERC777.name() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#659-661) (function)\n\t- IERC777.name() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#18) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "decimals",
+            "impact": "Low",
+            "line": 641,
+            "message": "EarnERC777.constructor(string,string,uint8).decimals (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#641) shadows:\n\t- EarnERC777.decimals() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#676-678) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_transferFrom",
+            "impact": "Low",
+            "line": 856,
+            "line_end": 871,
+            "message": "Reentrancy in EarnERC777._transferFrom(address,address,uint256) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#856-871):\n\tExternal calls:\n\t- _callTokensToSend(spender,holder,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#862)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tState variables written after the call(s):\n\t- _approve(holder,spender,_allowances[holder][spender].sub(amount)) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#866)\n\t\t- _allowances[holder][spender] = value (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1027)\n\t- _move(spender,holder,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#864)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_burn",
+            "impact": "Low",
+            "line": 980,
+            "line_end": 1000,
+            "message": "Reentrancy in EarnERC777._burn(address,address,uint256,bytes,bytes) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#980-1000):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#991)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tState variables written after the call(s):\n\t- _subBalance(from,scaleAmount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#996)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)\n\t- _totalSupply = _totalSupply.sub(scaleAmount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#995)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_send",
+            "impact": "Low",
+            "line": 951,
+            "line_end": 970,
+            "message": "Reentrancy in EarnERC777._send(address,address,address,uint256,bytes,bytes,bool) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#951-970):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#965)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tState variables written after the call(s):\n\t- _move(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#967)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 732,
+            "line_end": 744,
+            "message": "Reentrancy in EarnERC777._transfer(address,uint256) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#732-744):\n\tExternal calls:\n\t- _callTokensToSend(from,from,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#737)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tState variables written after the call(s):\n\t- _move(from,from,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#739)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#938)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_mint",
+            "impact": "Low",
+            "line": 890,
+            "line_end": 909,
+            "message": "Reentrancy in EarnERC777._mint(address,address,uint256,bytes,bytes) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#890-909):\n\tExternal calls:\n\t- _callTokensReceived(operator,address(0),account,amount,userData,operatorData,false) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#901)\n\t\t- IERC777Recipient(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1080)\n\tState variables written after the call(s):\n\t- _addBalance(account,scaleAmount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#905)\n\t\t- _balances[account] = balance (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#930)\n\t- _totalSupply = _totalSupply.add(scaleAmount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#904)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_transferFrom",
+            "impact": "Low",
+            "line": 856,
+            "line_end": 871,
+            "message": "Reentrancy in EarnERC777._transferFrom(address,address,uint256) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#856-871):\n\tExternal calls:\n\t- _callTokensToSend(spender,holder,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#862)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tEvent emitted after the call(s):\n\t- Approval(holder,spender,value) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1028)\n\t\t- _approve(holder,spender,_allowances[holder][spender].sub(amount)) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#866)\n\t- Sent(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1017)\n\t\t- _move(spender,holder,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#864)\n\t- Transfer(from,to,amount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1018)\n\t\t- _move(spender,holder,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#864)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 732,
+            "line_end": 744,
+            "message": "Reentrancy in EarnERC777._transfer(address,uint256) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#732-744):\n\tExternal calls:\n\t- _callTokensToSend(from,from,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#737)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tEvent emitted after the call(s):\n\t- Sent(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1017)\n\t\t- _move(from,from,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#739)\n\t- Transfer(from,to,amount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1018)\n\t\t- _move(from,from,recipient,amount,,) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#739)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_mint",
+            "impact": "Low",
+            "line": 890,
+            "line_end": 909,
+            "message": "Reentrancy in EarnERC777._mint(address,address,uint256,bytes,bytes) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#890-909):\n\tExternal calls:\n\t- _callTokensReceived(operator,address(0),account,amount,userData,operatorData,false) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#901)\n\t\t- IERC777Recipient(implementer).tokensReceived(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1080)\n\tEvent emitted after the call(s):\n\t- Minted(operator,account,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#907)\n\t- Transfer(address(0),account,amount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#908)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_send",
+            "impact": "Low",
+            "line": 951,
+            "line_end": 970,
+            "message": "Reentrancy in EarnERC777._send(address,address,address,uint256,bytes,bytes,bool) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#951-970):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#965)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tEvent emitted after the call(s):\n\t- Sent(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1017)\n\t\t- _move(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#967)\n\t- Transfer(from,to,amount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1018)\n\t\t- _move(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#967)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "_burn",
+            "impact": "Low",
+            "line": 980,
+            "line_end": 1000,
+            "message": "Reentrancy in EarnERC777._burn(address,address,uint256,bytes,bytes) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#980-1000):\n\tExternal calls:\n\t- _callTokensToSend(operator,from,address(0),amount,data,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#991)\n\t\t- IERC777Sender(implementer).tokensToSend(operator,from,to,amount,userData,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1052)\n\tEvent emitted after the call(s):\n\t- Burned(operator,from,amount,data,operatorData) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#998)\n\t- Transfer(from,address(0),amount) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#999)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 462,
+            "line_end": 471,
+            "message": "Address.isContract(address) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#462-471) uses assembly\n\t- INLINE ASM (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#469)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 1,
+            "message": "Pragma version^0.5.0 (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 630,
+            "message": "Variable EarnERC777._defaultOperatorsArray (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#630) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 636,
+            "message": "Variable EarnERC777._allowances (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#636) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 612,
+            "message": "Variable EarnERC777._exchangeRate (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#612) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 609,
+            "message": "Variable EarnERC777._balances (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#609) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 633,
+            "message": "Variable EarnERC777._operators (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#633) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 615,
+            "message": "Variable EarnERC777._symbol (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#615) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 607,
+            "message": "Variable EarnERC777._erc1820 (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#607) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 611,
+            "message": "Variable EarnERC777._totalSupply (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 1400,
+            "message": "Variable IMBTC._revenueAddress (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1400) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 614,
+            "message": "Variable EarnERC777._name (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#614) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "impact": "Informational",
+            "line": 616,
+            "message": "Variable EarnERC777._decimals (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#616) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "pause",
+            "impact": "Optimization",
+            "line": 1339,
+            "line_end": 1342,
+            "message": "pause() should be declared external:\n\t- Pausable.pause() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1339-1342)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "disableTransfer",
+            "impact": "Optimization",
+            "line": 1386,
+            "line_end": 1389,
+            "message": "disableTransfer() should be declared external:\n\t- SwitchTransferable.disableTransfer() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1386-1389)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 1176,
+            "line_end": 1178,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1176-1178)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "addMinter",
+            "impact": "Optimization",
+            "line": 1260,
+            "line_end": 1262,
+            "message": "addMinter(address) should be declared external:\n\t- MinterRole.addMinter(address) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1260-1262)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "enableTransfer",
+            "impact": "Optimization",
+            "line": 1381,
+            "line_end": 1384,
+            "message": "enableTransfer() should be declared external:\n\t- SwitchTransferable.enableTransfer() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1381-1384)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 1206,
+            "line_end": 1208,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1206-1208)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "newOwner",
+            "impact": "Optimization",
+            "line": 1183,
+            "line_end": 1185,
+            "message": "newOwner() should be declared external:\n\t- Ownable.newOwner() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1183-1185)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "unpause",
+            "impact": "Optimization",
+            "line": 1347,
+            "line_end": 1350,
+            "message": "unpause() should be declared external:\n\t- Pausable.unpause() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1347-1350)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "acceptOwnership",
+            "impact": "Optimization",
+            "line": 1224,
+            "line_end": 1231,
+            "message": "acceptOwnership() should be declared external:\n\t- Ownable.acceptOwnership() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1224-1231)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "removeMinter",
+            "impact": "Optimization",
+            "line": 1264,
+            "line_end": 1266,
+            "message": "removeMinter(address) should be declared external:\n\t- MinterRole.removeMinter(address) (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1264-1266)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol",
+            "function": "paused",
+            "impact": "Optimization",
+            "line": 1316,
+            "line_end": 1318,
+            "message": "paused() should be declared external:\n\t- Pausable.paused() (../..0x3212b29e33587a00fb1c83346f5dbfa69a458923.sol#1316-1318)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

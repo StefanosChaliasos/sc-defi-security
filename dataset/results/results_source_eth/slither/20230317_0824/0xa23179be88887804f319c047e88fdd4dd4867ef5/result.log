@@ -1,0 +1,118 @@
+Compilation warnings/errors on /sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol:
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> /sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol
+
+
+[91m
+SmartTimelock.claimToken(IERC20) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#815-838) ignores return value by tokenToClaim.transfer(beneficiary(),claimableTokenAmount) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#832)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[92m
+TokenTimelock.constructor(IERC20,address,uint256).token (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#691) shadows:
+	- TokenTimelock.token() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#702-704) (function)
+TokenTimelock.constructor(IERC20,address,uint256).beneficiary (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#691) shadows:
+	- TokenTimelock.beneficiary() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#709-711) (function)
+TokenTimelock.constructor(IERC20,address,uint256).releaseTime (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#691) shadows:
+	- TokenTimelock.releaseTime() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#716-718) (function)
+SmartTimelock.constructor(IERC20,address,address,uint256).token (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#754) shadows:
+	- TokenTimelock.token() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#702-704) (function)
+SmartTimelock.constructor(IERC20,address,address,uint256).beneficiary (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#755) shadows:
+	- TokenTimelock.beneficiary() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#709-711) (function)
+SmartTimelock.constructor(IERC20,address,address,uint256).governor (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#756) shadows:
+	- SmartTimelock.governor() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#863-865) (function)
+SmartTimelock.constructor(IERC20,address,address,uint256).releaseTime (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#757) shadows:
+	- TokenTimelock.releaseTime() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#716-718) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+TokenTimelock.constructor(IERC20,address,uint256).beneficiary (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#691) lacks a zero-check on :
+		- _beneficiary = beneficiary (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#695)
+TokenTimelock.changeBeneficiary(address).newBeneficiary (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#723) lacks a zero-check on :
+		- _beneficiary = newBeneficiary (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#724)
+SmartTimelock.constructor(IERC20,address,address,uint256).governor (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#756) lacks a zero-check on :
+		- _governor = governor (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#759)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in SmartTimelock.claimToken(IERC20) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#815-838):
+	External calls:
+	- tokenToClaim.transfer(beneficiary(),claimableTokenAmount) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#832)
+	Event emitted after the call(s):
+	- ClaimToken(tokenToClaim,claimableTokenAmount) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#837)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+TokenTimelock.constructor(IERC20,address,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#691-697) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(releaseTime > block.timestamp,TokenTimelock: release time is before current time) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#693)
+TokenTimelock.release() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#730-738) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp >= _releaseTime,TokenTimelock: current time is before release time) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#732)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Executor.executeCall(address,uint256,bytes,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#28-46) uses assembly
+	- INLINE ASM (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#35-45)
+Address.isContract(address) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#74-83) uses assembly
+	- INLINE ASM (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#81)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#167-188) uses assembly
+	- INLINE ASM (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#180-183)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#127-129) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#152-154) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#162-165) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#101-107) is never used and should be removed
+Context._msgData() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#446-449) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#386-395) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#402-405) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#397-400) is never used and should be removed
+SafeERC20.safeTransferFrom(IERC20,address,address,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#375-377) is never used and should be removed
+SafeMath.add(uint256,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#219-224) is never used and should be removed
+SafeMath.div(uint256,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#293-295) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#309-315) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#329-331) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#345-348) is never used and should be removed
+SafeMath.mul(uint256,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#267-279) is never used and should be removed
+SafeMath.sub(uint256,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#236-238) is never used and should be removed
+SafeMath.sub(uint256,uint256,string) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#250-255) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#6) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#51) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#193) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#353) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#429) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#454) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#522) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#585) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Pragma version^0.6.9 (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#663) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#101-107):
+	- (success) = recipient.call{value: amount}() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#105)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#167-188):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#171)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable SmartTimelock._governor (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#750) is not in mixedCase
+Variable SmartTimelock._transferAllowed (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#751) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#447)" inContext (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#441-450)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Reentrancy in SmartTimelock.claimEther() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#843-858):
+	External calls:
+	- address(beneficiary()).transfer(etherToTransfer) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#852)
+	Event emitted after the call(s):
+	- ClaimEther(etherToTransfer) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#857)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#485-487)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#504-507)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#513-517)
+releaseTime() should be declared external:
+	- TokenTimelock.releaseTime() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#716-718)
+release() should be declared external:
+	- TokenTimelock.release() (../../sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol#730-738)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xa23179be88887804f319c047e88fdd4dd4867ef5.sol analyzed (10 contracts with 78 detectors), 54 result(s) found

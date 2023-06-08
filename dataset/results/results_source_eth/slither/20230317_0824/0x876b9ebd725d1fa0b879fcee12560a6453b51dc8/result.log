@@ -1,0 +1,193 @@
+Compilation warnings/errors on /sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol:
+/sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol:20:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+
+[93m
+LibFindMethod.findMethod(bytes) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#429-442) is declared view but contains assembly code
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#constant-functions-using-assembly-code[0m
+[93m
+Reentrancy in Drago.batchOperateOnExchange(address,Drago.Transaction[]) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#813-824):
+	External calls:
+	- ! operateOnExchange(_exchange,transactions[i]) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#822)
+		- approvedExchange = ExchangesAuthority(getExchangesAuthority()).isWhitelistedExchange(_target) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#508-509)
+		- ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).isMethodAllowed(_method,_adapter) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1212-1215)
+		- Authority(admin.authority).getExchangesAuthority() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1174)
+		- ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).getExchangeAdapter(_exchange) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1185-1188)
+		- approvedWrapper = ExchangesAuthority(getExchangesAuthority()).isWhitelistedWrapper(_target) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#510-511)
+	- whenApprovedExchangeOrWrapper(_exchange) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#819)
+		- Authority(admin.authority).getExchangesAuthority() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1174)
+		- approvedExchange = ExchangesAuthority(getExchangesAuthority()).isWhitelistedExchange(_target) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#508-509)
+		- approvedWrapper = ExchangesAuthority(getExchangesAuthority()).isWhitelistedWrapper(_target) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#510-511)
+	State variables written after the call(s):
+	- ! operateOnExchange(_exchange,transactions[i]) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#822)
+		- locked = true (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#369)
+		- locked = false (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#375)
+Reentrancy in Drago.buyDragoInternal(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#963-979):
+	External calls:
+	- require(bool)(Kyc(admin.kycProvider).isWhitelistedUser(_hodler)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#968)
+	- addPurchaseLog(amount) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#975)
+		- events = DragoEventful(auth.getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1024)
+		- require(bool)(events.buyDrago(msg.sender,this,msg.value,_amount,name,symbol)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1025)
+	State variables written after the call(s):
+	- data.totalSupply = safeAdd(data.totalSupply,grossAmount) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#977)
+Reentrancy in Drago.changeDragoDao(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#703-710):
+	External calls:
+	- events = DragoEventful(getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#707)
+		- auth.getDragoEventful() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)
+	- require(bool)(events.changeDragoDao(msg.sender,this,_dragoDao)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#708)
+	State variables written after the call(s):
+	- admin.dragoDao = _dragoDao (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#709)
+Reentrancy in Drago.changeFeeCollector(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#692-699):
+	External calls:
+	- events = DragoEventful(getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#696)
+		- auth.getDragoEventful() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)
+	- events.changeFeeCollector(msg.sender,this,_feeCollector) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#697)
+	State variables written after the call(s):
+	- admin.feeCollector = _feeCollector (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#698)
+Reentrancy in Drago.changeRatio(uint256) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#669-676):
+	External calls:
+	- events = DragoEventful(getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#673)
+		- auth.getDragoEventful() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)
+	- require(bool)(events.changeRatio(msg.sender,this,_ratio)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#674)
+	State variables written after the call(s):
+	- admin.ratio = _ratio (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#675)
+Reentrancy in Drago.sellDrago(uint256) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#614-632):
+	External calls:
+	- addSaleLog(_amount,netRevenue) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#627)
+		- events = DragoEventful(auth.getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1037)
+		- require(bool)(events.sellDrago(msg.sender,this,_amount,_netRevenue,name,symbol)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1038)
+	State variables written after the call(s):
+	- allocateSaleTokens(msg.sender,_amount,feeDrago,feeDragoDao) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#628)
+		- accounts[_hodler].balance = safeSub(accounts[_hodler].balance,_amount) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1011)
+		- accounts[admin.feeCollector].balance = safeAdd(accounts[admin.feeCollector].balance,_feeDrago) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1012)
+		- accounts[admin.dragoDao].balance = safeAdd(accounts[admin.dragoDao].balance,_feeDragoDao) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1013)
+	- data.totalSupply = safeSub(data.totalSupply,netAmount) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#629)
+Reentrancy in Drago.setPrices(uint256,uint256,uint256,bytes32,bytes) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#640-665):
+	External calls:
+	- require(bool)(isValidNav(_newSellPrice,_newBuyPrice,_signaturevaliduntilBlock,_hash,_signedData)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#652-660)
+		- isValid = NavVerifier(getNavVerifier()).isValidNav(sellPrice,buyPrice,signaturevaliduntilBlock,hash,signedData) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1157-1163)
+		- Authority(admin.authority).getNavVerifier() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1136-1137)
+	- events = DragoEventful(getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#661)
+		- auth.getDragoEventful() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)
+	- require(bool)(events.setDragoPrice(msg.sender,this,_newSellPrice,_newBuyPrice)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#662)
+	- onlyOwnerOrAuthority() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#648)
+		- require(bool)(auth.isAuthority(msg.sender) || msg.sender == owner) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#503)
+	State variables written after the call(s):
+	- data.sellPrice = _newSellPrice (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#663)
+	- data.buyPrice = _newBuyPrice (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#664)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+Drago.changeFeeCollector(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#692-699) ignores return value by events.changeFeeCollector(msg.sender,this,_feeCollector) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#697)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+Drago.constructor(string,string,uint256,address,address)._owner (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#557) lacks a zero-check on :
+		- owner = _owner (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#566)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Drago.setAllowancesInternal(address,address,uint256) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1044-1054) has external calls inside a loop: require(bool)(Token(_token).approve(_tokenTransferProxy,_amount)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1051-1052)
+Drago.getExchangesAuthority() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1169-1175) has external calls inside a loop: Authority(admin.authority).getExchangesAuthority() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1174)
+Drago.whenApprovedExchangeOrWrapper(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#507-514) has external calls inside a loop: approvedExchange = ExchangesAuthority(getExchangesAuthority()).isWhitelistedExchange(_target) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#508-509)
+Drago.whenApprovedExchangeOrWrapper(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#507-514) has external calls inside a loop: approvedWrapper = ExchangesAuthority(getExchangesAuthority()).isWhitelistedWrapper(_target) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#510-511)
+Drago.getExchangeAdapter(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1180-1189) has external calls inside a loop: ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).getExchangeAdapter(_exchange) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1185-1188)
+Drago.methodAllowedOnExchange(bytes4,address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1205-1216) has external calls inside a loop: ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).isMethodAllowed(_method,_adapter) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1212-1215)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in Drago.buyDragoInternal(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#963-979):
+	External calls:
+	- require(bool)(Kyc(admin.kycProvider).isWhitelistedUser(_hodler)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#968)
+	- addPurchaseLog(amount) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#975)
+		- events = DragoEventful(auth.getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1024)
+		- require(bool)(events.buyDrago(msg.sender,this,msg.value,_amount,name,symbol)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1025)
+	State variables written after the call(s):
+	- allocatePurchaseTokens(_hodler,amount,feeDrago,feeDragoDao) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#976)
+		- accounts[_hodler].balance = safeAdd(accounts[_hodler].balance,_amount) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#993)
+		- accounts[admin.feeCollector].balance = safeAdd(accounts[admin.feeCollector].balance,_feeDrago) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#994)
+		- accounts[admin.dragoDao].balance = safeAdd(accounts[admin.dragoDao].balance,_feeDragoDao) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#995)
+		- accounts[_hodler].receipt.activation = uint32(now) + data.minPeriod (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#996)
+Reentrancy in Drago.setTransactionFee(uint256) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#680-688):
+	External calls:
+	- events = DragoEventful(getDragoEventful()) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#685)
+		- auth.getDragoEventful() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)
+	- require(bool)(events.setTransactionFee(msg.sender,this,_transactionFee)) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#686)
+	State variables written after the call(s):
+	- data.transactionFee = _transactionFee (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#687)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+LibFindMethod.findMethod(bytes) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#429-442) uses assembly
+	- INLINE ASM (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#435-441)
+Drago.operateOnExchange(address,Drago.Transaction) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#764-807) uses assembly
+	- INLINE ASM (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#785-806)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+ReentrancyGuard.nonReentrant() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#361-376) has costly operations inside a loop:
+	- locked = true (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#369)
+ReentrancyGuard.nonReentrant() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#361-376) has costly operations inside a loop:
+	- locked = false (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#375)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+Pragma version^0.4.25 (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#19) allows old versions
+solc-0.4.26 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Drago (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#448-1218) should inherit from SigVerifier (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#259-272)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance[0m
+[92m
+Parameter Owned.setOwner(address)._new (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#390) is not in mixedCase
+Parameter Drago.buyDragoOnBehalf(address)._hodler (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#601) is not in mixedCase
+Parameter Drago.sellDrago(uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#614) is not in mixedCase
+Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._newSellPrice (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#641) is not in mixedCase
+Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._newBuyPrice (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#642) is not in mixedCase
+Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._signaturevaliduntilBlock (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#643) is not in mixedCase
+Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._hash (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#644) is not in mixedCase
+Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._signedData (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#645) is not in mixedCase
+Parameter Drago.changeRatio(uint256)._ratio (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#669) is not in mixedCase
+Parameter Drago.setTransactionFee(uint256)._transactionFee (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#680) is not in mixedCase
+Parameter Drago.changeFeeCollector(address)._feeCollector (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#692) is not in mixedCase
+Parameter Drago.changeDragoDao(address)._dragoDao (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#703) is not in mixedCase
+Parameter Drago.changeMinPeriod(uint32)._minPeriod (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#714) is not in mixedCase
+Parameter Drago.enforceKyc(bool,address)._enforced (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#722) is not in mixedCase
+Parameter Drago.enforceKyc(bool,address)._kycProvider (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#723) is not in mixedCase
+Parameter Drago.setAllowance(address,address,uint256)._tokenTransferProxy (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#736) is not in mixedCase
+Parameter Drago.setAllowance(address,address,uint256)._token (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#737) is not in mixedCase
+Parameter Drago.setAllowance(address,address,uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#738) is not in mixedCase
+Parameter Drago.setMultipleAllowances(address,address[],uint256[])._tokenTransferProxy (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#751) is not in mixedCase
+Parameter Drago.setMultipleAllowances(address,address[],uint256[])._tokens (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#752) is not in mixedCase
+Parameter Drago.setMultipleAllowances(address,address[],uint256[])._amounts (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#753) is not in mixedCase
+Parameter Drago.operateOnExchange(address,Drago.Transaction)._exchange (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#765) is not in mixedCase
+Parameter Drago.batchOperateOnExchange(address,Drago.Transaction[])._exchange (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#814) is not in mixedCase
+Parameter Drago.balanceOf(address)._who (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#832) is not in mixedCase
+Parameter Drago.buyDragoInternal(address)._hodler (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#963) is not in mixedCase
+Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._hodler (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#987) is not in mixedCase
+Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#988) is not in mixedCase
+Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._feeDrago (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#989) is not in mixedCase
+Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._feeDragoDao (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#990) is not in mixedCase
+Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._hodler (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1005) is not in mixedCase
+Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1006) is not in mixedCase
+Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._feeDrago (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1007) is not in mixedCase
+Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._feeDragoDao (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1008) is not in mixedCase
+Parameter Drago.addPurchaseLog(uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1018) is not in mixedCase
+Parameter Drago.addSaleLog(uint256,uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1031) is not in mixedCase
+Parameter Drago.addSaleLog(uint256,uint256)._netRevenue (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1031) is not in mixedCase
+Parameter Drago.setAllowancesInternal(address,address,uint256)._tokenTransferProxy (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1045) is not in mixedCase
+Parameter Drago.setAllowancesInternal(address,address,uint256)._token (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1046) is not in mixedCase
+Parameter Drago.setAllowancesInternal(address,address,uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1047) is not in mixedCase
+Parameter Drago.getSaleAmounts(uint256)._amount (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1086) is not in mixedCase
+Parameter Drago.getExchangeAdapter(address)._exchange (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1180) is not in mixedCase
+Parameter Drago.methodAllowedOnExchange(bytes4,address)._method (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1206) is not in mixedCase
+Parameter Drago.methodAllowedOnExchange(bytes4,address)._adapter (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1207) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Drago.slitherConstructorConstantVariables() (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#448-1218) uses literals with too many digits:
+	- BASE = 1000000 (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#453)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+Drago.VERSION (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#452) is never used in Drago (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#448-1218)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+setOwner(address) should be declared external:
+	- Owned.setOwner(address) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#390-394)
+batchOperateOnExchange(address,Drago.Transaction[]) should be declared external:
+	- Drago.batchOperateOnExchange(address,Drago.Transaction[]) (../../sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#813-824)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol analyzed (12 contracts with 78 detectors), 72 result(s) found

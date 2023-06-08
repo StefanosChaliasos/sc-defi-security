@@ -1,0 +1,120 @@
+[93m
+Reentrancy in StrategyControllerV1.setStrategy(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#554-563):
+	External calls:
+	- IStrategy(_current).withdrawAll() (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#560)
+	State variables written after the call(s):
+	- strategies[_token] = _strategy (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#562)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+StrategyControllerV1.setStrategy(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#554-563) ignores return value by IStrategy(_current).withdrawAll() (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#560)
+StrategyControllerV1.withdrawAll(address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#584-587) ignores return value by IStrategy(strategies[_token]).withdrawAll() (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#586)
+StrategyControllerV1.cearn(address,address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#606-630) ignores return value by OneSplitAudit(onesplit).swap(_token,_want,_amount,_expected,_distribution,0) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#621)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+StrategyControllerV1.constructor(address)._rewards (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#502) lacks a zero-check on :
+		- rewards = _rewards (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#506)
+StrategyControllerV1.setRewards(address)._rewards (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#509) lacks a zero-check on :
+		- rewards = _rewards (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#511)
+StrategyControllerV1.setStrategist(address)._strategist (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#514) lacks a zero-check on :
+		- strategist = _strategist (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#516)
+StrategyControllerV1.setOneSplit(address)._onesplit (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#524) lacks a zero-check on :
+		- onesplit = _onesplit (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#526)
+StrategyControllerV1.setGovernance(address)._governance (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#529) lacks a zero-check on :
+		- governance = _governance (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#531)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Address.isContract(address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#256-265) uses assembly
+	- INLINE ASM (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#263)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#349-370) uses assembly
+	- INLINE ASM (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#362-365)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+StrategyControllerV1.setStrategy(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#554-563) compares to a boolean constant:
+	-require(bool,string)(approvedStrategies[_token][_strategy] == true,!approved) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#556)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#309-311) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#334-336) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#344-347) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#283-289) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#417-420) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#412-415) is never used and should be removed
+SafeERC20.safeTransferFrom(IERC20,address,address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#390-392) is never used and should be removed
+SafeMath.add(uint256,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#103-108) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#213-215) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#229-232) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#283-289):
+	- (success) = recipient.call{value: amount}() (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#287)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#349-370):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#353)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter StrategyControllerV1.setRewards(address)._rewards (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#509) is not in mixedCase
+Parameter StrategyControllerV1.setStrategist(address)._strategist (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#514) is not in mixedCase
+Parameter StrategyControllerV1.setSplit(uint256)._split (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#519) is not in mixedCase
+Parameter StrategyControllerV1.setOneSplit(address)._onesplit (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#524) is not in mixedCase
+Parameter StrategyControllerV1.setGovernance(address)._governance (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#529) is not in mixedCase
+Parameter StrategyControllerV1.setVault(address,address)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#534) is not in mixedCase
+Parameter StrategyControllerV1.setVault(address,address)._vault (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#534) is not in mixedCase
+Parameter StrategyControllerV1.approveStrategy(address,address)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#539) is not in mixedCase
+Parameter StrategyControllerV1.approveStrategy(address,address)._strategy (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#539) is not in mixedCase
+Parameter StrategyControllerV1.revokeStrategy(address,address)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#544) is not in mixedCase
+Parameter StrategyControllerV1.revokeStrategy(address,address)._strategy (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#544) is not in mixedCase
+Parameter StrategyControllerV1.setConverter(address,address,address)._input (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#549) is not in mixedCase
+Parameter StrategyControllerV1.setConverter(address,address,address)._output (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#549) is not in mixedCase
+Parameter StrategyControllerV1.setConverter(address,address,address)._converter (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#549) is not in mixedCase
+Parameter StrategyControllerV1.setStrategy(address,address)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#554) is not in mixedCase
+Parameter StrategyControllerV1.setStrategy(address,address)._strategy (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#554) is not in mixedCase
+Parameter StrategyControllerV1.earn(address,uint256)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#566) is not in mixedCase
+Parameter StrategyControllerV1.earn(address,uint256)._amount (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#566) is not in mixedCase
+Parameter StrategyControllerV1.balanceOf(address)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#580) is not in mixedCase
+Parameter StrategyControllerV1.withdrawAll(address)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#584) is not in mixedCase
+Parameter StrategyControllerV1.inCaseTokensGetStuck(address,uint256)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#589) is not in mixedCase
+Parameter StrategyControllerV1.inCaseTokensGetStuck(address,uint256)._amount (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#589) is not in mixedCase
+Parameter StrategyControllerV1.inCaseStrategyTokenGetStuck(address,address)._strategy (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#594) is not in mixedCase
+Parameter StrategyControllerV1.inCaseStrategyTokenGetStuck(address,address)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#594) is not in mixedCase
+Parameter StrategyControllerV1.getExpectedReturn(address,address,uint256)._strategy (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#599) is not in mixedCase
+Parameter StrategyControllerV1.getExpectedReturn(address,address,uint256)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#599) is not in mixedCase
+Parameter StrategyControllerV1.cearn(address,address,uint256)._strategy (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#606) is not in mixedCase
+Parameter StrategyControllerV1.cearn(address,address,uint256)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#606) is not in mixedCase
+Parameter StrategyControllerV1.withdraw(address,uint256)._token (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#632) is not in mixedCase
+Parameter StrategyControllerV1.withdraw(address,uint256)._amount (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#632) is not in mixedCase
+Constant StrategyControllerV1.max (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#500) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+setRewards(address) should be declared external:
+	- StrategyControllerV1.setRewards(address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#509-512)
+setStrategist(address) should be declared external:
+	- StrategyControllerV1.setStrategist(address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#514-517)
+setSplit(uint256) should be declared external:
+	- StrategyControllerV1.setSplit(uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#519-522)
+setOneSplit(address) should be declared external:
+	- StrategyControllerV1.setOneSplit(address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#524-527)
+setGovernance(address) should be declared external:
+	- StrategyControllerV1.setGovernance(address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#529-532)
+setVault(address,address) should be declared external:
+	- StrategyControllerV1.setVault(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#534-537)
+approveStrategy(address,address) should be declared external:
+	- StrategyControllerV1.approveStrategy(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#539-542)
+revokeStrategy(address,address) should be declared external:
+	- StrategyControllerV1.revokeStrategy(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#544-547)
+setConverter(address,address,address) should be declared external:
+	- StrategyControllerV1.setConverter(address,address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#549-552)
+setStrategy(address,address) should be declared external:
+	- StrategyControllerV1.setStrategy(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#554-563)
+withdrawAll(address) should be declared external:
+	- StrategyControllerV1.withdrawAll(address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#584-587)
+inCaseTokensGetStuck(address,uint256) should be declared external:
+	- StrategyControllerV1.inCaseTokensGetStuck(address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#589-592)
+inCaseStrategyTokenGetStuck(address,address) should be declared external:
+	- StrategyControllerV1.inCaseStrategyTokenGetStuck(address,address) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#594-597)
+getExpectedReturn(address,address,uint256) should be declared external:
+	- StrategyControllerV1.getExpectedReturn(address,address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#599-603)
+cearn(address,address,uint256) should be declared external:
+	- StrategyControllerV1.cearn(address,address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#606-630)
+withdraw(address,uint256) should be declared external:
+	- StrategyControllerV1.withdraw(address,uint256) (../../sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol#632-635)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x0b283b107f70d23250f882fbfe7216c38abbd7ca.sol analyzed (8 contracts with 78 detectors), 71 result(s) found

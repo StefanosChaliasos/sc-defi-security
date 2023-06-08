@@ -1,0 +1,879 @@
+Compilation warnings/errors on /sb/0x6b566554378477490ab040f6f757171c967d03ab.sol:
+Warning: This declaration shadows an existing declaration.
+    --> /sb/0x6b566554378477490ab040f6f757171c967d03ab.sol:2524:3:
+     |
+2524 |   struct Context {
+     |   ^ (Relevant source part starts here and spans across multiple lines).
+Note: The shadowed declaration is here:
+  --> /sb/0x6b566554378477490ab040f6f757171c967d03ab.sol:15:1:
+   |
+15 | abstract contract Context {
+   | ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Function state mutability can be restricted to view
+    --> /sb/0x6b566554378477490ab040f6f757171c967d03ab.sol:4407:3:
+     |
+4407 |   function _expectCaller(address _expectedCaller) internal {
+     |   ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x6b566554378477490ab040f6f757171c967d03ab.sol:3698:1:
+     |
+3698 | contract AlchemistEth is ReentrancyGuard {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+AlchemistEth._withdrawFundsTo(address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4470-4515) sends eth to arbitrary user
+	Dangerous calls:
+	- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+	- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+Reentrancy in AlchemistEth.deposit(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4152-4175):
+	External calls:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4160)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4163)
+	- flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4167)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2240)
+		- _depositedAmount = _activeVault.depositAll() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4142)
+		- _self.deposit(_token.balanceOf(address(this))) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2327)
+		- _token.safeTransfer(address(_self.adapter),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2317)
+		- _self.adapter.deposit(_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2318)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+	External calls sending eth:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4160)
+	- flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4167)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+	State variables written after the call(s):
+	- _cdp.totalDeposited = _cdp.totalDeposited.add(_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4171)
+	- _cdp.lastDeposit = block.number (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4172)
+Reentrancy in AlchemistEth.liquidate(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4234-4251):
+	External calls:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(address(address(this)),_amount,false) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4242)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2240)
+		- (_withdrawnAmount,_decreasedValue) = _self.directWithdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2335)
+		- _self.adapter.withdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2350)
+		- IWETH9(weth).withdraw(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4476)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- token.safeTransfer(_recipient,_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4479)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(address(address(this)),_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4495-4498)
+		- IWETH9(weth).withdraw(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4499)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(_recipient,_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4502-4505)
+	- _distributeToTransmuter(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4244)
+		- token.approve(transmuter,amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4383)
+		- ITransmuter(transmuter).distribute(address(this),amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4384)
+		- xtoken.lowerHasMinted(amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4386)
+	External calls sending eth:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(address(address(this)),_amount,false) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4242)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	State variables written after the call(s):
+	- _cdp.totalDeposited = _cdp.totalDeposited.sub(_decreasedValue,) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4246)
+	- _cdp.totalDebt = _cdp.totalDebt.sub(_withdrawnAmount,) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4247)
+Reentrancy in AlchemistEth.repay(uint256,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4202-4229):
+	External calls:
+	- IWETH9(weth).deposit{value: _collateralAmount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4213)
+	- token.safeTransferFrom(msg.sender,address(this),_collateralAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4215)
+	- _distributeToTransmuter(_collateralAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4217)
+		- token.approve(transmuter,amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4383)
+		- ITransmuter(transmuter).distribute(address(this),amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4384)
+		- xtoken.lowerHasMinted(amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4386)
+	- xtoken.burnFrom(msg.sender,_syntheticAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4221)
+	- xtoken.lowerHasMinted(_syntheticAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4223)
+	External calls sending eth:
+	- IWETH9(weth).deposit{value: _collateralAmount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4213)
+	State variables written after the call(s):
+	- _cdp.totalDebt = _cdp.totalDebt.sub(_totalAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4226)
+Reentrancy in AlchemistEth.withdraw(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4183-4197):
+	External calls:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(msg.sender,_amount,asEth) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4189)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2240)
+		- (_withdrawnAmount,_decreasedValue) = _self.directWithdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2335)
+		- _self.adapter.withdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2350)
+		- IWETH9(weth).withdraw(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4476)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- token.safeTransfer(_recipient,_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4479)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(address(address(this)),_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4495-4498)
+		- IWETH9(weth).withdraw(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4499)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(_recipient,_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4502-4505)
+	External calls sending eth:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(msg.sender,_amount,asEth) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4189)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	State variables written after the call(s):
+	- _cdp.totalDeposited = _cdp.totalDeposited.sub(_decreasedValue,Exceeds withdrawable amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4191)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+FixedPointMath.mul(FixedPointMath.FixedDecimal,uint256).x (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2079) is a local variable never initialized
+FixedPointMath.add(FixedPointMath.FixedDecimal,FixedPointMath.FixedDecimal).x (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2059) is a local variable never initialized
+FixedPointMath.fromU256(uint256).x (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2049) is a local variable never initialized
+FixedPointMath.sub(FixedPointMath.FixedDecimal,FixedPointMath.FixedDecimal).x (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2069) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+AlchemistEth._distributeToTransmuter(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4382-4387) ignores return value by token.approve(transmuter,amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4383)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+Reentrancy in AlchemistEth._withdrawFundsTo(address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4470-4515):
+	External calls:
+	- IWETH9(weth).withdraw(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4476)
+	- token.safeTransfer(_recipient,_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4479)
+	- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(address(address(this)),_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4495-4498)
+	- IWETH9(weth).withdraw(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4499)
+	- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(_recipient,_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4502-4505)
+	External calls sending eth:
+	- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+	- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	State variables written after the call(s):
+	- totalDeposited = totalDeposited.sub(_totalDecreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4512)
+Reentrancy in AlchemistEth.deposit(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4152-4175):
+	External calls:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4160)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4163)
+	- flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4167)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2240)
+		- _depositedAmount = _activeVault.depositAll() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4142)
+		- _self.deposit(_token.balanceOf(address(this))) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2327)
+		- _token.safeTransfer(address(_self.adapter),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2317)
+		- _self.adapter.deposit(_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2318)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+	External calls sending eth:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4160)
+	- flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4167)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+	State variables written after the call(s):
+	- totalDeposited = totalDeposited.add(_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4169)
+Reentrancy in AlchemistEth.harvest(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4071-4096):
+	External calls:
+	- (_harvestedAmount,_decreasedValue) = _vault.harvest(address(this)) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4075)
+	State variables written after the call(s):
+	- _ctx.accumulatedYieldWeight = _ctx.accumulatedYieldWeight.add(_weight) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4082)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in AlchemistEth._recallFunds(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4451-4460):
+	External calls:
+	- (_withdrawnAmount,_decreasedValue) = _vault.withdraw(address(this),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4455)
+	Event emitted after the call(s):
+	- FundsRecalled(_vaultId,_withdrawnAmount,_decreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4457)
+Reentrancy in AlchemistEth.convert(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4256-4273):
+	External calls:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4259)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4262)
+	- xtoken.mint(msg.sender,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4266)
+	- _distributeToTransmuter(_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4268)
+		- token.approve(transmuter,amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4383)
+		- ITransmuter(transmuter).distribute(address(this),amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4384)
+		- xtoken.lowerHasMinted(amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4386)
+	External calls sending eth:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4259)
+	Event emitted after the call(s):
+	- CollateralConverted(msg.sender,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4272)
+Reentrancy in AlchemistEth.deposit(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4152-4175):
+	External calls:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4160)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4163)
+	- flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4167)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2240)
+		- _depositedAmount = _activeVault.depositAll() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4142)
+		- _self.deposit(_token.balanceOf(address(this))) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2327)
+		- _token.safeTransfer(address(_self.adapter),_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2317)
+		- _self.adapter.deposit(_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2318)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+	External calls sending eth:
+	- IWETH9(weth).deposit{value: _amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4160)
+	- flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4167)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+	Event emitted after the call(s):
+	- FundsFlushed(_depositedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4144)
+		- flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4167)
+	- TokensDeposited(msg.sender,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4174)
+Reentrancy in AlchemistEth.flushActiveVault() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4139-4147):
+	External calls:
+	- _depositedAmount = _activeVault.depositAll() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4142)
+	Event emitted after the call(s):
+	- FundsFlushed(_depositedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4144)
+Reentrancy in AlchemistEth.harvest(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4071-4096):
+	External calls:
+	- (_harvestedAmount,_decreasedValue) = _vault.harvest(address(this)) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4075)
+	- token.safeTransfer(rewards,_feeAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4085)
+	- _distributeToTransmuter(_distributeAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4089)
+		- token.approve(transmuter,amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4383)
+		- ITransmuter(transmuter).distribute(address(this),amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4384)
+		- xtoken.lowerHasMinted(amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4386)
+	Event emitted after the call(s):
+	- FundsHarvested(_harvestedAmount,_decreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4093)
+Reentrancy in AlchemistEth.liquidate(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4234-4251):
+	External calls:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(address(address(this)),_amount,false) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4242)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2240)
+		- (_withdrawnAmount,_decreasedValue) = _self.directWithdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2335)
+		- _self.adapter.withdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2350)
+		- IWETH9(weth).withdraw(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4476)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- token.safeTransfer(_recipient,_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4479)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(address(address(this)),_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4495-4498)
+		- IWETH9(weth).withdraw(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4499)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(_recipient,_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4502-4505)
+	- _distributeToTransmuter(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4244)
+		- token.approve(transmuter,amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4383)
+		- ITransmuter(transmuter).distribute(address(this),amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4384)
+		- xtoken.lowerHasMinted(amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4386)
+	External calls sending eth:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(address(address(this)),_amount,false) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4242)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	Event emitted after the call(s):
+	- TokensLiquidated(msg.sender,_amount,_withdrawnAmount,_decreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4248)
+Reentrancy in AlchemistEth.mint(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4289-4311):
+	External calls:
+	- xtoken.mint(msg.sender,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4306)
+	Event emitted after the call(s):
+	- LoanMinted(msg.sender,_amount,address(xtoken)) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4310)
+Reentrancy in AlchemistEth.repay(uint256,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4202-4229):
+	External calls:
+	- IWETH9(weth).deposit{value: _collateralAmount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4213)
+	- token.safeTransferFrom(msg.sender,address(this),_collateralAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4215)
+	- _distributeToTransmuter(_collateralAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4217)
+		- token.approve(transmuter,amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4383)
+		- ITransmuter(transmuter).distribute(address(this),amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4384)
+		- xtoken.lowerHasMinted(amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4386)
+	- xtoken.burnFrom(msg.sender,_syntheticAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4221)
+	- xtoken.lowerHasMinted(_syntheticAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4223)
+	External calls sending eth:
+	- IWETH9(weth).deposit{value: _collateralAmount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4213)
+	Event emitted after the call(s):
+	- TokensRepaid(msg.sender,_collateralAmount,_syntheticAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4228)
+Reentrancy in AlchemistEth.withdraw(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4183-4197):
+	External calls:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(msg.sender,_amount,asEth) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4189)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2240)
+		- (_withdrawnAmount,_decreasedValue) = _self.directWithdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2335)
+		- _self.adapter.withdraw(_recipient,_amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2350)
+		- IWETH9(weth).withdraw(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4476)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- token.safeTransfer(_recipient,_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4479)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(address(address(this)),_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4495-4498)
+		- IWETH9(weth).withdraw(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4499)
+		- (_withdrawnAmount,_decreasedValue) = _activeVault.withdraw(_recipient,_remainingAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4502-4505)
+	External calls sending eth:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(msg.sender,_amount,asEth) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4189)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	Event emitted after the call(s):
+	- TokensWithdrawn(msg.sender,_amount,_withdrawnAmount,_decreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4194)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#341-350) uses assembly
+	- INLINE ASM (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#348)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#486-503) uses assembly
+	- INLINE ASM (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#495-498)
+console._sendLogPayload(bytes) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#511-518) uses assembly
+	- INLINE ASM (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#514-517)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#394-396) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#419-421) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#468-470) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#478-484) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#444-446) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#454-460) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#368-374) is never used and should be removed
+AlchemistEth._expectCaller(address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4407-4409) is never used and should be removed
+Context._msgData() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#20-23) is never used and should be removed
+ERC20._setupDecimals(uint8) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3458-3460) is never used and should be removed
+EnumerableSet.add(EnumerableSet.Bytes32Set,bytes32) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2807-2809) is never used and should be removed
+EnumerableSet.add(EnumerableSet.UintSet,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2916-2918) is never used and should be removed
+EnumerableSet.at(EnumerableSet.Bytes32Set,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2845-2847) is never used and should be removed
+EnumerableSet.at(EnumerableSet.UintSet,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2954-2956) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.Bytes32Set,bytes32) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2824-2826) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2933-2935) is never used and should be removed
+EnumerableSet.length(EnumerableSet.Bytes32Set) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2831-2833) is never used and should be removed
+EnumerableSet.length(EnumerableSet.UintSet) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2940-2942) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.Bytes32Set,bytes32) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2817-2819) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2926-2928) is never used and should be removed
+FixedPointMath.add(FixedPointMath.FixedDecimal,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2064-2066) is never used and should be removed
+FixedPointMath.sub(FixedPointMath.FixedDecimal,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2074-2076) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2130-2133) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2115-2117) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2208-2217) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2224-2227) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2219-2222) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#214-217) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#176-179) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#234-237) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#48-52) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#84-87) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#94-97) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#69-77) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#59-62) is never used and should be removed
+Vault.withdrawAll(Vault.Data,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2364-2366) is never used and should be removed
+console._sendLogPayload(bytes) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#511-518) is never used and should be removed
+console.log() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#520-522) is never used and should be removed
+console.log(address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#688-690) is never used and should be removed
+console.log(address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#752-754) is never used and should be removed
+console.log(address,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1008-1010) is never used and should be removed
+console.log(address,address,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2032-2034) is never used and should be removed
+console.log(address,address,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2028-2030) is never used and should be removed
+console.log(address,address,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2024-2026) is never used and should be removed
+console.log(address,address,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2020-2022) is never used and should be removed
+console.log(address,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1004-1006) is never used and should be removed
+console.log(address,address,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2016-2018) is never used and should be removed
+console.log(address,address,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2012-2014) is never used and should be removed
+console.log(address,address,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2008-2010) is never used and should be removed
+console.log(address,address,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2004-2006) is never used and should be removed
+console.log(address,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1000-1002) is never used and should be removed
+console.log(address,address,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2000-2002) is never used and should be removed
+console.log(address,address,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1996-1998) is never used and should be removed
+console.log(address,address,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1992-1994) is never used and should be removed
+console.log(address,address,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1988-1990) is never used and should be removed
+console.log(address,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#996-998) is never used and should be removed
+console.log(address,address,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1984-1986) is never used and should be removed
+console.log(address,address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1980-1982) is never used and should be removed
+console.log(address,address,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1976-1978) is never used and should be removed
+console.log(address,address,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1972-1974) is never used and should be removed
+console.log(address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#748-750) is never used and should be removed
+console.log(address,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#992-994) is never used and should be removed
+console.log(address,bool,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1968-1970) is never used and should be removed
+console.log(address,bool,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1964-1966) is never used and should be removed
+console.log(address,bool,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1960-1962) is never used and should be removed
+console.log(address,bool,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1956-1958) is never used and should be removed
+console.log(address,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#988-990) is never used and should be removed
+console.log(address,bool,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1952-1954) is never used and should be removed
+console.log(address,bool,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1948-1950) is never used and should be removed
+console.log(address,bool,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1944-1946) is never used and should be removed
+console.log(address,bool,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1940-1942) is never used and should be removed
+console.log(address,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#984-986) is never used and should be removed
+console.log(address,bool,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1936-1938) is never used and should be removed
+console.log(address,bool,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1932-1934) is never used and should be removed
+console.log(address,bool,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1928-1930) is never used and should be removed
+console.log(address,bool,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1924-1926) is never used and should be removed
+console.log(address,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#980-982) is never used and should be removed
+console.log(address,bool,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1920-1922) is never used and should be removed
+console.log(address,bool,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1916-1918) is never used and should be removed
+console.log(address,bool,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1912-1914) is never used and should be removed
+console.log(address,bool,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1908-1910) is never used and should be removed
+console.log(address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#744-746) is never used and should be removed
+console.log(address,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#976-978) is never used and should be removed
+console.log(address,string,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1904-1906) is never used and should be removed
+console.log(address,string,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1900-1902) is never used and should be removed
+console.log(address,string,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1896-1898) is never used and should be removed
+console.log(address,string,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1892-1894) is never used and should be removed
+console.log(address,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#972-974) is never used and should be removed
+console.log(address,string,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1888-1890) is never used and should be removed
+console.log(address,string,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1884-1886) is never used and should be removed
+console.log(address,string,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1880-1882) is never used and should be removed
+console.log(address,string,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1876-1878) is never used and should be removed
+console.log(address,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#968-970) is never used and should be removed
+console.log(address,string,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1872-1874) is never used and should be removed
+console.log(address,string,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1868-1870) is never used and should be removed
+console.log(address,string,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1864-1866) is never used and should be removed
+console.log(address,string,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1860-1862) is never used and should be removed
+console.log(address,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#964-966) is never used and should be removed
+console.log(address,string,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1856-1858) is never used and should be removed
+console.log(address,string,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1852-1854) is never used and should be removed
+console.log(address,string,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1848-1850) is never used and should be removed
+console.log(address,string,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1844-1846) is never used and should be removed
+console.log(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#740-742) is never used and should be removed
+console.log(address,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#960-962) is never used and should be removed
+console.log(address,uint256,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1840-1842) is never used and should be removed
+console.log(address,uint256,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1836-1838) is never used and should be removed
+console.log(address,uint256,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1832-1834) is never used and should be removed
+console.log(address,uint256,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1828-1830) is never used and should be removed
+console.log(address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#956-958) is never used and should be removed
+console.log(address,uint256,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1824-1826) is never used and should be removed
+console.log(address,uint256,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1820-1822) is never used and should be removed
+console.log(address,uint256,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1816-1818) is never used and should be removed
+console.log(address,uint256,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1812-1814) is never used and should be removed
+console.log(address,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#952-954) is never used and should be removed
+console.log(address,uint256,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1808-1810) is never used and should be removed
+console.log(address,uint256,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1804-1806) is never used and should be removed
+console.log(address,uint256,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1800-1802) is never used and should be removed
+console.log(address,uint256,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1796-1798) is never used and should be removed
+console.log(address,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#948-950) is never used and should be removed
+console.log(address,uint256,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1792-1794) is never used and should be removed
+console.log(address,uint256,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1788-1790) is never used and should be removed
+console.log(address,uint256,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1784-1786) is never used and should be removed
+console.log(address,uint256,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1780-1782) is never used and should be removed
+console.log(bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#684-686) is never used and should be removed
+console.log(bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#736-738) is never used and should be removed
+console.log(bool,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#944-946) is never used and should be removed
+console.log(bool,address,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1776-1778) is never used and should be removed
+console.log(bool,address,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1772-1774) is never used and should be removed
+console.log(bool,address,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1768-1770) is never used and should be removed
+console.log(bool,address,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1764-1766) is never used and should be removed
+console.log(bool,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#940-942) is never used and should be removed
+console.log(bool,address,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1760-1762) is never used and should be removed
+console.log(bool,address,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1756-1758) is never used and should be removed
+console.log(bool,address,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1752-1754) is never used and should be removed
+console.log(bool,address,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1748-1750) is never used and should be removed
+console.log(bool,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#936-938) is never used and should be removed
+console.log(bool,address,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1744-1746) is never used and should be removed
+console.log(bool,address,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1740-1742) is never used and should be removed
+console.log(bool,address,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1736-1738) is never used and should be removed
+console.log(bool,address,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1732-1734) is never used and should be removed
+console.log(bool,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#932-934) is never used and should be removed
+console.log(bool,address,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1728-1730) is never used and should be removed
+console.log(bool,address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1724-1726) is never used and should be removed
+console.log(bool,address,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1720-1722) is never used and should be removed
+console.log(bool,address,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1716-1718) is never used and should be removed
+console.log(bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#732-734) is never used and should be removed
+console.log(bool,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#928-930) is never used and should be removed
+console.log(bool,bool,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1712-1714) is never used and should be removed
+console.log(bool,bool,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1708-1710) is never used and should be removed
+console.log(bool,bool,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1704-1706) is never used and should be removed
+console.log(bool,bool,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1700-1702) is never used and should be removed
+console.log(bool,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#924-926) is never used and should be removed
+console.log(bool,bool,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1696-1698) is never used and should be removed
+console.log(bool,bool,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1692-1694) is never used and should be removed
+console.log(bool,bool,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1688-1690) is never used and should be removed
+console.log(bool,bool,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1684-1686) is never used and should be removed
+console.log(bool,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#920-922) is never used and should be removed
+console.log(bool,bool,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1680-1682) is never used and should be removed
+console.log(bool,bool,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1676-1678) is never used and should be removed
+console.log(bool,bool,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1672-1674) is never used and should be removed
+console.log(bool,bool,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1668-1670) is never used and should be removed
+console.log(bool,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#916-918) is never used and should be removed
+console.log(bool,bool,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1664-1666) is never used and should be removed
+console.log(bool,bool,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1660-1662) is never used and should be removed
+console.log(bool,bool,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1656-1658) is never used and should be removed
+console.log(bool,bool,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1652-1654) is never used and should be removed
+console.log(bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#728-730) is never used and should be removed
+console.log(bool,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#912-914) is never used and should be removed
+console.log(bool,string,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1648-1650) is never used and should be removed
+console.log(bool,string,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1644-1646) is never used and should be removed
+console.log(bool,string,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1640-1642) is never used and should be removed
+console.log(bool,string,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1636-1638) is never used and should be removed
+console.log(bool,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#908-910) is never used and should be removed
+console.log(bool,string,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1632-1634) is never used and should be removed
+console.log(bool,string,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1628-1630) is never used and should be removed
+console.log(bool,string,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1624-1626) is never used and should be removed
+console.log(bool,string,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1620-1622) is never used and should be removed
+console.log(bool,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#904-906) is never used and should be removed
+console.log(bool,string,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1616-1618) is never used and should be removed
+console.log(bool,string,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1612-1614) is never used and should be removed
+console.log(bool,string,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1608-1610) is never used and should be removed
+console.log(bool,string,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1604-1606) is never used and should be removed
+console.log(bool,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#900-902) is never used and should be removed
+console.log(bool,string,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1600-1602) is never used and should be removed
+console.log(bool,string,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1596-1598) is never used and should be removed
+console.log(bool,string,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1592-1594) is never used and should be removed
+console.log(bool,string,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1588-1590) is never used and should be removed
+console.log(bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#724-726) is never used and should be removed
+console.log(bool,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#896-898) is never used and should be removed
+console.log(bool,uint256,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1584-1586) is never used and should be removed
+console.log(bool,uint256,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1580-1582) is never used and should be removed
+console.log(bool,uint256,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1576-1578) is never used and should be removed
+console.log(bool,uint256,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1572-1574) is never used and should be removed
+console.log(bool,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#892-894) is never used and should be removed
+console.log(bool,uint256,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1568-1570) is never used and should be removed
+console.log(bool,uint256,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1564-1566) is never used and should be removed
+console.log(bool,uint256,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1560-1562) is never used and should be removed
+console.log(bool,uint256,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1556-1558) is never used and should be removed
+console.log(bool,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#888-890) is never used and should be removed
+console.log(bool,uint256,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1552-1554) is never used and should be removed
+console.log(bool,uint256,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1548-1550) is never used and should be removed
+console.log(bool,uint256,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1544-1546) is never used and should be removed
+console.log(bool,uint256,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1540-1542) is never used and should be removed
+console.log(bool,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#884-886) is never used and should be removed
+console.log(bool,uint256,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1536-1538) is never used and should be removed
+console.log(bool,uint256,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1532-1534) is never used and should be removed
+console.log(bool,uint256,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1528-1530) is never used and should be removed
+console.log(bool,uint256,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1524-1526) is never used and should be removed
+console.log(string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#680-682) is never used and should be removed
+console.log(string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#720-722) is never used and should be removed
+console.log(string,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#880-882) is never used and should be removed
+console.log(string,address,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1520-1522) is never used and should be removed
+console.log(string,address,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1516-1518) is never used and should be removed
+console.log(string,address,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1512-1514) is never used and should be removed
+console.log(string,address,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1508-1510) is never used and should be removed
+console.log(string,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#876-878) is never used and should be removed
+console.log(string,address,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1504-1506) is never used and should be removed
+console.log(string,address,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1500-1502) is never used and should be removed
+console.log(string,address,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1496-1498) is never used and should be removed
+console.log(string,address,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1492-1494) is never used and should be removed
+console.log(string,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#872-874) is never used and should be removed
+console.log(string,address,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1488-1490) is never used and should be removed
+console.log(string,address,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1484-1486) is never used and should be removed
+console.log(string,address,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1480-1482) is never used and should be removed
+console.log(string,address,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1476-1478) is never used and should be removed
+console.log(string,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#868-870) is never used and should be removed
+console.log(string,address,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1472-1474) is never used and should be removed
+console.log(string,address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1468-1470) is never used and should be removed
+console.log(string,address,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1464-1466) is never used and should be removed
+console.log(string,address,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1460-1462) is never used and should be removed
+console.log(string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#716-718) is never used and should be removed
+console.log(string,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#864-866) is never used and should be removed
+console.log(string,bool,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1456-1458) is never used and should be removed
+console.log(string,bool,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1452-1454) is never used and should be removed
+console.log(string,bool,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1448-1450) is never used and should be removed
+console.log(string,bool,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1444-1446) is never used and should be removed
+console.log(string,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#860-862) is never used and should be removed
+console.log(string,bool,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1440-1442) is never used and should be removed
+console.log(string,bool,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1436-1438) is never used and should be removed
+console.log(string,bool,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1432-1434) is never used and should be removed
+console.log(string,bool,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1428-1430) is never used and should be removed
+console.log(string,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#856-858) is never used and should be removed
+console.log(string,bool,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1424-1426) is never used and should be removed
+console.log(string,bool,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1420-1422) is never used and should be removed
+console.log(string,bool,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1416-1418) is never used and should be removed
+console.log(string,bool,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1412-1414) is never used and should be removed
+console.log(string,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#852-854) is never used and should be removed
+console.log(string,bool,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1408-1410) is never used and should be removed
+console.log(string,bool,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1404-1406) is never used and should be removed
+console.log(string,bool,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1400-1402) is never used and should be removed
+console.log(string,bool,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1396-1398) is never used and should be removed
+console.log(string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#712-714) is never used and should be removed
+console.log(string,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#848-850) is never used and should be removed
+console.log(string,string,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1392-1394) is never used and should be removed
+console.log(string,string,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1388-1390) is never used and should be removed
+console.log(string,string,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1384-1386) is never used and should be removed
+console.log(string,string,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1380-1382) is never used and should be removed
+console.log(string,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#844-846) is never used and should be removed
+console.log(string,string,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1376-1378) is never used and should be removed
+console.log(string,string,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1372-1374) is never used and should be removed
+console.log(string,string,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1368-1370) is never used and should be removed
+console.log(string,string,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1364-1366) is never used and should be removed
+console.log(string,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#840-842) is never used and should be removed
+console.log(string,string,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1360-1362) is never used and should be removed
+console.log(string,string,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1356-1358) is never used and should be removed
+console.log(string,string,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1352-1354) is never used and should be removed
+console.log(string,string,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1348-1350) is never used and should be removed
+console.log(string,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#836-838) is never used and should be removed
+console.log(string,string,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1344-1346) is never used and should be removed
+console.log(string,string,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1340-1342) is never used and should be removed
+console.log(string,string,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1336-1338) is never used and should be removed
+console.log(string,string,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1332-1334) is never used and should be removed
+console.log(string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#708-710) is never used and should be removed
+console.log(string,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#832-834) is never used and should be removed
+console.log(string,uint256,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1328-1330) is never used and should be removed
+console.log(string,uint256,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1324-1326) is never used and should be removed
+console.log(string,uint256,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1320-1322) is never used and should be removed
+console.log(string,uint256,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1316-1318) is never used and should be removed
+console.log(string,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#828-830) is never used and should be removed
+console.log(string,uint256,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1312-1314) is never used and should be removed
+console.log(string,uint256,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1308-1310) is never used and should be removed
+console.log(string,uint256,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1304-1306) is never used and should be removed
+console.log(string,uint256,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1300-1302) is never used and should be removed
+console.log(string,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#824-826) is never used and should be removed
+console.log(string,uint256,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1296-1298) is never used and should be removed
+console.log(string,uint256,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1292-1294) is never used and should be removed
+console.log(string,uint256,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1288-1290) is never used and should be removed
+console.log(string,uint256,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1284-1286) is never used and should be removed
+console.log(string,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#820-822) is never used and should be removed
+console.log(string,uint256,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1280-1282) is never used and should be removed
+console.log(string,uint256,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1276-1278) is never used and should be removed
+console.log(string,uint256,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1272-1274) is never used and should be removed
+console.log(string,uint256,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1268-1270) is never used and should be removed
+console.log(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#676-678) is never used and should be removed
+console.log(uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#704-706) is never used and should be removed
+console.log(uint256,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#816-818) is never used and should be removed
+console.log(uint256,address,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1264-1266) is never used and should be removed
+console.log(uint256,address,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1260-1262) is never used and should be removed
+console.log(uint256,address,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1256-1258) is never used and should be removed
+console.log(uint256,address,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1252-1254) is never used and should be removed
+console.log(uint256,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#812-814) is never used and should be removed
+console.log(uint256,address,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1248-1250) is never used and should be removed
+console.log(uint256,address,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1244-1246) is never used and should be removed
+console.log(uint256,address,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1240-1242) is never used and should be removed
+console.log(uint256,address,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1236-1238) is never used and should be removed
+console.log(uint256,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#808-810) is never used and should be removed
+console.log(uint256,address,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1232-1234) is never used and should be removed
+console.log(uint256,address,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1228-1230) is never used and should be removed
+console.log(uint256,address,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1224-1226) is never used and should be removed
+console.log(uint256,address,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1220-1222) is never used and should be removed
+console.log(uint256,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#804-806) is never used and should be removed
+console.log(uint256,address,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1216-1218) is never used and should be removed
+console.log(uint256,address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1212-1214) is never used and should be removed
+console.log(uint256,address,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1208-1210) is never used and should be removed
+console.log(uint256,address,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1204-1206) is never used and should be removed
+console.log(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#700-702) is never used and should be removed
+console.log(uint256,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#800-802) is never used and should be removed
+console.log(uint256,bool,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1200-1202) is never used and should be removed
+console.log(uint256,bool,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1196-1198) is never used and should be removed
+console.log(uint256,bool,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1192-1194) is never used and should be removed
+console.log(uint256,bool,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1188-1190) is never used and should be removed
+console.log(uint256,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#796-798) is never used and should be removed
+console.log(uint256,bool,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1184-1186) is never used and should be removed
+console.log(uint256,bool,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1180-1182) is never used and should be removed
+console.log(uint256,bool,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1176-1178) is never used and should be removed
+console.log(uint256,bool,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1172-1174) is never used and should be removed
+console.log(uint256,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#792-794) is never used and should be removed
+console.log(uint256,bool,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1168-1170) is never used and should be removed
+console.log(uint256,bool,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1164-1166) is never used and should be removed
+console.log(uint256,bool,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1160-1162) is never used and should be removed
+console.log(uint256,bool,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1156-1158) is never used and should be removed
+console.log(uint256,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#788-790) is never used and should be removed
+console.log(uint256,bool,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1152-1154) is never used and should be removed
+console.log(uint256,bool,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1148-1150) is never used and should be removed
+console.log(uint256,bool,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1144-1146) is never used and should be removed
+console.log(uint256,bool,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1140-1142) is never used and should be removed
+console.log(uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#696-698) is never used and should be removed
+console.log(uint256,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#784-786) is never used and should be removed
+console.log(uint256,string,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1136-1138) is never used and should be removed
+console.log(uint256,string,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1132-1134) is never used and should be removed
+console.log(uint256,string,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1128-1130) is never used and should be removed
+console.log(uint256,string,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1124-1126) is never used and should be removed
+console.log(uint256,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#780-782) is never used and should be removed
+console.log(uint256,string,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1120-1122) is never used and should be removed
+console.log(uint256,string,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1116-1118) is never used and should be removed
+console.log(uint256,string,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1112-1114) is never used and should be removed
+console.log(uint256,string,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1108-1110) is never used and should be removed
+console.log(uint256,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#776-778) is never used and should be removed
+console.log(uint256,string,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1104-1106) is never used and should be removed
+console.log(uint256,string,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1100-1102) is never used and should be removed
+console.log(uint256,string,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1096-1098) is never used and should be removed
+console.log(uint256,string,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1092-1094) is never used and should be removed
+console.log(uint256,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#772-774) is never used and should be removed
+console.log(uint256,string,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1088-1090) is never used and should be removed
+console.log(uint256,string,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1084-1086) is never used and should be removed
+console.log(uint256,string,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1080-1082) is never used and should be removed
+console.log(uint256,string,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1076-1078) is never used and should be removed
+console.log(uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#692-694) is never used and should be removed
+console.log(uint256,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#768-770) is never used and should be removed
+console.log(uint256,uint256,address,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1072-1074) is never used and should be removed
+console.log(uint256,uint256,address,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1068-1070) is never used and should be removed
+console.log(uint256,uint256,address,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1064-1066) is never used and should be removed
+console.log(uint256,uint256,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1060-1062) is never used and should be removed
+console.log(uint256,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#764-766) is never used and should be removed
+console.log(uint256,uint256,bool,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1056-1058) is never used and should be removed
+console.log(uint256,uint256,bool,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1052-1054) is never used and should be removed
+console.log(uint256,uint256,bool,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1048-1050) is never used and should be removed
+console.log(uint256,uint256,bool,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1044-1046) is never used and should be removed
+console.log(uint256,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#760-762) is never used and should be removed
+console.log(uint256,uint256,string,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1040-1042) is never used and should be removed
+console.log(uint256,uint256,string,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1036-1038) is never used and should be removed
+console.log(uint256,uint256,string,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1032-1034) is never used and should be removed
+console.log(uint256,uint256,string,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1028-1030) is never used and should be removed
+console.log(uint256,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#756-758) is never used and should be removed
+console.log(uint256,uint256,uint256,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1024-1026) is never used and should be removed
+console.log(uint256,uint256,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1020-1022) is never used and should be removed
+console.log(uint256,uint256,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1016-1018) is never used and should be removed
+console.log(uint256,uint256,uint256,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#1012-1014) is never used and should be removed
+console.logAddress(address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#540-542) is never used and should be removed
+console.logBool(bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#536-538) is never used and should be removed
+console.logBytes(bytes) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#544-546) is never used and should be removed
+console.logBytes1(bytes1) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#548-550) is never used and should be removed
+console.logBytes10(bytes10) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#584-586) is never used and should be removed
+console.logBytes11(bytes11) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#588-590) is never used and should be removed
+console.logBytes12(bytes12) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#592-594) is never used and should be removed
+console.logBytes13(bytes13) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#596-598) is never used and should be removed
+console.logBytes14(bytes14) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#600-602) is never used and should be removed
+console.logBytes15(bytes15) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#604-606) is never used and should be removed
+console.logBytes16(bytes16) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#608-610) is never used and should be removed
+console.logBytes17(bytes17) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#612-614) is never used and should be removed
+console.logBytes18(bytes18) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#616-618) is never used and should be removed
+console.logBytes19(bytes19) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#620-622) is never used and should be removed
+console.logBytes2(bytes2) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#552-554) is never used and should be removed
+console.logBytes20(bytes20) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#624-626) is never used and should be removed
+console.logBytes21(bytes21) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#628-630) is never used and should be removed
+console.logBytes22(bytes22) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#632-634) is never used and should be removed
+console.logBytes23(bytes23) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#636-638) is never used and should be removed
+console.logBytes24(bytes24) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#640-642) is never used and should be removed
+console.logBytes25(bytes25) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#644-646) is never used and should be removed
+console.logBytes26(bytes26) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#648-650) is never used and should be removed
+console.logBytes27(bytes27) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#652-654) is never used and should be removed
+console.logBytes28(bytes28) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#656-658) is never used and should be removed
+console.logBytes29(bytes29) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#660-662) is never used and should be removed
+console.logBytes3(bytes3) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#556-558) is never used and should be removed
+console.logBytes30(bytes30) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#664-666) is never used and should be removed
+console.logBytes31(bytes31) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#668-670) is never used and should be removed
+console.logBytes32(bytes32) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#672-674) is never used and should be removed
+console.logBytes4(bytes4) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#560-562) is never used and should be removed
+console.logBytes5(bytes5) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#564-566) is never used and should be removed
+console.logBytes6(bytes6) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#568-570) is never used and should be removed
+console.logBytes7(bytes7) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#572-574) is never used and should be removed
+console.logBytes8(bytes8) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#576-578) is never used and should be removed
+console.logBytes9(bytes9) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#580-582) is never used and should be removed
+console.logInt(int256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#524-526) is never used and should be removed
+console.logString(string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#532-534) is never used and should be removed
+console.logUint(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#528-530) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#368-374):
+	- (success) = recipient.call{value: amount}() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#372)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#429-436):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#454-460):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#458)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#478-484):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#482)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+AlEth (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3558-3682) should inherit from IMintableERC20 (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2643-2647)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance[0m
+[92m
+Contract console (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#508-2036) is not in CapWords
+Parameter Vault.totalValue(Vault.Data)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2299) is not in mixedCase
+Parameter Vault.token(Vault.Data)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2306) is not in mixedCase
+Parameter Vault.deposit(Vault.Data,uint256)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2313) is not in mixedCase
+Parameter Vault.deposit(Vault.Data,uint256)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2313) is not in mixedCase
+Parameter Vault.depositAll(Vault.Data)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2325) is not in mixedCase
+Parameter Vault.withdraw(Vault.Data,address,uint256)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2334) is not in mixedCase
+Parameter Vault.withdraw(Vault.Data,address,uint256)._recipient (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2334) is not in mixedCase
+Parameter Vault.withdraw(Vault.Data,address,uint256)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2334) is not in mixedCase
+Parameter Vault.directWithdraw(Vault.Data,address,uint256)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2344) is not in mixedCase
+Parameter Vault.directWithdraw(Vault.Data,address,uint256)._recipient (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2344) is not in mixedCase
+Parameter Vault.directWithdraw(Vault.Data,address,uint256)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2344) is not in mixedCase
+Parameter Vault.withdrawAll(Vault.Data,address)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2364) is not in mixedCase
+Parameter Vault.withdrawAll(Vault.Data,address)._recipient (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2364) is not in mixedCase
+Parameter Vault.harvest(Vault.Data,address)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2371) is not in mixedCase
+Parameter Vault.harvest(Vault.Data,address)._recipient (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2371) is not in mixedCase
+Parameter Vault.push(Vault.List,Vault.Data)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2382) is not in mixedCase
+Parameter Vault.push(Vault.List,Vault.Data)._element (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2382) is not in mixedCase
+Parameter Vault.get(Vault.List,uint256)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2391) is not in mixedCase
+Parameter Vault.get(Vault.List,uint256)._index (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2391) is not in mixedCase
+Parameter Vault.last(Vault.List)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2400) is not in mixedCase
+Parameter Vault.lastIndex(Vault.List)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2409) is not in mixedCase
+Parameter Vault.length(Vault.List)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2417) is not in mixedCase
+Parameter CDP.update(CDP.Data,CDP.Context)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2537) is not in mixedCase
+Parameter CDP.update(CDP.Data,CDP.Context)._ctx (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2537) is not in mixedCase
+Parameter CDP.checkHealth(CDP.Data,CDP.Context,string)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2552) is not in mixedCase
+Parameter CDP.checkHealth(CDP.Data,CDP.Context,string)._ctx (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2552) is not in mixedCase
+Parameter CDP.checkHealth(CDP.Data,CDP.Context,string)._msg (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2552) is not in mixedCase
+Parameter CDP.isHealthy(CDP.Data,CDP.Context)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2561) is not in mixedCase
+Parameter CDP.isHealthy(CDP.Data,CDP.Context)._ctx (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2561) is not in mixedCase
+Parameter CDP.getUpdatedTotalDebt(CDP.Data,CDP.Context)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2565) is not in mixedCase
+Parameter CDP.getUpdatedTotalDebt(CDP.Data,CDP.Context)._ctx (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2565) is not in mixedCase
+Parameter CDP.getUpdatedTotalCredit(CDP.Data,CDP.Context)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2579) is not in mixedCase
+Parameter CDP.getUpdatedTotalCredit(CDP.Data,CDP.Context)._ctx (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2579) is not in mixedCase
+Parameter CDP.getEarnedYield(CDP.Data,CDP.Context)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2599) is not in mixedCase
+Parameter CDP.getEarnedYield(CDP.Data,CDP.Context)._ctx (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2599) is not in mixedCase
+Parameter CDP.getCollateralizationRatio(CDP.Data,CDP.Context)._self (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2623) is not in mixedCase
+Parameter CDP.getCollateralizationRatio(CDP.Data,CDP.Context)._ctx (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#2623) is not in mixedCase
+Parameter AlEth.mint(address,uint256)._recipient (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3600) is not in mixedCase
+Parameter AlEth.mint(address,uint256)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3600) is not in mixedCase
+Parameter AlEth.setWhitelist(address,bool)._toWhitelist (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3610) is not in mixedCase
+Parameter AlEth.setWhitelist(address,bool)._state (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3610) is not in mixedCase
+Parameter AlEth.setSentinel(address)._newSentinel (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3617) is not in mixedCase
+Parameter AlEth.pauseAlchemist(address,bool)._toPause (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3622) is not in mixedCase
+Parameter AlEth.pauseAlchemist(address,bool)._state (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3622) is not in mixedCase
+Parameter AlEth.setCeiling(address,uint256)._toSetCeiling (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3630) is not in mixedCase
+Parameter AlEth.setCeiling(address,uint256)._ceiling (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3630) is not in mixedCase
+Parameter AlchemistEth.setPendingGovernance(address)._pendingGovernance (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3907) is not in mixedCase
+Parameter AlchemistEth.setSentinel(address)._sentinel (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3926) is not in mixedCase
+Parameter AlchemistEth.setTransmuter(address)._transmuter (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3940) is not in mixedCase
+Parameter AlchemistEth.setFlushActivator(uint256)._flushActivator (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3953) is not in mixedCase
+Parameter AlchemistEth.setRewards(address)._rewards (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3963) is not in mixedCase
+Parameter AlchemistEth.setHarvestFee(uint256)._harvestFee (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3979) is not in mixedCase
+Parameter AlchemistEth.setCollateralizationLimit(uint256)._limit (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3996) is not in mixedCase
+Parameter AlchemistEth.setEmergencyExit(bool)._emergencyExit (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4009) is not in mixedCase
+Parameter AlchemistEth.initialize(IVaultAdapter)._adapter (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4043) is not in mixedCase
+Parameter AlchemistEth.migrate(IVaultAdapter)._adapter (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4061) is not in mixedCase
+Parameter AlchemistEth.harvest(uint256)._vaultId (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4071) is not in mixedCase
+Parameter AlchemistEth.recall(uint256,uint256)._vaultId (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4103) is not in mixedCase
+Parameter AlchemistEth.recall(uint256,uint256)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4103) is not in mixedCase
+Parameter AlchemistEth.recallAll(uint256)._vaultId (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4113) is not in mixedCase
+Parameter AlchemistEth.deposit(uint256,bool)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4152) is not in mixedCase
+Parameter AlchemistEth.withdraw(uint256,bool)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4183) is not in mixedCase
+Parameter AlchemistEth.repay(uint256,uint256,bool)._collateralAmount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4202) is not in mixedCase
+Parameter AlchemistEth.repay(uint256,uint256,bool)._syntheticAmount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4202) is not in mixedCase
+Parameter AlchemistEth.liquidate(uint256)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4234) is not in mixedCase
+Parameter AlchemistEth.convert(uint256,bool)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4256) is not in mixedCase
+Parameter AlchemistEth.mint(uint256)._amount (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4289) is not in mixedCase
+Parameter AlchemistEth.getVaultAdapter(uint256)._vaultId (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4325) is not in mixedCase
+Parameter AlchemistEth.getVaultTotalDeposited(uint256)._vaultId (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4335) is not in mixedCase
+Parameter AlchemistEth.getCdpTotalDeposited(address)._account (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4345) is not in mixedCase
+Parameter AlchemistEth.getCdpTotalDebt(address)._account (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4355) is not in mixedCase
+Parameter AlchemistEth.getCdpTotalCredit(address)._account (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4365) is not in mixedCase
+Parameter AlchemistEth.getCdpLastDeposit(address)._account (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4375) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#21)" inContext (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#15-24)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Reentrancy in AlchemistEth._withdrawFundsTo(address,uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4470-4515):
+	External calls:
+	- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+	- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	State variables written after the call(s):
+	- totalDeposited = totalDeposited.sub(_totalDecreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4512)
+Reentrancy in AlchemistEth.liquidate(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4234-4251):
+	External calls:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(address(address(this)),_amount,false) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4242)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	External calls sending eth:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(address(address(this)),_amount,false) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4242)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	State variables written after the call(s):
+	- _cdp.totalDeposited = _cdp.totalDeposited.sub(_decreasedValue,) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4246)
+	- _cdp.totalDebt = _cdp.totalDebt.sub(_withdrawnAmount,) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4247)
+	Event emitted after the call(s):
+	- TokensLiquidated(msg.sender,_amount,_withdrawnAmount,_decreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4248)
+Reentrancy in AlchemistEth.withdraw(uint256,bool) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4183-4197):
+	External calls:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(msg.sender,_amount,asEth) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4189)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	External calls sending eth:
+	- (_withdrawnAmount,_decreasedValue) = _withdrawFundsTo(msg.sender,_amount,asEth) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4189)
+		- _recipient.transfer(_bufferedAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4477)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#434)
+		- _recipient.transfer(_withdrawnAmount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4500)
+	State variables written after the call(s):
+	- _cdp.totalDeposited = _cdp.totalDeposited.sub(_decreasedValue,Exceeds withdrawable amount) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4191)
+	Event emitted after the call(s):
+	- TokensWithdrawn(msg.sender,_amount,_withdrawnAmount,_decreasedValue) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#4194)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4[0m
+[92m
+Variable AlchemistEth.MAXIMUM_COLLATERALIZATION_LIMIT (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3729) is too similar to AlchemistEth.MINIMUM_COLLATERALIZATION_LIMIT (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3720)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+console.slitherConstructorConstantVariables() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#508-2036) uses literals with too many digits:
+	- CONSOLE_ADDRESS = address(0x000000000000000000636F6e736F6c652e6c6f67) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#509)
+AlchemistEth.slitherConstructorConstantVariables() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3698-4518) uses literals with too many digits:
+	- MINIMUM_COLLATERALIZATION_LIMIT = 1000000000000000000 (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3720)
+AlchemistEth.slitherConstructorConstantVariables() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3698-4518) uses literals with too many digits:
+	- MAXIMUM_COLLATERALIZATION_LIMIT = 4000000000000000000 (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3729)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+getRoleMemberCount(bytes32) should be declared external:
+	- AccessControl.getRoleMemberCount(bytes32) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3048-3050)
+getRoleMember(bytes32,uint256) should be declared external:
+	- AccessControl.getRoleMember(bytes32,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3064-3066)
+getRoleAdmin(bytes32) should be declared external:
+	- AccessControl.getRoleAdmin(bytes32) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3074-3076)
+grantRole(bytes32,address) should be declared external:
+	- AccessControl.grantRole(bytes32,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3088-3092)
+revokeRole(bytes32,address) should be declared external:
+	- AccessControl.revokeRole(bytes32,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3103-3107)
+renounceRole(bytes32,address) should be declared external:
+	- AccessControl.renounceRole(bytes32,address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3123-3127)
+name() should be declared external:
+	- ERC20.name() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3235-3237)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3243-3245)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3260-3262)
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3267-3269)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3274-3276)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3286-3289)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3305-3308)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3323-3327)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3341-3344)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3360-3363)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3533-3536)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3542-3546)
+burn(uint256) should be declared external:
+	- AlEth.burn(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3649-3651)
+burnFrom(address,uint256) should be declared external:
+	- AlEth.burnFrom(address,uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3664-3669)
+lowerHasMinted(uint256) should be declared external:
+	- AlEth.lowerHasMinted(uint256) (../../sb/0x6b566554378477490ab040f6f757171c967d03ab.sol#3675-3681)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x6b566554378477490ab040f6f757171c967d03ab.sol analyzed (23 contracts with 78 detectors), 549 result(s) found

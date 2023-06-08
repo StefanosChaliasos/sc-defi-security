@@ -1,0 +1,135 @@
+Compilation warnings/errors on /sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol:
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> /sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol
+
+
+[91m
+UniswapV2Pair._update(uint256,uint256,uint112,uint112) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#272-285) uses a weak PRNG: "blockTimestamp = uint32(block.timestamp % 2 ** 32) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#274)" 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#weak-PRNG[0m
+[91m
+UniswapV2Pair.emergencyWithdraw(address) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#409-412) ignores return value by IERC20Uniswap(_token).transfer(IUniswapV2Factory(factory).feeToSetter(),IERC20Uniswap(_token).balanceOf(address(this))) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#411)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+UniswapV2Pair._safeTransfer(address,address,uint256) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#243-246) uses a dangerous strict equality:
+	- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),UniswapV2: TRANSFER_FAILED) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#245)
+UniswapV2Pair.mint(address) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#309-337) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#318)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in UniswapV2Pair.burn(address) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#340-362):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#354)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#355)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#359)
+		- blockTimestampLast = blockTimestamp (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#283)
+	- kLast = uint256(reserve0).mul(reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#360)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#359)
+		- reserve0 = uint112(balance0) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#281)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#359)
+		- reserve1 = uint112(balance1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#282)
+Reentrancy in UniswapV2Pair.swap(uint256,uint256,address,bytes) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#365-393):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#376)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#377)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- IUniswapV2Callee(to).uniswapV2Call(msg.sender,amount0Out,amount1Out,data) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#378)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#391)
+		- blockTimestampLast = blockTimestamp (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#283)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#391)
+		- reserve0 = uint112(balance0) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#281)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#391)
+		- reserve1 = uint112(balance1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#282)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+UniswapV2Pair.emergencyWithdraw(address) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#409-412) uses tx.origin for authorization: require(bool,string)(tx.origin == IUniswapV2Factory(factory).feeToSetter(),UniswapV2: Not from feeToSetter) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#410)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-usage-of-txorigin[0m
+[92m
+UniswapV2Pair.initialize(address,address)._token0 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#265) lacks a zero-check on :
+		- token0 = _token0 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#267)
+UniswapV2Pair.initialize(address,address)._token1 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#265) lacks a zero-check on :
+		- token1 = _token1 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#268)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in UniswapV2Pair.burn(address) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#340-362):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#354)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#355)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#359)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#278)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#359)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#279)
+Reentrancy in UniswapV2Pair.swap(uint256,uint256,address,bytes) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#365-393):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#376)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#377)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- IUniswapV2Callee(to).uniswapV2Call(msg.sender,amount0Out,amount1Out,data) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#378)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#391)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#278)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#391)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#279)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in UniswapV2Pair.burn(address) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#340-362):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#354)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#355)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	Event emitted after the call(s):
+	- Burn(msg.sender,amount0,amount1,to) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#361)
+	- Sync(reserve0,reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#284)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#359)
+Reentrancy in UniswapV2Pair.swap(uint256,uint256,address,bytes) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#365-393):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#376)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#377)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+	- IUniswapV2Callee(to).uniswapV2Call(msg.sender,amount0Out,amount1Out,data) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#378)
+	Event emitted after the call(s):
+	- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#392)
+	- Sync(reserve0,reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#284)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#391)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+UniswapV2ERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#181-193) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(deadline >= block.timestamp,UniswapV2: EXPIRED) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#182)
+UniswapV2Pair._update(uint256,uint256,uint112,uint112) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#272-285) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#276)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+UniswapV2ERC20.constructor() (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#124-138) uses assembly
+	- INLINE ASM (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#126-128)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Low level call in UniswapV2Pair._safeTransfer(address,address,uint256) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#243-246):
+	- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#244)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable UniswapV2ERC20.DOMAIN_SEPARATOR (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#116) is not in mixedCase
+Parameter UniswapV2Pair.initialize(address,address)._token0 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#265) is not in mixedCase
+Parameter UniswapV2Pair.initialize(address,address)._token1 (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#265) is not in mixedCase
+Parameter UniswapV2Pair.emergencyWithdraw(address)._token (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#409) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable UniswapV2Pair.swap(uint256,uint256,address,bytes).balance0Adjusted (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#386) is too similar to UniswapV2Pair.swap(uint256,uint256,address,bytes).balance1Adjusted (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#387)
+Variable UniswapV2Pair.price0CumulativeLast (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#225) is too similar to UniswapV2Pair.price1CumulativeLast (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#226)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+emergencyWithdraw(address) should be declared external:
+	- UniswapV2Pair.emergencyWithdraw(address) (../../sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol#409-412)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x719efa3a9e9831e0909b70861d788b6fc22d1fc8.sol analyzed (9 contracts with 78 detectors), 24 result(s) found

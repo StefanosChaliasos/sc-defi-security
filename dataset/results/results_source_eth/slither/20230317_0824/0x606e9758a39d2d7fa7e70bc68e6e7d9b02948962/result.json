@@ -1,0 +1,654 @@
+{
+    "errors": [
+        "EXIT_CODE_71"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "takeOrder",
+            "impact": "High",
+            "line": 267,
+            "line_end": 292,
+            "message": "SaverExchange.takeOrder(address[3],bytes,uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267-292) sends eth to arbitrary user\n\tDangerous calls:\n\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "High",
+            "line": 169,
+            "line_end": 260,
+            "message": "SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[2]).transfer(msg.sender,ERC20(orderAddresses[2]).balanceOf(address(this))) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#251)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "High",
+            "line": 169,
+            "line_end": 260,
+            "message": "SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).transfer(msg.sender,ERC20(orderAddresses[1]).balanceOf(address(this))) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#257)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "High",
+            "line": 169,
+            "line_end": 260,
+            "message": "SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).transfer(wrapper,tokens[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#230)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "takeFee",
+            "impact": "High",
+            "line": 353,
+            "line_end": 370,
+            "message": "SaverExchange.takeFee(uint256,address) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#353-370) ignores return value by ERC20(_token).transfer(WALLET_ID,feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#367)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "contract": "TokenInterface",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "approve",
+            "impact": "Medium",
+            "line": 24,
+            "line_end": 32,
+            "message": "TokenInterface (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#24-32) has incorrect ERC20 function interface:TokenInterface.approve(address,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#27)\n",
+            "name": "erc20-interface"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "Medium",
+            "line": 169,
+            "line_end": 260,
+            "message": "SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) uses a dangerous strict equality:\n\t- tokens[0] == 0 (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#201)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "Medium",
+            "line": 169,
+            "line_end": 260,
+            "message": "SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#209)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "Medium",
+            "line": 169,
+            "line_end": 260,
+            "message": "SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#192)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Low",
+            "line": 337,
+            "message": "SaverExchange.getExpectedRate(address,address,address,uint256)._destToken (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) lacks a zero-check on :\n\t\t- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Low",
+            "line": 337,
+            "message": "SaverExchange.getExpectedRate(address,address,address,uint256)._wrapper (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) lacks a zero-check on :\n\t\t- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Low",
+            "line": 337,
+            "message": "SaverExchange.getExpectedRate(address,address,address,uint256)._srcToken (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) lacks a zero-check on :\n\t\t- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "Low",
+            "line": 169,
+            "line_end": 260,
+            "message": "Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):\n\tExternal calls:\n\t- require(bool,string)(ERC20(orderAddresses[1]).transferFrom(msg.sender,address(this),_amount),Not able to withdraw wanted amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#176)\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- ERC20(_token).transfer(WALLET_ID,feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#367)\n\t- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#192)\n\t- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t\t- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)\n\t- (wrapper,price) = getBestPrice(_amount,orderAddresses[1],orderAddresses[2],_exchangeType) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#202)\n\t\t- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)\n\t- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#209)\n\t- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t\t- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)\n\tExternal calls sending eth:\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- WALLET_ID.transfer(feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)\n\t- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\tEvent emitted after the call(s):\n\t- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#215)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "Low",
+            "line": 169,
+            "line_end": 260,
+            "message": "Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):\n\tExternal calls:\n\t- require(bool,string)(ERC20(orderAddresses[1]).transferFrom(msg.sender,address(this),_amount),Not able to withdraw wanted amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#176)\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- ERC20(_token).transfer(WALLET_ID,feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#367)\n\t- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#192)\n\t- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t\t- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)\n\t- (wrapper,price) = getBestPrice(_amount,orderAddresses[1],orderAddresses[2],_exchangeType) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#202)\n\t\t- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)\n\t- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#209)\n\t- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t\t- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)\n\t- (wrapper,price) = getBestPrice(tokens[1],orderAddresses[1],orderAddresses[2],_exchangeType) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#222)\n\t\t- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)\n\t- (tokens[0],None) = ExchangeInterface(wrapper).swapEtherToToken.value(tokens[1])(tokens[1],orderAddresses[2],uint256(- 1)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#228)\n\t- ERC20(orderAddresses[1]).transfer(wrapper,tokens[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#230)\n\t- tokens[0] = ExchangeInterface(wrapper).swapTokenToEther(orderAddresses[1],tokens[1],uint256(- 1)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#233)\n\t- tokens[0] = ExchangeInterface(wrapper).swapTokenToToken(orderAddresses[1],orderAddresses[2],tokens[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#235)\n\tExternal calls sending eth:\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- WALLET_ID.transfer(feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)\n\t- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t- (tokens[0],None) = ExchangeInterface(wrapper).swapEtherToToken.value(tokens[1])(tokens[1],orderAddresses[2],uint256(- 1)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#228)\n\tEvent emitted after the call(s):\n\t- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#239)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "sliceUint",
+            "impact": "Informational",
+            "line": 390,
+            "line_end": 399,
+            "message": "SaverExchange.sliceUint(bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#390-399) uses assembly\n\t- INLINE ASM (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#394-396)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 35,
+            "line_end": 37,
+            "message": "DSMath.add(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#35-37) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "imin",
+            "impact": "Informational",
+            "line": 54,
+            "line_end": 56,
+            "message": "DSMath.imin(int256,int256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#54-56) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "wmul",
+            "impact": "Informational",
+            "line": 64,
+            "line_end": 66,
+            "message": "DSMath.wmul(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#64-66) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "rpow",
+            "impact": "Informational",
+            "line": 92,
+            "line_end": 102,
+            "message": "DSMath.rpow(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#92-102) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "imax",
+            "impact": "Informational",
+            "line": 57,
+            "line_end": 59,
+            "message": "DSMath.imax(int256,int256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#57-59) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "wdiv",
+            "impact": "Informational",
+            "line": 70,
+            "line_end": 72,
+            "message": "DSMath.wdiv(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#70-72) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 51,
+            "line_end": 53,
+            "message": "DSMath.max(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#51-53) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "rdiv",
+            "impact": "Informational",
+            "line": 73,
+            "line_end": 75,
+            "message": "DSMath.rdiv(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#73-75) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "rmul",
+            "impact": "Informational",
+            "line": 67,
+            "line_end": 69,
+            "message": "DSMath.rmul(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#67-69) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "min",
+            "impact": "Informational",
+            "line": 48,
+            "line_end": 50,
+            "message": "DSMath.min(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#48-50) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 44,
+            "line_end": 46,
+            "message": "DSMath.div(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#44-46) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "mul",
+            "impact": "Informational",
+            "line": 41,
+            "line_end": 43,
+            "message": "DSMath.mul(uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#41-43) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 1,
+            "message": "Pragma version^0.5.7 (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#1) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "takeOrder",
+            "impact": "Informational",
+            "line": 267,
+            "line_end": 292,
+            "message": "Low level call in SaverExchange.takeOrder(address[3],bytes,uint256,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267-292):\n\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "getExpectedRate",
+            "impact": "Informational",
+            "line": 337,
+            "line_end": 348,
+            "message": "Low level call in SaverExchange.getExpectedRate(address,address,address,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337-348):\n\t- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._callData (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 267,
+            "message": "Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._value (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Parameter Discount.setServiceFee(address,uint256)._fee (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._amount (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 267,
+            "message": "Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._addresses (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 337,
+            "message": "Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._amount (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 299,
+            "message": "Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._exchangeType (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 267,
+            "message": "Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._data (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._exchangeType (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 299,
+            "message": "Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._amount (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 373,
+            "message": "Parameter SaverExchange.getDecimals(address)._token (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#373) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 153,
+            "message": "Parameter Discount.disableServiceFee(address)._user (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#153) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._exchangeAddress (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 353,
+            "message": "Parameter SaverExchange.takeFee(uint256,address)._token (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#353) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 337,
+            "message": "Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._destToken (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 337,
+            "message": "Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._wrapper (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 267,
+            "message": "Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._amount (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 139,
+            "message": "Parameter Discount.getCustomServiceFee(address)._user (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#139) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._minPrice (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Parameter Discount.setServiceFee(address,uint256)._user (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 299,
+            "message": "Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._destToken (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 299,
+            "message": "Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._srcToken (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._src (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._dest (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 135,
+            "message": "Parameter Discount.isCustomFeeSet(address)._user (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#135) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 353,
+            "message": "Parameter SaverExchange.takeFee(uint256,address)._amount (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#353) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 337,
+            "message": "Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._srcToken (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "impact": "Informational",
+            "line": 169,
+            "message": "Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._0xPrice (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "Informational",
+            "line": 169,
+            "line_end": 260,
+            "message": "Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):\n\tExternal calls:\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- WALLET_ID.transfer(feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)\n\tExternal calls sending eth:\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- WALLET_ID.transfer(feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)\n\t- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\tEvent emitted after the call(s):\n\t- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#215)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "swapTokenToToken",
+            "impact": "Informational",
+            "line": 169,
+            "line_end": 260,
+            "message": "Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):\n\tExternal calls:\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- WALLET_ID.transfer(feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)\n\tExternal calls sending eth:\n\t- fee = takeFee(_amount,orderAddresses[1]) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)\n\t\t- WALLET_ID.transfer(feeAmount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)\n\t- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)\n\t\t- (success,None) = _addresses[0].call.value(_value)(_data) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)\n\t- (tokens[0],None) = ExchangeInterface(wrapper).swapEtherToToken.value(tokens[1])(tokens[1],orderAddresses[2],uint256(- 1)) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#228)\n\tEvent emitted after the call(s):\n\t- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#239)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 26,
+            "message": "balanceOf(address) should be declared external:\n\t- TokenInterface.balanceOf(address) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#26)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 31,
+            "message": "withdraw(uint256) should be declared external:\n\t- TokenInterface.withdraw(uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#31)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "deposit",
+            "impact": "Optimization",
+            "line": 30,
+            "message": "deposit() should be declared external:\n\t- TokenInterface.deposit() (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#30)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 28,
+            "message": "transfer(address,uint256) should be declared external:\n\t- TokenInterface.transfer(address,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#28)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "getCustomServiceFee",
+            "impact": "Optimization",
+            "line": 139,
+            "line_end": 141,
+            "message": "getCustomServiceFee(address) should be declared external:\n\t- Discount.getCustomServiceFee(address) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#139-141)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 29,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- TokenInterface.transferFrom(address,address,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#29)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 27,
+            "message": "approve(address,uint256) should be declared external:\n\t- TokenInterface.approve(address,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#27)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "isCustomFeeSet",
+            "impact": "Optimization",
+            "line": 135,
+            "line_end": 137,
+            "message": "isCustomFeeSet(address) should be declared external:\n\t- Discount.isCustomFeeSet(address) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#135-137)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "setServiceFee",
+            "impact": "Optimization",
+            "line": 143,
+            "line_end": 151,
+            "message": "setServiceFee(address,uint256) should be declared external:\n\t- Discount.setServiceFee(address,uint256) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#143-151)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "disableServiceFee",
+            "impact": "Optimization",
+            "line": 153,
+            "line_end": 160,
+            "message": "disableServiceFee(address) should be declared external:\n\t- Discount.disableServiceFee(address) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#153-160)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 25,
+            "message": "allowance(address,address) should be declared external:\n\t- TokenInterface.allowance(address,address) (../..0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#25)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

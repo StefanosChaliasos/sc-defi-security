@@ -1,0 +1,151 @@
+[93m
+CompoundModel.invest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#779-784) ignores return value by CTokenInterface(_cToken).mint(underlyingBalanceInModel()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#783)
+CompoundModel.withdrawAllToForge() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#793-800) ignores return value by CTokenInterface(_cToken).redeem(_cTokenBalanceOf()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#799)
+CompoundModel.withdrawTo(uint256,address) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#806-815) ignores return value by CTokenInterface(_cToken).redeemUnderlying(amount) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#809)
+CompoundModel._swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#826-848) ignores return value by IUniswapV2Router02(_uRouterV2).swapExactTokensForTokens(balance,1,path,address(this),block.timestamp + (15 * 60)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#838-844)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+CompoundModel.initialize(address,address,address,address,address,address).cToken_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#756) lacks a zero-check on :
+		- _cToken = cToken_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#763)
+CompoundModel.initialize(address,address,address,address,address,address).comp_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#757) lacks a zero-check on :
+		- _comp = comp_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#764)
+CompoundModel.initialize(address,address,address,address,address,address).comptroller_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#758) lacks a zero-check on :
+		- _comptroller = comptroller_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#765)
+CompoundModel.initialize(address,address,address,address,address,address).uRouterV2_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#759) lacks a zero-check on :
+		- _uRouterV2 = uRouterV2_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#766)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in CompoundModel._swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#826-848):
+	External calls:
+	- IERC20(_comp).safeApprove(_uRouterV2,balance) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#831)
+	- IUniswapV2Router02(_uRouterV2).swapExactTokensForTokens(balance,1,path,address(this),block.timestamp + (15 * 60)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#838-844)
+	Event emitted after the call(s):
+	- Swap(balance,underlyingBalanceInModel()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#846)
+Reentrancy in CompoundModel.invest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#779-784):
+	External calls:
+	- IERC20(token(0)).safeApprove(_cToken,underlyingBalanceInModel()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#781)
+	Event emitted after the call(s):
+	- Invest(underlyingBalanceInModel(),block.timestamp) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#782)
+Reentrancy in CompoundModel.reInvest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#786-791):
+	External calls:
+	- _claimComp() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#788)
+		- CTokenInterface(_comptroller).claimComp(address(this)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#823)
+	- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#789)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#457)
+		- IERC20(_comp).safeApprove(_uRouterV2,balance) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#831)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+		- IUniswapV2Router02(_uRouterV2).swapExactTokensForTokens(balance,1,path,address(this),block.timestamp + (15 * 60)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#838-844)
+	External calls sending eth:
+	- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#789)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+	Event emitted after the call(s):
+	- Swap(balance,underlyingBalanceInModel()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#846)
+		- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#789)
+Reentrancy in CompoundModel.reInvest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#786-791):
+	External calls:
+	- _claimComp() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#788)
+		- CTokenInterface(_comptroller).claimComp(address(this)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#823)
+	- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#789)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#457)
+		- IERC20(_comp).safeApprove(_uRouterV2,balance) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#831)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+		- IUniswapV2Router02(_uRouterV2).swapExactTokensForTokens(balance,1,path,address(this),block.timestamp + (15 * 60)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#838-844)
+	- invest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#790)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#457)
+		- IERC20(token(0)).safeApprove(_cToken,underlyingBalanceInModel()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#781)
+		- CTokenInterface(_cToken).mint(underlyingBalanceInModel()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#783)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+	External calls sending eth:
+	- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#789)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+	- invest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#790)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+	Event emitted after the call(s):
+	- Invest(underlyingBalanceInModel(),block.timestamp) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#782)
+		- invest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#790)
+Reentrancy in CompoundModel.withdrawAllToForge() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#793-800):
+	External calls:
+	- _claimComp() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#795)
+		- CTokenInterface(_comptroller).claimComp(address(this)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#823)
+	- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#796)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#457)
+		- IERC20(_comp).safeApprove(_uRouterV2,balance) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#831)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+		- IUniswapV2Router02(_uRouterV2).swapExactTokensForTokens(balance,1,path,address(this),block.timestamp + (15 * 60)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#838-844)
+	External calls sending eth:
+	- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#796)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+	Event emitted after the call(s):
+	- Swap(balance,underlyingBalanceInModel()) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#846)
+		- _swapCompToUnderlying() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#796)
+	- Withdraw(underlyingBalanceWithInvestment(),forge(),block.timestamp) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#798)
+Reentrancy in CompoundModel.withdrawTo(uint256,address) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#806-815):
+	External calls:
+	- CTokenInterface(_cToken).redeemUnderlying(amount) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#809)
+	- IERC20(token(0)).safeTransfer(to,newBalance.sub(oldBalance)) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#812)
+	Event emitted after the call(s):
+	- Withdraw(amount,forge(),block.timestamp) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#814)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#228-237) uses assembly
+	- INLINE ASM (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#235)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#373-390) uses assembly
+	- INLINE ASM (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#382-385)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#281-283) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#306-308) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#355-357) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#365-371) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#331-333) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#341-347) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#255-261) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#437-444) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#432-435) is never used and should be removed
+SafeERC20.safeTransferFrom(IERC20,address,address,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#410-412) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#654-659) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#614-616) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#676-681) is never used and should be removed
+SafeMath.sub(uint256,uint256,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#631-636) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#485-491) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#527-532) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#539-544) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#510-520) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#498-503) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#255-261):
+	- (success) = recipient.call{value: amount}() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#259)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#316-323):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#321)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#341-347):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#345)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#365-371):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#369)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IUniswapV2Router02.WETH() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#83) is not in mixedCase
+Modifier ModelStorage.OnlyForge() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#148-151) is not in mixedCase
+Variable CompoundModel._cToken (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#748) is not in mixedCase
+Variable CompoundModel._comp (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#749) is not in mixedCase
+Variable CompoundModel._comptroller (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#750) is not in mixedCase
+Variable CompoundModel._uRouterV2 (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#751) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable IUniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#85) is too similar to IUniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#85)
+Variable CompoundModel._comptroller (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#750) is too similar to CompoundModel.initialize(address,address,address,address,address,address).comptroller_ (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#758)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+initialize(address,address,address,address,address,address) should be declared external:
+	- CompoundModel.initialize(address,address,address,address,address,address) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#753-768)
+reInvest() should be declared external:
+	- CompoundModel.reInvest() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#786-791)
+withdrawAllToForge() should be declared external:
+	- CompoundModel.withdrawAllToForge() (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#793-800)
+withdrawToForge(uint256) should be declared external:
+	- CompoundModel.withdrawToForge(uint256) (../../sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol#802-804)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x929cb86046e421abf7e1e02de7836742654d49d6.sol analyzed (9 contracts with 78 detectors), 52 result(s) found

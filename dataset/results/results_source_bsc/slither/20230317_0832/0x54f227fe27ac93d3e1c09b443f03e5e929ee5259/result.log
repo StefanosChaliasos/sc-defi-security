@@ -1,0 +1,124 @@
+[91m
+PancakePair._update(uint256,uint256,uint112,uint112) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#366-379) uses a weak PRNG: "blockTimestamp = uint32(block.timestamp % 2 ** 32) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#368)" 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#weak-PRNG[0m
+[93m
+PancakePair._safeTransfer(address,address,uint256) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#337-340) uses a dangerous strict equality:
+	- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),Pancake: TRANSFER_FAILED) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#339)
+PancakePair.mint(address) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#403-424) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#412)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in PancakePair.burn(address) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#427-449):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#441)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#442)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#446)
+		- blockTimestampLast = blockTimestamp (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#377)
+	- kLast = uint256(reserve0).mul(reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#447)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#446)
+		- reserve0 = uint112(balance0) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#375)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#446)
+		- reserve1 = uint112(balance1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#376)
+Reentrancy in PancakePair.swap(uint256,uint256,address,bytes) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#452-480):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#463)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#464)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- IPancakeCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#465)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#478)
+		- blockTimestampLast = blockTimestamp (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#377)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#478)
+		- reserve0 = uint112(balance0) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#375)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#478)
+		- reserve1 = uint112(balance1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#376)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+PancakePair.initialize(address,address)._token0 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#359) lacks a zero-check on :
+		- token0 = _token0 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#361)
+PancakePair.initialize(address,address)._token1 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#359) lacks a zero-check on :
+		- token1 = _token1 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#362)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in PancakePair.burn(address) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#427-449):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#441)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#442)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#446)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#372)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#446)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#373)
+Reentrancy in PancakePair.swap(uint256,uint256,address,bytes) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#452-480):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#463)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#464)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- IPancakeCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#465)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#478)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#372)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#478)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#373)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in PancakePair.burn(address) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#427-449):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#441)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#442)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	Event emitted after the call(s):
+	- Burn(msg.sender,amount0,amount1,to) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#448)
+	- Sync(reserve0,reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#378)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#446)
+Reentrancy in PancakePair.swap(uint256,uint256,address,bytes) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#452-480):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#463)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#464)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+	- IPancakeCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#465)
+	Event emitted after the call(s):
+	- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#479)
+	- Sync(reserve0,reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#378)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#478)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+PancakeERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#182-194) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(deadline >= block.timestamp,Pancake: EXPIRED) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#183)
+PancakePair._update(uint256,uint256,uint112,uint112) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#366-379) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#370)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+PancakeERC20.constructor() (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#125-139) uses assembly
+	- INLINE ASM (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#127-129)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Low level call in PancakePair._safeTransfer(address,address,uint256) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#337-340):
+	- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#338)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IPancakePair.DOMAIN_SEPARATOR() (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#20) is not in mixedCase
+Function IPancakePair.PERMIT_TYPEHASH() (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#21) is not in mixedCase
+Function IPancakePair.MINIMUM_LIQUIDITY() (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#38) is not in mixedCase
+Function IPancakeERC20.DOMAIN_SEPARATOR() (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#75) is not in mixedCase
+Function IPancakeERC20.PERMIT_TYPEHASH() (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#76) is not in mixedCase
+Variable PancakeERC20.DOMAIN_SEPARATOR (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#117) is not in mixedCase
+Parameter PancakePair.initialize(address,address)._token0 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#359) is not in mixedCase
+Parameter PancakePair.initialize(address,address)._token1 (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#359) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable PancakePair.swap(uint256,uint256,address,bytes).balance0Adjusted (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#473) is too similar to PancakePair.swap(uint256,uint256,address,bytes).balance1Adjusted (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#474)
+Variable PancakePair.price0CumulativeLast (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#319) is too similar to PancakePair.price1CumulativeLast (../../sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol#320)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+/sb/0x54f227fe27ac93d3e1c09b443f03e5e929ee5259.sol analyzed (10 contracts with 78 detectors), 25 result(s) found

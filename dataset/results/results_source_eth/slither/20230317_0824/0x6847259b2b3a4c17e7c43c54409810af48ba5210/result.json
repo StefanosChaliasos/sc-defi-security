@@ -1,0 +1,1034 @@
+{
+    "errors": [
+        "EXIT_CODE_113"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "swapExactJarForJar",
+            "impact": "High",
+            "line": 1147,
+            "line_end": 1232,
+            "message": "ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[]) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1147-1232) ignores return value by IJar(_toJar).transfer(msg.sender,_toJarBal) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1229)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "earn",
+            "impact": "High",
+            "line": 935,
+            "message": "ControllerV4.converters (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#935) is never initialized. It is used in:\n\t- ControllerV4.earn(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1039-1051)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setStrategy",
+            "impact": "Medium",
+            "line": 1025,
+            "line_end": 1037,
+            "message": "Reentrancy in ControllerV4.setStrategy(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1025-1037):\n\tExternal calls:\n\t- IStrategy(_current).withdrawAll() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1034)\n\tState variables written after the call(s):\n\t- strategies[_token] = _strategy (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1036)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "swapExactJarForJar",
+            "impact": "Medium",
+            "line": 1147,
+            "line_end": 1232,
+            "message": "ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[]) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1147-1232) ignores return value by IStrategy(strategies[_fromJarToken]).withdrawForSwap(_fromJarUnderlyingAmount.sub(_fromJarAvailUnderlying)) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1187-1189)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "withdrawAll",
+            "impact": "Medium",
+            "line": 1057,
+            "line_end": 1063,
+            "message": "ControllerV4.withdrawAll(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1057-1063) ignores return value by IStrategy(strategies[_token]).withdrawAll() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1062)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setStrategy",
+            "impact": "Medium",
+            "line": 1025,
+            "line_end": 1037,
+            "message": "ControllerV4.setStrategy(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1025-1037) ignores return value by IStrategy(_current).withdrawAll() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1034)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 568,
+            "message": "ERC20.constructor(string,string).name (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#568) shadows:\n\t- ERC20.name() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#577-579) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 568,
+            "message": "ERC20.constructor(string,string).symbol (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#568) shadows:\n\t- ERC20.symbol() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#585-587) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setConvenienceFee",
+            "impact": "Low",
+            "line": 1020,
+            "line_end": 1023,
+            "message": "ControllerV4.setConvenienceFee(uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1020-1023) should emit an event for: \n\t- convenienceFee = _convenienceFee (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1022) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 986,
+            "message": "ControllerV4.setTimelock(address)._timelock (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#986) lacks a zero-check on :\n\t\t- timelock = _timelock (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#988)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 966,
+            "message": "ControllerV4.setStrategist(address)._strategist (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#966) lacks a zero-check on :\n\t\t- strategist = _strategist (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#968)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 961,
+            "message": "ControllerV4.setTreasury(address)._treasury (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#961) lacks a zero-check on :\n\t\t- treasury = _treasury (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#963)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 976,
+            "message": "ControllerV4.setOneSplit(address)._onesplit (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#976) lacks a zero-check on :\n\t\t- onesplit = _onesplit (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#978)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 956,
+            "message": "ControllerV4.setDevFund(address)._devfund (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#956) lacks a zero-check on :\n\t\t- devfund = _devfund (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#958)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 943,
+            "message": "ControllerV4.constructor(address,address,address,address,address)._governance (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#943) lacks a zero-check on :\n\t\t- governance = _governance (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#949)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 945,
+            "message": "ControllerV4.constructor(address,address,address,address,address)._timelock (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#945) lacks a zero-check on :\n\t\t- timelock = _timelock (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#951)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 981,
+            "message": "ControllerV4.setGovernance(address)._governance (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#981) lacks a zero-check on :\n\t\t- governance = _governance (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#983)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 947,
+            "message": "ControllerV4.constructor(address,address,address,address,address)._treasury (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#947) lacks a zero-check on :\n\t\t- treasury = _treasury (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#953)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 944,
+            "message": "ControllerV4.constructor(address,address,address,address,address)._strategist (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#944) lacks a zero-check on :\n\t\t- strategist = _strategist (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#950)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Low",
+            "line": 946,
+            "message": "ControllerV4.constructor(address,address,address,address,address)._devfund (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#946) lacks a zero-check on :\n\t\t- devfund = _devfund (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#952)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "_execute",
+            "impact": "Informational",
+            "line": 1234,
+            "line_end": 1266,
+            "message": "ControllerV4._execute(address,bytes) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1234-1266) uses assembly\n\t- INLINE ASM (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1241-1265)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 495,
+            "line_end": 516,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#495-516) uses assembly\n\t- INLINE ASM (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#508-511)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 402,
+            "line_end": 411,
+            "message": "Address.isContract(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#402-411) uses assembly\n\t- INLINE ASM (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#409)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setStrategy",
+            "impact": "Informational",
+            "line": 1025,
+            "line_end": 1037,
+            "message": "ControllerV4.setStrategy(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1025-1037) compares to a boolean constant:\n\t-require(bool,string)(approvedStrategies[_token][_strategy] == true,!approved) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1030)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 429,
+            "line_end": 435,
+            "message": "Address.sendValue(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#429-435) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 480,
+            "line_end": 482,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#480-482) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 859,
+            "line_end": 862,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#859-862) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 761,
+            "line_end": 769,
+            "message": "ERC20._burn(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#761-769) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 155,
+            "line_end": 158,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#155-158) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 490,
+            "line_end": 493,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#490-493) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 799,
+            "line_end": 801,
+            "message": "ERC20._setupDecimals(uint8) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#799-801) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 294,
+            "line_end": 297,
+            "message": "Context._msgData() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#294-297) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 139,
+            "line_end": 141,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#139-141) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 864,
+            "line_end": 867,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#864-867) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "_mint",
+            "impact": "Informational",
+            "line": 740,
+            "line_end": 748,
+            "message": "ERC20._mint(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#740-748) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 455,
+            "line_end": 457,
+            "message": "Address.functionCall(address,bytes) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#455-457) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Pragma version^0.6.7 (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#3) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 429,
+            "line_end": 435,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#429-435):\n\t- (success) = recipient.call{value: amount}() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#433)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 495,
+            "line_end": 516,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#495-516):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#499)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 956,
+            "message": "Parameter ControllerV4.setDevFund(address)._devfund (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#956) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 991,
+            "message": "Parameter ControllerV4.setJar(address,address)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#991) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1053,
+            "message": "Parameter ControllerV4.balanceOf(address)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1053) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1073,
+            "message": "Parameter ControllerV4.inCaseStrategyTokenGetStuck(address,address)._strategy (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1073) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 991,
+            "message": "Parameter ControllerV4.setJar(address,address)._jar (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#991) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1020,
+            "message": "Parameter ControllerV4.setConvenienceFee(uint256)._convenienceFee (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1020) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1150,
+            "message": "Parameter ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[])._fromJarAmount (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1150) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1141,
+            "message": "Parameter ControllerV4.withdraw(address,uint256)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1015,
+            "message": "Parameter ControllerV4.revokeStrategy(address,address)._strategy (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1015) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1073,
+            "message": "Parameter ControllerV4.inCaseStrategyTokenGetStuck(address,address)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1073) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1025,
+            "message": "Parameter ControllerV4.setStrategy(address,address)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1025) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 976,
+            "message": "Parameter ControllerV4.setOneSplit(address)._onesplit (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#976) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 961,
+            "message": "Parameter ControllerV4.setTreasury(address)._treasury (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#961) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1065,
+            "message": "Parameter ControllerV4.inCaseTokensGetStuck(address,uint256)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1065) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 986,
+            "message": "Parameter ControllerV4.setTimelock(address)._timelock (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#986) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1010,
+            "message": "Parameter ControllerV4.approveStrategy(address,address)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1010) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1148,
+            "message": "Parameter ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[])._fromJar (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1148) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 966,
+            "message": "Parameter ControllerV4.setStrategist(address)._strategist (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#966) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 940,
+            "message": "Constant ControllerV4.max (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#940) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1015,
+            "message": "Parameter ControllerV4.revokeStrategy(address,address)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1015) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1102,
+            "message": "Parameter ControllerV4.yearn(address,address,uint256)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1102) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1152,
+            "message": "Parameter ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[])._targets (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1152) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 971,
+            "message": "Parameter ControllerV4.setSplit(uint256)._split (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#971) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1149,
+            "message": "Parameter ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[])._toJar (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1149) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1153,
+            "message": "Parameter ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[])._data (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1153) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1025,
+            "message": "Parameter ControllerV4.setStrategy(address,address)._strategy (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1025) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1141,
+            "message": "Parameter ControllerV4.withdraw(address,uint256)._amount (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1039,
+            "message": "Parameter ControllerV4.earn(address,uint256)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1039) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1151,
+            "message": "Parameter ControllerV4.swapExactJarForJar(address,address,uint256,uint256,address[],bytes[])._toJarMinAmount (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1151) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1010,
+            "message": "Parameter ControllerV4.approveStrategy(address,address)._strategy (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1010) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1005,
+            "message": "Parameter ControllerV4.revokeJarConverter(address)._converter (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1005) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1084,
+            "message": "Parameter ControllerV4.getExpectedReturn(address,address,uint256)._strategy (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1084) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1101,
+            "message": "Parameter ControllerV4.yearn(address,address,uint256)._strategy (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1101) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 920,
+            "message": "Constant ControllerV4.burn (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#920) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1057,
+            "message": "Parameter ControllerV4.withdrawAll(address)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1057) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 981,
+            "message": "Parameter ControllerV4.setGovernance(address)._governance (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#981) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 931,
+            "message": "Constant ControllerV4.convenienceFeeMax (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#931) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1039,
+            "message": "Parameter ControllerV4.earn(address,uint256)._amount (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1039) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1065,
+            "message": "Parameter ControllerV4.inCaseTokensGetStuck(address,uint256)._amount (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1065) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1000,
+            "message": "Parameter ControllerV4.approveJarConverter(address)._converter (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1000) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 1085,
+            "message": "Parameter ControllerV4.getExpectedReturn(address,address,uint256)._token (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1085) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "impact": "Informational",
+            "line": 295,
+            "message": "Redundant expression \"this (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#295)\" inContext (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#289-298)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 915,
+            "line_end": 1267,
+            "message": "ControllerV4.slitherConstructorConstantVariables() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#915-1267) uses literals with too many digits:\n\t- convenienceFeeMax = 100000 (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#931)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 915,
+            "line_end": 1267,
+            "message": "ControllerV4.slitherConstructorConstantVariables() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#915-1267) uses literals with too many digits:\n\t- burn = 0x000000000000000000000000000000000000dEaD (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#920)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 664,
+            "line_end": 668,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#664-668)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setStrategy",
+            "impact": "Optimization",
+            "line": 1025,
+            "line_end": 1037,
+            "message": "setStrategy(address,address) should be declared external:\n\t- ControllerV4.setStrategy(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1025-1037)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "approveJarConverter",
+            "impact": "Optimization",
+            "line": 1000,
+            "line_end": 1003,
+            "message": "approveJarConverter(address) should be declared external:\n\t- ControllerV4.approveJarConverter(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1000-1003)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "getExpectedReturn",
+            "impact": "Optimization",
+            "line": 1083,
+            "line_end": 1097,
+            "message": "getExpectedReturn(address,address,uint256) should be declared external:\n\t- ControllerV4.getExpectedReturn(address,address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1083-1097)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setStrategist",
+            "impact": "Optimization",
+            "line": 966,
+            "line_end": 969,
+            "message": "setStrategist(address) should be declared external:\n\t- ControllerV4.setStrategist(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#966-969)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 602,
+            "line_end": 604,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#602-604)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "revokeStrategy",
+            "impact": "Optimization",
+            "line": 1015,
+            "line_end": 1018,
+            "message": "revokeStrategy(address,address) should be declared external:\n\t- ControllerV4.revokeStrategy(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1015-1018)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setOneSplit",
+            "impact": "Optimization",
+            "line": 976,
+            "line_end": 979,
+            "message": "setOneSplit(address) should be declared external:\n\t- ControllerV4.setOneSplit(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#976-979)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 701,
+            "line_end": 704,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#701-704)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 1141,
+            "line_end": 1144,
+            "message": "withdraw(address,uint256) should be declared external:\n\t- ControllerV4.withdraw(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1141-1144)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 585,
+            "line_end": 587,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#585-587)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 616,
+            "line_end": 618,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#616-618)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 628,
+            "line_end": 631,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#628-631)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setGovernance",
+            "impact": "Optimization",
+            "line": 981,
+            "line_end": 984,
+            "message": "setGovernance(address) should be declared external:\n\t- ControllerV4.setGovernance(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#981-984)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 682,
+            "line_end": 685,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#682-685)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "inCaseStrategyTokenGetStuck",
+            "impact": "Optimization",
+            "line": 1073,
+            "line_end": 1081,
+            "message": "inCaseStrategyTokenGetStuck(address,address) should be declared external:\n\t- ControllerV4.inCaseStrategyTokenGetStuck(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1073-1081)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 577,
+            "line_end": 579,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#577-579)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setTimelock",
+            "impact": "Optimization",
+            "line": 986,
+            "line_end": 989,
+            "message": "setTimelock(address) should be declared external:\n\t- ControllerV4.setTimelock(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#986-989)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setSplit",
+            "impact": "Optimization",
+            "line": 971,
+            "line_end": 974,
+            "message": "setSplit(uint256) should be declared external:\n\t- ControllerV4.setSplit(uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#971-974)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "inCaseTokensGetStuck",
+            "impact": "Optimization",
+            "line": 1065,
+            "line_end": 1071,
+            "message": "inCaseTokensGetStuck(address,uint256) should be declared external:\n\t- ControllerV4.inCaseTokensGetStuck(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1065-1071)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setTreasury",
+            "impact": "Optimization",
+            "line": 961,
+            "line_end": 964,
+            "message": "setTreasury(address) should be declared external:\n\t- ControllerV4.setTreasury(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#961-964)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 609,
+            "line_end": 611,
+            "message": "totalSupply() should be declared external:\n\t- ERC20.totalSupply() (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#609-611)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 647,
+            "line_end": 650,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#647-650)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "revokeJarConverter",
+            "impact": "Optimization",
+            "line": 1005,
+            "line_end": 1008,
+            "message": "revokeJarConverter(address) should be declared external:\n\t- ControllerV4.revokeJarConverter(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1005-1008)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "yearn",
+            "impact": "Optimization",
+            "line": 1100,
+            "line_end": 1139,
+            "message": "yearn(address,address,uint256) should be declared external:\n\t- ControllerV4.yearn(address,address,uint256) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1100-1139)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "approveStrategy",
+            "impact": "Optimization",
+            "line": 1010,
+            "line_end": 1013,
+            "message": "approveStrategy(address,address) should be declared external:\n\t- ControllerV4.approveStrategy(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1010-1013)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setJar",
+            "impact": "Optimization",
+            "line": 991,
+            "line_end": 998,
+            "message": "setJar(address,address) should be declared external:\n\t- ControllerV4.setJar(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#991-998)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "setDevFund",
+            "impact": "Optimization",
+            "line": 956,
+            "line_end": 959,
+            "message": "setDevFund(address) should be declared external:\n\t- ControllerV4.setDevFund(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#956-959)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "withdrawAll",
+            "impact": "Optimization",
+            "line": 1057,
+            "line_end": 1063,
+            "message": "withdrawAll(address) should be declared external:\n\t- ControllerV4.withdrawAll(address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#1057-1063)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 636,
+            "line_end": 638,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x6847259b2b3a4c17e7c43c54409810af48ba5210.sol#636-638)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

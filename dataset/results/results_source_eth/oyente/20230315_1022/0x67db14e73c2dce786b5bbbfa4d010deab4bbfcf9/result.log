@@ -1,0 +1,53 @@
+WARNING:root:You are using solc version 0.5.17, The latest supported version is 0.4.19
+INFO:CryticCompile:Compilation warnings/errors on /sb/0x67db14e73c2dce786b5bbbfa4d010deab4bbfcf9.sol:
+/sb/0x67db14e73c2dce786b5bbbfa4d010deab4bbfcf9.sol:1975:9: Warning: Return value of low-level calls not used.
+        address(interestRateModel).call(abi.encodeWithSignature("checkpointInterest(uint256)", borrowRateMantissa));
+        ^---------------------------------------------------------------------------------------------------------^
+/sb/0x67db14e73c2dce786b5bbbfa4d010deab4bbfcf9.sol:3006:58: Warning: Return value of low-level calls not used.
+        if (address(oldInterestRateModel) != address(0)) address(oldInterestRateModel).call(abi.encodeWithSignature("resetInterestCheckpoints()"));
+                                                         ^---------------------------------------------------------------------------------------^
+/sb/0x67db14e73c2dce786b5bbbfa4d010deab4bbfcf9.sol:3009:9: Warning: Return value of low-level calls not used.
+        address(newInterestRateModel).call(abi.encodeWithSignature("checkpointInterest()"));
+        ^---------------------------------------------------------------------------------^
+
+incomplete push instruction at 50
+incomplete push instruction at 191
+incomplete push instruction at 3084
+incomplete push instruction at 52
+incomplete push instruction at 49
+incomplete push instruction at 52
+INFO:root:contract /sb/0x67db14e73c2dce786b5bbbfa4d010deab4bbfcf9.sol:TokenErrorReporter:
+INFO:symExec:	============ Results ===========
+INFO:symExec:	  EVM Code Coverage: 			 26.9%
+INFO:symExec:	  Integer Underflow: 			 False
+INFO:symExec:	  Integer Overflow: 			 False
+INFO:symExec:	  Parity Multisig Bug 2: 		 False
+INFO:symExec:	  Callstack Depth Attack Vulnerability:  False
+INFO:symExec:	  Transaction-Ordering Dependence (TOD): False
+INFO:symExec:	  Timestamp Dependency: 		 False
+INFO:symExec:	  Re-Entrancy Vulnerability: 		 False
+INFO:symExec:	====== Analysis Completed ======
+INFO:root:contract /sb/0x67db14e73c2dce786b5bbbfa4d010deab4bbfcf9.sol:CErc20Delegate:
+INFO:symExec:	============ Results ===========
+Traceback (most recent call last):
+  File "/oyente/oyente/oyente.py", line 232, in <module>
+    main()
+  File "/oyente/oyente/oyente.py", line 227, in main
+    exit_code = analyze_solidity()
+  File "/oyente/oyente/oyente.py", line 110, in analyze_solidity
+    results, exit_code = run_solidity_analysis(inputs)
+  File "/oyente/oyente/oyente.py", line 87, in run_solidity_analysis
+    result, return_code = symExec.run(disasm_file=inp['disasm_file'], source_map=inp['source_map'], source_file=inp['source'])
+  File "/oyente/oyente/symExec.py", line 2458, in run
+    analyze()
+  File "/oyente/oyente/symExec.py", line 2441, in analyze
+    run_build_cfg_and_analyze(timeout_cb=timeout_cb)
+  File "/oyente/oyente/symExec.py", line 2398, in run_build_cfg_and_analyze
+    build_cfg_and_analyze()
+  File "/oyente/oyente/symExec.py", line 225, in build_cfg_and_analyze
+    collect_vertices(tokens)
+  File "/oyente/oyente/symExec.py", line 341, in collect_vertices
+    idx = mapping_non_push_instruction(current_line_content, current_ins_address, idx, positions, length) if g_src_map else None
+  File "/oyente/oyente/symExec.py", line 281, in mapping_non_push_instruction
+    raise RuntimeError(F"Source map error, unknown name({name}) or instr_name({instr_name})")
+RuntimeError: Source map error, unknown name(SHR) or instr_name(INVALID)

@@ -1,0 +1,162 @@
+[91m
+CErc20Delegator.delegateTo(address,bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#806-814) uses delegatecall to a input-controlled function id
+	- (success,returnData) = callee.delegatecall(data) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)
+CErc20Delegator.delegateAndReturn() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#856-867) uses delegatecall to a input-controlled function id
+	- (success) = implementation.delegatecall(msg.data) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#857)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#controlled-delegatecall[0m
+[93m
+Reentrancy in CErc20Delegator._setImplementation(address,bool,bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463-476):
+	External calls:
+	- delegateToImplementation(abi.encodeWithSignature(_resignImplementation())) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#467)
+		- (success,returnData) = callee.delegatecall(data) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)
+	State variables written after the call(s):
+	- implementation = implementation_ (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#471)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+CErc20Delegator.constructor(address,ComptrollerInterface,InterestRateModel,uint256,string,string,uint8,address,address,bytes).admin_ (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#434) lacks a zero-check on :
+		- admin = admin_ (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#454)
+CErc20Delegator._setImplementation(address,bool,bytes).implementation_ (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463) lacks a zero-check on :
+		- implementation = implementation_ (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#471)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in CErc20Delegator._setImplementation(address,bool,bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463-476):
+	External calls:
+	- delegateToImplementation(abi.encodeWithSignature(_resignImplementation())) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#467)
+		- (success,returnData) = callee.delegatecall(data) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)
+	- delegateToImplementation(abi.encodeWithSignature(_becomeImplementation(bytes),becomeImplementationData)) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#473)
+		- (success,returnData) = callee.delegatecall(data) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)
+	Event emitted after the call(s):
+	- NewImplementation(oldImplementation,implementation) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#475)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+CErc20Delegator.delegateTo(address,bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#806-814) uses assembly
+	- INLINE ASM (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#808-812)
+CErc20Delegator.delegateToViewImplementation(bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#833-841) uses assembly
+	- INLINE ASM (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#835-839)
+CErc20Delegator.delegateToViewAndReturn() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#843-854) uses assembly
+	- INLINE ASM (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#846-853)
+CErc20Delegator.delegateAndReturn() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#856-867) uses assembly
+	- INLINE ASM (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#859-866)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Low level call in CErc20Delegator.delegateTo(address,bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#806-814):
+	- (success,returnData) = callee.delegatecall(data) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#807)
+Low level call in CErc20Delegator.delegateToViewImplementation(bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#833-841):
+	- (success,returnData) = address(this).staticcall(abi.encodeWithSignature(delegateToImplementation(bytes),data)) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#834)
+Low level call in CErc20Delegator.delegateToViewAndReturn() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#843-854):
+	- (success) = address(this).staticcall(abi.encodeWithSignature(delegateToImplementation(bytes),msg.data)) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#844)
+Low level call in CErc20Delegator.delegateAndReturn() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#856-867):
+	- (success) = implementation.delegatecall(msg.data) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#857)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Constant ComptrollerInterface.isComptroller (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#9) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant InterestRateModel.isInterestRateModel (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#85) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable CTokenStorage._notEntered (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#113) is not in mixedCase
+Constant CTokenStorage.borrowRateMaxMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#134) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant CTokenStorage.reserveFactorMaxMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#139) is not in UPPER_CASE_WITH_UNDERSCORES
+Function CTokenInterface._setPendingAdmin(address) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#338) is not in mixedCase
+Function CTokenInterface._acceptAdmin() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#339) is not in mixedCase
+Function CTokenInterface._setComptroller(ComptrollerInterface) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#340) is not in mixedCase
+Function CTokenInterface._setReserveFactor(uint256) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#341) is not in mixedCase
+Function CTokenInterface._reduceReserves(uint256) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#342) is not in mixedCase
+Function CTokenInterface._setInterestRateModel(InterestRateModel) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#343) is not in mixedCase
+Constant CTokenInterface.isCToken (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#226) is not in UPPER_CASE_WITH_UNDERSCORES
+Function CErc20Interface._addReserves(uint256) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#368) is not in mixedCase
+Function CDelegatorInterface._setImplementation(address,bool,bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#390) is not in mixedCase
+Function CDelegateInterface._becomeImplementation(bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#399) is not in mixedCase
+Function CDelegateInterface._resignImplementation() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#404) is not in mixedCase
+Function CErc20Delegator._setImplementation(address,bool,bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#463-476) is not in mixedCase
+Function CErc20Delegator._setPendingAdmin(address) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#734-737) is not in mixedCase
+Function CErc20Delegator._setComptroller(ComptrollerInterface) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#744-747) is not in mixedCase
+Function CErc20Delegator._setReserveFactor(uint256) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#754-757) is not in mixedCase
+Function CErc20Delegator._acceptAdmin() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#764-766) is not in mixedCase
+Function CErc20Delegator._addReserves(uint256) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#773-776) is not in mixedCase
+Function CErc20Delegator._reduceReserves(uint256) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#783-786) is not in mixedCase
+Function CErc20Delegator._setInterestRateModel(InterestRateModel) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#794-797) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "mintAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#485)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "redeemTokens (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#496)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "redeemAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#507)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "borrowAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#517)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "repayAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#527)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "borrower (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#538)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "repayAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#538)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "borrower (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#551)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "repayAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#551)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "cTokenCollateral (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#551)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "dst (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#562)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "amount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#562)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "src (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#574)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "dst (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#574)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "amount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#574)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "spender (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#587)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "amount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#587)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "owner (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#598)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "spender (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#598)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "owner (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#608)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "owner (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#619)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "account (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#630)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "account (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#664)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "account (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#674)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "liquidator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#722)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "borrower (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#722)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "seizeTokens (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#722)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "newPendingAdmin (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#735)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "newComptroller (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#745)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "newReserveFactorMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#755)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "addAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#774)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "reduceAmount (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#784)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Redundant expression "newInterestRateModel (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#795)" inCErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+CTokenStorage._notEntered (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#113) is never used in CErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+CTokenStorage.borrowRateMaxMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#134) is never used in CErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+CTokenStorage.reserveFactorMaxMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#139) is never used in CErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+CTokenStorage.initialExchangeRateMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#164) is never used in CErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+CTokenStorage.accountTokens (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#199) is never used in CErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+CTokenStorage.transferAllowances (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#204) is never used in CErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+CTokenStorage.accountBorrows (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#219) is never used in CErc20Delegator (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#413-879)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+CErc20Storage.underlying (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#350) should be constant
+CTokenStorage._notEntered (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#113) should be constant
+CTokenStorage.accrualBlockNumber (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#174) should be constant
+CTokenStorage.borrowIndex (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#179) should be constant
+CTokenStorage.decimals (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#128) should be constant
+CTokenStorage.initialExchangeRateMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#164) should be constant
+CTokenStorage.name (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#118) should be constant
+CTokenStorage.pendingAdmin (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#149) should be constant
+CTokenStorage.reserveFactorMantissa (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#169) should be constant
+CTokenStorage.symbol (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#123) should be constant
+CTokenStorage.totalBorrows (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#184) should be constant
+CTokenStorage.totalReserves (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#189) should be constant
+CTokenStorage.totalSupply (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#194) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+borrowBalanceStored(address) should be declared external:
+	- CErc20Delegator.borrowBalanceStored(address) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#673-676)
+	- CTokenInterface.borrowBalanceStored(address) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#328)
+exchangeRateCurrent() should be declared external:
+	- CErc20Delegator.exchangeRateCurrent() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#682-684)
+	- CTokenInterface.exchangeRateCurrent() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#329)
+exchangeRateStored() should be declared external:
+	- CErc20Delegator.exchangeRateStored() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#691-693)
+	- CTokenInterface.exchangeRateStored() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#330)
+accrueInterest() should be declared external:
+	- CErc20Delegator.accrueInterest() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#708-710)
+	- CTokenInterface.accrueInterest() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#332)
+_setComptroller(ComptrollerInterface) should be declared external:
+	- CErc20Delegator._setComptroller(ComptrollerInterface) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#744-747)
+	- CTokenInterface._setComptroller(ComptrollerInterface) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#340)
+_setInterestRateModel(InterestRateModel) should be declared external:
+	- CErc20Delegator._setInterestRateModel(InterestRateModel) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#794-797)
+	- CTokenInterface._setInterestRateModel(InterestRateModel) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#343)
+_becomeImplementation(bytes) should be declared external:
+	- CDelegateInterface._becomeImplementation(bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#399)
+_resignImplementation() should be declared external:
+	- CDelegateInterface._resignImplementation() (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#404)
+delegateToViewImplementation(bytes) should be declared external:
+	- CErc20Delegator.delegateToViewImplementation(bytes) (../../sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol#833-841)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6.sol analyzed (10 contracts with 78 detectors), 100 result(s) found

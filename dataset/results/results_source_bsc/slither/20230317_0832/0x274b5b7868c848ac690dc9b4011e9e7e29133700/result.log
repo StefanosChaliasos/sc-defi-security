@@ -1,0 +1,352 @@
+[91m
+Reentrancy in AutoCake.initialize(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1851-1859):
+	External calls:
+	- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1852)
+	- CAKE.safeApprove(address(MASTERCHEF),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1853)
+	- setMinter(minter) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- _stakingToken.safeApprove(newMinter,0) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1793)
+		- _stakingToken.safeApprove(newMinter,uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1794)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- WBNB.safeApprove(minter,uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1856)
+	External calls sending eth:
+	- setMinter(minter) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	State variables written after the call(s):
+	- initializer = address(0) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1858)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+AutoCake.balanceOf(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1870-1873) uses a dangerous strict equality:
+	- totalShares == 0 (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1871)
+AutoCake.priceShare() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1895-1898) uses a dangerous strict equality:
+	- totalShares == 0 (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1896)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[92m
+BEP20.constructor(string,string).name (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1327) shadows:
+	- BEP20.name() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1343-1345) (function)
+	- IBEP20.name() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#417) (function)
+BEP20.constructor(string,string).symbol (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1327) shadows:
+	- BEP20.symbol() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1351-1353) (function)
+	- IBEP20.symbol() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#412) (function)
+BEP20.allowance(address,address).owner (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1392) shadows:
+	- Ownable.owner() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1243-1245) (function)
+BEP20._approve(address,address,uint256).owner (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1556) shadows:
+	- Ownable.owner() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1243-1245) (function)
+AutoCake.initialize(address).minter (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1851) shadows:
+	- VaultController.minter() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1766-1768) (function)
+	- IVaultController.minter() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#695) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+VaultController.setKeeper(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1783-1786) should emit an event for: 
+	- keeper = _keeper (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1785) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+Reentrancy in AutoCake._deposit(uint256,address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2023-2040):
+	External calls:
+	- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)
+	State variables written after the call(s):
+	- _shares[_to] = _shares[_to].add(shares) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2034)
+	- totalShares = totalShares.add(shares) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2033)
+Reentrancy in AutoCake.deposit(uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1908-1915):
+	External calls:
+	- _deposit(_amount,msg.sender) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1909)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)
+		- MASTERCHEF.enterStaking(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+		- MASTERCHEF.enterStaking(_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2036)
+	External calls sending eth:
+	- _deposit(_amount,msg.sender) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1909)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	State variables written after the call(s):
+	- _depositedAt[msg.sender] = block.timestamp (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1913)
+	- _principal[msg.sender] = _principal[msg.sender].add(_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1912)
+Reentrancy in AutoCake.initialize(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1851-1859):
+	External calls:
+	- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1852)
+	- CAKE.safeApprove(address(MASTERCHEF),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1853)
+	- setMinter(minter) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- _stakingToken.safeApprove(newMinter,0) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1793)
+		- _stakingToken.safeApprove(newMinter,uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1794)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	External calls sending eth:
+	- setMinter(minter) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	State variables written after the call(s):
+	- setMinter(minter) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)
+		- _minter = ISpaceMinter(newMinter) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1790)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in AutoCake._deposit(uint256,address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2023-2040):
+	External calls:
+	- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)
+	- MASTERCHEF.enterStaking(_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2036)
+	Event emitted after the call(s):
+	- Deposited(msg.sender,_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2037)
+Reentrancy in AutoCake._deposit(uint256,address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2023-2040):
+	External calls:
+	- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)
+	- MASTERCHEF.enterStaking(_amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2036)
+	- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2039)
+		- MASTERCHEF.enterStaking(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)
+	Event emitted after the call(s):
+	- Harvested(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)
+		- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2039)
+Reentrancy in AutoCake.getReward() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1992-2012):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1999)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- convertedAssets = convert(performanceFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)
+		- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2004)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2008)
+	External calls sending eth:
+	- convertedAssets = convert(performanceFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,amount,performanceFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2009)
+Reentrancy in AutoCake.getReward() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1992-2012):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1999)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- convertedAssets = convert(performanceFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)
+		- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2004)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2008)
+	- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2011)
+		- MASTERCHEF.enterStaking(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)
+	External calls sending eth:
+	- convertedAssets = convert(performanceFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	Event emitted after the call(s):
+	- Harvested(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)
+		- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2011)
+Reentrancy in AutoCake.harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1952-1955):
+	External calls:
+	- MASTERCHEF.leaveStaking(0) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1953)
+	- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1954)
+		- MASTERCHEF.enterStaking(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)
+	Event emitted after the call(s):
+	- Harvested(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)
+		- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1954)
+Reentrancy in VaultController.recoverToken(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1804-1809):
+	External calls:
+	- IBEP20(_token).safeTransfer(owner(),amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1806)
+	Event emitted after the call(s):
+	- Recovered(_token,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1808)
+Reentrancy in AutoCake.withdraw(uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1957-1967):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1962)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1963)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,amount,0) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1964)
+Reentrancy in AutoCake.withdraw(uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1957-1967):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1962)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1963)
+	- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1966)
+		- MASTERCHEF.enterStaking(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)
+	Event emitted after the call(s):
+	- Harvested(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)
+		- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1966)
+Reentrancy in AutoCake.withdrawAll() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1921-1950):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1931)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)
+		- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1939)
+	External calls sending eth:
+	- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,profit,performanceFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1941)
+Reentrancy in AutoCake.withdrawAll() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1921-1950):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1931)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)
+		- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1939)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1946)
+	External calls sending eth:
+	- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,amount,withdrawalFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1947)
+Reentrancy in AutoCake.withdrawAll() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1921-1950):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1931)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)
+		- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1939)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1946)
+	- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1949)
+		- MASTERCHEF.enterStaking(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)
+	External calls sending eth:
+	- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	Event emitted after the call(s):
+	- Harvested(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)
+		- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1949)
+Reentrancy in AutoCake.withdrawUnderlying(uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1970-1990):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1977)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- convertedAssets = convert(withdrawalFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)
+		- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- _minter.mintFor(address(WBNB),convertedAssets,0,msg.sender,depositTimestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1982)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1986)
+	External calls sending eth:
+	- convertedAssets = convert(withdrawalFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,amount,withdrawalFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1987)
+Reentrancy in AutoCake.withdrawUnderlying(uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1970-1990):
+	External calls:
+	- _withdrawTokenWithCorrection(amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1977)
+		- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)
+	- convertedAssets = convert(withdrawalFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)
+		- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)
+		- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	- _minter.mintFor(address(WBNB),convertedAssets,0,msg.sender,depositTimestamp) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1982)
+	- CAKE.safeTransfer(msg.sender,amount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1986)
+	- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1989)
+		- MASTERCHEF.enterStaking(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)
+	External calls sending eth:
+	- convertedAssets = convert(withdrawalFee) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+	Event emitted after the call(s):
+	- Harvested(cakeAmount) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)
+		- _harvest() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1989)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#848-857) uses assembly
+	- INLINE ASM (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#855)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#993-1010) uses assembly
+	- INLINE ASM (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1002-1005)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+AutoCake.deposit(uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1908-1915) compares to a boolean constant:
+	-isWhitelist(msg.sender) == false (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1911)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#901-903) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#926-928) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#975-977) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#985-991) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#951-953) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#961-967) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#875-881) is never used and should be removed
+BEP20._burn(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1534-1540) is never used and should be removed
+BEP20._burnFrom(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1573-1576) is never used and should be removed
+Context._msgData() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1208-1211) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#811-814) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#796-798) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1073-1080) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1064-1071) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#355-358) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#317-320) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#375-378) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#189-193) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#225-228) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#235-238) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#210-218) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#200-203) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#875-881):
+	- (success) = recipient.call{value: amount}() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#879)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#936-943):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#961-967):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#965)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#985-991):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#989)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IApeRouter01.WETH() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#17) is not in mixedCase
+Function IApePair.DOMAIN_SEPARATOR() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#620) is not in mixedCase
+Function IApePair.PERMIT_TYPEHASH() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#622) is not in mixedCase
+Function IApePair.MINIMUM_LIQUIDITY() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#641) is not in mixedCase
+Parameter Pausable.setPaused(bool)._paused (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1677) is not in mixedCase
+Parameter Whitelist.isWhitelist(address)._address (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1721) is not in mixedCase
+Parameter Whitelist.setWhitelist(address,bool)._address (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1725) is not in mixedCase
+Parameter Whitelist.setWhitelist(address,bool)._on (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1725) is not in mixedCase
+Parameter VaultController.setKeeper(address)._keeper (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1783) is not in mixedCase
+Parameter VaultController.recoverToken(address,uint256)._token (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1804) is not in mixedCase
+Variable VaultController.SPACE (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1745) is not in mixedCase
+Variable VaultController._stakingToken (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1749) is not in mixedCase
+Variable VaultController._minter (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1750) is not in mixedCase
+Variable VaultController._spaceChef (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1751) is not in mixedCase
+Parameter AutoCake.deposit(uint256)._amount (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1908) is not in mixedCase
+Parameter AutoCake.withdrawUnderlying(uint256)._amount (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1970) is not in mixedCase
+Constant AutoCake.pid (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1825) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant AutoCake.poolType (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1826) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable AutoCake.ROUTER (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1830) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1209)" inContext (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1203-1212)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IApeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#22) is too similar to IApeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#23)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1262-1265)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1271-1275)
+name() should be declared external:
+	- BEP20.name() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1343-1345)
+symbol() should be declared external:
+	- BEP20.symbol() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1351-1353)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1358-1360)
+totalSupply() should be declared external:
+	- BEP20.totalSupply() (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1365-1367)
+balanceOf(address) should be declared external:
+	- BEP20.balanceOf(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1372-1374)
+transfer(address,uint256) should be declared external:
+	- BEP20.transfer(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1384-1387)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1392-1394)
+approve(address,uint256) should be declared external:
+	- BEP20.approve(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1403-1406)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20.transferFrom(address,address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1420-1428)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20.increaseAllowance(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1442-1445)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20.decreaseAllowance(address,uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1461-1464)
+mint(uint256) should be declared external:
+	- BEP20.mint(uint256) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1474-1477)
+setSpaceChef(ISpaceChef) should be declared external:
+	- VaultController.setSpaceChef(ISpaceChef) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1798-1801)
+withdrawableBalanceOf(address) should be declared external:
+	- AutoCake.withdrawableBalanceOf(address) (../../sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1875-1877)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol analyzed (21 contracts with 78 detectors), 91 result(s) found

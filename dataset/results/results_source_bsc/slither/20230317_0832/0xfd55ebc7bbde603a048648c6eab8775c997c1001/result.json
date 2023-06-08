@@ -1,0 +1,427 @@
+{
+    "errors": [
+        "EXIT_CODE_45"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "depositETH",
+            "impact": "High",
+            "line": 1160,
+            "line_end": 1187,
+            "message": "Bridge.depositETH(uint8,bytes32,bytes) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1160-1187) ignores return value by IWETH(wtokenAddress).transfer(address(handler),value) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1178)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Medium",
+            "line": 884,
+            "message": "Bridge.constructor(uint8,address[],uint256,uint256,uint256).i (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#884) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "adminChangeFee",
+            "impact": "Low",
+            "line": 1063,
+            "line_end": 1066,
+            "message": "Bridge.adminChangeFee(uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1063-1066) should emit an event for: \n\t- _fee = newFee (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1065) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "transferFunds",
+            "impact": "Low",
+            "line": 1307,
+            "line_end": 1311,
+            "message": "Bridge.transferFunds(address[],uint256[]) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1307-1311) has external calls inside a loop: addrs[i].transfer(amounts[i]) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1309)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "depositETH",
+            "impact": "Low",
+            "line": 1160,
+            "line_end": 1187,
+            "message": "Reentrancy in Bridge.depositETH(uint8,bytes32,bytes) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1160-1187):\n\tExternal calls:\n\t- wtokenAddress = IERCHandler(handler)._wtokenAddress() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1175)\n\t- IWETH(wtokenAddress).deposit{value: value}() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1177)\n\t- IWETH(wtokenAddress).transfer(address(handler),value) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1178)\n\tExternal calls sending eth:\n\t- IWETH(wtokenAddress).deposit{value: value}() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1177)\n\tState variables written after the call(s):\n\t- depositNonce = ++ _depositCounts[destinationChainID] (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1180)\n\t- _depositRecords[depositNonce][destinationChainID] = data (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1181)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "depositETH",
+            "impact": "Low",
+            "line": 1160,
+            "line_end": 1187,
+            "message": "Reentrancy in Bridge.depositETH(uint8,bytes32,bytes) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1160-1187):\n\tExternal calls:\n\t- wtokenAddress = IERCHandler(handler)._wtokenAddress() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1175)\n\t- IWETH(wtokenAddress).deposit{value: value}() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1177)\n\t- IWETH(wtokenAddress).transfer(address(handler),value) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1178)\n\t- depositHandler.deposit(resourceID,destinationChainID,depositNonce,msg.sender,data) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1184)\n\tExternal calls sending eth:\n\t- IWETH(wtokenAddress).deposit{value: value}() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1177)\n\tEvent emitted after the call(s):\n\t- Deposit(destinationChainID,resourceID,depositNonce) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1186)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "executeProposal",
+            "impact": "Low",
+            "line": 1283,
+            "line_end": 1299,
+            "message": "Reentrancy in Bridge.executeProposal(uint8,uint64,bytes,bytes32) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1283-1299):\n\tExternal calls:\n\t- depositHandler.executeProposal(proposal._resourceID,data) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1296)\n\tEvent emitted after the call(s):\n\t- ProposalEvent(chainID,depositNonce,proposal._status,proposal._resourceID,proposal._dataHash) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1298)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1135,
+            "line_end": 1150,
+            "message": "Reentrancy in Bridge.deposit(uint8,bytes32,bytes) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1135-1150):\n\tExternal calls:\n\t- depositHandler.deposit(resourceID,destinationChainID,depositNonce,msg.sender,data) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1147)\n\tEvent emitted after the call(s):\n\t- Deposit(destinationChainID,resourceID,depositNonce) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1149)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 267,
+            "line_end": 276,
+            "message": "Address.isContract(address) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#267-276) uses assembly\n\t- INLINE ASM (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#274)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "depositETH",
+            "impact": "Informational",
+            "line": 1160,
+            "line_end": 1187,
+            "message": "Bridge.depositETH(uint8,bytes32,bytes) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1160-1187) uses assembly\n\t- INLINE ASM (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1170-1172)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 874,
+            "line_end": 889,
+            "message": "Bridge.constructor(uint8,address[],uint256,uint256,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#874-889) has costly operations inside a loop:\n\t- _totalRelayers ++ (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#886)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 294,
+            "line_end": 300,
+            "message": "Address.sendValue(address,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#294-300) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 213,
+            "line_end": 215,
+            "message": "EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#213-215) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "_onlyOperators",
+            "impact": "Informational",
+            "line": 863,
+            "line_end": 865,
+            "message": "Bridge._onlyOperators() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#863-865) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 220,
+            "line_end": 222,
+            "message": "EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#220-222) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 322,
+            "line_end": 325,
+            "message": "Context._msgData() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#322-325) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 227,
+            "line_end": 229,
+            "message": "EnumerableSet.length(EnumerableSet.UintSet) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#227-229) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 241,
+            "line_end": 243,
+            "message": "EnumerableSet.at(EnumerableSet.UintSet,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#241-243) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 267,
+            "line_end": 276,
+            "message": "Address.isContract(address) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#267-276) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 203,
+            "line_end": 205,
+            "message": "EnumerableSet.add(EnumerableSet.UintSet,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#203-205) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 2,
+            "message": "Pragma version^0.6.4 (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#2) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 294,
+            "line_end": 300,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#294-300):\n\t- (success) = recipient.call{value: amount}() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#298)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 779,
+            "message": "Variable Bridge._depositCounts (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#779) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 757,
+            "message": "Variable Bridge._relayerThreshold (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#757) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 789,
+            "message": "Variable Bridge._hasVotedOnProposal (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#789) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 758,
+            "message": "Variable Bridge._totalRelayers (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#758) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 781,
+            "message": "Variable Bridge._specialFee (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#781) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 783,
+            "message": "Variable Bridge._resourceIDToHandlerAddress (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#783) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 763,
+            "message": "Variable Bridge._wtokenAddress (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#763) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 762,
+            "message": "Variable Bridge._expiry (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#762) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 760,
+            "message": "Variable Bridge._totalProposals (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#760) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 756,
+            "message": "Variable Bridge._chainID (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#756) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "_wtokenAddress",
+            "impact": "Informational",
+            "line": 714,
+            "message": "Function IERCHandler._wtokenAddress() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#714) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 785,
+            "message": "Variable Bridge._depositRecords (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#785) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 759,
+            "message": "Variable Bridge._totalOperators (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#759) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 787,
+            "message": "Variable Bridge._proposals (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#787) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "_chainID",
+            "impact": "Informational",
+            "line": 687,
+            "message": "Function IBridge._chainID() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#687) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 761,
+            "message": "Variable Bridge._fee (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#761) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Informational",
+            "line": 323,
+            "message": "Redundant expression \"this (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#323)\" inContext (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#313-326)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "impact": "Optimization",
+            "line": 763,
+            "message": "Bridge._wtokenAddress (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#763) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "cancelProposal",
+            "impact": "Optimization",
+            "line": 1260,
+            "line_end": 1270,
+            "message": "cancelProposal(uint8,uint64,bytes32) should be declared external:\n\t- Bridge.cancelProposal(uint8,uint64,bytes32) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#1260-1270)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "getRoleMemberCount",
+            "impact": "Optimization",
+            "line": 404,
+            "line_end": 406,
+            "message": "getRoleMemberCount(bytes32) should be declared external:\n\t- AccessControl.getRoleMemberCount(bytes32) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#404-406)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "getRoleMember",
+            "impact": "Optimization",
+            "line": 420,
+            "line_end": 422,
+            "message": "getRoleMember(bytes32,uint256) should be declared external:\n\t- AccessControl.getRoleMember(bytes32,uint256) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#420-422)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "paused",
+            "impact": "Optimization",
+            "line": 556,
+            "line_end": 558,
+            "message": "paused() should be declared external:\n\t- Pausable.paused() (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#556-558)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol",
+            "function": "getRoleAdmin",
+            "impact": "Optimization",
+            "line": 430,
+            "line_end": 432,
+            "message": "getRoleAdmin(bytes32) should be declared external:\n\t- AccessControl.getRoleAdmin(bytes32) (../..0xfd55ebc7bbde603a048648c6eab8775c997c1001.sol#430-432)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

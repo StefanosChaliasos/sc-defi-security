@@ -1,0 +1,473 @@
+[91m
+SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247) contract sets array length with a user-controlled value:
+	- registeredRewardTokens.push(rtkn) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1848)
+SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247) contract sets array length with a user-controlled value:
+	- registeredTokens.push(tkn) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1856)
+SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247) contract sets array length with a user-controlled value:
+	- registeredRewardTokens.push(rtkn) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1880)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#array-length-assignment[0m
+[91m
+DistributionToken._createDistribution() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1458-1470) uses a weak PRNG: "nextDistributionTimestamp = now.sub(now % DISTRIBUTION_AGGREGATION_PERIOD).add(DISTRIBUTION_AGGREGATION_PERIOD) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1469)" 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#weak-PRNG[0m
+[91m
+ERC20Detailed.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#360) shadows:
+	- Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301)
+CapperRole.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#631) shadows:
+	- Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301)
+Ownable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#801) shadows:
+	- Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301)
+ERC20.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1156) shadows:
+	- Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301)
+MinterRole.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1207) shadows:
+	- Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301)
+ERC20Mintable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1240) shadows:
+	- MinterRole.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1207)
+	- ERC20.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1156)
+	- Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301)
+ERC20Burnable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1272) shadows:
+	- ERC20.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1156)
+	- Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variable-shadowing[0m
+[91m
+RewardDistributions.rewardDistributions (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1602) is never initialized. It is used in:
+	- RewardDistributions.rewardBalanceOf(address,address,address[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1635-1656)
+RewardDistributions.rewardBalances (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1603) is never initialized. It is used in:
+	- RewardDistributions.rewardBalanceOf(address,address,address[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1635-1656)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-state-variables[0m
+[93m
+Reentrancy in SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1951)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- depositToProtocol(_protocol,_tokens,_dnAmounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1952)
+		- (success,returndata) = address(token).call(data) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#503)
+		- IERC20(tkn).safeTransferFrom(_msgSender(),_protocol,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2000)
+		- IDefiProtocol(_protocol).handleDeposit(tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2001)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1953)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	State variables written after the call(s):
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1953)
+		- protocols[_protocol].previousBalance = currentBalance (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2205)
+Reentrancy in SavingsModule.withdraw(address,address,uint256,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2060-2103):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2067)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- withdrawFromProtocolOne(_msgSender(),IDefiProtocol(_protocol),token,dnAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2068)
+		- protocol.withdraw(beneficiary,token,dnAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2171)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2069)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	State variables written after the call(s):
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2069)
+		- protocols[_protocol].previousBalance = currentBalance (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2205)
+Reentrancy in SavingsModule.withdrawAll(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2012-2050):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2020)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- withdrawFromProtocolProportionally(_msgSender(),IDefiProtocol(_protocol),nAmount,nBalanceBefore) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2021)
+		- balances = protocol.balanceOfAll() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2160)
+		- protocol.withdraw(beneficiary,amounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2167)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2022)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	State variables written after the call(s):
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2022)
+		- protocols[_protocol].previousBalance = currentBalance (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2205)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+SavingsModule.userCap(address,address).cap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2121) is a local variable never initialized
+SavingsModule.withdrawAll(address,uint256).yield (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2024) is a local variable never initialized
+SavingsModule.withdraw(address,address,uint256,uint256).yield (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2071) is a local variable never initialized
+SavingsModule.withdraw(address,address,uint256,uint256).fee (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2073) is a local variable never initialized
+SavingsModule.deposit(address,address[],uint256[]).cap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1958) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+SavingsModule.registerProtocol(IDefiProtocol,PoolToken) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1831-1868) ignores return value by poolToken.mint(_msgSender(),normalizedBalance.sub(ts)) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1864)
+SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994) ignores return value by poolToken.mint(_msgSender(),nDeposit) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1966)
+SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994) ignores return value by poolToken.mint(_msgSender(),nAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1969)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+ERC20Detailed.initialize(string,string,uint8).name (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#323) shadows:
+	- ERC20Detailed.name() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#332-334) (function)
+ERC20Detailed.initialize(string,string,uint8).symbol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#323) shadows:
+	- ERC20Detailed.symbol() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#340-342) (function)
+ERC20Detailed.initialize(string,string,uint8).decimals (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#323) shadows:
+	- ERC20Detailed.decimals() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#356-358) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+Module.getModuleAddress(string) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#873-887) has external calls inside a loop: (success,result) = pool.staticcall(abi.encodeWithSignature(get(string),module)) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#875)
+PoolToken.userBalanceChanged(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1557-1560) has external calls inside a loop: rewardDistrModule.poolTokenBalanceChanged(account) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1559)
+SavingsModule.registerProtocol(IDefiProtocol,PoolToken) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1831-1868) has external calls inside a loop: tokens[tkn].decimals = ERC20Detailed(tkn).decimals() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1857)
+AccessChecker.operationAllowed(IAccessModule.Operation) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#917-921) has external calls inside a loop: require(bool,string)(am.isOperationAllowed(operation,_msgSender()),AccessChecker: operation not allowed) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#919)
+SavingsModule.distributeYieldInternal(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2180-2190) has external calls inside a loop: currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+SavingsModule.createYieldDistribution(PoolToken,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2192-2195) has external calls inside a loop: poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+SavingsModule.depositToProtocol(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1996-2004) has external calls inside a loop: IDefiProtocol(_protocol).handleDeposit(tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2001)
+SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#491-510) has external calls inside a loop: (success,returndata) = address(token).call(data) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#503)
+SavingsModule.updateProtocolBalance(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2203-2207) has external calls inside a loop: currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+SavingsModule.userCap(address,address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2114-2126) has external calls inside a loop: balance = protocols[_protocol].poolToken.balanceOf(user) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2120)
+SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994) has external calls inside a loop: poolToken.mint(_msgSender(),nDeposit) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1966)
+SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994) has external calls inside a loop: ptTS = poolToken.totalSupply() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1979)
+SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994) has external calls inside a loop: poolToken.mint(_msgSender(),nAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1969)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in SavingsModule.distributeYieldInternal(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2180-2190):
+	External calls:
+	- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	State variables written after the call(s):
+	- pi.previousBalance = currentBalance (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2186)
+Reentrancy in SavingsModule.registerProtocol(IDefiProtocol,PoolToken) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1831-1868):
+	External calls:
+	- protocols[address(protocol)] = ProtocolInfo(poolToken,protocol.normalizedBalance(),0,protocol.supportedRewardTokens(),0) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1837-1843)
+	State variables written after the call(s):
+	- poolTokenToProtocol[address(poolToken)] = address(protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1851)
+	- registeredRewardTokens.push(rtkn) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1848)
+	- registeredTokens.push(tkn) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1856)
+	- rewardTokenRegistered[rtkn] = true (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1847)
+	- tokens[tkn].decimals = ERC20Detailed(tkn).decimals() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1857)
+Reentrancy in SavingsModule.updateProtocolBalance(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2203-2207):
+	External calls:
+	- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	State variables written after the call(s):
+	- protocols[_protocol].previousBalance = currentBalance (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2205)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in SavingsModule.createYieldDistribution(PoolToken,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2192-2195):
+	External calls:
+	- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+	Event emitted after the call(s):
+	- YieldDistribution(address(poolToken),yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2194)
+Reentrancy in SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1951)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- depositToProtocol(_protocol,_tokens,_dnAmounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1952)
+		- (success,returndata) = address(token).call(data) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#503)
+		- IERC20(tkn).safeTransferFrom(_msgSender(),_protocol,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2000)
+		- IDefiProtocol(_protocol).handleDeposit(tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2001)
+	Event emitted after the call(s):
+	- DepositToken(_protocol,tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2002)
+		- depositToProtocol(_protocol,_tokens,_dnAmounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1952)
+Reentrancy in SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1951)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- depositToProtocol(_protocol,_tokens,_dnAmounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1952)
+		- (success,returndata) = address(token).call(data) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#503)
+		- IERC20(tkn).safeTransferFrom(_msgSender(),_protocol,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2000)
+		- IDefiProtocol(_protocol).handleDeposit(tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2001)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1953)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	- poolToken.mint(_msgSender(),nAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1969)
+	- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1973)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+	Event emitted after the call(s):
+	- YieldDistribution(address(poolToken),yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2194)
+		- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1973)
+Reentrancy in SavingsModule.deposit(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940-1994):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1951)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- depositToProtocol(_protocol,_tokens,_dnAmounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1952)
+		- (success,returndata) = address(token).call(data) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#503)
+		- IERC20(tkn).safeTransferFrom(_msgSender(),_protocol,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2000)
+		- IDefiProtocol(_protocol).handleDeposit(tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2001)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1953)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	- poolToken.mint(_msgSender(),nDeposit) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1966)
+	- poolToken.mint(_msgSender(),nAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1969)
+	- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1973)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+	Event emitted after the call(s):
+	- Deposit(_protocol,_msgSender(),nAmount,fee) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1992)
+Reentrancy in SavingsModule.depositToProtocol(address,address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1996-2004):
+	External calls:
+	- IERC20(tkn).safeTransferFrom(_msgSender(),_protocol,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2000)
+	- IDefiProtocol(_protocol).handleDeposit(tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2001)
+	Event emitted after the call(s):
+	- DepositToken(_protocol,tkn,_dnAmounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2002)
+Reentrancy in SavingsModule.distributeYieldInternal(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2180-2190):
+	External calls:
+	- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2187)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+	Event emitted after the call(s):
+	- YieldDistribution(address(poolToken),yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2194)
+		- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2187)
+Reentrancy in SavingsModule.registerProtocol(IDefiProtocol,PoolToken) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1831-1868):
+	External calls:
+	- protocols[address(protocol)] = ProtocolInfo(poolToken,protocol.normalizedBalance(),0,protocol.supportedRewardTokens(),0) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1837-1843)
+	- poolToken.mint(_msgSender(),normalizedBalance.sub(ts)) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1864)
+	Event emitted after the call(s):
+	- ProtocolRegistered(address(protocol),address(poolToken)) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1867)
+Reentrancy in SavingsModule.withdraw(address,address,uint256,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2060-2103):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2067)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- withdrawFromProtocolOne(_msgSender(),IDefiProtocol(_protocol),token,dnAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2068)
+		- protocol.withdraw(beneficiary,token,dnAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2171)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2069)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	- poolToken.burnFrom(_msgSender(),actualAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2092)
+	Event emitted after the call(s):
+	- Withdraw(_protocol,_msgSender(),actualAmount,fee) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2094)
+	- WithdrawToken(_protocol,token,dnAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2093)
+Reentrancy in SavingsModule.withdraw(address,address,uint256,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2060-2103):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2067)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- withdrawFromProtocolOne(_msgSender(),IDefiProtocol(_protocol),token,dnAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2068)
+		- protocol.withdraw(beneficiary,token,dnAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2171)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2069)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	- poolToken.burnFrom(_msgSender(),actualAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2092)
+	- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2099)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+	Event emitted after the call(s):
+	- YieldDistribution(address(poolToken),yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2194)
+		- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2099)
+Reentrancy in SavingsModule.withdrawAll(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2012-2050):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2020)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- withdrawFromProtocolProportionally(_msgSender(),IDefiProtocol(_protocol),nAmount,nBalanceBefore) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2021)
+		- balances = protocol.balanceOfAll() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2160)
+		- protocol.withdraw(beneficiary,amounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2167)
+	Event emitted after the call(s):
+	- WithdrawToken(address(protocol),_tokens[i],amounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2165)
+		- withdrawFromProtocolProportionally(_msgSender(),IDefiProtocol(_protocol),nAmount,nBalanceBefore) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2021)
+Reentrancy in SavingsModule.withdrawAll(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2012-2050):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2020)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- withdrawFromProtocolProportionally(_msgSender(),IDefiProtocol(_protocol),nAmount,nBalanceBefore) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2021)
+		- balances = protocol.balanceOfAll() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2160)
+		- protocol.withdraw(beneficiary,amounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2167)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2022)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	- poolToken.burnFrom(_msgSender(),actualAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2041)
+	Event emitted after the call(s):
+	- Withdraw(_protocol,_msgSender(),actualAmount,0) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2042)
+Reentrancy in SavingsModule.withdrawAll(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2012-2050):
+	External calls:
+	- nBalanceBefore = distributeYieldInternal(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2020)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2181)
+	- withdrawFromProtocolProportionally(_msgSender(),IDefiProtocol(_protocol),nAmount,nBalanceBefore) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2021)
+		- balances = protocol.balanceOfAll() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2160)
+		- protocol.withdraw(beneficiary,amounts) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2167)
+	- nBalanceAfter = updateProtocolBalance(_protocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2022)
+		- currentBalance = IDefiProtocol(_protocol).normalizedBalance() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2204)
+	- poolToken.burnFrom(_msgSender(),actualAmount) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2041)
+	- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2046)
+		- poolToken.distribute(yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2193)
+	Event emitted after the call(s):
+	- YieldDistribution(address(poolToken),yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2194)
+		- createYieldDistribution(poolToken,yield) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2046)
+Reentrancy in SavingsModule.withdrawFromProtocolProportionally(address,IDefiProtocol,uint256,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2159-2168):
+	External calls:
+	- balances = protocol.balanceOfAll() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2160)
+	Event emitted after the call(s):
+	- WithdrawToken(address(protocol),_tokens[i],amounts[i]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2165)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+DistributionToken.isReadyForDistribution() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1506-1508) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (distributionAccumulator > 0) && (now >= nextDistributionTimestamp) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1507)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Initializable.isConstructor() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#288-298) uses assembly
+	- INLINE ASM (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#296)
+Address.isContract(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#388-397) uses assembly
+	- INLINE ASM (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#395)
+Module.getModuleAddress(string) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#873-887) uses assembly
+	- INLINE ASM (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#878-880)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#427-433) is never used and should be removed
+Address.toPayable(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#405-407) is never used and should be removed
+Context._msgData() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#538-541) is never used and should be removed
+DistributionToken.userBalanceChanged(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1475-1476) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#464-473) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#480-483) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#475-478) is never used and should be removed
+SafeERC20.safeTransfer(IERC20,address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#456-458) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#137-139) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#154-157) is never used and should be removed
+SavingsModule.denormalizeTokenAmount(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2235-2244) is never used and should be removed
+SavingsModule.isPoolToken(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2216-2222) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#427-433):
+	- (success) = recipient.call.value(amount)() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#431)
+Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#491-510):
+	- (success,returndata) = address(token).call(data) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#503)
+Low level call in Module.getModuleAddress(string) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#873-887):
+	- (success,result) = pool.staticcall(abi.encodeWithSignature(get(string),module)) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#875)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable Initializable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#301) is not in mixedCase
+Variable ERC20Detailed.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#360) is not in mixedCase
+Variable CapperRole.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#631) is not in mixedCase
+Variable Ownable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#801) is not in mixedCase
+Parameter Module.initialize(address)._pool (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#862) is not in mixedCase
+Parameter Module.setPool(address)._pool (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#867) is not in mixedCase
+Variable ERC20.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1156) is not in mixedCase
+Variable MinterRole.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1207) is not in mixedCase
+Variable ERC20Mintable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1240) is not in mixedCase
+Variable ERC20Burnable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1272) is not in mixedCase
+Parameter PoolToken.initialize(address,string,string)._pool (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1526) is not in mixedCase
+Parameter PoolToken.setAllowTransfers(bool)._allowTransfers (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1532) is not in mixedCase
+Parameter SavingsModule.initialize(address)._pool (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1779) is not in mixedCase
+Parameter SavingsModule.setUserCapEnabled(bool)._userCapEnabled (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1784) is not in mixedCase
+Parameter SavingsModule.setVipUserEnabled(bool)._vipUserEnabled (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1802) is not in mixedCase
+Parameter SavingsModule.setVipUser(address,address,bool)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1807) is not in mixedCase
+Parameter SavingsModule.setDefaultUserCap(address,uint256)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1812) is not in mixedCase
+Parameter SavingsModule.setProtocolCapEnabled(bool)._protocolCapEnabled (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1817) is not in mixedCase
+Parameter SavingsModule.setProtocolCap(address,uint256)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1822) is not in mixedCase
+Parameter SavingsModule.setWithdrawAllSlippage(address,uint256)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1827) is not in mixedCase
+Parameter SavingsModule.deposit(address[],address[],uint256[])._protocols (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1918) is not in mixedCase
+Parameter SavingsModule.deposit(address[],address[],uint256[])._tokens (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1918) is not in mixedCase
+Parameter SavingsModule.deposit(address[],address[],uint256[])._dnAmounts (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1918) is not in mixedCase
+Parameter SavingsModule.deposit(address,address[],uint256[])._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940) is not in mixedCase
+Parameter SavingsModule.deposit(address,address[],uint256[])._tokens (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940) is not in mixedCase
+Parameter SavingsModule.deposit(address,address[],uint256[])._dnAmounts (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1940) is not in mixedCase
+Parameter SavingsModule.depositToProtocol(address,address[],uint256[])._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1996) is not in mixedCase
+Parameter SavingsModule.depositToProtocol(address,address[],uint256[])._tokens (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1996) is not in mixedCase
+Parameter SavingsModule.depositToProtocol(address,address[],uint256[])._dnAmounts (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1996) is not in mixedCase
+Parameter SavingsModule.withdrawAll(address,uint256)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2012) is not in mixedCase
+Parameter SavingsModule.withdraw(address,address,uint256,uint256)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2060) is not in mixedCase
+Parameter SavingsModule.userCap(address,address)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2114) is not in mixedCase
+Parameter SavingsModule.isVipUser(address,address)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2128) is not in mixedCase
+Parameter SavingsModule.poolTokenByProtocol(address)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2132) is not in mixedCase
+Parameter SavingsModule.protocolByPoolToken(address)._poolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2136) is not in mixedCase
+Parameter SavingsModule.rewardTokensByProtocol(address)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2140) is not in mixedCase
+Parameter SavingsModule.distributeYieldInternal(address)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2180) is not in mixedCase
+Parameter SavingsModule.updateProtocolBalance(address)._protocol (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2203) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#539)" inContext (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#528-542)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+ERC20Mintable.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1240) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.MODULE_ACCESS (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#832) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.MODULE_SAVINGS (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#833) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.MODULE_INVESTING (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#834) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.MODULE_STAKING_AKRO (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#835) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.MODULE_STAKING_ADEL (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#836) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.MODULE_DCA (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#837) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.MODULE_REWARD (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#838) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.TOKEN_AKRO (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#842) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.TOKEN_ADEL (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#843) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+ModuleNames.CONTRACT_RAY (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#846) is never used in PoolToken (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1522-1570)
+CapperRole.______gap (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#631) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.MODULE_SAVINGS (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#833) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.MODULE_INVESTING (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#834) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.MODULE_STAKING_AKRO (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#835) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.MODULE_STAKING_ADEL (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#836) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.MODULE_DCA (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#837) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.MODULE_REWARD (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#838) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.MODULE_REWARD_DISTR (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#839) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.TOKEN_AKRO (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#842) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.TOKEN_ADEL (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#843) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+ModuleNames.CONTRACT_RAY (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#846) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+SavingsModule.MAX_UINT256 (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1732) is never used in SavingsModule (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1731-2247)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#332-334)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#340-342)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#356-358)
+addCapper(address) should be declared external:
+	- CapperRole.addCapper(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#613-615)
+renounceCapper() should be declared external:
+	- CapperRole.renounceCapper() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#617-619)
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#753-755)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#779-782)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#788-790)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#987-990)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#995-997)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1006-1009)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1023-1027)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1041-1044)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1060-1063)
+addMinter(address) should be declared external:
+	- MinterRole.addMinter(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1189-1191)
+renounceMinter() should be declared external:
+	- MinterRole.renounceMinter() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1193-1195)
+mint(address,uint256) should be declared external:
+	- ERC20Mintable.mint(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1235-1238)
+burn(uint256) should be declared external:
+	- ERC20Burnable.burn(uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1261-1263)
+fullBalanceOf(address) should be declared external:
+	- DistributionToken.fullBalanceOf(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1363-1368)
+calculateUnclaimedDistributions(address) should be declared external:
+	- DistributionToken.calculateUnclaimedDistributions(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1375-1377)
+calculateDistributedAmount(uint256,uint256,uint256) should be declared external:
+	- DistributionToken.calculateDistributedAmount(uint256,uint256,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1386-1390)
+nextDistribution() should be declared external:
+	- DistributionToken.nextDistribution() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1392-1394)
+initialize(address,string,string) should be declared external:
+	- PoolToken.initialize(address,string,string) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1526-1530)
+setAllowTransfers(bool) should be declared external:
+	- PoolToken.setAllowTransfers(bool) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1532-1534)
+rewardBalanceOf(address,address,address[]) should be declared external:
+	- RewardDistributions.rewardBalanceOf(address,address,address[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1635-1656)
+setUserCapEnabled(bool) should be declared external:
+	- SavingsModule.setUserCapEnabled(bool) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1784-1787)
+setVipUserEnabled(bool) should be declared external:
+	- SavingsModule.setVipUserEnabled(bool) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1802-1805)
+setVipUser(address,address,bool) should be declared external:
+	- SavingsModule.setVipUser(address,address,bool) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1807-1810)
+setDefaultUserCap(address,uint256) should be declared external:
+	- SavingsModule.setDefaultUserCap(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1812-1815)
+setProtocolCapEnabled(bool) should be declared external:
+	- SavingsModule.setProtocolCapEnabled(bool) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1817-1820)
+setProtocolCap(address,uint256) should be declared external:
+	- SavingsModule.setProtocolCap(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1822-1825)
+setWithdrawAllSlippage(address,uint256) should be declared external:
+	- SavingsModule.setWithdrawAllSlippage(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1827-1829)
+registerProtocol(IDefiProtocol,PoolToken) should be declared external:
+	- SavingsModule.registerProtocol(IDefiProtocol,PoolToken) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1831-1868)
+updateProtocolRewardTokens(IDefiProtocol) should be declared external:
+	- SavingsModule.updateProtocolRewardTokens(IDefiProtocol) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1873-1885)
+deposit(address[],address[],uint256[]) should be declared external:
+	- SavingsModule.deposit(address[],address[],uint256[]) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#1918-1932)
+withdrawAll(address,uint256) should be declared external:
+	- SavingsModule.withdrawAll(address,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2012-2050)
+withdraw(address,address,uint256,uint256) should be declared external:
+	- SavingsModule.withdraw(address,address,uint256,uint256) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2060-2103)
+distributeYield() should be declared external:
+	- SavingsModule.distributeYield() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2108-2112)
+isVipUser(address,address) should be declared external:
+	- SavingsModule.isVipUser(address,address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2128-2130)
+protocolByPoolToken(address) should be declared external:
+	- SavingsModule.protocolByPoolToken(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2136-2138)
+rewardTokensByProtocol(address) should be declared external:
+	- SavingsModule.rewardTokensByProtocol(address) (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2140-2142)
+registeredPoolTokens() should be declared external:
+	- SavingsModule.registeredPoolTokens() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2144-2149)
+supportedProtocols() should be declared external:
+	- SavingsModule.supportedProtocols() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2151-2153)
+supportedRewardTokens() should be declared external:
+	- SavingsModule.supportedRewardTokens() (../../sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol#2155-2157)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x1cec0e358f882733c5ecc028d8a0c24baee02004.sol analyzed (25 contracts with 78 detectors), 181 result(s) found

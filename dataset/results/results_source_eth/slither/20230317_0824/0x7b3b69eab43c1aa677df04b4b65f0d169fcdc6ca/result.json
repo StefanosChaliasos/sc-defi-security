@@ -1,0 +1,265 @@
+{
+    "errors": [
+        "EXIT_CODE_28"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "_transfer",
+            "impact": "Medium",
+            "line": 136,
+            "line_end": 150,
+            "message": "Reentrancy in LPTokenMaster._transfer(address,address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#136-150):\n\tExternal calls:\n\t- pair.accrueAccount(_sender) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)\n\t- pair.accrueAccount(_recipient) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)\n\tState variables written after the call(s):\n\t- balanceOf[_sender] -= _amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#145)\n\t- balanceOf[_recipient] += _amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#146)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "transferFrom",
+            "impact": "Low",
+            "line": 130,
+            "line_end": 134,
+            "message": "Reentrancy in LPTokenMaster.transferFrom(address,address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130-134):\n\tExternal calls:\n\t- _transfer(_sender,_recipient,_amount) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#131)\n\t\t- pair.accrueAccount(_sender) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)\n\t\t- pair.accrueAccount(_recipient) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)\n\tState variables written after the call(s):\n\t- _approve(_sender,msg.sender,allowance[_sender][msg.sender] - _amount) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#132)\n\t\t- allowance[_owner][_spender] = _amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#184)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 136,
+            "line_end": 150,
+            "message": "Reentrancy in LPTokenMaster._transfer(address,address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#136-150):\n\tExternal calls:\n\t- pair.accrueAccount(_sender) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)\n\t- pair.accrueAccount(_recipient) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)\n\tEvent emitted after the call(s):\n\t- Transfer(_sender,_recipient,_amount) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#149)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "transferFrom",
+            "impact": "Low",
+            "line": 130,
+            "line_end": 134,
+            "message": "Reentrancy in LPTokenMaster.transferFrom(address,address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130-134):\n\tExternal calls:\n\t- _transfer(_sender,_recipient,_amount) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#131)\n\t\t- pair.accrueAccount(_sender) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#142)\n\t\t- pair.accrueAccount(_recipient) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#143)\n\tEvent emitted after the call(s):\n\t- Approval(_owner,_spender,_amount) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#185)\n\t\t- _approve(_sender,msg.sender,allowance[_sender][msg.sender] - _amount) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#132)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "_concat",
+            "impact": "Informational",
+            "line": 188,
+            "line_end": 196,
+            "message": "LPTokenMaster._concat(string,string,string,string,string) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#188-196) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "message": "solc-0.8.19 is not recommended for deployment\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 6,
+            "message": "Pragma version^0.8.1 (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#6) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 125,
+            "message": "Parameter LPTokenMaster.approve(address,uint256)._amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#125) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 120,
+            "message": "Parameter LPTokenMaster.transfer(address,uint256)._recipient (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 130,
+            "message": "Parameter LPTokenMaster.transferFrom(address,address,uint256)._sender (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 160,
+            "message": "Parameter LPTokenMaster.selfBurn(uint256)._amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#160) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 130,
+            "message": "Parameter LPTokenMaster.transferFrom(address,address,uint256)._amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 156,
+            "message": "Parameter LPTokenMaster.burn(address,uint256)._account (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#156) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 152,
+            "message": "Parameter LPTokenMaster.mint(address,uint256)._account (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#152) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 130,
+            "message": "Parameter LPTokenMaster.transferFrom(address,address,uint256)._recipient (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 120,
+            "message": "Parameter LPTokenMaster.transfer(address,uint256)._amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 125,
+            "message": "Parameter LPTokenMaster.approve(address,uint256)._spender (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#125) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 156,
+            "message": "Parameter LPTokenMaster.burn(address,uint256)._amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#156) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "impact": "Informational",
+            "line": 152,
+            "message": "Parameter LPTokenMaster.mint(address,uint256)._amount (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#152) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 125,
+            "line_end": 128,
+            "message": "approve(address,uint256) should be declared external:\n\t- LPTokenMaster.approve(address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#125-128)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 87,
+            "line_end": 90,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#87-90)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "burn",
+            "impact": "Optimization",
+            "line": 156,
+            "line_end": 158,
+            "message": "burn(address,uint256) should be declared external:\n\t- LPTokenMaster.burn(address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#156-158)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "selfBurn",
+            "impact": "Optimization",
+            "line": 160,
+            "line_end": 162,
+            "message": "selfBurn(uint256) should be declared external:\n\t- LPTokenMaster.selfBurn(uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#160-162)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "initialize",
+            "impact": "Optimization",
+            "line": 116,
+            "line_end": 118,
+            "message": "initialize() should be declared external:\n\t- LPTokenMaster.initialize() (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#116-118)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 92,
+            "line_end": 94,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#92-94)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 130,
+            "line_end": 134,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- LPTokenMaster.transferFrom(address,address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#130-134)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 120,
+            "line_end": 123,
+            "message": "transfer(address,uint256) should be declared external:\n\t- LPTokenMaster.transfer(address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#120-123)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol",
+            "function": "mint",
+            "impact": "Optimization",
+            "line": 152,
+            "line_end": 154,
+            "message": "mint(address,uint256) should be declared external:\n\t- LPTokenMaster.mint(address,uint256) (../..0x7b3b69eab43c1aa677df04b4b65f0d169fcdc6ca.sol#152-154)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

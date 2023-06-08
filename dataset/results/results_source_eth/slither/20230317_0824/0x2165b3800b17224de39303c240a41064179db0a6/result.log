@@ -1,0 +1,77 @@
+[93m
+MPHMinter.mintDepositorReward(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#798-812) ignores return value by mph.ownerMint(to,mintAmount) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#809)
+MPHMinter.mintDepositorReward(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#798-812) ignores return value by mph.ownerMint(devWallet,mintAmount.decmul(devRewardMultiplier)) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#810)
+MPHMinter.mintFunderReward(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#814-830) ignores return value by mph.ownerMint(to,mintAmount) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#827)
+MPHMinter.mintFunderReward(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#814-830) ignores return value by mph.ownerMint(devWallet,mintAmount.decmul(devRewardMultiplier)) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#828)
+MPHMinter.takeBackDepositorReward(address,uint256,bool) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#832-849) ignores return value by mph.ownerTransfer(from,govTreasury,takeBackAmount) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#847)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+ERC20Detailed.constructor(string,string,uint8).name (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#681) shadows:
+	- ERC20Detailed.name() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#690-692) (function)
+ERC20Detailed.constructor(string,string,uint8).symbol (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#681) shadows:
+	- ERC20Detailed.symbol() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#698-700) (function)
+ERC20Detailed.constructor(string,string,uint8).decimals (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#681) shadows:
+	- ERC20Detailed.decimals() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#714-716) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+MPHMinter.constructor(address,address,address,uint256)._govTreasury (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#788) lacks a zero-check on :
+		- govTreasury = _govTreasury (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#793)
+MPHMinter.constructor(address,address,address,uint256)._devWallet (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#789) lacks a zero-check on :
+		- devWallet = _devWallet (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#794)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Address.isContract(address) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#306-315) uses assembly
+	- INLINE ASM (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#313)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#345-351) is never used and should be removed
+Address.toPayable(address) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#323-325) is never used and should be removed
+Context._msgData() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#179-182) is never used and should be removed
+DecMath.decdiv(uint256,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#198-200) is never used and should be removed
+ERC20._burn(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#623-629) is never used and should be removed
+ERC20._burnFrom(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#658-661) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#135-137) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#152-155) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#345-351):
+	- (success) = recipient.call.value(amount)() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#349)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Redundant expression "this (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#180)" inContext (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#169-183)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#234-236)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#260-263)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#269-271)
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#475-477)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#482-484)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#494-497)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#502-504)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#513-516)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#530-534)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#548-551)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#567-570)
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#690-692)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#698-700)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#714-716)
+ownerMint(address,uint256) should be declared external:
+	- MPHToken.ownerMint(address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#724-731)
+ownerTransfer(address,address,uint256) should be declared external:
+	- MPHToken.ownerTransfer(address,address,uint256) (../../sb/0x2165b3800b17224de39303c240a41064179db0a6.sol#733-740)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x2165b3800b17224de39303c240a41064179db0a6.sol analyzed (10 contracts with 78 detectors), 37 result(s) found

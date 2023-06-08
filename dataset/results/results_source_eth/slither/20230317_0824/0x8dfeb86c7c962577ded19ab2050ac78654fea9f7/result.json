@@ -1,0 +1,2356 @@
+{
+    "errors": [
+        "EXIT_CODE_13"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "doConversion",
+            "impact": "High",
+            "line": 1105,
+            "line_end": 1156,
+            "message": "BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1105-1156) use msg.value in a loop: toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n",
+            "name": "msg-value-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getReturn",
+            "impact": "Medium",
+            "line": 1373,
+            "line_end": 1392,
+            "message": "BancorNetwork.getReturn(address,address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1373-1392) is declared view but contains assembly code\n",
+            "name": "constant-function-asm"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "isV28OrHigherConverter",
+            "impact": "Medium",
+            "line": 1398,
+            "line_end": 1415,
+            "message": "BancorNetwork.isV28OrHigherConverter(IConverter) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1398-1415) is declared view but contains assembly code\n",
+            "name": "constant-function-asm"
+        },
+        {
+            "confidence": "High",
+            "contract": "IConverter",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "fallback",
+            "impact": "Medium",
+            "line": 170,
+            "line_end": 204,
+            "message": "Contract locking ether found:\n\tContract IConverter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#170-204) has payable functions:\n\t - IConverter.convert(IERC20Token,IERC20Token,uint256,address,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#176-180)\n\t - IConverter.fallback() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#186)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "High",
+            "contract": "IEtherToken",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "depositTo",
+            "impact": "Medium",
+            "line": 697,
+            "line_end": 702,
+            "message": "Contract locking ether found:\n\tContract IEtherToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#697-702) has payable functions:\n\t - IEtherToken.deposit() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#698)\n\t - IEtherToken.depositTo(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#700)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "updateRegistry",
+            "impact": "Medium",
+            "line": 418,
+            "line_end": 436,
+            "message": "Reentrancy in ContractRegistryClient.updateRegistry() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#418-436):\n\tExternal calls:\n\t- newRegistry = IContractRegistry(addressOf(CONTRACT_REGISTRY)) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#423)\n\t\t- registry.addressOf(_contractName) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#464)\n\t- require(bool,string)(newRegistry.addressOf(CONTRACT_REGISTRY) != address(0),ERR_INVALID_REGISTRY) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#429)\n\tState variables written after the call(s):\n\t- registry = newRegistry (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#435)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Medium",
+            "line": 874,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256).supply (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#874) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Medium",
+            "line": 1112,
+            "message": "BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256).toAmount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1112) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: fee = amount.mul(converter.conversionFee()).div(CONVERSION_FEE_RESOLUTION) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#921)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: amount = formula.purchaseRate(supply,balance,weight,amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#905)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: supply = ISmartToken(anchor).totalSupply() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#915)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: balance = converter.getConnectorBalance(targetToken) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#918)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: balance = converter.getConnectorBalance(sourceToken) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#903)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getConverterEtherTokenAddress",
+            "impact": "Low",
+            "line": 1347,
+            "line_end": 1356,
+            "message": "BancorNetwork.getConverterEtherTokenAddress(IConverter) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1347-1356) has external calls inside a loop: reserveTokenAddress = _converter.connectorTokens(i) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1350)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: (None,weight,None,None,None) = converter.connectors(targetToken) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#919)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: fee = amount.mul(converter.conversionFee()).div(CONVERSION_FEE_RESOLUTION) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#906)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: converter = IConverter(IConverterAnchor(anchor).owner()) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#891)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: amount = formula.saleRate(supply,balance,weight,amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#920)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getConverterEtherTokenAddress",
+            "impact": "Low",
+            "line": 1347,
+            "line_end": 1356,
+            "message": "BancorNetwork.getConverterEtherTokenAddress(IConverter) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1347-1356) has external calls inside a loop: reserveCount = _converter.connectorTokenCount() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1348)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: supply = ISmartToken(anchor).totalSupply() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#900)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateByPath",
+            "impact": "Low",
+            "line": 871,
+            "line_end": 933,
+            "message": "BancorNetwork.rateByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871-933) has external calls inside a loop: (None,weight,None,None,None) = converter.connectors(sourceToken) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#904)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "updateRegistry",
+            "impact": "Low",
+            "line": 418,
+            "line_end": 436,
+            "message": "Reentrancy in ContractRegistryClient.updateRegistry() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#418-436):\n\tExternal calls:\n\t- newRegistry = IContractRegistry(addressOf(CONTRACT_REGISTRY)) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#423)\n\t\t- registry.addressOf(_contractName) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#464)\n\t- require(bool,string)(newRegistry.addressOf(CONTRACT_REGISTRY) != address(0),ERR_INVALID_REGISTRY) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#429)\n\tState variables written after the call(s):\n\t- prevRegistry = registry (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#432)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "xConvert2",
+            "impact": "Low",
+            "line": 1033,
+            "line_end": 1064,
+            "message": "Reentrancy in BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1033-1064):\n\tExternal calls:\n\t- bancorX = IBancorX(addressOf(BANCOR_X)) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1049)\n\t\t- registry.addressOf(_contractName) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#464)\n\t- require(bool,string)(targetToken == addressOf(BNT_TOKEN),ERR_INVALID_TARGET_TOKEN) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1052)\n\t\t- registry.addressOf(_contractName) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#464)\n\t- amount = convertByPath(_path,_amount,_minReturn,this,_affiliateAccount,_affiliateFee) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1055)\n\t\t- registry.addressOf(_contractName) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#464)\n\t\t- reserveCount = _converter.connectorTokenCount() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1348)\n\t\t- firstConverter = IConverter(_anchor.owner()) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1166)\n\t\t- allowance = _token.allowance(this,_spender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1338)\n\t\t- reserveTokenAddress = _converter.connectorTokens(i) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1350)\n\t\t- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1178)\n\t\t- IEtherToken(targetToken).withdrawTo(_beneficiary,_amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1223)\n\t\t- converter = IConverter(anchor.owner()) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1249)\n\t\t- IEtherToken(_sourceToken).withdraw(_amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1188)\n\t\t- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1135)\n\t\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\t\t- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1139)\n\t\t- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1144)\n\tExternal calls sending eth:\n\t- amount = convertByPath(_path,_amount,_minReturn,this,_affiliateAccount,_affiliateFee) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1055)\n\t\t- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1178)\n\t\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\tEvent emitted after the call(s):\n\t- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1148)\n\t\t- amount = convertByPath(_path,_amount,_minReturn,this,_affiliateAccount,_affiliateFee) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1055)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "convertByPath",
+            "impact": "Low",
+            "line": 950,
+            "line_end": 986,
+            "message": "Reentrancy in BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#950-986):\n\tExternal calls:\n\t- handleSourceToken(_path[0],IConverterAnchor(_path[1]),_amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#961)\n\t\t- reserveCount = _converter.connectorTokenCount() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1348)\n\t\t- firstConverter = IConverter(_anchor.owner()) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1166)\n\t\t- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1178)\n\t\t- reserveTokenAddress = _converter.connectorTokens(i) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1350)\n\t\t- IEtherToken(_sourceToken).withdraw(_amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1188)\n\t- data = createConversionData(_path,beneficiary,affiliateFeeEnabled) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#979)\n\t\t- reserveCount = _converter.connectorTokenCount() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1348)\n\t\t- registry.addressOf(_contractName) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#464)\n\t\t- reserveTokenAddress = _converter.connectorTokens(i) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1350)\n\t\t- converter = IConverter(anchor.owner()) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1249)\n\t- amount = doConversion(data,_amount,_minReturn,_affiliateAccount,_affiliateFee) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#980)\n\t\t- allowance = _token.allowance(this,_spender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1338)\n\t\t- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1135)\n\t\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\t\t- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1139)\n\t\t- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1144)\n\tExternal calls sending eth:\n\t- handleSourceToken(_path[0],IConverterAnchor(_path[1]),_amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#961)\n\t\t- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1178)\n\t- amount = doConversion(data,_amount,_minReturn,_affiliateAccount,_affiliateFee) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#980)\n\t\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\tEvent emitted after the call(s):\n\t- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1148)\n\t\t- amount = doConversion(data,_amount,_minReturn,_affiliateAccount,_affiliateFee) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#980)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "doConversion",
+            "impact": "Low",
+            "line": 1105,
+            "line_end": 1156,
+            "message": "Reentrancy in BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1105-1156):\n\tExternal calls:\n\t- ensureAllowance(stepData.sourceToken,stepData.converter,fromAmount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1130)\n\t\t- allowance = _token.allowance(this,_spender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1338)\n\t- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1135)\n\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\t- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1139)\n\t- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1144)\n\tExternal calls sending eth:\n\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\tEvent emitted after the call(s):\n\t- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1148)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "completeXConversion",
+            "impact": "Low",
+            "line": 1081,
+            "line_end": 1092,
+            "message": "Reentrancy in BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1081-1092):\n\tExternal calls:\n\t- require(bool,string)(_path[0] == _bancorX.token(),ERR_INVALID_SOURCE_TOKEN) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1085)\n\t- amount = _bancorX.getXTransferAmount(_conversionId,msg.sender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1088)\n\t- convertByPath(_path,amount,_minReturn,_beneficiary,address(0),0) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1091)\n\t\t- registry.addressOf(_contractName) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#464)\n\t\t- reserveCount = _converter.connectorTokenCount() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1348)\n\t\t- firstConverter = IConverter(_anchor.owner()) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1166)\n\t\t- allowance = _token.allowance(this,_spender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1338)\n\t\t- reserveTokenAddress = _converter.connectorTokens(i) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1350)\n\t\t- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1178)\n\t\t- IEtherToken(targetToken).withdrawTo(_beneficiary,_amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1223)\n\t\t- converter = IConverter(anchor.owner()) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1249)\n\t\t- IEtherToken(_sourceToken).withdraw(_amount) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1188)\n\t\t- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1135)\n\t\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\t\t- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1139)\n\t\t- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1144)\n\tExternal calls sending eth:\n\t- convertByPath(_path,amount,_minReturn,_beneficiary,address(0),0) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1091)\n\t\t- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1178)\n\t\t- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1137)\n\tEvent emitted after the call(s):\n\t- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1148)\n\t\t- convertByPath(_path,amount,_minReturn,_beneficiary,address(0),0) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1091)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "isV28OrHigherConverter",
+            "impact": "Informational",
+            "line": 1398,
+            "line_end": 1415,
+            "message": "BancorNetwork.isV28OrHigherConverter(IConverter) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1398-1415) uses assembly\n\t- INLINE ASM (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1403-1414)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getReturn",
+            "impact": "Informational",
+            "line": 1373,
+            "line_end": 1392,
+            "message": "BancorNetwork.getReturn(address,address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1373-1392) uses assembly\n\t- INLINE ASM (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1377-1391)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "execute",
+            "impact": "Informational",
+            "line": 559,
+            "line_end": 578,
+            "message": "TokenHandler.execute(IERC20Token,bytes) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#559-578) uses assembly\n\t- INLINE ASM (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#562-577)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "_only",
+            "impact": "Informational",
+            "line": 401,
+            "line_end": 403,
+            "message": "ContractRegistryClient._only(bytes32) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#401-403) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 470,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#470) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 623,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#623) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 208,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#208) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 110,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#110) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 125,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#125) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 150,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#150) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 351,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#351) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#3) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 161,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#161) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 248,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#248) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 706,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#706) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 691,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#691) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 583,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#583) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 733,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#733) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 309,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#309) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 138,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#138) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 98,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#98) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#722) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#503) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is not recommended for deployment\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 365,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#365) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 24,
+            "message": "Pragma version^0.4.26 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#24) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1007,
+            "message": "Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._targetAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1007) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 547,
+            "message": "Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#547) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1037,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._targetBlockchain (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1037) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1005,
+            "message": "Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1005) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1165,
+            "message": "Parameter BancorNetwork.handleSourceToken(IERC20Token,IConverterAnchor,uint256)._sourceToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1165) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1487,
+            "message": "Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1487) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1110,
+            "message": "Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._affiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1110) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 871,
+            "message": "Parameter BancorNetwork.rateByPath(IERC20Token[],uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1451,
+            "message": "Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1451) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 950,
+            "message": "Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1240,
+            "message": "Parameter BancorNetwork.createConversionData(IERC20Token[],address,bool)._affiliateFeeEnabled (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1240) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 610,
+            "message": "Parameter TokenHolder.withdrawTokens(IERC20Token,address,uint256)._to (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#610) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1038,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._targetAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1038) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1040,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._affiliateAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1040) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1240,
+            "message": "Parameter BancorNetwork.createConversionData(IERC20Token[],address,bool)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1240) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1107,
+            "message": "Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1107) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1165,
+            "message": "Parameter BancorNetwork.handleSourceToken(IERC20Token,IConverterAnchor,uint256)._anchor (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1165) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1008,
+            "message": "Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._conversionId (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1008) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1510,
+            "message": "Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1510) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1451,
+            "message": "Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1451) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 682,
+            "message": "Parameter SafeMath.div(uint256,uint256)._x (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#682) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 651,
+            "message": "Parameter SafeMath.sub(uint256,uint256)._x (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#651) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 950,
+            "message": "Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 825,
+            "message": "Parameter BancorNetwork.setMaxAffiliateFee(uint256)._maxAffiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#825) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 664,
+            "message": "Parameter SafeMath.mul(uint256,uint256)._x (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#664) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1337,
+            "message": "Parameter BancorNetwork.ensureAllowance(IERC20Token,address,uint256)._spender (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1373,
+            "message": "Parameter BancorNetwork.getReturn(address,address,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1373) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1373,
+            "message": "Parameter BancorNetwork.getReturn(address,address,address,uint256)._targetToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1373) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1477,
+            "message": "Parameter BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1477) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1462,
+            "message": "Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1462) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 651,
+            "message": "Parameter SafeMath.sub(uint256,uint256)._y (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#651) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1435,
+            "message": "Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1435) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1511,
+            "message": "Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1511) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 871,
+            "message": "Parameter BancorNetwork.rateByPath(IERC20Token[],uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#871) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 637,
+            "message": "Parameter SafeMath.add(uint256,uint256)._y (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#637) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1439,
+            "message": "Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1439) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 533,
+            "message": "Parameter TokenHandler.safeTransfer(IERC20Token,address,uint256)._to (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#533) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1373,
+            "message": "Parameter BancorNetwork.getReturn(address,address,address,uint256)._sourceToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1373) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 950,
+            "message": "Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1477,
+            "message": "Parameter BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1477) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._bancorX (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1036,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1036) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 950,
+            "message": "Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1508,
+            "message": "Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1508) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1004,
+            "message": "Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1004) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1427,
+            "message": "Parameter BancorNetwork.convert(IERC20Token[],uint256,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1427) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1436,
+            "message": "Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1436) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._conversionId (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 682,
+            "message": "Parameter SafeMath.div(uint256,uint256)._y (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#682) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1477,
+            "message": "Parameter BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1477) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1486,
+            "message": "Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1486) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1109,
+            "message": "Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._affiliateAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1109) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1512,
+            "message": "Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1512) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1208,
+            "message": "Parameter BancorNetwork.handleTargetToken(BancorNetwork.ConversionStep[],uint256,address)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1208) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 664,
+            "message": "Parameter SafeMath.mul(uint256,uint256)._y (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#664) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 291,
+            "message": "Parameter Owned.transferOwnership(address)._newOwner (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#291) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 520,
+            "message": "Parameter TokenHandler.safeApprove(IERC20Token,address,uint256)._value (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#520) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1500,
+            "message": "Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1500) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 950,
+            "message": "Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1463,
+            "message": "Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1463) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1420,
+            "message": "Parameter BancorNetwork.getReturnByPath(IERC20Token[],uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1420) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1485,
+            "message": "Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1485) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1451,
+            "message": "Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1451) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1106,
+            "message": "Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._data (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1106) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1500,
+            "message": "Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1500) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 839,
+            "message": "Parameter BancorNetwork.registerEtherToken(IEtherToken,bool)._token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#839) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 547,
+            "message": "Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._from (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#547) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1489,
+            "message": "Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1489) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1347,
+            "message": "Parameter BancorNetwork.getConverterEtherTokenAddress(IConverter)._converter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1347) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1039,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._conversionId (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1039) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1041,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._affiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1041) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1464,
+            "message": "Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1464) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1337,
+            "message": "Parameter BancorNetwork.ensureAllowance(IERC20Token,address,uint256)._value (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 533,
+            "message": "Parameter TokenHandler.safeTransfer(IERC20Token,address,uint256)._value (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#533) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 547,
+            "message": "Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._value (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#547) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 451,
+            "message": "Parameter ContractRegistryClient.restrictRegistryUpdate(bool)._onlyOwnerCanUpdateRegistry (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#451) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 637,
+            "message": "Parameter SafeMath.add(uint256,uint256)._x (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#637) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1003,
+            "message": "Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1003) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1459,
+            "message": "Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1459) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1500,
+            "message": "Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1500) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1360,
+            "message": "Parameter BancorNetwork.getConverterTokenAddress(IConverter,IERC20Token)._token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1360) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1108,
+            "message": "Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1108) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 610,
+            "message": "Parameter TokenHolder.withdrawTokens(IERC20Token,address,uint256)._token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#610) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1165,
+            "message": "Parameter BancorNetwork.handleSourceToken(IERC20Token,IConverterAnchor,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1165) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1006,
+            "message": "Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._targetBlockchain (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1006) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1509,
+            "message": "Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1509) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 520,
+            "message": "Parameter TokenHandler.safeApprove(IERC20Token,address,uint256)._token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#520) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1513,
+            "message": "Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateFee (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1513) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1427,
+            "message": "Parameter BancorNetwork.convert(IERC20Token[],uint256,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1427) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1461,
+            "message": "Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1461) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1337,
+            "message": "Parameter BancorNetwork.ensureAllowance(IERC20Token,address,uint256)._token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1500,
+            "message": "Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1500) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 610,
+            "message": "Parameter TokenHolder.withdrawTokens(IERC20Token,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#610) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1240,
+            "message": "Parameter BancorNetwork.createConversionData(IERC20Token[],address,bool)._conversionPath (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1240) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1360,
+            "message": "Parameter BancorNetwork.getConverterTokenAddress(IConverter,IERC20Token)._converter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1360) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 520,
+            "message": "Parameter TokenHandler.safeApprove(IERC20Token,address,uint256)._spender (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#520) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1438,
+            "message": "Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1438) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1437,
+            "message": "Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._minReturn (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1437) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1460,
+            "message": "Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1460) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1034,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1034) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1488,
+            "message": "Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateAccount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1488) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1035,
+            "message": "Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1035) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1208,
+            "message": "Parameter BancorNetwork.handleTargetToken(BancorNetwork.ConversionStep[],uint256,address)._data (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1208) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1451,
+            "message": "Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1451) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1208,
+            "message": "Parameter BancorNetwork.handleTargetToken(BancorNetwork.ConversionStep[],uint256,address)._beneficiary (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1208) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 533,
+            "message": "Parameter TokenHandler.safeTransfer(IERC20Token,address,uint256)._token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#533) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1420,
+            "message": "Parameter BancorNetwork.getReturnByPath(IERC20Token[],uint256)._path (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1420) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 1427,
+            "message": "Parameter BancorNetwork.convert(IERC20Token[],uint256,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1427) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 857,
+            "message": "Parameter BancorNetwork.conversionPath(IERC20Token,IERC20Token)._targetToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#857) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 857,
+            "message": "Parameter BancorNetwork.conversionPath(IERC20Token,IERC20Token)._sourceToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#857) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 547,
+            "message": "Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._to (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#547) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 463,
+            "message": "Parameter ContractRegistryClient.addressOf(bytes32)._contractName (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#463) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 950,
+            "message": "Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._amount (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 839,
+            "message": "Parameter BancorNetwork.registerEtherToken(IEtherToken,bool)._register (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#839) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IConverter",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 183,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#183)\" inIConverter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#170-204)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IBancorX",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 726,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#726)\" inIBancorX (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#725-729)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 12,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#12)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IConverter",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 182,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#182)\" inIConverter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#170-204)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 11,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#11)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 14,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#14)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 14,
+            "message": "Redundant expression \"_owner (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#14)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IOwned",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 117,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#117)\" inIOwned (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#115-121)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IConverter",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 184,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#184)\" inIConverter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#170-204)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 10,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#10)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 15,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#15)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 15,
+            "message": "Redundant expression \"_owner (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#15)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 13,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#13)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IConverter",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 172,
+            "message": "Redundant expression \"this (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#172)\" inIConverter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#170-204)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20Token",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 15,
+            "message": "Redundant expression \"_spender (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#15)\" inIERC20Token (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#8-20)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 771,
+            "line_end": 1521,
+            "message": "BancorNetwork.slitherConstructorConstantVariables() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521) uses literals with too many digits:\n\t- AFFILIATE_FEE_RESOLUTION = 1000000 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#775)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 771,
+            "line_end": 1521,
+            "message": "BancorNetwork.slitherConstructorConstantVariables() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521) uses literals with too many digits:\n\t- CONVERSION_FEE_RESOLUTION = 1000000 (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#774)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "IConverter",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdrawTokens",
+            "impact": "Informational",
+            "line": 170,
+            "line_end": 204,
+            "message": "IConverter (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#170-204) does not implement functions:\n\t- IConverter.acceptAnchorOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#189)\n\t- IOwned.acceptOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#120)\n\t- IConverter.acceptTokenOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#199)\n\t- IConverter.addReserve(IERC20Token,uint32) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#194)\n\t- IConverter.connectorTokenCount() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#203)\n\t- IConverter.connectorTokens(uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#202)\n\t- IConverter.connectors(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#200)\n\t- IConverter.convert(IERC20Token,IERC20Token,uint256,address,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#176-180)\n\t- IConverter.converterType() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#171)\n\t- IConverter.getConnectorBalance(IERC20Token) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#201)\n\t- IConverter.isActive() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#173)\n\t- IConverter.rateAndFee(IERC20Token,IERC20Token,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#175)\n\t- IConverter.reserveBalance(IERC20Token) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#185)\n\t- IConverter.setConversionFee(uint32) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#190)\n\t- IConverter.setConversionWhitelist(IWhitelist) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#191)\n\t- IConverter.token() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#197)\n\t- IConverter.transferAnchorOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#188)\n\t- IOwned.transferOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#119)\n\t- IConverter.transferTokenOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#198)\n\t- IConverter.withdrawETH(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#193)\n\t- IConverter.withdrawTokens(IERC20Token,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#192)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "contract": "ISmartToken",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdrawTokens",
+            "impact": "Informational",
+            "line": 714,
+            "line_end": 718,
+            "message": "ISmartToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#714-718) does not implement functions:\n\t- IOwned.acceptOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#120)\n\t- IERC20Token.approve(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#19)\n\t- ISmartToken.destroy(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#717)\n\t- ISmartToken.disableTransfers(bool) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#715)\n\t- ISmartToken.issue(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#716)\n\t- IERC20Token.transfer(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#17)\n\t- IERC20Token.transferFrom(address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#18)\n\t- IOwned.transferOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#119)\n\t- ITokenHolder.withdrawTokens(IERC20Token,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#133)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "contract": "IEtherToken",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdrawTo",
+            "impact": "Informational",
+            "line": 697,
+            "line_end": 702,
+            "message": "IEtherToken (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#697-702) does not implement functions:\n\t- IERC20Token.approve(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#19)\n\t- IEtherToken.deposit() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#698)\n\t- IEtherToken.depositTo(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#700)\n\t- IERC20Token.transfer(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#17)\n\t- IERC20Token.transferFrom(address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#18)\n\t- IEtherToken.withdraw(uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#699)\n\t- IEtherToken.withdrawTo(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#701)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "contract": "IBancorX",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "xTransfer",
+            "impact": "Informational",
+            "line": 725,
+            "line_end": 729,
+            "message": "IBancorX (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#725-729) does not implement functions:\n\t- IBancorX.getXTransferAmount(uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#728)\n\t- IBancorX.xTransfer(bytes32,bytes32,uint256,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#727)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "contract": "BancorNetwork",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 380,
+            "message": "ContractRegistryClient.CONVERTER_REGISTRY (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#380) is never used in BancorNetwork (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "BancorNetwork",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 379,
+            "message": "ContractRegistryClient.CONVERTER_UPGRADER (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#379) is never used in BancorNetwork (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "BancorNetwork",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 377,
+            "message": "ContractRegistryClient.CONVERTER_FACTORY (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#377) is never used in BancorNetwork (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "BancorNetwork",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 384,
+            "message": "ContractRegistryClient.BANCOR_X_UPGRADER (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#384) is never used in BancorNetwork (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "BancorNetwork",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 375,
+            "message": "ContractRegistryClient.BANCOR_NETWORK (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#375) is never used in BancorNetwork (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "BancorNetwork",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "impact": "Informational",
+            "line": 381,
+            "message": "ContractRegistryClient.CONVERTER_REGISTRY_DATA (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#381) is never used in BancorNetwork (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#771-1521)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "issue",
+            "impact": "Optimization",
+            "line": 716,
+            "message": "issue(address,uint256) should be declared external:\n\t- ISmartToken.issue(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#716)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdrawTokens",
+            "impact": "Optimization",
+            "line": 133,
+            "message": "withdrawTokens(IERC20Token,address,uint256) should be declared external:\n\t- ITokenHolder.withdrawTokens(IERC20Token,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#133)\n\t- TokenHolder.withdrawTokens(IERC20Token,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#610-618)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "conversionPath",
+            "impact": "Optimization",
+            "line": 857,
+            "line_end": 860,
+            "message": "conversionPath(IERC20Token,IERC20Token) should be declared external:\n\t- BancorNetwork.conversionPath(IERC20Token,IERC20Token) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#857-860)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "saleRate",
+            "impact": "Optimization",
+            "line": 220,
+            "line_end": 224,
+            "message": "saleRate(uint256,uint256,uint32,uint256) should be declared external:\n\t- IBancorFormula.saleRate(uint256,uint256,uint32,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#220-224)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "purchaseRate",
+            "impact": "Optimization",
+            "line": 214,
+            "line_end": 218,
+            "message": "purchaseRate(uint256,uint256,uint32,uint256) should be declared external:\n\t- IBancorFormula.purchaseRate(uint256,uint256,uint32,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#214-218)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "acceptTokenOwnership",
+            "impact": "Optimization",
+            "line": 199,
+            "message": "acceptTokenOwnership() should be declared external:\n\t- IConverter.acceptTokenOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#199)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "transferTokenOwnership",
+            "impact": "Optimization",
+            "line": 198,
+            "message": "transferTokenOwnership(address) should be declared external:\n\t- IConverter.transferTokenOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#198)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "addReserve",
+            "impact": "Optimization",
+            "line": 194,
+            "message": "addReserve(IERC20Token,uint32) should be declared external:\n\t- IConverter.addReserve(IERC20Token,uint32) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#194)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "connectorTokenCount",
+            "impact": "Optimization",
+            "line": 203,
+            "message": "connectorTokenCount() should be declared external:\n\t- IConverter.connectorTokenCount() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#203)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "liquidateRate",
+            "impact": "Optimization",
+            "line": 239,
+            "line_end": 243,
+            "message": "liquidateRate(uint256,uint256,uint32,uint256) should be declared external:\n\t- IBancorFormula.liquidateRate(uint256,uint256,uint32,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#239-243)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 14,
+            "message": "balanceOf(address) should be declared external:\n\t- IERC20Token.balanceOf(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#14)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "completeXConversion",
+            "impact": "Optimization",
+            "line": 1081,
+            "line_end": 1092,
+            "message": "completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address) should be declared external:\n\t- BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1081-1092)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 17,
+            "message": "transfer(address,uint256) should be declared external:\n\t- IERC20Token.transfer(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#17)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "destroy",
+            "impact": "Optimization",
+            "line": 717,
+            "message": "destroy(address,uint256) should be declared external:\n\t- ISmartToken.destroy(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#717)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "connectorTokens",
+            "impact": "Optimization",
+            "line": 202,
+            "message": "connectorTokens(uint256) should be declared external:\n\t- IConverter.connectorTokens(uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#202)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getXTransferAmount",
+            "impact": "Optimization",
+            "line": 728,
+            "message": "getXTransferAmount(uint256,address) should be declared external:\n\t- IBancorX.getXTransferAmount(uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#728)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "converterType",
+            "impact": "Optimization",
+            "line": 171,
+            "message": "converterType() should be declared external:\n\t- IConverter.converterType() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#171)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 119,
+            "message": "transferOwnership(address) should be declared external:\n\t- IOwned.transferOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#119)\n\t- Owned.transferOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#291-294)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "restoreRegistry",
+            "impact": "Optimization",
+            "line": 441,
+            "line_end": 444,
+            "message": "restoreRegistry() should be declared external:\n\t- ContractRegistryClient.restoreRegistry() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#441-444)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "token",
+            "impact": "Optimization",
+            "line": 197,
+            "message": "token() should be declared external:\n\t- IConverter.token() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#197)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "claimAndConvert",
+            "impact": "Optimization",
+            "line": 1477,
+            "line_end": 1479,
+            "message": "claimAndConvert(IERC20Token[],uint256,uint256) should be declared external:\n\t- BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1477-1479)\n\t- IBancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#73-77)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "maxConversionFee",
+            "impact": "Optimization",
+            "line": 184,
+            "message": "maxConversionFee() should be declared external:\n\t- IConverter.maxConversionFee() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#184)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 15,
+            "message": "allowance(address,address) should be declared external:\n\t- IERC20Token.allowance(address,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#15)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "conversionWhitelist",
+            "impact": "Optimization",
+            "line": 182,
+            "message": "conversionWhitelist() should be declared external:\n\t- IConverter.conversionWhitelist() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#182)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdrawETH",
+            "impact": "Optimization",
+            "line": 193,
+            "message": "withdrawETH(address) should be declared external:\n\t- IConverter.withdrawETH(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#193)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "anchor",
+            "impact": "Optimization",
+            "line": 172,
+            "message": "anchor() should be declared external:\n\t- IConverter.anchor() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#172)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "rateAndFee",
+            "impact": "Optimization",
+            "line": 175,
+            "message": "rateAndFee(IERC20Token,IERC20Token,uint256) should be declared external:\n\t- IConverter.rateAndFee(IERC20Token,IERC20Token,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#175)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "isActive",
+            "impact": "Optimization",
+            "line": 173,
+            "message": "isActive() should be declared external:\n\t- IConverter.isActive() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#173)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "crossReserveRate",
+            "impact": "Optimization",
+            "line": 226,
+            "line_end": 231,
+            "message": "crossReserveRate(uint256,uint32,uint256,uint32,uint256) should be declared external:\n\t- IBancorFormula.crossReserveRate(uint256,uint32,uint256,uint32,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#226-231)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getConnectorBalance",
+            "impact": "Optimization",
+            "line": 201,
+            "message": "getConnectorBalance(IERC20Token) should be declared external:\n\t- IConverter.getConnectorBalance(IERC20Token) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#201)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "xTransfer",
+            "impact": "Optimization",
+            "line": 727,
+            "message": "xTransfer(bytes32,bytes32,uint256,uint256) should be declared external:\n\t- IBancorX.xTransfer(bytes32,bytes32,uint256,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#727)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "convert",
+            "impact": "Optimization",
+            "line": 1427,
+            "line_end": 1429,
+            "message": "convert(IERC20Token[],uint256,uint256) should be declared external:\n\t- BancorNetwork.convert(IERC20Token[],uint256,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1427-1429)\n\t- IBancorNetwork.convert(IERC20Token[],uint256,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#66-70)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 13,
+            "message": "totalSupply() should be declared external:\n\t- IERC20Token.totalSupply() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#13)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "convert",
+            "impact": "Optimization",
+            "line": 176,
+            "line_end": 180,
+            "message": "convert(IERC20Token,IERC20Token,uint256,address,address) should be declared external:\n\t- IConverter.convert(IERC20Token,IERC20Token,uint256,address,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#176-180)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "acceptAnchorOwnership",
+            "impact": "Optimization",
+            "line": 189,
+            "message": "acceptAnchorOwnership() should be declared external:\n\t- IConverter.acceptAnchorOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#189)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "registerEtherToken",
+            "impact": "Optimization",
+            "line": 839,
+            "line_end": 846,
+            "message": "registerEtherToken(IEtherToken,bool) should be declared external:\n\t- BancorNetwork.registerEtherToken(IEtherToken,bool) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#839-846)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "connectors",
+            "impact": "Optimization",
+            "line": 200,
+            "message": "connectors(address) should be declared external:\n\t- IConverter.connectors(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#200)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getAddress",
+            "impact": "Optimization",
+            "line": 360,
+            "message": "getAddress(bytes32) should be declared external:\n\t- IContractRegistry.getAddress(bytes32) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#360)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "acceptOwnership",
+            "impact": "Optimization",
+            "line": 120,
+            "message": "acceptOwnership() should be declared external:\n\t- IOwned.acceptOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#120)\n\t- Owned.acceptOwnership() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#299-304)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "setConversionWhitelist",
+            "impact": "Optimization",
+            "line": 191,
+            "message": "setConversionWhitelist(IWhitelist) should be declared external:\n\t- IConverter.setConversionWhitelist(IWhitelist) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#191)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "findPath",
+            "impact": "Optimization",
+            "line": 105,
+            "message": "findPath(address,address) should be declared external:\n\t- IConversionPathFinder.findPath(address,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#105)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "depositTo",
+            "impact": "Optimization",
+            "line": 700,
+            "message": "depositTo(address) should be declared external:\n\t- IEtherToken.depositTo(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#700)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "change",
+            "impact": "Optimization",
+            "line": 749,
+            "message": "change(IERC20Token,IERC20Token,uint256,uint256) should be declared external:\n\t- ILegacyConverter.change(IERC20Token,IERC20Token,uint256,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#749)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "deposit",
+            "impact": "Optimization",
+            "line": 698,
+            "message": "deposit() should be declared external:\n\t- IEtherToken.deposit() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#698)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "token",
+            "impact": "Optimization",
+            "line": 726,
+            "message": "token() should be declared external:\n\t- IBancorX.token() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#726)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "convertFor2",
+            "impact": "Optimization",
+            "line": 1458,
+            "line_end": 1472,
+            "message": "convertFor2(IERC20Token[],uint256,uint256,address,address,uint256) should be declared external:\n\t- BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1458-1472)\n\t- IBancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#47-54)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "claimAndConvertFor",
+            "impact": "Optimization",
+            "line": 1500,
+            "line_end": 1502,
+            "message": "claimAndConvertFor(IERC20Token[],uint256,uint256,address) should be declared external:\n\t- BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1500-1502)\n\t- IBancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#88-93)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "reserveBalance",
+            "impact": "Optimization",
+            "line": 185,
+            "message": "reserveBalance(IERC20Token) should be declared external:\n\t- IConverter.reserveBalance(IERC20Token) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#185)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "conversionFee",
+            "impact": "Optimization",
+            "line": 183,
+            "message": "conversionFee() should be declared external:\n\t- IConverter.conversionFee() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#183)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "transferAnchorOwnership",
+            "impact": "Optimization",
+            "line": 188,
+            "message": "transferAnchorOwnership(address) should be declared external:\n\t- IConverter.transferAnchorOwnership(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#188)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "updateRegistry",
+            "impact": "Optimization",
+            "line": 418,
+            "line_end": 436,
+            "message": "updateRegistry() should be declared external:\n\t- ContractRegistryClient.updateRegistry() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#418-436)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "getReturnByPath",
+            "impact": "Optimization",
+            "line": 1420,
+            "line_end": 1422,
+            "message": "getReturnByPath(IERC20Token[],uint256) should be declared external:\n\t- BancorNetwork.getReturnByPath(IERC20Token[],uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1420-1422)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "convertFor",
+            "impact": "Optimization",
+            "line": 1451,
+            "line_end": 1453,
+            "message": "convertFor(IERC20Token[],uint256,uint256,address) should be declared external:\n\t- BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1451-1453)\n\t- IBancorNetwork.convertFor(IERC20Token[],uint256,uint256,address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#80-85)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 10,
+            "message": "name() should be declared external:\n\t- IERC20Token.name() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#10)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdrawTo",
+            "impact": "Optimization",
+            "line": 701,
+            "message": "withdrawTo(address,uint256) should be declared external:\n\t- IEtherToken.withdrawTo(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#701)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "disableTransfers",
+            "impact": "Optimization",
+            "line": 715,
+            "message": "disableTransfers(bool) should be declared external:\n\t- ISmartToken.disableTransfers(bool) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#715)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "convert2",
+            "impact": "Optimization",
+            "line": 1434,
+            "line_end": 1446,
+            "message": "convert2(IERC20Token[],uint256,uint256,address,uint256) should be declared external:\n\t- BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1434-1446)\n\t- IBancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#31-37)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 699,
+            "message": "withdraw(uint256) should be declared external:\n\t- IEtherToken.withdraw(uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#699)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "xConvert",
+            "impact": "Optimization",
+            "line": 1002,
+            "line_end": 1015,
+            "message": "xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256) should be declared external:\n\t- BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1002-1015)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 18,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- IERC20Token.transferFrom(address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#18)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "restrictRegistryUpdate",
+            "impact": "Optimization",
+            "line": 451,
+            "line_end": 454,
+            "message": "restrictRegistryUpdate(bool) should be declared external:\n\t- ContractRegistryClient.restrictRegistryUpdate(bool) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#451-454)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "setConversionFee",
+            "impact": "Optimization",
+            "line": 190,
+            "message": "setConversionFee(uint32) should be declared external:\n\t- IConverter.setConversionFee(uint32) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#190)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "withdrawTokens",
+            "impact": "Optimization",
+            "line": 192,
+            "message": "withdrawTokens(IERC20Token,address,uint256) should be declared external:\n\t- IConverter.withdrawTokens(IERC20Token,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#192)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 12,
+            "message": "decimals() should be declared external:\n\t- IERC20Token.decimals() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#12)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "claimAndConvertFor2",
+            "impact": "Optimization",
+            "line": 1507,
+            "line_end": 1519,
+            "message": "claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256) should be declared external:\n\t- BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1507-1519)\n\t- IBancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#56-63)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "isWhitelisted",
+            "impact": "Optimization",
+            "line": 156,
+            "message": "isWhitelisted(address) should be declared external:\n\t- IWhitelist.isWhitelisted(address) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#156)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 19,
+            "message": "approve(address,uint256) should be declared external:\n\t- IERC20Token.approve(address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#19)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "setMaxAffiliateFee",
+            "impact": "Optimization",
+            "line": 825,
+            "line_end": 831,
+            "message": "setMaxAffiliateFee(uint256) should be declared external:\n\t- BancorNetwork.setMaxAffiliateFee(uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#825-831)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 117,
+            "message": "owner() should be declared external:\n\t- IOwned.owner() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#117)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "claimAndConvert2",
+            "impact": "Optimization",
+            "line": 1484,
+            "line_end": 1495,
+            "message": "claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256) should be declared external:\n\t- BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#1484-1495)\n\t- IBancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#39-45)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "fundCost",
+            "impact": "Optimization",
+            "line": 233,
+            "line_end": 237,
+            "message": "fundCost(uint256,uint256,uint32,uint256) should be declared external:\n\t- IBancorFormula.fundCost(uint256,uint256,uint32,uint256) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#233-237)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "addressOf",
+            "impact": "Optimization",
+            "line": 357,
+            "message": "addressOf(bytes32) should be declared external:\n\t- IContractRegistry.addressOf(bytes32) (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#357)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 11,
+            "message": "symbol() should be declared external:\n\t- IERC20Token.symbol() (../..0x8dfeb86c7c962577ded19ab2050ac78654fea9f7.sol#11)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

@@ -1,0 +1,992 @@
+{
+    "errors": [
+        "EXIT_CODE_101"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "_transferFromContract",
+            "impact": "High",
+            "line": 1343,
+            "line_end": 1353,
+            "message": "LockProxy._transferFromContract(address,address,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1343-1353) sends eth to arbitrary user\n\tDangerous calls:\n\t- address(uint160(toAddress)).transfer(amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1347)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Medium",
+            "line": 1380,
+            "message": "LockProxy._deserializeTxArgs(bytes).args (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1380) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Low",
+            "line": 1236,
+            "message": "LockProxy.setManagerProxy(address).ethCCMProxyAddr (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1236) lacks a zero-check on :\n\t\t- managerProxyContract = ethCCMProxyAddr (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1237)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "unlock",
+            "impact": "Low",
+            "line": 1300,
+            "line_end": 1317,
+            "message": "Reentrancy in LockProxy.unlock(bytes,bytes,uint64) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1300-1317):\n\tExternal calls:\n\t- require(bool,string)(_transferFromContract(toAssetHash,toAddress,args.amount),transfer asset from lock_proxy contract to toAddress failed!) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1313)\n\t\t- erc20Token.safeTransfer(toAddress,amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1365)\n\t\t- (success,returndata) = address(token).call(data) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#707)\n\tExternal calls sending eth:\n\t- require(bool,string)(_transferFromContract(toAssetHash,toAddress,args.amount),transfer asset from lock_proxy contract to toAddress failed!) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1313)\n\t\t- address(uint160(toAddress)).transfer(amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1347)\n\tEvent emitted after the call(s):\n\t- UnlockEvent(toAssetHash,toAddress,args.amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1315)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "lock",
+            "impact": "Low",
+            "line": 1262,
+            "line_end": 1290,
+            "message": "Reentrancy in LockProxy.lock(address,uint64,bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1262-1290):\n\tExternal calls:\n\t- require(bool,string)(_transferToContract(fromAssetHash,amount),transfer asset from fromAddress to lock_proxy contract  failed!) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1266)\n\t\t- erc20Token.safeTransferFrom(fromAddress,toAddress,amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1359)\n\t\t- (success,returndata) = address(token).call(data) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#707)\n\t- require(bool,string)(eccm.crossChain(toChainId,toProxyHash,unlock,txData),EthCrossChainManager crossChain executed error!) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1284)\n\tEvent emitted after the call(s):\n\t- LockEvent(fromAssetHash,_msgSender(),toChainId,toAssetHash,toAddress,amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1286)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint16",
+            "impact": "Informational",
+            "line": 809,
+            "line_end": 822,
+            "message": "ZeroCopySource.NextUint16(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#809-822) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#813-820)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "equalStorage",
+            "impact": "Informational",
+            "line": 367,
+            "line_end": 437,
+            "message": "Utils.equalStorage(bytes,bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#367-437) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#370-434)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint8",
+            "impact": "Informational",
+            "line": 791,
+            "line_end": 802,
+            "message": "ZeroCopySource.NextUint8(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#791-802) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#794-800)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint64",
+            "impact": "Informational",
+            "line": 857,
+            "line_end": 877,
+            "message": "ZeroCopySource.NextUint64(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#857-877) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#860-875)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 557,
+            "line_end": 570,
+            "message": "Utils.isContract(address) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#557-570) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#568)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint255",
+            "impact": "Informational",
+            "line": 1167,
+            "line_end": 1187,
+            "message": "ZeroCopySink.WriteUint255(uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1167-1187) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1171-1185)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteBool",
+            "impact": "Informational",
+            "line": 1046,
+            "line_end": 1063,
+            "message": "ZeroCopySink.WriteBool(bool) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1046-1063) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1048-1061)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "bytesToBytes32",
+            "impact": "Informational",
+            "line": 271,
+            "line_end": 277,
+            "message": "Utils.bytesToBytes32(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#271-277) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#273-276)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextBool",
+            "impact": "Informational",
+            "line": 754,
+            "line_end": 770,
+            "message": "ZeroCopySource.NextBool(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#754-770) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#758-760)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint255",
+            "impact": "Informational",
+            "line": 885,
+            "line_end": 906,
+            "message": "ZeroCopySource.NextUint255(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#885-906) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#888-903)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "bytesToAddress",
+            "impact": "Informational",
+            "line": 315,
+            "line_end": 324,
+            "message": "Utils.bytesToAddress(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#315-324) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#318-322)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint32",
+            "impact": "Informational",
+            "line": 830,
+            "line_end": 850,
+            "message": "ZeroCopySource.NextUint32(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#830-850) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#833-848)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint32",
+            "impact": "Informational",
+            "line": 1118,
+            "line_end": 1136,
+            "message": "ZeroCopySink.WriteUint32(uint32) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1118-1136) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1120-1134)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextBytes20",
+            "impact": "Informational",
+            "line": 988,
+            "line_end": 995,
+            "message": "ZeroCopySource.NextBytes20(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#988-995) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#991-993)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "slice",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 510,
+            "message": "Utils.slice(bytes,uint256,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#446-510) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#459-507)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextVarBytes",
+            "impact": "Informational",
+            "line": 913,
+            "line_end": 968,
+            "message": "ZeroCopySource.NextVarBytes(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#913-968) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#918-965)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "uint256ToBytes",
+            "impact": "Informational",
+            "line": 296,
+            "line_end": 309,
+            "message": "Utils.uint256ToBytes(uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#296-309) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#298-308)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextHash",
+            "impact": "Informational",
+            "line": 974,
+            "line_end": 981,
+            "message": "ZeroCopySource.NextHash(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#974-981) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#977-979)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "addressToBytes",
+            "impact": "Informational",
+            "line": 330,
+            "line_end": 342,
+            "message": "Utils.addressToBytes(address) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#330-342) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#331-341)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint16",
+            "impact": "Informational",
+            "line": 1093,
+            "line_end": 1112,
+            "message": "ZeroCopySink.WriteUint16(uint16) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1093-1112) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1096-1110)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "bytesToUint256",
+            "impact": "Informational",
+            "line": 283,
+            "line_end": 290,
+            "message": "Utils.bytesToUint256(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#283-290) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#285-288)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint64",
+            "impact": "Informational",
+            "line": 1142,
+            "line_end": 1161,
+            "message": "ZeroCopySink.WriteUint64(uint64) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1142-1161) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1145-1159)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextByte",
+            "impact": "Informational",
+            "line": 777,
+            "line_end": 784,
+            "message": "ZeroCopySource.NextByte(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#777-784) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#780-782)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint8",
+            "impact": "Informational",
+            "line": 1077,
+            "line_end": 1087,
+            "message": "ZeroCopySink.WriteUint8(uint8) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1077-1087) uses assembly\n\t- INLINE ASM (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1079-1085)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "mul",
+            "impact": "Informational",
+            "line": 178,
+            "line_end": 190,
+            "message": "SafeMath.mul(uint256,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#178-190) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 147,
+            "line_end": 149,
+            "message": "SafeMath.sub(uint256,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#147-149) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 131,
+            "line_end": 136,
+            "message": "SafeMath.add(uint256,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#131-136) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "uint256ToBytes",
+            "impact": "Informational",
+            "line": 296,
+            "line_end": 309,
+            "message": "Utils.uint256ToBytes(uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#296-309) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextBytes20",
+            "impact": "Informational",
+            "line": 988,
+            "line_end": 995,
+            "message": "ZeroCopySource.NextBytes20(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#988-995) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 162,
+            "line_end": 167,
+            "message": "SafeMath.sub(uint256,uint256,string) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#162-167) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "hashChildren",
+            "impact": "Informational",
+            "line": 357,
+            "line_end": 359,
+            "message": "Utils.hashChildren(bytes32,bytes32) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#357-359) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "containMAddresses",
+            "impact": "Informational",
+            "line": 517,
+            "line_end": 528,
+            "message": "Utils.containMAddresses(address[],address[],uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#517-528) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 679,
+            "line_end": 682,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#679-682) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 668,
+            "line_end": 677,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#668-677) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 257,
+            "line_end": 260,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#257-260) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextHash",
+            "impact": "Informational",
+            "line": 974,
+            "line_end": 981,
+            "message": "ZeroCopySource.NextHash(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#974-981) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "slice",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 510,
+            "message": "Utils.slice(bytes,uint256,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#446-510) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 220,
+            "line_end": 227,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#220-227) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 24,
+            "line_end": 27,
+            "message": "Context._msgData() (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#24-27) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "bytesToBytes32",
+            "impact": "Informational",
+            "line": 271,
+            "line_end": 277,
+            "message": "Utils.bytesToBytes32(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#271-277) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 240,
+            "line_end": 242,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#240-242) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteBool",
+            "impact": "Informational",
+            "line": 1046,
+            "line_end": 1063,
+            "message": "ZeroCopySink.WriteBool(bool) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1046-1063) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextBool",
+            "impact": "Informational",
+            "line": 754,
+            "line_end": 770,
+            "message": "ZeroCopySource.NextBool(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#754-770) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "addressToBytes",
+            "impact": "Informational",
+            "line": 330,
+            "line_end": 342,
+            "message": "Utils.addressToBytes(address) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#330-342) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 203,
+            "line_end": 205,
+            "message": "SafeMath.div(uint256,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#203-205) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "hashLeaf",
+            "impact": "Informational",
+            "line": 348,
+            "line_end": 350,
+            "message": "Utils.hashLeaf(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#348-350) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "compressMCPubKey",
+            "impact": "Informational",
+            "line": 534,
+            "line_end": 543,
+            "message": "Utils.compressMCPubKey(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#534-543) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "bytesToUint256",
+            "impact": "Informational",
+            "line": 283,
+            "line_end": 290,
+            "message": "Utils.bytesToUint256(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#283-290) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 684,
+            "line_end": 687,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#684-687) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint8",
+            "impact": "Informational",
+            "line": 791,
+            "line_end": 802,
+            "message": "ZeroCopySource.NextUint8(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#791-802) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "callOptionalReturn",
+            "impact": "Informational",
+            "line": 695,
+            "line_end": 714,
+            "message": "Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#695-714):\n\t- (success,returndata) = address(token).call(data) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#707)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint8",
+            "impact": "Informational",
+            "line": 791,
+            "line_end": 802,
+            "message": "Function ZeroCopySource.NextUint8(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#791-802) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 448,
+            "message": "Parameter Utils.slice(bytes,uint256,uint256)._start (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#448) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 517,
+            "message": "Parameter Utils.containMAddresses(address[],address[],uint256)._signers (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#517) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteBool",
+            "impact": "Informational",
+            "line": 1046,
+            "line_end": 1063,
+            "message": "Function ZeroCopySink.WriteBool(bool) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1046-1063) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 449,
+            "message": "Parameter Utils.slice(bytes,uint256,uint256)._length (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#449) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint64",
+            "impact": "Informational",
+            "line": 1142,
+            "line_end": 1161,
+            "message": "Function ZeroCopySink.WriteUint64(uint64) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1142-1161) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextVarUint",
+            "impact": "Informational",
+            "line": 997,
+            "line_end": 1023,
+            "message": "Function ZeroCopySource.NextVarUint(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#997-1023) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 296,
+            "message": "Parameter Utils.uint256ToBytes(uint256)._value (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#296) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint32",
+            "impact": "Informational",
+            "line": 1118,
+            "line_end": 1136,
+            "message": "Function ZeroCopySink.WriteUint32(uint32) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1118-1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 517,
+            "message": "Parameter Utils.containMAddresses(address[],address[],uint256)._keepers (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#517) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteByte",
+            "impact": "Informational",
+            "line": 1069,
+            "line_end": 1071,
+            "message": "Function ZeroCopySink.WriteByte(bytes1) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1069-1071) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 357,
+            "message": "Parameter Utils.hashChildren(bytes32,bytes32)._l (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#357) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint16",
+            "impact": "Informational",
+            "line": 809,
+            "line_end": 822,
+            "message": "Function ZeroCopySource.NextUint16(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#809-822) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint8",
+            "impact": "Informational",
+            "line": 1077,
+            "line_end": 1087,
+            "message": "Function ZeroCopySink.WriteUint8(uint8) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1077-1087) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextVarBytes",
+            "impact": "Informational",
+            "line": 913,
+            "line_end": 968,
+            "message": "Function ZeroCopySource.NextVarBytes(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#913-968) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 517,
+            "message": "Parameter Utils.containMAddresses(address[],address[],uint256)._m (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#517) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 447,
+            "message": "Parameter Utils.slice(bytes,uint256,uint256)._bytes (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#447) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextByte",
+            "impact": "Informational",
+            "line": 777,
+            "line_end": 784,
+            "message": "Function ZeroCopySource.NextByte(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#777-784) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint16",
+            "impact": "Informational",
+            "line": 1093,
+            "line_end": 1112,
+            "message": "Function ZeroCopySink.WriteUint16(uint16) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1093-1112) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextHash",
+            "impact": "Informational",
+            "line": 974,
+            "line_end": 981,
+            "message": "Function ZeroCopySource.NextHash(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#974-981) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextBool",
+            "impact": "Informational",
+            "line": 754,
+            "line_end": 770,
+            "message": "Function ZeroCopySource.NextBool(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#754-770) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteUint255",
+            "impact": "Informational",
+            "line": 1167,
+            "line_end": 1187,
+            "message": "Function ZeroCopySink.WriteUint255(uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1167-1187) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteVarUint",
+            "impact": "Informational",
+            "line": 1198,
+            "line_end": 1208,
+            "message": "Function ZeroCopySink.WriteVarUint(uint64) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1198-1208) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint32",
+            "impact": "Informational",
+            "line": 830,
+            "line_end": 850,
+            "message": "Function ZeroCopySource.NextUint32(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#830-850) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 283,
+            "message": "Parameter Utils.bytesToUint256(bytes)._bs (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#283) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 315,
+            "message": "Parameter Utils.bytesToAddress(bytes)._bs (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#315) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextBytes20",
+            "impact": "Informational",
+            "line": 988,
+            "line_end": 995,
+            "message": "Function ZeroCopySource.NextBytes20(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#988-995) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint64",
+            "impact": "Informational",
+            "line": 857,
+            "line_end": 877,
+            "message": "Function ZeroCopySource.NextUint64(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#857-877) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 271,
+            "message": "Parameter Utils.bytesToBytes32(bytes)._bs (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#271) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "NextUint255",
+            "impact": "Informational",
+            "line": 885,
+            "line_end": 906,
+            "message": "Function ZeroCopySource.NextUint255(bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#885-906) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 357,
+            "message": "Parameter Utils.hashChildren(bytes32,bytes32)._r (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#357) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "WriteVarBytes",
+            "impact": "Informational",
+            "line": 1193,
+            "line_end": 1196,
+            "message": "Function ZeroCopySink.WriteVarBytes(bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1193-1196) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 348,
+            "message": "Parameter Utils.hashLeaf(bytes)._data (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#348) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 25,
+            "message": "Redundant expression \"this (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#25)\" inContext (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#14-28)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "unlock",
+            "impact": "Informational",
+            "line": 1300,
+            "line_end": 1317,
+            "message": "Reentrancy in LockProxy.unlock(bytes,bytes,uint64) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1300-1317):\n\tExternal calls:\n\t- require(bool,string)(_transferFromContract(toAssetHash,toAddress,args.amount),transfer asset from lock_proxy contract to toAddress failed!) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1313)\n\t\t- address(uint160(toAddress)).transfer(amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1347)\n\tEvent emitted after the call(s):\n\t- UnlockEvent(toAssetHash,toAddress,args.amount) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1315)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "_transferFromContract",
+            "impact": "Informational",
+            "line": 1343,
+            "line_end": 1353,
+            "message": "LockProxy._transferFromContract(address,address,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1343-1353) uses literals with too many digits:\n\t- toAssetHash == address(0x0000000000000000000000000000000000000000) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1344)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "LockProxy",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "impact": "Informational",
+            "line": 1222,
+            "message": "LockProxy.safeTransfer (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1222) is never used in LockProxy (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1210-1388)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "bindProxyHash",
+            "impact": "Optimization",
+            "line": 1241,
+            "line_end": 1245,
+            "message": "bindProxyHash(uint64,bytes) should be declared external:\n\t- LockProxy.bindProxyHash(uint64,bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1241-1245)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 84,
+            "line_end": 87,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#84-87)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "bindAssetHash",
+            "impact": "Optimization",
+            "line": 1247,
+            "line_end": 1251,
+            "message": "bindAssetHash(address,uint64,bytes) should be declared external:\n\t- LockProxy.bindAssetHash(address,uint64,bytes) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1247-1251)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "unlock",
+            "impact": "Optimization",
+            "line": 1300,
+            "line_end": 1317,
+            "message": "unlock(bytes,bytes,uint64) should be declared external:\n\t- LockProxy.unlock(bytes,bytes,uint64) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1300-1317)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 58,
+            "line_end": 60,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#58-60)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 93,
+            "line_end": 95,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#93-95)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "setManagerProxy",
+            "impact": "Optimization",
+            "line": 1236,
+            "line_end": 1239,
+            "message": "setManagerProxy(address) should be declared external:\n\t- LockProxy.setManagerProxy(address) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1236-1239)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol",
+            "function": "lock",
+            "impact": "Optimization",
+            "line": 1262,
+            "line_end": 1290,
+            "message": "lock(address,uint64,bytes,uint256) should be declared external:\n\t- LockProxy.lock(address,uint64,bytes,uint256) (../..0x250e76987d838a75310c34bf422ea9f1ac4cc906.sol#1262-1290)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

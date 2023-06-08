@@ -1,0 +1,82 @@
+[91m
+THORChain_Router.transferOut(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#78-90) use msg.value in a loop: safeAmount = msg.value (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#81)
+THORChain_Router.transferOut(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#78-90) use msg.value in a loop: (success,data) = to.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#82)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#msgvalue-inside-a-loop[0m
+[93m
+THORChain_Router.deposit(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#46-61) ignores return value by iRUNE(RUNE).transferTo(address(this),amount) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#54)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+THORChain_Router.deposit(address,address,uint256,string).vault (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#46) lacks a zero-check on :
+		- (success,data) = vault.call{value: safeAmount}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#50)
+THORChain_Router.transferOut(address,address,uint256,string).to (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#78) lacks a zero-check on :
+		- (success,data) = to.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#82)
+		- (success,data) = asset.call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#85)
+THORChain_Router.returnVaultAssets(address,address,THORChain_Router.Coin[],string).asgard (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#102) lacks a zero-check on :
+		- (success,data) = asgard.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#113)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+THORChain_Router.transferOut(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#78-90) has external calls inside a loop: (success,data) = to.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#82)
+THORChain_Router.transferOut(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#78-90) has external calls inside a loop: (success,data) = asset.call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#85)
+THORChain_Router._routerDeposit(address,address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#134-138) has external calls inside a loop: require(bool)(iERC20(_asset).approve(_router,_amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#136)
+THORChain_Router._routerDeposit(address,address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#134-138) has external calls inside a loop: iROUTER(_router).deposit(_vault,_asset,_amount,_memo) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#137)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in THORChain_Router.deposit(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#46-61):
+	External calls:
+	- safeAmount = safeTransferFrom(asset,amount) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#57)
+		- (success,data) = _asset.call(abi.encodeWithSelector(0x23b872dd,msg.sender,address(this),_amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#122)
+	State variables written after the call(s):
+	- vaultAllowance[vault][asset] += safeAmount (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#58)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in THORChain_Router.deposit(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#46-61):
+	External calls:
+	- (success,data) = vault.call{value: safeAmount}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#50)
+	- iRUNE(RUNE).transferTo(address(this),amount) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#54)
+	- iERC20(RUNE).burn(amount) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#55)
+	- safeAmount = safeTransferFrom(asset,amount) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#57)
+		- (success,data) = _asset.call(abi.encodeWithSelector(0x23b872dd,msg.sender,address(this),_amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#122)
+	External calls sending eth:
+	- (success,data) = vault.call{value: safeAmount}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#50)
+	Event emitted after the call(s):
+	- Deposit(vault,asset,safeAmount,memo) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#60)
+Reentrancy in THORChain_Router.transferOut(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#78-90):
+	External calls:
+	- (success,data) = to.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#82)
+	- (success,data) = asset.call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#85)
+	External calls sending eth:
+	- (success,data) = to.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#82)
+	Event emitted after the call(s):
+	- TransferOut(msg.sender,to,asset,safeAmount,memo) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#89)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Pragma version^0.8.3 (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#2) allows old versions
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in THORChain_Router.deposit(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#46-61):
+	- (success,data) = vault.call{value: safeAmount}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#50)
+Low level call in THORChain_Router.transferOut(address,address,uint256,string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#78-90):
+	- (success,data) = to.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#82)
+	- (success,data) = asset.call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#85)
+Low level call in THORChain_Router.returnVaultAssets(address,address,THORChain_Router.Coin[],string) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#102-115):
+	- (success,data) = asgard.call{value: msg.value}() (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#113)
+Low level call in THORChain_Router.safeTransferFrom(address,uint256) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#120-125):
+	- (success,data) = _asset.call(abi.encodeWithSelector(0x23b872dd,msg.sender,address(this),_amount)) (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#122)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+THORChain_Router (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#20-140) should inherit from iROUTER (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#15-17)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance[0m
+[92m
+Contract iERC20 (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#5-9) is not in CapWords
+Contract iRUNE (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#11-13) is not in CapWords
+Contract iROUTER (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#15-17) is not in CapWords
+Contract THORChain_Router (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#20-140) is not in CapWords
+Parameter THORChain_Router.safeTransferFrom(address,uint256)._asset (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#120) is not in mixedCase
+Parameter THORChain_Router.safeTransferFrom(address,uint256)._amount (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#120) is not in mixedCase
+Variable THORChain_Router.RUNE (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#21) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+THORChain_Router.RUNE (../../sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol#21) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+/sb/0x42a5ed456650a09dc10ebc6361a7480fdd61f27b.sol analyzed (4 contracts with 78 detectors), 28 result(s) found

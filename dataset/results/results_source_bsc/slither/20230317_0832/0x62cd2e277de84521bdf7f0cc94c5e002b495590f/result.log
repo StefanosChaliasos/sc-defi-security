@@ -1,0 +1,189 @@
+Compilation warnings/errors on /sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol:
+Warning: This contract has a payable fallback function, but no receive ether function. Consider adding a receive ether function.
+   --> /sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol:390:1:
+    |
+390 | contract BaseImmutableAdminUpgradeabilityProxy is BaseUpgradeabilityProxy {
+    | ^ (Relevant source part starts here and spans across multiple lines).
+Note: The payable fallback function is defined here.
+  --> /sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol:80:3:
+   |
+80 |   fallback() external payable {
+   |   ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: This contract has a payable fallback function, but no receive ether function. Consider adding a receive ether function.
+   --> /sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol:466:1:
+    |
+466 | contract InitializableUpgradeabilityProxy is BaseUpgradeabilityProxy {
+    | ^ (Relevant source part starts here and spans across multiple lines).
+Note: The payable fallback function is defined here.
+  --> /sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol:80:3:
+   |
+80 |   fallback() external payable {
+   |   ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: This contract has a payable fallback function, but no receive ether function. Consider adding a receive ether function.
+   --> /sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol:491:1:
+    |
+491 | contract InitializableImmutableAdminUpgradeabilityProxy is
+    | ^ (Relevant source part starts here and spans across multiple lines).
+Note: The payable fallback function is defined here.
+  --> /sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol:80:3:
+   |
+80 |   fallback() external payable {
+   |   ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+InitializableUpgradeabilityProxy.initialize(address,bytes) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#475-483) uses delegatecall to a input-controlled function id
+	- (success) = _logic.delegatecall(_data) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#480)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#controlled-delegatecall[0m
+[93m
+Reentrancy in MarginPoolAddressesProvider._updateImpl(bytes32,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#714-729):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#723)
+	State variables written after the call(s):
+	- _addresses[id] = address(proxy) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#724)
+Reentrancy in MarginPoolAddressesProvider._updateImpl(bytes32,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#740-755):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#749)
+	State variables written after the call(s):
+	- _addresses[id] = address(proxy) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#750)
+Reentrancy in MarginPoolAddressesProvider._updatePoolImpl(bytes32,address,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#765-780):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#774)
+	State variables written after the call(s):
+	- _addresses[id] = address(proxy) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#775)
+Reentrancy in MarginPoolAddressesProvider._updateSwapMinerImpl(bytes32,address,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#782-797):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#791)
+	State variables written after the call(s):
+	- _addresses[id] = address(proxy) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#792)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+BaseImmutableAdminUpgradeabilityProxy.constructor(address).admin (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#393) shadows:
+	- BaseImmutableAdminUpgradeabilityProxy.admin() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#408-410) (function)
+InitializableImmutableAdminUpgradeabilityProxy.constructor(address).admin (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#495) shadows:
+	- BaseImmutableAdminUpgradeabilityProxy.admin() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#408-410) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+InitializableUpgradeabilityProxy.initialize(address,bytes)._logic (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#475) lacks a zero-check on :
+		- (success) = _logic.delegatecall(_data) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#480)
+BaseImmutableAdminUpgradeabilityProxy.upgradeToAndCall(address,bytes).newImplementation (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#437) lacks a zero-check on :
+		- (success) = newImplementation.delegatecall(data) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#443)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Modifier BaseImmutableAdminUpgradeabilityProxy.ifAdmin() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#397-403) does not always execute _; or revertReference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-modifier[0m
+[92m
+Reentrancy in MarginPoolAddressesProvider._updateImpl(bytes32,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#714-729):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#723)
+	Event emitted after the call(s):
+	- ProxyCreated(id,address(proxy)) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#725)
+Reentrancy in MarginPoolAddressesProvider._updateImpl(bytes32,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#740-755):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#749)
+	Event emitted after the call(s):
+	- ProxyCreated(id,address(proxy)) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#751)
+Reentrancy in MarginPoolAddressesProvider._updatePoolImpl(bytes32,address,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#765-780):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#774)
+	Event emitted after the call(s):
+	- ProxyCreated(id,address(proxy)) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#776)
+Reentrancy in MarginPoolAddressesProvider._updateSwapMinerImpl(bytes32,address,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#782-797):
+	External calls:
+	- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#791)
+	Event emitted after the call(s):
+	- ProxyCreated(id,address(proxy)) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#793)
+Reentrancy in MarginPoolAddressesProvider.setAddressAsProxy(bytes32,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#544-551):
+	External calls:
+	- _updateImpl(id,implementationAddress) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#549)
+		- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#723)
+		- proxy.upgradeToAndCall(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#727)
+	Event emitted after the call(s):
+	- AddressSet(id,implementationAddress,true) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#550)
+Reentrancy in MarginPoolAddressesProvider.setMarginPoolConfiguratorImpl(address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#603-606):
+	External calls:
+	- _updateImpl(MARGIN_POOL_CONFIGURATOR,configurator) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#604)
+		- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#723)
+		- proxy.upgradeToAndCall(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#727)
+	Event emitted after the call(s):
+	- MarginPoolConfiguratorUpdated(configurator) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#605)
+Reentrancy in MarginPoolAddressesProvider.setMarginPoolImpl(address,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#585-588):
+	External calls:
+	- _updatePoolImpl(MARGIN_POOL,pool,UniswapRouter,SushiswapRouter,_weth) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#586)
+		- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#774)
+		- proxy.upgradeToAndCall(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#778)
+	Event emitted after the call(s):
+	- MarginPoolUpdated(pool) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#587)
+Reentrancy in MarginPoolAddressesProvider.setOrderBookImpl(address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#681-684):
+	External calls:
+	- _updateImpl(ORDER_BOOK,orderBook,UniswapRouter,_weth) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#682)
+		- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#749)
+		- proxy.upgradeToAndCall(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#753)
+	Event emitted after the call(s):
+	- OrderBookUpdated(orderBook) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#683)
+Reentrancy in MarginPoolAddressesProvider.setSwapMinerImpl(address,address,address,address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#698-701):
+	External calls:
+	- _updateSwapMinerImpl(SWAP_MINER,swapMiner,UniswapRouter,_uniswapLevPairToken,LeverUsdOracle) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#699)
+		- proxy.initialize(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#791)
+		- proxy.upgradeToAndCall(newAddress,params) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#795)
+	Event emitted after the call(s):
+	- SwapMinerUpdated(swapMiner) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#700)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#25-36) uses assembly
+	- INLINE ASM (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#32-34)
+Proxy._delegate(address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#95-119) uses assembly
+	- INLINE ASM (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#97-118)
+BaseUpgradeabilityProxy._implementation() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#165-171) uses assembly
+	- INLINE ASM (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#168-170)
+BaseUpgradeabilityProxy._setImplementation(address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#186-198) uses assembly
+	- INLINE ASM (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#195-197)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#54-60) is never used and should be removed
+Context._msgData() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#297-300) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#54-60):
+	- (success) = recipient.call{value: amount}() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#58)
+Low level call in BaseImmutableAdminUpgradeabilityProxy.upgradeToAndCall(address,bytes) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#437-445):
+	- (success) = newImplementation.delegatecall(data) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#443)
+Low level call in InitializableUpgradeabilityProxy.initialize(address,bytes) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#475-483):
+	- (success) = _logic.delegatecall(_data) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#480)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter IMarginPoolAddressesProvider.setMarginPoolImpl(address,address,address,address).UniswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#234) is not in mixedCase
+Parameter IMarginPoolAddressesProvider.setMarginPoolImpl(address,address,address,address).SushiswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#234) is not in mixedCase
+Parameter IMarginPoolAddressesProvider.setOrderBookImpl(address,address,address).UniswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#266) is not in mixedCase
+Parameter IMarginPoolAddressesProvider.setSwapMinerImpl(address,address,address,address).UniswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#270) is not in mixedCase
+Parameter IMarginPoolAddressesProvider.setSwapMinerImpl(address,address,address,address).LeverUsdOracle (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#270) is not in mixedCase
+Variable BaseImmutableAdminUpgradeabilityProxy.ADMIN (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#391) is not in mixedCase
+Parameter InitializableUpgradeabilityProxy.initialize(address,bytes)._logic (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#475) is not in mixedCase
+Parameter InitializableUpgradeabilityProxy.initialize(address,bytes)._data (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#475) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setMarginPoolImpl(address,address,address,address).UniswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#585) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setMarginPoolImpl(address,address,address,address).SushiswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#585) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setMarginPoolImpl(address,address,address,address)._weth (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#585) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setOrderBookImpl(address,address,address).UniswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#681) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setOrderBookImpl(address,address,address)._weth (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#681) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setSwapMinerImpl(address,address,address,address).UniswapRouter (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#698) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setSwapMinerImpl(address,address,address,address)._uniswapLevPairToken (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#698) is not in mixedCase
+Parameter MarginPoolAddressesProvider.setSwapMinerImpl(address,address,address,address).LeverUsdOracle (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#698) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#298)" inContext (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#292-301)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+MarginPoolAddressesProvider.LENDING_RATE_ORACLE (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#523) is never used in MarginPoolAddressesProvider (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#515-800)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#333-335)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#352-355)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#361-365)
+initialize(address,bytes) should be declared external:
+	- InitializableUpgradeabilityProxy.initialize(address,bytes) (../../sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol#475-483)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x62cd2e277de84521bdf7f0cc94c5e002b495590f.sol analyzed (10 contracts with 78 detectors), 50 result(s) found

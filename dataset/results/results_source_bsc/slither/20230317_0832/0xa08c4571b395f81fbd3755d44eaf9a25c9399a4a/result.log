@@ -1,0 +1,124 @@
+[91m
+UraniumPair._update(uint256,uint256,uint112,uint112) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#345-358) uses a weak PRNG: "blockTimestamp = uint32(block.timestamp % 2 ** 32) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#347)" 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#weak-PRNG[0m
+[93m
+UraniumPair._safeTransfer(address,address,uint256) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#316-319) uses a dangerous strict equality:
+	- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),UraniumSwap: TRANSFER_FAILED) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#318)
+UraniumPair.mint(address) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#382-403) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#391)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in UraniumPair.burn(address) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#406-428):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#420)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#421)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#425)
+		- blockTimestampLast = blockTimestamp (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#356)
+	- kLast = uint256(reserve0).mul(reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#426)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#425)
+		- reserve0 = uint112(balance0) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#354)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#425)
+		- reserve1 = uint112(balance1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#355)
+Reentrancy in UraniumPair.swap(uint256,uint256,address,bytes) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#431-459):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#442)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#443)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- IUraniumCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#444)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#457)
+		- blockTimestampLast = blockTimestamp (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#356)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#457)
+		- reserve0 = uint112(balance0) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#354)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#457)
+		- reserve1 = uint112(balance1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#355)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+UraniumPair.initialize(address,address)._token0 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#338) lacks a zero-check on :
+		- token0 = _token0 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#340)
+UraniumPair.initialize(address,address)._token1 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#338) lacks a zero-check on :
+		- token1 = _token1 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#341)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in UraniumPair.burn(address) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#406-428):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#420)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#421)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#425)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#351)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#425)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#352)
+Reentrancy in UraniumPair.swap(uint256,uint256,address,bytes) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#431-459):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#442)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#443)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- IUraniumCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#444)
+	State variables written after the call(s):
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#457)
+		- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#351)
+	- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#457)
+		- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#352)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in UraniumPair.burn(address) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#406-428):
+	External calls:
+	- _safeTransfer(_token0,to,amount0) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#420)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- _safeTransfer(_token1,to,amount1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#421)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	Event emitted after the call(s):
+	- Burn(msg.sender,amount0,amount1,to) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#427)
+	- Sync(reserve0,reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#357)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#425)
+Reentrancy in UraniumPair.swap(uint256,uint256,address,bytes) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#431-459):
+	External calls:
+	- _safeTransfer(_token0,to,amount0Out) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#442)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- _safeTransfer(_token1,to,amount1Out) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#443)
+		- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+	- IUraniumCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#444)
+	Event emitted after the call(s):
+	- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#458)
+	- Sync(reserve0,reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#357)
+		- _update(balance0,balance1,_reserve0,_reserve1) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#457)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+UraniumERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#262-274) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(deadline >= block.timestamp,UraniumSwap: EXPIRED) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#263)
+UraniumPair._update(uint256,uint256,uint112,uint112) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#345-358) uses timestamp for comparisons
+	Dangerous comparisons:
+	- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#349)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+UraniumERC20.constructor() (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#205-219) uses assembly
+	- INLINE ASM (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#207-209)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Low level call in UraniumPair._safeTransfer(address,address,uint256) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#316-319):
+	- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#317)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IUraniumERC20.DOMAIN_SEPARATOR() (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#35) is not in mixedCase
+Function IUraniumERC20.PERMIT_TYPEHASH() (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#36) is not in mixedCase
+Function IUraniumPair.DOMAIN_SEPARATOR() (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#144) is not in mixedCase
+Function IUraniumPair.PERMIT_TYPEHASH() (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#145) is not in mixedCase
+Function IUraniumPair.MINIMUM_LIQUIDITY() (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#162) is not in mixedCase
+Variable UraniumERC20.DOMAIN_SEPARATOR (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#197) is not in mixedCase
+Parameter UraniumPair.initialize(address,address)._token0 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#338) is not in mixedCase
+Parameter UraniumPair.initialize(address,address)._token1 (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#338) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable UraniumPair.swap(uint256,uint256,address,bytes).balance0Adjusted (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#452) is too similar to UraniumPair.swap(uint256,uint256,address,bytes).balance1Adjusted (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#453)
+Variable UraniumPair.price0CumulativeLast (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#298) is too similar to UraniumPair.price1CumulativeLast (../../sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol#299)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+/sb/0xa08c4571b395f81fbd3755d44eaf9a25c9399a4a.sol analyzed (10 contracts with 78 detectors), 25 result(s) found

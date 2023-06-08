@@ -1,0 +1,449 @@
+Compilation warnings/errors on /sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol:
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> /sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol
+
+
+[93m
+UraniumMoneyPot._updateTokenPot(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) performs a multiplication on the result of a division:
+	-tokenRewardsPerBlock = tokenPot.tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1059)
+	-tokenPot.accTokenPerShare = tokenPot.accTokenPerShare.add(tokenRewardsPerBlock.mul(multiplier).mul(1e12).div(lastSRadsSupply)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1060)
+UraniumMoneyPot._updateTokenPot(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) performs a multiplication on the result of a division:
+	-tokenRewardsPerBlock_scope_1 = tokenPot.tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1078)
+	-tokenPot.accTokenPerShare = tokenPot.accTokenPerShare.add(tokenRewardsPerBlock_scope_1.mul(multiplier_scope_0).mul(1e12).div(lastSRadsSupply)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1079)
+UraniumMoneyPot.pendingTokenRewardsAmount(address,address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089-1114) performs a multiplication on the result of a division:
+	-tokenReward = _distributedMoneyPot[_token].tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1096)
+	-accTokenPerShare = (accTokenPerShare.add(tokenReward.mul(getMultiplier(lastRewardBlock,lastUpdateTokenPotBlocks.add(updateMoneyPotPeriodNbBlocks))).mul(1e12).div(lastSRadsSupply))) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1100-1102)
+UraniumMoneyPot.pendingTokenRewardsAmount(address,address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089-1114) performs a multiplication on the result of a division:
+	-tokenReward = _distributedMoneyPot[_token].tokenAmount.div(updateMoneyPotPeriodNbBlocks) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1096)
+	-accTokenPerShare = accTokenPerShare.add(tokenReward.mul(getMultiplier(lastRewardBlock,block.number)).mul(1e12).div(lastSRadsSupply)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1108-1110)
+SRadsToken.getSRadsAtMinPenalty(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1355-1362) performs a multiplication on the result of a division:
+	-(((block.number.sub(holderInfo.avgTransactionBlock)).mul(1000).div(SWAP_PENALTY_MAX_PERIOD)).mul(holderInfo.amount.sub(holderInfo.amountSwapped))).div(1000) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1360-1361)
+SRadsToken._swapRadsAmount(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1365-1384) performs a multiplication on the result of a division:
+	-swapPenaltyPerSRads = SWAP_PENALTY_MAX_PER_SRADS.sub((_sRadsAtMinPenalty.div(holderInfo.amount)).mul(SWAP_PENALTY_MAX_PER_SRADS)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1378-1380)
+MasterUranium.pendingRads(uint256,address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2202-2213) performs a multiplication on the result of a division:
+	-radsReward = multiplier.mul(radsPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2209)
+	-accRadsPerShare = accRadsPerShare.add(radsReward.mul(1e12).div(lpSupply)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2210)
+MasterUranium.updatePool(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) performs a multiplication on the result of a division:
+	-radsReward = multiplier.mul(radsPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2266)
+	-pool.accRadsPerShare = pool.accRadsPerShare.add(radsReward.mul(1e12).div(lpSupply)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2275)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+UraniumMoneyPot._updateTokenPot(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) uses a dangerous strict equality:
+	- lastSRadsSupply == 0 (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1051)
+UraniumMoneyPot.pendingTokenRewardsAmount(address,address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089-1114) uses a dangerous strict equality:
+	- lastSRadsSupply == 0 (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1091)
+SRadsToken._writeCheckpoint(address,uint32,uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1648-1666) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1658)
+RadsToken._writeCheckpoint(address,uint32,uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1943-1961) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1953)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in MasterUranium.add(uint256,IBEP20,uint16,bool,bool) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167-2185):
+	External calls:
+	- massUpdatePools() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2170)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	State variables written after the call(s):
+	- poolInfo.push(PoolInfo(_lpToken,0,_allocPoint,lastRewardBlock,0,_depositFeeBP,_isSRadsRewards)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2176-2184)
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2175)
+Reentrancy in MasterUranium.deposit(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301-2339):
+	External calls:
+	- updatePool(_pid) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2305)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	- safeSRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2310)
+		- transferSuccess = sRads.transfer(_to,sRadsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)
+		- transferSuccess = sRads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)
+	- safeRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2313)
+		- transferSuccess = rads.transfer(_to,radsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)
+		- transferSuccess = rads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)
+	- pool.lpToken.safeTransferFrom(address(_user),address(this),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2318)
+	- pool.lpToken.safeTransfer(feeAddress,depositFee) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2325)
+	State variables written after the call(s):
+	- pool.lpSupply = pool.lpSupply.add(_bonusAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2329)
+	- user.amount = user.amount.add(_amount).sub(depositFee) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2326)
+	- user.amountWithBonus = user.amountWithBonus.add(_bonusAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2328)
+Reentrancy in MasterUranium.deposit(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301-2339):
+	External calls:
+	- updatePool(_pid) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2305)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	- safeSRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2310)
+		- transferSuccess = sRads.transfer(_to,sRadsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)
+		- transferSuccess = sRads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)
+	- safeRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2313)
+		- transferSuccess = rads.transfer(_to,radsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)
+		- transferSuccess = rads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)
+	- pool.lpToken.safeTransferFrom(address(_user),address(this),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2318)
+	State variables written after the call(s):
+	- pool.lpSupply = pool.lpSupply.add(_bonusAmount_scope_0) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2334)
+	- user.amount = user.amount.add(_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2331)
+	- user.amountWithBonus = user.amountWithBonus.add(_bonusAmount_scope_0) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2333)
+Reentrancy in UraniumMoneyPot.depositRewards(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176-1188):
+	External calls:
+	- IBEP20(_token).safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1180)
+	State variables written after the call(s):
+	- pendingTokenAmount[_token] = pendingTokenAmount[_token].add(_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1186)
+Reentrancy in MasterUranium.emergencyWithdraw(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2369-2376):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2372)
+	State variables written after the call(s):
+	- user.amount = 0 (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2374)
+	- user.rewardDebt = 0 (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2375)
+Reentrancy in UraniumMoneyPot.harvestReward(address,address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1151-1171):
+	External calls:
+	- safeTokenTransfer(_token,_sRadsHolder,sRadsHoldersRewardsInfo[_token][_sRadsHolder].pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1167)
+		- transferSuccess = token.transfer(_to,tokenBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1250)
+		- transferSuccess = token.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1252)
+	State variables written after the call(s):
+	- sRadsHoldersRewardsInfo[_token][_sRadsHolder].pending = 0 (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1168)
+	- sRadsHoldersRewardsInfo[_token][_sRadsHolder].rewardDept = holderBalance.mul(tokenPot.accTokenPerShare).div(1e12) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1170)
+Reentrancy in MasterUranium.set(uint256,uint256,uint16,bool,bool) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188-2199):
+	External calls:
+	- massUpdatePools() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2190)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	State variables written after the call(s):
+	- poolInfo[_pid].allocPoint = _allocPoint (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2193)
+	- poolInfo[_pid].depositFeeBP = _depositFeeBP (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2194)
+	- poolInfo[_pid].isSRadsRewards = _isSRadsRewards (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2195)
+	- totalAllocPoint = totalAllocPoint.sub(prevAllocPoint).add(_allocPoint) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2197)
+Reentrancy in MasterUranium.updatePool(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277):
+	External calls:
+	- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+	- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+	- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	State variables written after the call(s):
+	- pool.accRadsPerShare = pool.accRadsPerShare.add(radsReward.mul(1e12).div(lpSupply)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2275)
+	- pool.lastRewardBlock = block.number (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2276)
+Reentrancy in MasterUranium.updateUserBonus(address,uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2279-2298):
+	External calls:
+	- updatePool(_pid) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2282)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	- safeSRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2287)
+		- transferSuccess = sRads.transfer(_to,sRadsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)
+		- transferSuccess = sRads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)
+	- safeRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2290)
+		- transferSuccess = rads.transfer(_to,radsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)
+		- transferSuccess = rads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)
+	State variables written after the call(s):
+	- pool.lpSupply = pool.lpSupply.sub(user.amountWithBonus) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2294)
+	- pool.lpSupply = pool.lpSupply.add(user.amountWithBonus) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2296)
+	- user.amountWithBonus = user.amount.mul(bonus.add(10000)).div(10000) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2295)
+	- user.rewardDebt = user.amountWithBonus.mul(pool.accRadsPerShare).div(1e12) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2297)
+Reentrancy in MasterUranium.withdraw(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342-2366):
+	External calls:
+	- updatePool(_pid) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2347)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	- safeSRadsTransfer(msg.sender,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2351)
+		- transferSuccess = sRads.transfer(_to,sRadsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)
+		- transferSuccess = sRads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)
+	- safeRadsTransfer(msg.sender,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2354)
+		- transferSuccess = rads.transfer(_to,radsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)
+		- transferSuccess = rads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)
+	State variables written after the call(s):
+	- user.amount = user.amount.sub(_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2358)
+	- user.amountWithBonus = user.amountWithBonus.sub(_bonusAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2360)
+Reentrancy in MasterUranium.withdraw(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342-2366):
+	External calls:
+	- updatePool(_pid) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2347)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	- safeSRadsTransfer(msg.sender,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2351)
+		- transferSuccess = sRads.transfer(_to,sRadsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)
+		- transferSuccess = sRads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)
+	- safeRadsTransfer(msg.sender,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2354)
+		- transferSuccess = rads.transfer(_to,radsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)
+		- transferSuccess = rads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2361)
+	State variables written after the call(s):
+	- pool.lpSupply = pool.lpSupply.sub(_bonusAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2362)
+	- user.rewardDebt = user.amountWithBonus.mul(pool.accRadsPerShare).div(1e12) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2364)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+UraniumBEP20.constructor(string,string).name (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#697) shadows:
+	- UraniumBEP20.name() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#713-715) (function)
+	- IBEP20.name() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#216) (function)
+UraniumBEP20.constructor(string,string).symbol (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#697) shadows:
+	- UraniumBEP20.symbol() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#727-729) (function)
+	- IBEP20.symbol() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#211) (function)
+UraniumBEP20.allowance(address,address).owner (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#768) shadows:
+	- Ownable.owner() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#622-624) (function)
+UraniumBEP20._approve(address,address,uint256).owner (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#928) shadows:
+	- Ownable.owner() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#622-624) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+UraniumMoneyPot.setUpdateMoneyPotPeriodNbBlocks(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1233-1235) should emit an event for: 
+	- updateMoneyPotPeriodNbBlocks = _updateRewardsDelay.div(3 * 1) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1234) 
+MasterUranium.add(uint256,IBEP20,uint16,bool,bool) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167-2185) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2175) 
+MasterUranium.set(uint256,uint256,uint16,bool,bool) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188-2199) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.sub(prevAllocPoint).add(_allocPoint) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2197) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+UraniumMoneyPot.constructor(SRadsToken,address,address,uint256,uint256)._masterUranium (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1001) lacks a zero-check on :
+		- masterUranium = _masterUranium (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1006)
+UraniumMoneyPot.constructor(SRadsToken,address,address,uint256,uint256)._feeManager (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1001) lacks a zero-check on :
+		- feeManager = _feeManager (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1007)
+MasterUranium.constructor(RadsToken,SRadsToken,UraniumBonusAggregator,address,address,uint256,uint256)._devaddr (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2115) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2123)
+MasterUranium.constructor(RadsToken,SRadsToken,UraniumBonusAggregator,address,address,uint256,uint256)._feeAddress (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2116) lacks a zero-check on :
+		- feeAddress = _feeAddress (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2124)
+MasterUranium.dev(address)._devaddr (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2416) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2418)
+MasterUranium.setFeeAddress(address)._feeAddress (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2421) lacks a zero-check on :
+		- feeAddress = _feeAddress (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2422)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+UraniumMoneyPot.safeTokenTransfer(address,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245-1255) has external calls inside a loop: tokenBal = token.balanceOf(address(this)) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1247)
+UraniumMoneyPot.safeTokenTransfer(address,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245-1255) has external calls inside a loop: transferSuccess = token.transfer(_to,tokenBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1250)
+UraniumMoneyPot.safeTokenTransfer(address,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245-1255) has external calls inside a loop: transferSuccess = token.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1252)
+MasterUranium.updatePool(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) has external calls inside a loop: rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+MasterUranium.updatePool(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) has external calls inside a loop: sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+MasterUranium.updatePool(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254-2277) has external calls inside a loop: rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in MasterUranium.add(uint256,IBEP20,uint16,bool,bool) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167-2185):
+	External calls:
+	- massUpdatePools() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2170)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	State variables written after the call(s):
+	- knownPoolLp[address(_lpToken)] = true (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2173)
+Reentrancy in UraniumMoneyPot.depositBonusRewards(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1193-1196):
+	External calls:
+	- IBEP20(_token).safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1194)
+	State variables written after the call(s):
+	- reserveTokenAmount[_token] = reserveTokenAmount[_token].add(_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1195)
+Reentrancy in UraniumMoneyPot.depositRewards(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176-1188):
+	External calls:
+	- IBEP20(_token).safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1180)
+	State variables written after the call(s):
+	- reserveTokenAmount[_token] = reserveTokenAmount[_token].add(_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1183)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in SRadsToken._transfer(address,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1421-1443):
+	External calls:
+	- moneyPot.updateSRadsHolder(_sender) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1427)
+	Event emitted after the call(s):
+	- Transfer(_sender,_recipient,0) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1429)
+Reentrancy in MasterUranium.deposit(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301-2339):
+	External calls:
+	- updatePool(_pid) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2305)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	- safeSRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2310)
+		- transferSuccess = sRads.transfer(_to,sRadsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)
+		- transferSuccess = sRads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)
+	- safeRadsTransfer(_user,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2313)
+		- transferSuccess = rads.transfer(_to,radsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)
+		- transferSuccess = rads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)
+	- pool.lpToken.safeTransferFrom(address(_user),address(this),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2318)
+	- pool.lpToken.safeTransfer(feeAddress,depositFee) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2325)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2338)
+Reentrancy in MasterUranium.emergencyWithdraw(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2369-2376):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2372)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(msg.sender,_pid,user.amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2373)
+Reentrancy in MasterUranium.withdraw(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342-2366):
+	External calls:
+	- updatePool(_pid) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2347)
+		- rads.mint(devaddr,devMintAmount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2268)
+		- sRads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2270)
+		- rads.mint(address(this),radsReward) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2273)
+	- safeSRadsTransfer(msg.sender,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2351)
+		- transferSuccess = sRads.transfer(_to,sRadsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2408)
+		- transferSuccess = sRads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2410)
+	- safeRadsTransfer(msg.sender,pending) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2354)
+		- transferSuccess = rads.transfer(_to,radsBal) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2396)
+		- transferSuccess = rads.transfer(_to,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2398)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2361)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_pid,_amount) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2365)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+SRadsToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1512-1553) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,RADS::delegateBySig: signature expired) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1551)
+RadsToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1809-1850) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,RADS::delegateBySig: signature expired) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1848)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#318-329) uses assembly
+	- INLINE ASM (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#325-327)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#426-452) uses assembly
+	- INLINE ASM (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#444-447)
+SRadsToken.getChainId() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1673-1677) uses assembly
+	- INLINE ASM (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1675)
+RadsToken.getChainId() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1968-1972) uses assembly
+	- INLINE ASM (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1970)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+UraniumMoneyPot._updateTokenPot(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) has costly operations inside a loop:
+	- lastUpdateMoneyPotBlocks = tokenPot.lastUpdateTokenPotBlocks (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1066)
+UraniumMoneyPot._updateTokenPot(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1045-1087) has costly operations inside a loop:
+	- lastUpdateMoneyPotBlocks = tokenPot.lastUpdateTokenPotBlocks.add(updateMoneyPotPeriodNbBlocks) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1085)
+MasterUranium.updateEmissionRate() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2216-2243) has costly operations inside a loop:
+	- lastReductionPeriodIndex = currentIndex (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2239)
+MasterUranium.updateEmissionRate() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2216-2243) has costly operations inside a loop:
+	- radsPerBlock = newEmissionRate (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2241)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#373-375) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#402-408) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#416-424) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#347-353) is never used and should be removed
+Context._msgData() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#581-584) is never used and should be removed
+SRadsToken.isRads() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1320-1322) is never used and should be removed
+SafeBEP20.safeApprove(IBEP20,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#500-514) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#525-535) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#516-523) is never used and should be removed
+SafeMath.min(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#173-175) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#148-150) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#164-171) is never used and should be removed
+SafeMath.sqrt(uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#178-189) is never used and should be removed
+UraniumBEP20._burnFrom(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#945-952) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#347-353):
+	- (success) = recipient.call{value: amount}() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#351)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#426-452):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#435)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter UraniumMoneyPot.distributedMoneyPot(address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1010) is not in mixedCase
+Parameter UraniumMoneyPot.getTokenAmountPotFromMoneyPot(address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1022) is not in mixedCase
+Parameter UraniumMoneyPot.tokenPerBlock(address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1026) is not in mixedCase
+Parameter UraniumMoneyPot.updateCurrentMoneyPot(address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1037) is not in mixedCase
+Parameter UraniumMoneyPot.getMultiplier(uint256,uint256)._from (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1041) is not in mixedCase
+Parameter UraniumMoneyPot.getMultiplier(uint256,uint256)._to (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1041) is not in mixedCase
+Parameter UraniumMoneyPot.pendingTokenRewardsAmount(address,address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089) is not in mixedCase
+Parameter UraniumMoneyPot.pendingTokenRewardsAmount(address,address)._user (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1089) is not in mixedCase
+Parameter UraniumMoneyPot.updateSRadsHolder(address)._sRadsHolder (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1116) is not in mixedCase
+Parameter UraniumMoneyPot.harvestRewards(address)._sRadsHolder (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1143) is not in mixedCase
+Parameter UraniumMoneyPot.harvestReward(address,address)._sRadsHolder (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1151) is not in mixedCase
+Parameter UraniumMoneyPot.harvestReward(address,address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1151) is not in mixedCase
+Parameter UraniumMoneyPot.depositRewards(address,uint256)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176) is not in mixedCase
+Parameter UraniumMoneyPot.depositRewards(address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1176) is not in mixedCase
+Parameter UraniumMoneyPot.depositBonusRewards(address,uint256)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1193) is not in mixedCase
+Parameter UraniumMoneyPot.depositBonusRewards(address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1193) is not in mixedCase
+Parameter UraniumMoneyPot.addTokenToRewards(address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1198) is not in mixedCase
+Parameter UraniumMoneyPot.removeTokenToRewards(address)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1209) is not in mixedCase
+Parameter UraniumMoneyPot.setUpdateMoneyPotPeriodNbBlocks(uint256)._updateRewardsDelay (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1233) is not in mixedCase
+Parameter UraniumMoneyPot.addToPendingFromReserveTokenAmount(address,uint256)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1237) is not in mixedCase
+Parameter UraniumMoneyPot.addToPendingFromReserveTokenAmount(address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1237) is not in mixedCase
+Parameter UraniumMoneyPot.safeTokenTransfer(address,address,uint256)._token (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245) is not in mixedCase
+Parameter UraniumMoneyPot.safeTokenTransfer(address,address,uint256)._to (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245) is not in mixedCase
+Parameter UraniumMoneyPot.safeTokenTransfer(address,address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1245) is not in mixedCase
+Parameter SRadsToken.setupRads(RadsToken)._rads (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1298) is not in mixedCase
+Parameter SRadsToken.setupMoneyPot(UraniumMoneyPot)._moneyPot (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1304) is not in mixedCase
+Parameter SRadsToken.swapToRads(uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1324) is not in mixedCase
+Parameter SRadsToken.previewSwapRadsExpectedAmount(address,uint256)._holderAddress (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1351) is not in mixedCase
+Parameter SRadsToken.previewSwapRadsExpectedAmount(address,uint256)._sRadsAmount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1351) is not in mixedCase
+Parameter SRadsToken.getSRadsAtMinPenalty(address)._holderAddress (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1355) is not in mixedCase
+Parameter SRadsToken.mint(address,uint256)._to (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1408) is not in mixedCase
+Parameter SRadsToken.mint(address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1408) is not in mixedCase
+Variable SRadsToken.SWAP_PENALTY_MAX_PERIOD (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1288) is not in mixedCase
+Variable SRadsToken.SWAP_PENALTY_MAX_PER_SRADS (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1289) is not in mixedCase
+Variable SRadsToken._delegates (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1452) is not in mixedCase
+Parameter RadsToken.setupSRads(SRadsToken)._sRads (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1710) is not in mixedCase
+Parameter RadsToken.mint(address,uint256)._to (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1717) is not in mixedCase
+Parameter RadsToken.mint(address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1717) is not in mixedCase
+Variable RadsToken._delegates (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1749) is not in mixedCase
+Parameter UraniumBonusAggregator.setupMaster(MasterUranium)._master (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1995) is not in mixedCase
+Parameter UraniumBonusAggregator.addOrRemoveContractBonusSource(address,bool)._contract (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1999) is not in mixedCase
+Parameter UraniumBonusAggregator.addOrRemoveContractBonusSource(address,bool)._add (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1999) is not in mixedCase
+Parameter UraniumBonusAggregator.addUserBonusOnFarm(address,uint16,uint256)._user (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2003) is not in mixedCase
+Parameter UraniumBonusAggregator.addUserBonusOnFarm(address,uint16,uint256)._percent (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2003) is not in mixedCase
+Parameter UraniumBonusAggregator.addUserBonusOnFarm(address,uint16,uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2003) is not in mixedCase
+Parameter UraniumBonusAggregator.removeUserBonusOnFarm(address,uint16,uint256)._user (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2009) is not in mixedCase
+Parameter UraniumBonusAggregator.removeUserBonusOnFarm(address,uint16,uint256)._percent (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2009) is not in mixedCase
+Parameter UraniumBonusAggregator.removeUserBonusOnFarm(address,uint16,uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2009) is not in mixedCase
+Parameter UraniumBonusAggregator.getBonusOnFarmsForUser(address,uint256)._user (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2015) is not in mixedCase
+Parameter UraniumBonusAggregator.getBonusOnFarmsForUser(address,uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2015) is not in mixedCase
+Parameter MasterUranium.userBonus(uint256,address)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2156) is not in mixedCase
+Parameter MasterUranium.userBonus(uint256,address)._user (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2156) is not in mixedCase
+Parameter MasterUranium.getMultiplier(uint256,uint256)._from (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2161) is not in mixedCase
+Parameter MasterUranium.getMultiplier(uint256,uint256)._to (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2161) is not in mixedCase
+Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._allocPoint (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase
+Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._lpToken (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase
+Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._depositFeeBP (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase
+Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._isSRadsRewards (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase
+Parameter MasterUranium.add(uint256,IBEP20,uint16,bool,bool)._withUpdate (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2167) is not in mixedCase
+Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase
+Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._allocPoint (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase
+Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._depositFeeBP (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase
+Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._isSRadsRewards (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase
+Parameter MasterUranium.set(uint256,uint256,uint16,bool,bool)._withUpdate (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2188) is not in mixedCase
+Parameter MasterUranium.pendingRads(uint256,address)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2202) is not in mixedCase
+Parameter MasterUranium.pendingRads(uint256,address)._user (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2202) is not in mixedCase
+Parameter MasterUranium.updatePool(uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2254) is not in mixedCase
+Parameter MasterUranium.updateUserBonus(address,uint256,uint256)._user (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2279) is not in mixedCase
+Parameter MasterUranium.updateUserBonus(address,uint256,uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2279) is not in mixedCase
+Parameter MasterUranium.deposit(uint256,uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301) is not in mixedCase
+Parameter MasterUranium.deposit(uint256,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2301) is not in mixedCase
+Parameter MasterUranium.withdraw(uint256,uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342) is not in mixedCase
+Parameter MasterUranium.withdraw(uint256,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2342) is not in mixedCase
+Parameter MasterUranium.emergencyWithdraw(uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2369) is not in mixedCase
+Parameter MasterUranium.getPoolInfo(uint256)._pid (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2378) is not in mixedCase
+Parameter MasterUranium.safeRadsTransfer(address,uint256)._to (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2392) is not in mixedCase
+Parameter MasterUranium.safeRadsTransfer(address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2392) is not in mixedCase
+Parameter MasterUranium.safeSRadsTransfer(address,uint256)._to (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2404) is not in mixedCase
+Parameter MasterUranium.safeSRadsTransfer(address,uint256)._amount (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2404) is not in mixedCase
+Parameter MasterUranium.dev(address)._devaddr (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2416) is not in mixedCase
+Parameter MasterUranium.setFeeAddress(address)._feeAddress (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2421) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#582)" inContext (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#572-585)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+SRadsToken.slitherConstructorConstantVariables() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1271-1678) uses literals with too many digits:
+	- BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1281)
+RadsToken.slitherConstructorConstantVariables() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1682-1973) uses literals with too many digits:
+	- BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1684)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#641-644)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#650-652)
+decimals() should be declared external:
+	- UraniumBEP20.decimals() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#720-722)
+symbol() should be declared external:
+	- UraniumBEP20.symbol() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#727-729)
+totalSupply() should be declared external:
+	- UraniumBEP20.totalSupply() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#734-736)
+burnSupply() should be declared external:
+	- UraniumBEP20.burnSupply() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#741-743)
+transfer(address,uint256) should be declared external:
+	- UraniumBEP20.transfer(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#760-763)
+allowance(address,address) should be declared external:
+	- UraniumBEP20.allowance(address,address) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#768-770)
+approve(address,uint256) should be declared external:
+	- UraniumBEP20.approve(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#779-782)
+transferFrom(address,address,uint256) should be declared external:
+	- UraniumBEP20.transferFrom(address,address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#796-808)
+increaseAllowance(address,uint256) should be declared external:
+	- UraniumBEP20.increaseAllowance(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#822-825)
+decreaseAllowance(address,uint256) should be declared external:
+	- UraniumBEP20.decreaseAllowance(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#841-848)
+isOwner() should be declared external:
+	- SRadsToken.isOwner() (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#1313-1315)
+getBonusOnFarmsForUser(address,uint256) should be declared external:
+	- UraniumBonusAggregator.getBonusOnFarmsForUser(address,uint256) (../../sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol#2015-2017)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xd5aac41d315c1d382dcf1c39d4ed9b37c224edf2.sol analyzed (12 contracts with 78 detectors), 173 result(s) found

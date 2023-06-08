@@ -1,0 +1,148 @@
+{
+    "errors": [
+        "EXIT_CODE_14"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "dent",
+            "impact": "Medium",
+            "line": 197,
+            "line_end": 213,
+            "message": "Reentrancy in Flipper.dent(uint256,uint256,uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#197-213):\n\tExternal calls:\n\t- vat.move(msg.sender,bids[id].guy,bid) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#207)\n\t- vat.flux(ilk,address(this),bids[id].usr,bids[id].lot - lot) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#208)\n\tState variables written after the call(s):\n\t- bids[id].guy = msg.sender (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#210)\n\t- bids[id].lot = lot (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#211)\n\t- bids[id].tic = add(uint48(now),ttl) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#212)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "tend",
+            "impact": "Medium",
+            "line": 180,
+            "line_end": 196,
+            "message": "Reentrancy in Flipper.tend(uint256,uint256,uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#180-196):\n\tExternal calls:\n\t- vat.move(msg.sender,bids[id].guy,bids[id].bid) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#190)\n\t- vat.move(msg.sender,bids[id].gal,bid - bids[id].bid) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#191)\n\tState variables written after the call(s):\n\t- bids[id].guy = msg.sender (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#193)\n\t- bids[id].bid = bid (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#194)\n\t- bids[id].tic = add(uint48(now),ttl) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#195)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "deal",
+            "impact": "Medium",
+            "line": 214,
+            "line_end": 218,
+            "message": "Reentrancy in Flipper.deal(uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#214-218):\n\tExternal calls:\n\t- vat.flux(ilk,address(this),bids[id].guy,bids[id].lot) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#216)\n\tState variables written after the call(s):\n\t- delete bids[id] (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#217)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "yank",
+            "impact": "Medium",
+            "line": 220,
+            "line_end": 226,
+            "message": "Reentrancy in Flipper.yank(uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#220-226):\n\tExternal calls:\n\t- vat.flux(ilk,address(this),msg.sender,bids[id].lot) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#223)\n\t- vat.move(msg.sender,bids[id].guy,bids[id].bid) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#224)\n\tState variables written after the call(s):\n\t- delete bids[id] (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#225)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "kick",
+            "impact": "Low",
+            "line": 157,
+            "line_end": 174,
+            "message": "Reentrancy in Flipper.kick(address,address,uint256,uint256,uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#157-174):\n\tExternal calls:\n\t- vat.flux(ilk,msg.sender,address(this),lot) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#171)\n\tEvent emitted after the call(s):\n\t- Kick(id,lot,bid,tab,usr,gal) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#173)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 141,
+            "line_end": 143,
+            "message": "Flipper.add(uint48,uint48) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#141-143) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)((z = x + y) >= x) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#142)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "dent",
+            "impact": "Low",
+            "line": 197,
+            "line_end": 213,
+            "message": "Flipper.dent(uint256,uint256,uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#197-213) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(bids[id].tic > now || bids[id].tic == 0,Flipper/already-finished-tic) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#199)\n\t- require(bool,string)(bids[id].end > now,Flipper/already-finished-end) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#200)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "deal",
+            "impact": "Low",
+            "line": 214,
+            "line_end": 218,
+            "message": "Flipper.deal(uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#214-218) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(bids[id].tic != 0 && (bids[id].tic < now || bids[id].end < now),Flipper/not-finished) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#215)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "tick",
+            "impact": "Low",
+            "line": 175,
+            "line_end": 179,
+            "message": "Flipper.tick(uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#175-179) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(bids[id].end < now,Flipper/not-finished) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#176)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "tend",
+            "impact": "Low",
+            "line": 180,
+            "line_end": 196,
+            "message": "Flipper.tend(uint256,uint256,uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#180-196) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(bids[id].tic > now || bids[id].tic == 0,Flipper/already-finished-tic) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#182)\n\t- require(bool,string)(bids[id].end > now,Flipper/already-finished-end) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#183)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "impact": "Informational",
+            "line": 2,
+            "message": "Pragma version^0.5.12 (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#2) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "impact": "Informational",
+            "line": 67,
+            "message": "Pragma version^0.5.12 (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#67) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "impact": "Informational",
+            "line": 18,
+            "message": "Pragma version^0.5.12 (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#18) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xd8a04f5412223f513dc55f839574430f5ec15531.sol",
+            "function": "kick",
+            "impact": "Optimization",
+            "line": 157,
+            "line_end": 174,
+            "message": "kick(address,address,uint256,uint256,uint256) should be declared external:\n\t- Flipper.kick(address,address,uint256,uint256,uint256) (../..0xd8a04f5412223f513dc55f839574430f5ec15531.sol#157-174)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

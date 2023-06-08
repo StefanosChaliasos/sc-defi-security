@@ -1,0 +1,483 @@
+{
+    "errors": [
+        "EXIT_CODE_50"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "_transfer",
+            "impact": "Medium",
+            "line": 770,
+            "line_end": 806,
+            "message": "YEED._transfer(address,address,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#770-806) uses a dangerous strict equality:\n\t- vipTime = activateTime == 0 || block.timestamp < activateTime + 600 (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#781)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "YEED",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "receive",
+            "impact": "Medium",
+            "line": 509,
+            "line_end": 881,
+            "message": "Contract locking ether found:\n\tContract YEED (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#509-881) has payable functions:\n\t - YEED.receive() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#729)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 625,
+            "message": "YEED.allowance(address,address).owner (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#625) shadows:\n\t- Ownable.owner() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#132-134) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 759,
+            "message": "YEED._approve(address,address,uint256).owner (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#759) shadows:\n\t- Ownable.owner() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#132-134) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Low",
+            "line": 158,
+            "message": "Ownable.setOwner(address,bool).addr (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#158) lacks a zero-check on :\n\t\t- _owner = addr (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#159)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 770,
+            "line_end": 806,
+            "message": "YEED._transfer(address,address,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#770-806) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- vipTime = activateTime == 0 || block.timestamp < activateTime + 600 (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#781)\n\t- vipTime && takeFee (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#792)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 642,
+            "line_end": 648,
+            "message": "YEED.isContract(address) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#642-648) uses assembly\n\t- INLINE ASM (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#644-646)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 66,
+            "line_end": 73,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#66-73) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 111,
+            "line_end": 114,
+            "message": "Context._msgData() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#111-114) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 642,
+            "line_end": 648,
+            "message": "YEED.isContract(address) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#642-648) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 62,
+            "line_end": 64,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#62-64) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "WETH",
+            "impact": "Informational",
+            "line": 167,
+            "message": "Function IPancakeRouter01.WETH() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 739,
+            "message": "Parameter YEED.calculateBurnFee(uint256)._amount (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#739) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 731,
+            "message": "Parameter YEED.calculateRewardFee(uint256)._amount (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#731) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 118,
+            "message": "Variable Ownable._owner (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#118) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 466,
+            "message": "Function IPancakePair.MINIMUM_LIQUIDITY() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#466) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 634,
+            "message": "Parameter YEED.activate(bool)._activate (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#634) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 435,
+            "message": "Function IPancakePair.PERMIT_TYPEHASH() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#435) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 433,
+            "message": "Function IPancakePair.DOMAIN_SEPARATOR() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#433) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 525,
+            "message": "Variable YEED._rewardFee (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#525) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 528,
+            "message": "Variable YEED._burnFee (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#528) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 112,
+            "message": "Redundant expression \"this (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#112)\" inContext (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#106-115)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 172,
+            "message": "Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#172) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#173)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "contract": "YEED",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Informational",
+            "line": 519,
+            "message": "YEED._excluded (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#519) is never used in YEED (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#509-881)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Optimization",
+            "line": 542,
+            "line_end": 543,
+            "message": "YEED.usdtAddress (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#542-543) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Optimization",
+            "line": 521,
+            "message": "YEED._name (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#521) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Optimization",
+            "line": 538,
+            "line_end": 539,
+            "message": "YEED.zeedAddress (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#538-539) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Optimization",
+            "line": 540,
+            "line_end": 541,
+            "message": "YEED.hoAddress (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#540-541) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Optimization",
+            "line": 522,
+            "message": "YEED._symbol (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#522) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "impact": "Optimization",
+            "line": 536,
+            "line_end": 537,
+            "message": "YEED.ownerAddress (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#536-537) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 689,
+            "line_end": 703,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- YEED.decreaseAllowance(address,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#689-703)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 625,
+            "line_end": 632,
+            "message": "allowance(address,address) should be declared external:\n\t- YEED.allowance(address,address) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#625-632)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 659,
+            "line_end": 674,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- YEED.transferFrom(address,address,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#659-674)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "setOwner",
+            "impact": "Optimization",
+            "line": 158,
+            "line_end": 161,
+            "message": "setOwner(address,bool) should be declared external:\n\t- Ownable.setOwner(address,bool) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#158-161)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 141,
+            "line_end": 145,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#141-145)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 616,
+            "line_end": 623,
+            "message": "transfer(address,uint256) should be declared external:\n\t- YEED.transfer(address,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#616-623)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 600,
+            "line_end": 602,
+            "message": "symbol() should be declared external:\n\t- YEED.symbol() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#600-602)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "setSwapPair",
+            "impact": "Optimization",
+            "line": 705,
+            "line_end": 707,
+            "message": "setSwapPair(address,bool) should be declared external:\n\t- YEED.setSwapPair(address,bool) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#705-707)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 132,
+            "line_end": 134,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#132-134)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "isVip",
+            "impact": "Optimization",
+            "line": 721,
+            "line_end": 723,
+            "message": "isVip(address) should be declared external:\n\t- YEED.isVip(address) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#721-723)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "setVip",
+            "impact": "Optimization",
+            "line": 713,
+            "line_end": 715,
+            "message": "setVip(address,bool) should be declared external:\n\t- YEED.setVip(address,bool) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#713-715)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 612,
+            "line_end": 614,
+            "message": "balanceOf(address) should be declared external:\n\t- YEED.balanceOf(address) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#612-614)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 608,
+            "line_end": 610,
+            "message": "totalSupply() should be declared external:\n\t- YEED.totalSupply() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#608-610)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 650,
+            "line_end": 657,
+            "message": "approve(address,uint256) should be declared external:\n\t- YEED.approve(address,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#650-657)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 596,
+            "line_end": 598,
+            "message": "name() should be declared external:\n\t- YEED.name() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#596-598)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "setExcludedFromFee",
+            "impact": "Optimization",
+            "line": 709,
+            "line_end": 711,
+            "message": "setExcludedFromFee(address,bool) should be declared external:\n\t- YEED.setExcludedFromFee(address,bool) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#709-711)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 676,
+            "line_end": 687,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- YEED.increaseAllowance(address,uint256) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#676-687)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "activate",
+            "impact": "Optimization",
+            "line": 634,
+            "line_end": 640,
+            "message": "activate(bool) should be declared external:\n\t- YEED.activate(bool) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#634-640)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "isExcludedFromFee",
+            "impact": "Optimization",
+            "line": 717,
+            "line_end": 719,
+            "message": "isExcludedFromFee(address) should be declared external:\n\t- YEED.isExcludedFromFee(address) (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#717-719)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 604,
+            "line_end": 606,
+            "message": "decimals() should be declared external:\n\t- YEED.decimals() (../..0xe7748fce1d1e2f2fd2dddb5074bd074745dda8ea.sol#604-606)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

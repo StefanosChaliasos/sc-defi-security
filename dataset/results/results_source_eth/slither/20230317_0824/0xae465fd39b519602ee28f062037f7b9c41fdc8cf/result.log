@@ -1,0 +1,325 @@
+[93m
+WarpVaultSC.accrueInterest() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1765-1838) uses a dangerous strict equality:
+	- accrualBlockNumberPrior == currentBlockNumber (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1771)
+CarefulMath.divUInt(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#906-912) uses a dangerous strict equality:
+	- b == 0 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#907)
+Exponential.mulExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1098-1118) uses a dangerous strict equality:
+	- assert(bool)(err2 == MathError.NO_ERROR) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1115)
+CarefulMath.mulUInt(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#889-901) uses a dangerous strict equality:
+	- a == 0 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#890)
+WarpVaultSC.repayBorrow(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,Repay borrow new account balance calculation failed) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2253-2256)
+WarpVaultSC.repayBorrow(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,Repay borrow new total balance calculation failed) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2263-2266)
+WarpVaultSC.viewHistoricalReward(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2133-2157) uses a dangerous strict equality:
+	- currentWarpBalance == 0 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2142)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in WarpVaultSC.repayBorrow(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279):
+	External calls:
+	- stablecoin.safeTransferFrom(msg.sender,address(this),vars.repayAmount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2241-2245)
+	State variables written after the call(s):
+	- accountBorrows[msg.sender].principal = vars.accountBorrowsNew (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2270)
+	- accountBorrows[msg.sender].interestIndex = borrowIndex (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2271)
+	- totalBorrows = vars.totalBorrowsNew (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2269)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+WarpVaultSC.redeem(uint256).vars (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2049) is a local variable never initialized
+WarpVaultSC.repayBorrow(uint256).vars (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2219) is a local variable never initialized
+WarpVaultSC._borrow(uint256,address).vars (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2177) is a local variable never initialized
+WarpVaultSC.lendToWarpVault(uint256).vars (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2014) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+ERC20.constructor(string,string).name (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#536) shadows:
+	- ERC20.name() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#545-547) (function)
+ERC20.constructor(string,string).symbol (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#536) shadows:
+	- ERC20.symbol() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#553-555) (function)
+Exponential.divScalarByExpTruncate(uint256,Exponential.Exp).fraction (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1087) shadows:
+	- Exponential.fraction(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1299-1301) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304) should emit an event for: 
+	- totalBorrows = totalBorrows.sub(_amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2301) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+WarpWrapperToken.constructor(address,string,string)._SC (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1407) lacks a zero-check on :
+		- stablecoin = _SC (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1411)
+WarpVaultSC.constructor(address,address,address,address,uint256,uint256,uint256)._warpTeam (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1650) lacks a zero-check on :
+		- warpTeam = _warpTeam (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1661)
+WarpVaultSC.updateTeam(address)._team (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1705) lacks a zero-check on :
+		- warpTeam = _team (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1707)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304):
+	External calls:
+	- stablecoin.safeTransferFrom(_liquidator,address(this),_amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2293)
+	State variables written after the call(s):
+	- accountBorrows[_borrower].principal = 0 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2299)
+	- accountBorrows[_borrower].interestIndex = 0 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2300)
+	- totalBorrows = totalBorrows.sub(_amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2301)
+	- totalReserves = totalReserves.add(fee) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2297)
+Reentrancy in WarpVaultSC.lendToWarpVault(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012-2032):
+	External calls:
+	- stablecoin.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2025)
+	State variables written after the call(s):
+	- principalBalance[msg.sender] = principalBalance[msg.sender] + _amount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2027)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in WarpVaultSC.lendToWarpVault(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012-2032):
+	External calls:
+	- stablecoin.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2025)
+	- wStableCoin.mint(msg.sender,vars.mintTokens) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2030)
+	Event emitted after the call(s):
+	- StableCoinLent(msg.sender,_amount,vars.mintTokens) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2031)
+Reentrancy in WarpVaultSC.redeem(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2048-2105):
+	External calls:
+	- wStableCoin.burn(msg.sender,vars.burnTokens) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2102)
+	- stablecoin.safeTransfer(msg.sender,vars.amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2103)
+	Event emitted after the call(s):
+	- StableCoinWithdraw(msg.sender,vars.amount,vars.burnTokens) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2104)
+Reentrancy in WarpVaultSC.repayBorrow(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279):
+	External calls:
+	- stablecoin.safeTransferFrom(msg.sender,address(this),vars.repayAmount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2241-2245)
+	Event emitted after the call(s):
+	- LoanRepayed(msg.sender,_repayAmount,accountBorrows[msg.sender].principal,accountBorrows[msg.sender].interestIndex) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2273-2278)
+Reentrancy in WarpVaultSC.withdrawFees(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1731-1739):
+	External calls:
+	- stablecoin.safeTransfer(warpTeam,_amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1737)
+	Event emitted after the call(s):
+	- ReserveWithdraw(_amount) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1738)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#363-372) uses assembly
+	- INLINE ASM (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#370)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#456-477) uses assembly
+	- INLINE ASM (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#469-472)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#416-418) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#441-443) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#451-454) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#390-396) is never used and should be removed
+Context._msgData() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#22-25) is never used and should be removed
+ERC20._setupDecimals(uint8) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#767-769) is never used and should be removed
+Exponential.addExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1000-1004) is never used and should be removed
+Exponential.add_(Exponential.Double,Exponential.Double) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1198-1200) is never used and should be removed
+Exponential.add_(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1194-1196) is never used and should be removed
+Exponential.add_(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1202-1204) is never used and should be removed
+Exponential.add_(uint256,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1206-1210) is never used and should be removed
+Exponential.divExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1143-1145) is never used and should be removed
+Exponential.divScalar(Exponential.Exp,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1054-1061) is never used and should be removed
+Exponential.div_(Exponential.Double,Exponential.Double) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1278-1280) is never used and should be removed
+Exponential.div_(Exponential.Double,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1282-1284) is never used and should be removed
+Exponential.div_(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1266-1268) is never used and should be removed
+Exponential.div_(Exponential.Exp,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1270-1272) is never used and should be removed
+Exponential.div_(uint256,Exponential.Double) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1286-1288) is never used and should be removed
+Exponential.div_(uint256,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1274-1276) is never used and should be removed
+Exponential.div_(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1290-1292) is never used and should be removed
+Exponential.div_(uint256,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1294-1297) is never used and should be removed
+Exponential.fraction(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1299-1301) is never used and should be removed
+Exponential.greaterThanExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1173-1175) is never used and should be removed
+Exponential.isZeroExp(Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1180-1182) is never used and should be removed
+Exponential.lessThanExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1159-1161) is never used and should be removed
+Exponential.lessThanOrEqualExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1166-1168) is never used and should be removed
+Exponential.mulExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1098-1118) is never used and should be removed
+Exponential.mulExp(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1123-1125) is never used and should be removed
+Exponential.mulExp3(Exponential.Exp,Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1130-1136) is never used and should be removed
+Exponential.mul_(Exponential.Double,Exponential.Double) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1241-1243) is never used and should be removed
+Exponential.mul_(Exponential.Double,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1245-1247) is never used and should be removed
+Exponential.mul_(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1229-1231) is never used and should be removed
+Exponential.mul_(Exponential.Exp,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1233-1235) is never used and should be removed
+Exponential.mul_(uint256,Exponential.Double) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1249-1251) is never used and should be removed
+Exponential.mul_(uint256,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1237-1239) is never used and should be removed
+Exponential.mul_(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1253-1255) is never used and should be removed
+Exponential.mul_(uint256,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1257-1264) is never used and should be removed
+Exponential.safe224(uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1184-1187) is never used and should be removed
+Exponential.safe32(uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1189-1192) is never used and should be removed
+Exponential.subExp(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1009-1013) is never used and should be removed
+Exponential.sub_(Exponential.Double,Exponential.Double) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1216-1218) is never used and should be removed
+Exponential.sub_(Exponential.Exp,Exponential.Exp) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1212-1214) is never used and should be removed
+Exponential.sub_(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1220-1222) is never used and should be removed
+Exponential.sub_(uint256,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1224-1227) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#824-833) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#840-843) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#835-838) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#315-317) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#331-334) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#5) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#31) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#100) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#179) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#340) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#483) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#791) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#866) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#954) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1306) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1339) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1390) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1435) allows old versions
+Pragma version^0.6.6 (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1527) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#390-396):
+	- (success) = recipient.call{value: amount}() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#394)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#456-477):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#460)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Constant Exponential.expScale (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#965) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Exponential.doubleScale (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#966) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Exponential.halfExpScale (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#967) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Exponential.mantissaOne (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#968) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant InterestRateModel.isInterestRateModel (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1314) is not in UPPER_CASE_WITH_UNDERSCORES
+Function UniswapLPOracleFactoryI.OneUSDC() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1357) is not in mixedCase
+Parameter UniswapLPOracleFactoryI.getUnderlyingPrice(address)._MMI (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1359) is not in mixedCase
+Parameter UniswapLPOracleFactoryI.viewUnderlyingPrice(address)._MMI (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1361) is not in mixedCase
+Function UniswapLPOracleFactoryI._calculatePriceOfLP(uint256,uint256,uint256,uint8) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1380-1385) is not in mixedCase
+Parameter WarpWrapperToken.mint(address,uint256)._to (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1419) is not in mixedCase
+Parameter WarpWrapperToken.mint(address,uint256)._amount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1419) is not in mixedCase
+Parameter WarpWrapperToken.burn(address,uint256)._from (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1428) is not in mixedCase
+Parameter WarpWrapperToken.burn(address,uint256)._amount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1428) is not in mixedCase
+Parameter WarpVaultSC.updateWarpControl(address)._warpControl (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1700) is not in mixedCase
+Parameter WarpVaultSC.updateTeam(address)._team (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1705) is not in mixedCase
+Parameter WarpVaultSC.calculateFee(uint256)._payedAmount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1721) is not in mixedCase
+Parameter WarpVaultSC.withdrawFees(uint256)._amount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1731) is not in mixedCase
+Parameter WarpVaultSC.setNewInterestModel(address)._newModel (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1746) is not in mixedCase
+Parameter WarpVaultSC.updateReserve(uint256)._newReserveMantissa (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1755) is not in mixedCase
+Parameter WarpVaultSC.lendToWarpVault(uint256)._amount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012) is not in mixedCase
+Parameter WarpVaultSC.redeem(uint256)._amount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2048) is not in mixedCase
+Parameter WarpVaultSC.viewAccountBalance(address)._account (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2111) is not in mixedCase
+Parameter WarpVaultSC.viewHistoricalReward(address)._account (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2133) is not in mixedCase
+Function WarpVaultSC._borrow(uint256,address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2171-2199) is not in mixedCase
+Parameter WarpVaultSC._borrow(uint256,address)._borrowAmount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2171) is not in mixedCase
+Parameter WarpVaultSC._borrow(uint256,address)._borrower (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2171) is not in mixedCase
+Parameter WarpVaultSC.repayBorrow(uint256)._repayAmount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217) is not in mixedCase
+Function WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304) is not in mixedCase
+Parameter WarpVaultSC._repayLiquidatedLoan(address,address,uint256)._borrower (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2289) is not in mixedCase
+Parameter WarpVaultSC._repayLiquidatedLoan(address,address,uint256)._liquidator (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2290) is not in mixedCase
+Parameter WarpVaultSC._repayLiquidatedLoan(address,address,uint256)._amount (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2291) is not in mixedCase
+Constant WarpVaultSC.borrowRateMaxMantissa (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1560) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable WarpVaultSC.InterestRate (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1569) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#23)" inContext (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#17-26)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable WarpVaultSC.constructor(address,address,address,address,uint256,uint256,uint256)._StableCoin (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1648) is too similar to WarpVaultSC.wStableCoin (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1567)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+WarpVaultSC.divisor (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1562) should be constant
+WarpVaultSC.percent (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1561) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#62-64)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#81-84)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#90-94)
+name() should be declared external:
+	- ERC20.name() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#545-547)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#553-555)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#570-572)
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#577-579)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#584-586)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#596-599)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#604-606)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#615-618)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#632-636)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#650-653)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#669-672)
+createNewOracles(address,address,address) should be declared external:
+	- UniswapLPOracleFactoryI.createNewOracles(address,address,address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1351-1355)
+OneUSDC() should be declared external:
+	- UniswapLPOracleFactoryI.OneUSDC() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1357)
+getUnderlyingPrice(address) should be declared external:
+	- UniswapLPOracleFactoryI.getUnderlyingPrice(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1359)
+viewUnderlyingPrice(address) should be declared external:
+	- UniswapLPOracleFactoryI.viewUnderlyingPrice(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1361-1365)
+getPriceOfToken(address,uint256) should be declared external:
+	- UniswapLPOracleFactoryI.getPriceOfToken(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1367-1370)
+viewPriceOfToken(address,uint256) should be declared external:
+	- UniswapLPOracleFactoryI.viewPriceOfToken(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1372-1376)
+transferOwnership(address) should be declared external:
+	- UniswapLPOracleFactoryI.transferOwnership(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1378)
+_calculatePriceOfLP(uint256,uint256,uint256,uint8) should be declared external:
+	- UniswapLPOracleFactoryI._calculatePriceOfLP(uint256,uint256,uint256,uint8) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1380-1385)
+mint(address,uint256) should be declared external:
+	- WarpWrapperToken.mint(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1419-1421)
+burn(address,uint256) should be declared external:
+	- WarpWrapperToken.burn(address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1428-1430)
+getMaxWithdrawAllowed(address,address) should be declared external:
+	- WarpControlI.getMaxWithdrawAllowed(address,address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1447-1450)
+viewMaxWithdrawAllowed(address,address) should be declared external:
+	- WarpControlI.viewMaxWithdrawAllowed(address,address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1452-1456)
+viewPriceOfCollateral(address) should be declared external:
+	- WarpControlI.viewPriceOfCollateral(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1458-1462)
+addMemberToGroup(address,address) should be declared external:
+	- WarpControlI.addMemberToGroup(address,address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1464-1466)
+checkIfGroupMember(address) should be declared external:
+	- WarpControlI.checkIfGroupMember(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1468-1472)
+getTotalAvailableCollateralValue(address) should be declared external:
+	- WarpControlI.getTotalAvailableCollateralValue(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1474-1477)
+viewTotalAvailableCollateralValue(address) should be declared external:
+	- WarpControlI.viewTotalAvailableCollateralValue(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1479-1483)
+viewPriceOfToken(address) should be declared external:
+	- WarpControlI.viewPriceOfToken(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1485-1489)
+viewTotalBorrowedValue(address) should be declared external:
+	- WarpControlI.viewTotalBorrowedValue(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1491-1495)
+getTotalBorrowedValue(address) should be declared external:
+	- WarpControlI.getTotalBorrowedValue(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1497-1500)
+calcBorrowLimit(uint256) should be declared external:
+	- WarpControlI.calcBorrowLimit(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1502-1506)
+calcCollateralRequired(uint256) should be declared external:
+	- WarpControlI.calcCollateralRequired(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1508-1512)
+getBorrowLimit(address) should be declared external:
+	- WarpControlI.getBorrowLimit(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1514)
+viewBorrowLimit(address) should be declared external:
+	- WarpControlI.viewBorrowLimit(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1516-1520)
+liquidateAccount(address) should be declared external:
+	- WarpControlI.liquidateAccount(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1522)
+getSCDecimals() should be declared external:
+	- WarpVaultSC.getSCDecimals() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1685-1687)
+getSCAddress() should be declared external:
+	- WarpVaultSC.getSCAddress() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1692-1694)
+updateWarpControl(address) should be declared external:
+	- WarpVaultSC.updateWarpControl(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1700-1703)
+updateTeam(address) should be declared external:
+	- WarpVaultSC.updateTeam(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1705-1708)
+withdrawFees(uint256) should be declared external:
+	- WarpVaultSC.withdrawFees(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1731-1739)
+setNewInterestModel(address) should be declared external:
+	- WarpVaultSC.setNewInterestModel(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1746-1749)
+updateReserve(uint256) should be declared external:
+	- WarpVaultSC.updateReserve(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1755-1758)
+borrowRatePerBlock() should be declared external:
+	- WarpVaultSC.borrowRatePerBlock() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1899-1906)
+supplyRatePerBlock() should be declared external:
+	- WarpVaultSC.supplyRatePerBlock() (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#1912-1920)
+lendToWarpVault(uint256) should be declared external:
+	- WarpVaultSC.lendToWarpVault(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2012-2032)
+redeem(uint256) should be declared external:
+	- WarpVaultSC.redeem(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2048-2105)
+viewAccountBalance(address) should be declared external:
+	- WarpVaultSC.viewAccountBalance(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2111-2127)
+viewHistoricalReward(address) should be declared external:
+	- WarpVaultSC.viewHistoricalReward(address) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2133-2157)
+repayBorrow(uint256) should be declared external:
+	- WarpVaultSC.repayBorrow(uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2217-2279)
+_repayLiquidatedLoan(address,address,uint256) should be declared external:
+	- WarpVaultSC._repayLiquidatedLoan(address,address,uint256) (../../sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol#2288-2304)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xae465fd39b519602ee28f062037f7b9c41fdc8cf.sol analyzed (14 contracts with 78 detectors), 183 result(s) found

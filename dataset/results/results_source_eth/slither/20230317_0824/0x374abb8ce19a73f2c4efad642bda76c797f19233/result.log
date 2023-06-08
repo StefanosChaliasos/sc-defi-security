@@ -1,0 +1,657 @@
+Compilation warnings/errors on /sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol:
+/sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol:2996:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+/sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol:4730:5: Warning: Function state mutability can be restricted to pure
+    function getCompAddress() public view returns (address) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+[91m
+Comptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733) contract sets array length with a user-controlled value:
+	- accountAssets[borrower].push(cToken) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3439)
+Comptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733) contract sets array length with a user-controlled value:
+	- allMarkets.push(CToken(cToken)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4238)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#array-length-assignment[0m
+[91m
+Unitroller.fallback() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2980-2992) uses delegatecall to a input-controlled function id
+	- (success) = comptrollerImplementation.delegatecall(msg.data) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2982)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#controlled-delegatecall[0m
+[91m
+Comptroller.grantCompInternal(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4637-4645) ignores return value by comp.transfer(user,amount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4641)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[91m
+UnitrollerAdminStorage.comptrollerImplementation (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2711) is never initialized. It is used in:
+	- Comptroller._upgradeSplitCompRewards() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4372-4400)
+	- Comptroller.adminOrInitializing() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4405-4407)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-state-variables[0m
+[93m
+Comptroller.mintVerify(address,address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3540-3551) uses a Boolean constant improperly:
+	-false (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3548)
+Comptroller.borrowVerify(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3677-3687) uses a Boolean constant improperly:
+	-false (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3684)
+Comptroller.repayBorrowVerify(address,address,address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3726-3743) uses a Boolean constant improperly:
+	-false (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3740)
+Comptroller.liquidateBorrowVerify(address,address,address,address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3799-3818) uses a Boolean constant improperly:
+	-false (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3815)
+Comptroller.seizeVerify(address,address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3864-3881) uses a Boolean constant improperly:
+	-false (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3878)
+Comptroller.transferVerify(address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3917-3928) uses a Boolean constant improperly:
+	-false (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3925)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#misuse-of-a-boolean-constant[0m
+[93m
+EIP20NonStandardInterface (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#324-386) has incorrect ERC20 function interface:EIP20NonStandardInterface.transfer(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#350)
+EIP20NonStandardInterface (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#324-386) has incorrect ERC20 function interface:EIP20NonStandardInterface.transferFrom(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#364)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-erc20-interface[0m
+[93m
+CToken.accrueInterest() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1597-1675) uses a dangerous strict equality:
+	- accrualBlockNumberPrior == currentBlockNumber (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1603)
+CToken.accrueInterest() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1597-1675) uses a dangerous strict equality:
+	- require(bool,string)(mathErr == MathError.NO_ERROR,could not calculate block delta) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1619)
+CToken.balanceOfUnderlying(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1403-1408) uses a dangerous strict equality:
+	- require(bool,string)(mErr == MathError.NO_ERROR,balance could not be calculated) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1406)
+CToken.borrowBalanceStored(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1484-1488) uses a dangerous strict equality:
+	- require(bool,string)(err == MathError.NO_ERROR,borrowBalanceStored: borrowBalanceStoredInternal failed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1486)
+CarefulMath.divUInt(uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#737-743) uses a dangerous strict equality:
+	- b == 0 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#738)
+CToken.exchangeRateStored() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1541-1545) uses a dangerous strict equality:
+	- require(bool,string)(err == MathError.NO_ERROR,exchangeRateStored: exchangeRateStoredInternal failed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1543)
+CToken.exchangeRateStoredInternal() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1552-1582) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1554)
+CToken.initialize(ComptrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1238-1269) uses a dangerous strict equality:
+	- require(bool,string)(accrualBlockNumber == 0 && borrowIndex == 0,market may only be initialized once) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1245)
+CToken.initialize(ComptrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1238-1269) uses a dangerous strict equality:
+	- require(bool,string)(err == uint256(Error.NO_ERROR),setting comptroller failed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1253)
+CToken.initialize(ComptrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1238-1269) uses a dangerous strict equality:
+	- require(bool,string)(err == uint256(Error.NO_ERROR),setting interest rate model failed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1261)
+CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2168-2237) uses a dangerous strict equality:
+	- require(bool,string)(amountSeizeError == uint256(Error.NO_ERROR),LIQUIDATE_COMPTROLLER_CALCULATE_AMOUNT_SEIZE_FAILED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2213)
+CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2168-2237) uses a dangerous strict equality:
+	- require(bool,string)(seizeError == uint256(Error.NO_ERROR),token seizure failed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2227)
+CToken.mintFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1710-1775) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,MINT_EXCHANGE_CALCULATION_FAILED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1749)
+CToken.mintFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1710-1775) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,MINT_NEW_TOTAL_SUPPLY_CALCULATION_FAILED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1757)
+CToken.mintFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1710-1775) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,MINT_NEW_ACCOUNT_BALANCE_CALCULATION_FAILED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1760)
+Exponential.mulExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1108-1128) uses a dangerous strict equality:
+	- assert(bool)(err2 == MathError.NO_ERROR) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1125)
+CarefulMath.mulUInt(uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#720-732) uses a dangerous strict equality:
+	- a == 0 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#721)
+ExponentialNoError.mul_(uint256,uint256,string) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#931-938) uses a dangerous strict equality:
+	- a == 0 || b == 0 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#932)
+ExponentialNoError.mul_(uint256,uint256,string) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#931-938) uses a dangerous strict equality:
+	- require(bool,string)(c / a == b,errorMessage) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#936)
+CToken.repayBorrowFresh(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2065-2132) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,REPAY_BORROW_NEW_ACCOUNT_BORROW_BALANCE_CALCULATION_FAILED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2114)
+CToken.repayBorrowFresh(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2065-2132) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,REPAY_BORROW_NEW_TOTAL_BALANCE_CALCULATION_FAILED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2117)
+CToken.seizeInternal(address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274-2334) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,exchange rate math error) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2302)
+CToken.transfer(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1348-1350) uses a dangerous strict equality:
+	- transferTokens(msg.sender,msg.sender,dst,amount) == uint256(Error.NO_ERROR) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1349)
+CToken.transferFrom(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1359-1361) uses a dangerous strict equality:
+	- transferTokens(msg.sender,src,dst,amount) == uint256(Error.NO_ERROR) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1360)
+Comp._writeCheckpoint(address,uint32,uint96,uint96) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3256-3267) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3259)
+Comptroller._grantComp(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4655-4660) uses a dangerous strict equality:
+	- require(bool,string)(amountLeft == 0,insufficient comp for grant) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4658)
+Comptroller.getHypotheticalAccountLiquidityInternal(address,CToken,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4003-4059) uses a dangerous strict equality:
+	- vars.oraclePriceMantissa == 0 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4027)
+Comptroller.liquidateBorrowAllowed(address,address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3753-3789) uses a dangerous strict equality:
+	- shortfall == 0 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3778)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in CToken.liquidateBorrowInternal(address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2142-2157):
+	External calls:
+	- error = cTokenCollateral.accrueInterest() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2149)
+	- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+		- allowed = comptroller.liquidateBorrowAllowed(address(this),address(cTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2170)
+		- allowed = comptroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2276)
+		- allowed = comptroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2067)
+		- seizeError = cTokenCollateral.seize(liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2223)
+	State variables written after the call(s):
+	- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+		- totalBorrows = vars.totalBorrowsNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2122)
+	- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+		- totalReserves = vars.totalReservesNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2319)
+Reentrancy in CToken.redeemFresh(address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1827-1921):
+	External calls:
+	- allowed = comptroller.redeemAllowed(address(this),redeemer,vars.redeemTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1867)
+	State variables written after the call(s):
+	- totalSupply = vars.totalSupplyNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1910)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+CToken.borrowFresh(address,uint256).vars (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1967) is a local variable never initialized
+CToken.repayBorrowFresh(address,address,uint256).vars (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2077) is a local variable never initialized
+CToken.mintFresh(address,uint256).vars (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1722) is a local variable never initialized
+CToken.redeemFresh(address,uint256,uint256).vars (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1830) is a local variable never initialized
+CToken._addReservesFresh(uint256).actualAddAmount (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2484) is a local variable never initialized
+Comptroller.borrowAllowed(address,address,uint256).err_scope_0 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3655) is a local variable never initialized
+CToken.seizeInternal(address,address,address,uint256).vars (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2286) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+Comptroller._supportMarket(CToken) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4212-4232) ignores return value by cToken.isCToken() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4221)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+Exponential.divScalarByExpTruncate(uint256,ExponentialNoError.Exp).fraction (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1097) shadows:
+	- ExponentialNoError.fraction(uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#973-975) (function)
+Comptroller.updateCompSupplyIndex(address).compAccrued (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4457) shadows:
+	- ComptrollerV3Storage.compAccrued (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2819) (state variable)
+Comptroller.updateCompBorrowIndex(address,ExponentialNoError.Exp).compAccrued (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4478) shadows:
+	- ComptrollerV3Storage.compAccrued (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2819) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+CToken.initialize(ComptrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1238-1269) should emit an event for: 
+	- initialExchangeRateMantissa = initialExchangeRateMantissa_ (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1248) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+CToken._setPendingAdmin(address).newPendingAdmin (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2345) lacks a zero-check on :
+		- pendingAdmin = newPendingAdmin (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2355)
+Unitroller._setPendingImplementation(address).newPendingImplementation (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2883) lacks a zero-check on :
+		- pendingComptrollerImplementation = newPendingImplementation (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2891)
+Unitroller._setPendingAdmin(address).newPendingAdmin (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2930) lacks a zero-check on :
+		- pendingAdmin = newPendingAdmin (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2940)
+Comptroller._setBorrowCapGuardian(address).newBorrowCapGuardian (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4291) lacks a zero-check on :
+		- borrowCapGuardian = newBorrowCapGuardian (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4298)
+Comptroller._setPauseGuardian(address).newPauseGuardian (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4309) lacks a zero-check on :
+		- pauseGuardian = newPauseGuardian (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4318)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Comptroller.claimComp(address[],CToken[],bool,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4607-4628) has external calls inside a loop: borrowIndex = Exp(cToken.borrowIndex()) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4612)
+Comptroller.updateCompBorrowIndex(address,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4471-4485) has external calls inside a loop: borrowAmount = div_(CToken(cToken).totalBorrows(),marketBorrowIndex) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4477)
+Comptroller.distributeBorrowerComp(address,address,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4531-4562) has external calls inside a loop: borrowerAmount = div_(CToken(cToken).borrowBalanceStored(borrower),marketBorrowIndex) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4553)
+Comptroller.updateCompSupplyIndex(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4450-4464) has external calls inside a loop: supplyTokens = CToken(cToken).totalSupply() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4456)
+Comptroller.distributeSupplierComp(address,address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4492-4523) has external calls inside a loop: supplierTokens = CToken(cToken).balanceOf(supplier) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4514)
+Comptroller.grantCompInternal(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4637-4645) has external calls inside a loop: compRemaining = comp.balanceOf(address(this)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4639)
+Comptroller.grantCompInternal(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4637-4645) has external calls inside a loop: comp.transfer(user,amount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4641)
+Comptroller.setCompSpeedInternal(CToken,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4417-4443) has external calls inside a loop: borrowIndex = Exp(cToken.borrowIndex()) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4436)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Variable 'Comptroller.borrowAllowed(address,address,uint256).err (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3633)' in Comptroller.borrowAllowed(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3620-3669) potentially used before declaration: (err,shortfall) = getHypotheticalAccountLiquidityInternal(borrower,CToken(cToken),0,borrowAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3655)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#pre-declaration-usage-of-local-variables[0m
+[92m
+Reentrancy in CToken.borrowFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1950-2014):
+	External calls:
+	- allowed = comptroller.borrowAllowed(address(this),borrower,borrowAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1952)
+	State variables written after the call(s):
+	- accountBorrows[borrower].principal = vars.accountBorrowsNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2002)
+	- accountBorrows[borrower].interestIndex = borrowIndex (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2003)
+	- totalBorrows = vars.totalBorrowsNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2004)
+Reentrancy in CToken.mintFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1710-1775):
+	External calls:
+	- allowed = comptroller.mintAllowed(address(this),minter,mintAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1712)
+	State variables written after the call(s):
+	- accountTokens[minter] = vars.accountTokensNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1764)
+	- totalSupply = vars.totalSupplyNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1763)
+Reentrancy in CToken.redeemFresh(address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1827-1921):
+	External calls:
+	- allowed = comptroller.redeemAllowed(address(this),redeemer,vars.redeemTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1867)
+	State variables written after the call(s):
+	- accountTokens[redeemer] = vars.accountTokensNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1911)
+Reentrancy in CToken.repayBorrowFresh(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2065-2132):
+	External calls:
+	- allowed = comptroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2067)
+	State variables written after the call(s):
+	- accountBorrows[borrower].principal = vars.accountBorrowsNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2120)
+	- accountBorrows[borrower].interestIndex = borrowIndex (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2121)
+	- totalBorrows = vars.totalBorrowsNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2122)
+Reentrancy in CToken.seizeInternal(address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274-2334):
+	External calls:
+	- allowed = comptroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2276)
+	State variables written after the call(s):
+	- accountTokens[borrower] = vars.borrowerTokensNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2321)
+	- accountTokens[liquidator] = vars.liquidatorTokensNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2322)
+	- totalReserves = vars.totalReservesNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2319)
+	- totalSupply = vars.totalSupplyNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2320)
+Reentrancy in CToken.transferTokens(address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1280-1340):
+	External calls:
+	- allowed = comptroller.transferAllowed(address(this),src,dst,tokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1282)
+	State variables written after the call(s):
+	- accountTokens[src] = srcTokensNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1325)
+	- accountTokens[dst] = dstTokensNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1326)
+	- transferAllowances[src][spender] = allowanceNew (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1330)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in Comptroller._grantComp(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4655-4660):
+	External calls:
+	- amountLeft = grantCompInternal(recipient,amount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4657)
+		- comp.transfer(user,amount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4641)
+	Event emitted after the call(s):
+	- CompGranted(recipient,amount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4659)
+Reentrancy in CToken.borrowFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1950-2014):
+	External calls:
+	- allowed = comptroller.borrowAllowed(address(this),borrower,borrowAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1952)
+	Event emitted after the call(s):
+	- Borrow(borrower,borrowAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2007)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.TOKEN_INSUFFICIENT_CASH,FailureInfo.BORROW_CASH_NOT_AVAILABLE) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1964)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.BORROW_NEW_ACCOUNT_BORROW_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1981)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.BORROW_NEW_TOTAL_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1986)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.MARKET_NOT_FRESH,FailureInfo.BORROW_FRESHNESS_CHECK) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1959)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.COMPTROLLER_REJECTION,FailureInfo.BORROW_COMPTROLLER_REJECTION,allowed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1954)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.BORROW_ACCUMULATED_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1976)
+Reentrancy in CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2168-2237):
+	External calls:
+	- allowed = comptroller.liquidateBorrowAllowed(address(this),address(cTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2170)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.LIQUIDATE_COLLATERAL_FRESHNESS_CHECK),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2182)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(Error.INVALID_CLOSE_AMOUNT_REQUESTED,FailureInfo.LIQUIDATE_CLOSE_AMOUNT_IS_ZERO),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2192)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.LIQUIDATE_FRESHNESS_CHECK),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2177)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(Error.INVALID_CLOSE_AMOUNT_REQUESTED,FailureInfo.LIQUIDATE_CLOSE_AMOUNT_IS_UINT_MAX),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2197)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- (failOpaque(Error.COMPTROLLER_REJECTION,FailureInfo.LIQUIDATE_COMPTROLLER_REJECTION,allowed),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2172)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(Error.INVALID_ACCOUNT_PAIR,FailureInfo.LIQUIDATE_LIQUIDATOR_IS_BORROWER),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2187)
+Reentrancy in CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2168-2237):
+	External calls:
+	- allowed = comptroller.liquidateBorrowAllowed(address(this),address(cTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2170)
+	- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2202)
+		- allowed = comptroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2067)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(TokenErrorReporter.Error(repayBorrowError),FailureInfo.LIQUIDATE_REPAY_BORROW_FRESH_FAILED),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2204)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2202)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2202)
+	- RepayBorrow(payer,borrower,vars.actualRepayAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2125)
+		- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2202)
+Reentrancy in CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2168-2237):
+	External calls:
+	- allowed = comptroller.liquidateBorrowAllowed(address(this),address(cTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2170)
+	- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2202)
+		- allowed = comptroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2067)
+	- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2221)
+		- allowed = comptroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2276)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2221)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2221)
+	- ReservesAdded(address(this),vars.protocolSeizeAmount,vars.totalReservesNew) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2327)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2221)
+	- Transfer(borrower,liquidator,vars.liquidatorSeizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2325)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2221)
+	- Transfer(borrower,address(this),vars.protocolSeizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2326)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2221)
+Reentrancy in CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2168-2237):
+	External calls:
+	- allowed = comptroller.liquidateBorrowAllowed(address(this),address(cTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2170)
+	- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2202)
+		- allowed = comptroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2067)
+	- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2221)
+		- allowed = comptroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2276)
+	- seizeError = cTokenCollateral.seize(liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2223)
+	Event emitted after the call(s):
+	- LiquidateBorrow(liquidator,borrower,actualRepayAmount,address(cTokenCollateral),seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2230)
+Reentrancy in CToken.liquidateBorrowInternal(address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2142-2157):
+	External calls:
+	- error = cTokenCollateral.accrueInterest() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2149)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(TokenErrorReporter.Error(error),FailureInfo.LIQUIDATE_ACCRUE_COLLATERAL_INTEREST_FAILED),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2152)
+Reentrancy in CToken.liquidateBorrowInternal(address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2142-2157):
+	External calls:
+	- error = cTokenCollateral.accrueInterest() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2149)
+	- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+		- allowed = comptroller.liquidateBorrowAllowed(address(this),address(cTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2170)
+		- allowed = comptroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2276)
+		- allowed = comptroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2067)
+		- seizeError = cTokenCollateral.seize(liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2223)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+	- LiquidateBorrow(liquidator,borrower,actualRepayAmount,address(cTokenCollateral),seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2230)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+	- RepayBorrow(payer,borrower,vars.actualRepayAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2125)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+	- ReservesAdded(address(this),vars.protocolSeizeAmount,vars.totalReservesNew) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2327)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+	- Transfer(borrower,liquidator,vars.liquidatorSeizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2325)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+	- Transfer(borrower,address(this),vars.protocolSeizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2326)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,cTokenCollateral) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2156)
+Reentrancy in CToken.mintFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1710-1775):
+	External calls:
+	- allowed = comptroller.mintAllowed(address(this),minter,mintAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1712)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.MINT_FRESHNESS_CHECK),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1719)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- (failOpaque(Error.MATH_ERROR,FailureInfo.MINT_EXCHANGE_RATE_READ_FAILED,uint256(vars.mathErr)),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1726)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- (failOpaque(Error.COMPTROLLER_REJECTION,FailureInfo.MINT_COMPTROLLER_REJECTION,allowed),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1714)
+	- Mint(minter,vars.actualMintAmount,vars.mintTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1767)
+	- Transfer(address(this),minter,vars.mintTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1768)
+Reentrancy in CToken.redeemFresh(address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1827-1921):
+	External calls:
+	- allowed = comptroller.redeemAllowed(address(this),redeemer,vars.redeemTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1867)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.REDEEM_NEW_ACCOUNT_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1889)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.COMPTROLLER_REJECTION,FailureInfo.REDEEM_COMPTROLLER_REJECTION,allowed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1869)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.MARKET_NOT_FRESH,FailureInfo.REDEEM_FRESHNESS_CHECK) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1874)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.REDEEM_NEW_TOTAL_SUPPLY_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1884)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.TOKEN_INSUFFICIENT_CASH,FailureInfo.REDEEM_TRANSFER_OUT_NOT_POSSIBLE) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1894)
+	- Redeem(redeemer,vars.redeemAmount,vars.redeemTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1915)
+	- Transfer(redeemer,address(this),vars.redeemTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1914)
+Reentrancy in CToken.repayBorrowFresh(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2065-2132):
+	External calls:
+	- allowed = comptroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2067)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- (failOpaque(Error.MATH_ERROR,FailureInfo.REPAY_BORROW_ACCUMULATED_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2085)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.REPAY_BORROW_FRESHNESS_CHECK),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2074)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- (failOpaque(Error.COMPTROLLER_REJECTION,FailureInfo.REPAY_BORROW_COMPTROLLER_REJECTION,allowed),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2069)
+	- RepayBorrow(payer,borrower,vars.actualRepayAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2125)
+Reentrancy in CToken.seizeInternal(address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274-2334):
+	External calls:
+	- allowed = comptroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2276)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.INVALID_ACCOUNT_PAIR,FailureInfo.LIQUIDATE_SEIZE_LIQUIDATOR_IS_BORROWER) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2283)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.LIQUIDATE_SEIZE_BALANCE_INCREMENT_FAILED,uint256(vars.mathErr)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2311)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.LIQUIDATE_SEIZE_BALANCE_DECREMENT_FAILED,uint256(vars.mathErr)) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2295)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.COMPTROLLER_REJECTION,FailureInfo.LIQUIDATE_SEIZE_COMPTROLLER_REJECTION,allowed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2278)
+	- ReservesAdded(address(this),vars.protocolSeizeAmount,vars.totalReservesNew) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2327)
+	- Transfer(borrower,liquidator,vars.liquidatorSeizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2325)
+	- Transfer(borrower,address(this),vars.protocolSeizeTokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2326)
+Reentrancy in CToken.transferTokens(address,address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1280-1340):
+	External calls:
+	- allowed = comptroller.transferAllowed(address(this),src,dst,tokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1282)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.BAD_INPUT,FailureInfo.TRANSFER_NOT_ALLOWED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1289)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#274)
+		- failOpaque(Error.COMPTROLLER_REJECTION,FailureInfo.TRANSFER_COMPTROLLER_REJECTION,allowed) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1284)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.MATH_ERROR,FailureInfo.TRANSFER_NOT_ENOUGH) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1313)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.MATH_ERROR,FailureInfo.TRANSFER_TOO_MUCH) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1318)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#265)
+		- fail(Error.MATH_ERROR,FailureInfo.TRANSFER_NOT_ALLOWED) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1308)
+	- Transfer(src,dst,tokens) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1334)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Comp.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3155-3164) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,Comp::delegateBySig: signature expired) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3162)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Unitroller.fallback() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2980-2992) uses assembly
+	- INLINE ASM (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2984-2991)
+Comp.getChainId() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3290-3294) uses assembly
+	- INLINE ASM (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3292)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Comptroller.addToMarketInternal(CToken,address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3420-3444) compares to a boolean constant:
+	-marketToJoin.accountMembership[borrower] == true (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3428)
+Comptroller._setMintPaused(CToken,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4326-4334) compares to a boolean constant:
+	-require(bool,string)(msg.sender == admin || state == true,only admin can unpause) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4329)
+Comptroller._setBorrowPaused(CToken,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4336-4344) compares to a boolean constant:
+	-require(bool,string)(msg.sender == admin || state == true,only admin can unpause) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4339)
+Comptroller._setTransferPaused(bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4346-4353) compares to a boolean constant:
+	-require(bool,string)(msg.sender == admin || state == true,only admin can unpause) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4348)
+Comptroller._setSeizePaused(bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4355-4362) compares to a boolean constant:
+	-require(bool,string)(msg.sender == admin || state == true,only admin can unpause) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4357)
+Comptroller.claimComp(address[],CToken[],bool,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4607-4628) compares to a boolean constant:
+	-suppliers == true (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4618)
+Comptroller.claimComp(address[],CToken[],bool,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4607-4628) compares to a boolean constant:
+	-borrowers == true (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4611)
+Comptroller.isDeprecated(CToken) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4714-4720) compares to a boolean constant:
+	-markets[address(cToken)].collateralFactorMantissa == 0 && borrowGuardianPaused[address(cToken)] == true && cToken.reserveFactorMantissa() == 1e18 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4715-4718)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Comptroller._upgradeSplitCompRewards() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4372-4400) has costly operations inside a loop:
+	- delete compSpeeds[address(allMarkets[i])] (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4380)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+CToken._addReservesFresh(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2481-2518) is never used and should be removed
+CToken._addReservesInternal(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2463-2473) is never used and should be removed
+CToken.borrowFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1950-2014) is never used and should be removed
+CToken.borrowInternal(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1928-1936) is never used and should be removed
+CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2168-2237) is never used and should be removed
+CToken.liquidateBorrowInternal(address,uint256,CTokenInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2142-2157) is never used and should be removed
+CToken.mintFresh(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1710-1775) is never used and should be removed
+CToken.mintInternal(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1683-1691) is never used and should be removed
+CToken.redeemFresh(address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1827-1921) is never used and should be removed
+CToken.redeemInternal(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1783-1791) is never used and should be removed
+CToken.redeemUnderlyingInternal(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1799-1807) is never used and should be removed
+CToken.repayBorrowBehalfInternal(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2037-2045) is never used and should be removed
+CToken.repayBorrowFresh(address,address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2065-2132) is never used and should be removed
+CToken.repayBorrowInternal(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2021-2029) is never used and should be removed
+Exponential.addExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1010-1014) is never used and should be removed
+Exponential.divExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1153-1155) is never used and should be removed
+Exponential.divScalar(ExponentialNoError.Exp,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1064-1071) is never used and should be removed
+Exponential.divScalarByExp(uint256,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1076-1091) is never used and should be removed
+Exponential.divScalarByExpTruncate(uint256,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1096-1103) is never used and should be removed
+Exponential.mulExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1108-1128) is never used and should be removed
+Exponential.mulExp(uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1133-1135) is never used and should be removed
+Exponential.mulExp3(ExponentialNoError.Exp,ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1140-1146) is never used and should be removed
+Exponential.subExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1019-1023) is never used and should be removed
+ExponentialNoError.add_(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#868-870) is never used and should be removed
+ExponentialNoError.div_(ExponentialNoError.Double,ExponentialNoError.Double) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#952-954) is never used and should be removed
+ExponentialNoError.div_(ExponentialNoError.Double,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#956-958) is never used and should be removed
+ExponentialNoError.div_(ExponentialNoError.Exp,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#944-946) is never used and should be removed
+ExponentialNoError.div_(uint256,ExponentialNoError.Double) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#960-962) is never used and should be removed
+ExponentialNoError.greaterThanExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#847-849) is never used and should be removed
+ExponentialNoError.isZeroExp(ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#854-856) is never used and should be removed
+ExponentialNoError.lessThanOrEqualExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#840-842) is never used and should be removed
+ExponentialNoError.mul_(ExponentialNoError.Double,ExponentialNoError.Double) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#915-917) is never used and should be removed
+ExponentialNoError.mul_(ExponentialNoError.Double,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#919-921) is never used and should be removed
+ExponentialNoError.sub_(ExponentialNoError.Double,ExponentialNoError.Double) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#890-892) is never used and should be removed
+ExponentialNoError.sub_(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#886-888) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Unitroller.fallback() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2980-2992):
+	- (success) = comptrollerImplementation.delegatecall(msg.data) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2982)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Constant ComptrollerInterface.isComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#5) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant InterestRateModel.isInterestRateModel (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#294) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable CTokenStorage._notEntered (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#393) is not in mixedCase
+Constant CTokenStorage.borrowRateMaxMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#414) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant CTokenStorage.reserveFactorMaxMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#419) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant CTokenStorage.protocolSeizeShareMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#504) is not in UPPER_CASE_WITH_UNDERSCORES
+Function CTokenInterface._setPendingAdmin(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#624) is not in mixedCase
+Function CTokenInterface._acceptAdmin() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#625) is not in mixedCase
+Function CTokenInterface._setComptroller(ComptrollerInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#626) is not in mixedCase
+Function CTokenInterface._setReserveFactor(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#627) is not in mixedCase
+Function CTokenInterface._reduceReserves(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#628) is not in mixedCase
+Function CTokenInterface._setInterestRateModel(InterestRateModel) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#629) is not in mixedCase
+Constant CTokenInterface.isCToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#512) is not in UPPER_CASE_WITH_UNDERSCORES
+Function CErc20Interface._addReserves(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#655) is not in mixedCase
+Function CDelegatorInterface._setImplementation(address,bool,bytes) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#677) is not in mixedCase
+Function CDelegateInterface._becomeImplementation(bytes) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#686) is not in mixedCase
+Function CDelegateInterface._resignImplementation() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#691) is not in mixedCase
+Function ExponentialNoError.mul_ScalarTruncate(ExponentialNoError.Exp,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#817-820) is not in mixedCase
+Function ExponentialNoError.mul_ScalarTruncateAddUInt(ExponentialNoError.Exp,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#825-828) is not in mixedCase
+Constant ExponentialNoError.expScale (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#792) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ExponentialNoError.doubleScale (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#793) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ExponentialNoError.halfExpScale (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#794) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ExponentialNoError.mantissaOne (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#795) is not in UPPER_CASE_WITH_UNDERSCORES
+Function CToken._setPendingAdmin(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2345-2361) is not in mixedCase
+Function CToken._acceptAdmin() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2368-2388) is not in mixedCase
+Function CToken._setComptroller(ComptrollerInterface) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2395-2412) is not in mixedCase
+Function CToken._setReserveFactor(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2419-2427) is not in mixedCase
+Function CToken._reduceReserves(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2526-2534) is not in mixedCase
+Function CToken._setInterestRateModel(InterestRateModel) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2591-2599) is not in mixedCase
+Constant PriceOracle.isPriceOracle (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2680) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable ComptrollerV2Storage._mintGuardianPaused (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2780) is not in mixedCase
+Variable ComptrollerV2Storage._borrowGuardianPaused (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2781) is not in mixedCase
+Function Unitroller._setPendingImplementation(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2883-2896) is not in mixedCase
+Function Unitroller._acceptImplementation() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2903-2921) is not in mixedCase
+Function Unitroller._setPendingAdmin(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2930-2946) is not in mixedCase
+Function Unitroller._acceptAdmin() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2953-2973) is not in mixedCase
+Constant Comp.totalSupply (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3009) is not in UPPER_CASE_WITH_UNDERSCORES
+Function Comptroller._setPriceOracle(PriceOracle) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4105-4121) is not in mixedCase
+Function Comptroller._setCloseFactor(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4129-4138) is not in mixedCase
+Function Comptroller._setCollateralFactor(CToken,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4147-4180) is not in mixedCase
+Function Comptroller._setLiquidationIncentive(uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4188-4204) is not in mixedCase
+Function Comptroller._supportMarket(CToken) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4212-4232) is not in mixedCase
+Function Comptroller._setMarketBorrowCaps(CToken[],uint256[]) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4273-4285) is not in mixedCase
+Function Comptroller._setBorrowCapGuardian(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4291-4302) is not in mixedCase
+Function Comptroller._setPauseGuardian(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4309-4324) is not in mixedCase
+Function Comptroller._setMintPaused(CToken,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4326-4334) is not in mixedCase
+Function Comptroller._setBorrowPaused(CToken,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4336-4344) is not in mixedCase
+Function Comptroller._setTransferPaused(bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4346-4353) is not in mixedCase
+Function Comptroller._setSeizePaused(bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4355-4362) is not in mixedCase
+Function Comptroller._become(Unitroller) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4364-4370) is not in mixedCase
+Function Comptroller._upgradeSplitCompRewards() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4372-4400) is not in mixedCase
+Function Comptroller._grantComp(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4655-4660) is not in mixedCase
+Function Comptroller._setCompSpeeds(CToken[],uint256[],uint256[]) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4668-4677) is not in mixedCase
+Function Comptroller._setContributorCompSpeed(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4684-4698) is not in mixedCase
+Constant Comptroller.compInitialIndex (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3358) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Comptroller.closeFactorMinMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3361) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Comptroller.closeFactorMaxMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3364) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant Comptroller.collateralFactorMaxMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3367) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "minter (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3519)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "mintAmount (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3520)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3542)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "minter (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3543)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "actualMintAmount (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3544)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "mintTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3545)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3604)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "redeemer (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3605)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3679)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "borrower (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3680)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "borrowAmount (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3681)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "payer (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3703)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "borrower (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3704)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "repayAmount (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3705)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3733)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "payer (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3734)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "borrower (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3735)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "actualRepayAmount (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3736)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "borrowerIndex (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3737)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "liquidator (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3760)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cTokenBorrowed (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3807)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cTokenCollateral (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3808)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "liquidator (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3809)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "borrower (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3810)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "actualRepayAmount (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3811)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "seizeTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3812)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "seizeTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3838)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cTokenCollateral (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3871)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cTokenBorrowed (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3872)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "liquidator (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3873)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "borrower (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3874)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "seizeTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3875)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "cToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3919)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "src (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3920)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "dst (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3921)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Redundant expression "transferTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3922)" inComptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable CTokenInterface.seize(address,address,uint256).seizeTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#619) is too similar to CToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274)
+Variable CToken.seize(address,address,uint256).seizeTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2248) is too similar to CToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274)
+Variable CToken.liquidateBorrowFresh(address,address,uint256,CTokenInterface).seizeTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2212) is too similar to CToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274)
+Variable CToken.seizeInternal(address,address,address,uint256).seizeTokens (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274) is too similar to CToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2274)
+Variable Comptroller.closeFactorMaxMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3364) is too similar to Comptroller.closeFactorMinMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3361)
+Variable Comptroller._setLiquidationIncentive(uint256).newLiquidationIncentiveMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4188) is too similar to Comptroller._setLiquidationIncentive(uint256).oldLiquidationIncentiveMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4195)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+Comp.slitherConstructorConstantVariables() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2998-3295) uses literals with too many digits:
+	- totalSupply = 10000000e18 (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3009)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+CToken (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1228-2671) does not implement functions:
+	- CToken.doTransferIn(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2650)
+	- CToken.doTransferOut(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2657)
+	- CToken.getCashPrior() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2644)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unimplemented-functions[0m
+[92m
+ExponentialNoError.halfExpScale (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#794) is never used in Comptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+ExponentialNoError.mantissaOne (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#795) is never used in Comptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Comptroller.closeFactorMinMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3361) is never used in Comptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Comptroller.closeFactorMaxMantissa (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3364) is never used in Comptroller (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3302-4733)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+CDelegationStorage.implementation (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#662) should be constant
+CErc20Storage.underlying (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#636) should be constant
+ComptrollerV2Storage._borrowGuardianPaused (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2781) should be constant
+ComptrollerV2Storage._mintGuardianPaused (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2780) should be constant
+ComptrollerV3Storage.compRate (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2801) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+_setInterestRateModel(InterestRateModel) should be declared external:
+	- CToken._setInterestRateModel(InterestRateModel) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2591-2599)
+	- CTokenInterface._setInterestRateModel(InterestRateModel) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#629)
+_setImplementation(address,bool,bytes) should be declared external:
+	- CDelegatorInterface._setImplementation(address,bool,bytes) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#677)
+_becomeImplementation(bytes) should be declared external:
+	- CDelegateInterface._becomeImplementation(bytes) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#686)
+_resignImplementation() should be declared external:
+	- CDelegateInterface._resignImplementation() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#691)
+initialize(ComptrollerInterface,InterestRateModel,uint256,string,string,uint8) should be declared external:
+	- CToken.initialize(ComptrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#1238-1269)
+_setPendingImplementation(address) should be declared external:
+	- Unitroller._setPendingImplementation(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2883-2896)
+_acceptImplementation() should be declared external:
+	- Unitroller._acceptImplementation() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2903-2921)
+_setPendingAdmin(address) should be declared external:
+	- Unitroller._setPendingAdmin(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2930-2946)
+_acceptAdmin() should be declared external:
+	- Unitroller._acceptAdmin() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#2953-2973)
+delegate(address) should be declared external:
+	- Comp.delegate(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3142-3144)
+delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) should be declared external:
+	- Comp.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3155-3164)
+getPriorVotes(address,uint256) should be declared external:
+	- Comp.getPriorVotes(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3183-3215)
+enterMarkets(address[]) should be declared external:
+	- Comptroller.enterMarkets(address[]) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3401-3412)
+getAccountLiquidity(address) should be declared external:
+	- Comptroller.getAccountLiquidity(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3956-3960)
+getHypotheticalAccountLiquidity(address,address,uint256,uint256) should be declared external:
+	- Comptroller.getHypotheticalAccountLiquidity(address,address,uint256,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#3982-3989)
+_setPriceOracle(PriceOracle) should be declared external:
+	- Comptroller._setPriceOracle(PriceOracle) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4105-4121)
+_setPauseGuardian(address) should be declared external:
+	- Comptroller._setPauseGuardian(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4309-4324)
+_setMintPaused(CToken,bool) should be declared external:
+	- Comptroller._setMintPaused(CToken,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4326-4334)
+_setBorrowPaused(CToken,bool) should be declared external:
+	- Comptroller._setBorrowPaused(CToken,bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4336-4344)
+_setTransferPaused(bool) should be declared external:
+	- Comptroller._setTransferPaused(bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4346-4353)
+_setSeizePaused(bool) should be declared external:
+	- Comptroller._setSeizePaused(bool) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4355-4362)
+_become(Unitroller) should be declared external:
+	- Comptroller._become(Unitroller) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4364-4370)
+_upgradeSplitCompRewards() should be declared external:
+	- Comptroller._upgradeSplitCompRewards() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4372-4400)
+claimComp(address) should be declared external:
+	- Comptroller.claimComp(address) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4585-4587)
+_grantComp(address,uint256) should be declared external:
+	- Comptroller._grantComp(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4655-4660)
+_setCompSpeeds(CToken[],uint256[],uint256[]) should be declared external:
+	- Comptroller._setCompSpeeds(CToken[],uint256[],uint256[]) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4668-4677)
+_setContributorCompSpeed(address,uint256) should be declared external:
+	- Comptroller._setContributorCompSpeed(address,uint256) (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4684-4698)
+getAllMarkets() should be declared external:
+	- Comptroller.getAllMarkets() (../../sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol#4705-4707)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x374abb8ce19a73f2c4efad642bda76c797f19233.sol analyzed (28 contracts with 78 detectors), 275 result(s) found

@@ -1,0 +1,291 @@
+[93m
+Reentrancy in SodaVault.burnByPool(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073):
+	External calls:
+	- _withdraw(_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1069)
+		- strategies[i].withdraw(address(this),_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1151)
+	State variables written after the call(s):
+	- _burn(_account,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1071)
+		- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#785)
+Reentrancy in SodaVault.transferByBank(address,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088):
+	External calls:
+	- _claim() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1082)
+		- strategies[i].claim(address(this)) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1157)
+	State variables written after the call(s):
+	- _transfer(_from,_to,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1085)
+		- _balances[sender] = _balances[sender].sub(amount,ERC20: transfer amount exceeds balance) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#745)
+		- _balances[recipient] = _balances[recipient].add(amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#746)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+ERC20.constructor(string,string).name (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#587) shadows:
+	- ERC20.name() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#596-598) (function)
+ERC20.constructor(string,string).symbol (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#587) shadows:
+	- ERC20.symbol() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#604-606) (function)
+SodaVault.constructor(SodaMaster,string,string)._name (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1035) shadows:
+	- ERC20._name (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#574) (state variable)
+SodaVault.constructor(SodaMaster,string,string)._symbol (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1035) shadows:
+	- ERC20._symbol (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#575) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+SodaMaster.setPool(address)._pool (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#933) lacks a zero-check on :
+		- pool = _pool (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#935)
+SodaMaster.setBank(address)._bank (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#940) lacks a zero-check on :
+		- bank = _bank (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#942)
+SodaMaster.setRevenue(address)._revenue (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#946) lacks a zero-check on :
+		- revenue = _revenue (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#947)
+SodaMaster.setDev(address)._dev (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#951) lacks a zero-check on :
+		- dev = _dev (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#952)
+SodaMaster.setUniswapV2Factory(address)._uniswapV2Factory (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#957) lacks a zero-check on :
+		- uniswapV2Factory = _uniswapV2Factory (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#958)
+SodaMaster.setWETH(address)._wETH (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#962) lacks a zero-check on :
+		- wETH = _wETH (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#964)
+SodaMaster.setUSDT(address)._usdt (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#969) lacks a zero-check on :
+		- usdt = _usdt (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#971)
+SodaMaster.setSoda(address)._soda (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#975) lacks a zero-check on :
+		- soda = _soda (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#977)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in SodaVault.burnByPool(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073):
+	External calls:
+	- _withdraw(_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1069)
+		- strategies[i].withdraw(address(this),_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1151)
+	State variables written after the call(s):
+	- _burn(_account,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1071)
+		- _totalSupply = _totalSupply.sub(amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#786)
+	- _updateDebt(_account) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1072)
+		- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)
+	- _updateReward(_account) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1070)
+		- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)
+Reentrancy in SodaVault.mintByPool(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051-1060):
+	External calls:
+	- _deposit(_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1054)
+		- strategies[i].deposit(address(this),_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1145)
+	State variables written after the call(s):
+	- _mint(_to,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1057)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#765)
+	- _mint(_to,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1057)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#764)
+	- _updateDebt(_to) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1059)
+		- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)
+	- _updateReward(_to) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1055)
+		- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)
+Reentrancy in SodaVault.transferByBank(address,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088):
+	External calls:
+	- _claim() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1082)
+		- strategies[i].claim(address(this)) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1157)
+	State variables written after the call(s):
+	- _updateDebt(_to) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1086)
+		- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)
+	- _updateDebt(_from) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1087)
+		- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)
+	- _updateReward(_from) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1083)
+		- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)
+	- _updateReward(_to) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1084)
+		- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in SodaVault.burnByPool(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073):
+	External calls:
+	- _withdraw(_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1069)
+		- strategies[i].withdraw(address(this),_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1151)
+	Event emitted after the call(s):
+	- Transfer(account,address(0),amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#787)
+		- _burn(_account,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1071)
+Reentrancy in SodaPool.claim(uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255-1263):
+	External calls:
+	- pool.vault.mintByPool(msg.sender,0) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1259)
+	- _handleRewards(pool.vault) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1260)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+		- IERC20(_vault.strategies(i).getTargetToken()).safeTransferFrom(address(_vault.strategies(i)),msg.sender,rewardPending) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1234-1235)
+		- _vault.clearRewardByPool(msg.sender) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1239)
+	External calls sending eth:
+	- _handleRewards(pool.vault) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1260)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+	Event emitted after the call(s):
+	- Claim(msg.sender,_poolId) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1262)
+Reentrancy in SodaPool.deposit(uint256,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244-1252):
+	External calls:
+	- _handleDeposit(pool.vault,pool.token,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1248)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+		- _token.safeTransferFrom(address(msg.sender),strategy0,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1217)
+	- pool.vault.mintByPool(msg.sender,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1249)
+	External calls sending eth:
+	- _handleDeposit(pool.vault,pool.token,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1248)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,_poolId,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1251)
+Reentrancy in SodaVault.mintByPool(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051-1060):
+	External calls:
+	- _deposit(_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1054)
+		- strategies[i].deposit(address(this),_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1145)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#766)
+		- _mint(_to,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1057)
+Reentrancy in SodaVault.transferByBank(address,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088):
+	External calls:
+	- _claim() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1082)
+		- strategies[i].claim(address(this)) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1157)
+	Event emitted after the call(s):
+	- Transfer(sender,recipient,amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#747)
+		- _transfer(_from,_to,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1085)
+Reentrancy in SodaPool.withdraw(uint256,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266-1276):
+	External calls:
+	- pool.vault.burnByPool(msg.sender,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1270)
+	- _handleWithdraw(pool.vault,pool.token,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1272)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+		- _token.safeTransferFrom(strategy0,address(msg.sender),_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1225)
+	- _handleRewards(pool.vault) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1273)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+		- IERC20(_vault.strategies(i).getTargetToken()).safeTransferFrom(address(_vault.strategies(i)),msg.sender,rewardPending) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1234-1235)
+		- _vault.clearRewardByPool(msg.sender) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1239)
+	External calls sending eth:
+	- _handleWithdraw(pool.vault,pool.token,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1272)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+	- _handleRewards(pool.vault) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1273)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_poolId,_amount) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1275)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+SodaPool.deposit(uint256,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244-1252) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now >= pool.startTime,deposit: after startTime) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1246)
+SodaPool.claim(uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255-1263) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now >= pool.startTime,claim: after startTime) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1257)
+SodaPool.withdraw(uint256,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266-1276) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now >= pool.startTime,withdraw: after startTime) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1268)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#262-271) uses assembly
+	- INLINE ASM (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#269)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#355-376) uses assembly
+	- INLINE ASM (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#368-371)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#315-317) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#340-342) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#350-353) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#289-295) is never used and should be removed
+Context._msgData() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#466-469) is never used and should be removed
+ERC20._setupDecimals(uint8) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#818-820) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#409-418) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#425-428) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#420-423) is never used and should be removed
+SafeERC20.safeTransfer(IERC20,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#394-396) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#217-219) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#233-236) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#289-295):
+	- (success) = recipient.call{value: amount}() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#293)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#355-376):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter SodaMaster.setPool(address)._pool (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#933) is not in mixedCase
+Parameter SodaMaster.setBank(address)._bank (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#940) is not in mixedCase
+Parameter SodaMaster.setRevenue(address)._revenue (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#946) is not in mixedCase
+Parameter SodaMaster.setDev(address)._dev (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#951) is not in mixedCase
+Parameter SodaMaster.setUniswapV2Factory(address)._uniswapV2Factory (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#957) is not in mixedCase
+Parameter SodaMaster.setWETH(address)._wETH (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#962) is not in mixedCase
+Parameter SodaMaster.setUSDT(address)._usdt (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#969) is not in mixedCase
+Parameter SodaMaster.setSoda(address)._soda (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#975) is not in mixedCase
+Parameter SodaMaster.addVault(uint256,address)._key (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#981) is not in mixedCase
+Parameter SodaMaster.addVault(uint256,address)._vault (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#981) is not in mixedCase
+Parameter SodaMaster.addSodaMade(uint256,address)._key (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#989) is not in mixedCase
+Parameter SodaMaster.addSodaMade(uint256,address)._sodaMade (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#989) is not in mixedCase
+Parameter SodaMaster.addStrategy(uint256,address)._key (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#997) is not in mixedCase
+Parameter SodaMaster.addStrategy(uint256,address)._strategy (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#997) is not in mixedCase
+Parameter SodaMaster.removeStrategy(uint256)._key (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1002) is not in mixedCase
+Parameter SodaMaster.addCalculator(uint256,address)._key (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1008) is not in mixedCase
+Parameter SodaMaster.addCalculator(uint256,address)._calculator (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1008) is not in mixedCase
+Parameter SodaMaster.removeCalculator(uint256)._key (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1013) is not in mixedCase
+Parameter SodaVault.setStrategies(IStrategy[])._strategies (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1039) is not in mixedCase
+Parameter SodaVault.mintByPool(address,uint256)._to (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051) is not in mixedCase
+Parameter SodaVault.mintByPool(address,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051) is not in mixedCase
+Parameter SodaVault.burnByPool(address,uint256)._account (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063) is not in mixedCase
+Parameter SodaVault.burnByPool(address,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063) is not in mixedCase
+Parameter SodaVault.transferByBank(address,address,uint256)._from (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076) is not in mixedCase
+Parameter SodaVault.transferByBank(address,address,uint256)._to (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076) is not in mixedCase
+Parameter SodaVault.transferByBank(address,address,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076) is not in mixedCase
+Parameter SodaVault.transfer(address,uint256)._to (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1091) is not in mixedCase
+Parameter SodaVault.transfer(address,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1091) is not in mixedCase
+Parameter SodaVault.lockByBank(address,uint256)._account (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1105) is not in mixedCase
+Parameter SodaVault.lockByBank(address,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1105) is not in mixedCase
+Parameter SodaVault.unlockByBank(address,uint256)._account (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1114) is not in mixedCase
+Parameter SodaVault.unlockByBank(address,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1114) is not in mixedCase
+Parameter SodaVault.clearRewardByPool(address)._who (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1122) is not in mixedCase
+Parameter SodaVault.getPendingReward(address,uint256)._who (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1130) is not in mixedCase
+Parameter SodaVault.getPendingReward(address,uint256)._index (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1130) is not in mixedCase
+Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._poolId (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase
+Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._token (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase
+Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._vault (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase
+Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._startTime (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase
+Parameter SodaPool.deposit(uint256,uint256)._poolId (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244) is not in mixedCase
+Parameter SodaPool.deposit(uint256,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244) is not in mixedCase
+Parameter SodaPool.claim(uint256)._poolId (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255) is not in mixedCase
+Parameter SodaPool.withdraw(uint256,uint256)._poolId (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266) is not in mixedCase
+Parameter SodaPool.withdraw(uint256,uint256)._amount (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#467)" inContext (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#461-470)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#503-505)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#522-525)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#531-535)
+name() should be declared external:
+	- ERC20.name() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#596-598)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#604-606)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#621-623)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#647-650)
+	- SodaVault.transfer(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1091-1102)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#655-657)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#666-669)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#683-687)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#701-704)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#720-723)
+setStrategies(IStrategy[]) should be declared external:
+	- SodaVault.setStrategies(IStrategy[]) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1039-1044)
+getStrategyCount() should be declared external:
+	- SodaVault.getStrategyCount() (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1046-1048)
+mintByPool(address,uint256) should be declared external:
+	- SodaVault.mintByPool(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051-1060)
+burnByPool(address,uint256) should be declared external:
+	- SodaVault.burnByPool(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073)
+transferByBank(address,address,uint256) should be declared external:
+	- SodaVault.transferByBank(address,address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088)
+lockByBank(address,uint256) should be declared external:
+	- SodaVault.lockByBank(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1105-1111)
+unlockByBank(address,uint256) should be declared external:
+	- SodaVault.unlockByBank(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1114-1119)
+clearRewardByPool(address) should be declared external:
+	- SodaVault.clearRewardByPool(address) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1122-1128)
+getPendingReward(address,uint256) should be declared external:
+	- SodaVault.getPendingReward(address,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1130-1141)
+setPoolInfo(uint256,IERC20,SodaVault,uint256) should be declared external:
+	- SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205-1209)
+deposit(uint256,uint256) should be declared external:
+	- SodaPool.deposit(uint256,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244-1252)
+claim(uint256) should be declared external:
+	- SodaPool.claim(uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255-1263)
+withdraw(uint256,uint256) should be declared external:
+	- SodaPool.withdraw(uint256,uint256) (../../sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266-1276)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol analyzed (11 contracts with 78 detectors), 112 result(s) found

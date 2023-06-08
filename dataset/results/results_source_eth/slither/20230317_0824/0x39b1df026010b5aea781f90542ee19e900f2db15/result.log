@@ -1,0 +1,71 @@
+Compilation warnings/errors on /sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol:
+Warning: Contract code size is 25333 bytes and exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on Mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+   --> /sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol:202:1:
+    |
+202 | contract Keep3rV2OracleFactory {
+    | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[93m
+Keep3rV2Oracle.sample(address,uint256,address,uint256,uint256).timestamp_scope_5 (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#195) is a local variable never initialized
+Keep3rV2Oracle.quote(address,uint256,address,uint256).nextObservation (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#124) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+Keep3rV2OracleFactory.work() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#293-298) ignores return value by feeds[_pairs[i]].update() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#296)
+Keep3rV2OracleFactory.workForFree() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#304-308) ignores return value by feeds[_pairs[i]].update() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#306)
+Keep3rV2OracleFactory.workForFree(address) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#310-312) ignores return value by feeds[pair].update() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#311)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+Keep3rV2Oracle.constructor(address)._pair (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#29) lacks a zero-check on :
+		- pair = _pair (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#31)
+Keep3rV2OracleFactory.setGovernance(address)._governance (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#244) lacks a zero-check on :
+		- pendingGovernance = _governance (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#246)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Keep3rV2OracleFactory.work() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#293-298) has external calls inside a loop: feeds[_pairs[i]].update() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#296)
+Keep3rV2OracleFactory.workForFree() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#304-308) has external calls inside a loop: feeds[_pairs[i]].update() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#306)
+Keep3rV2OracleFactory.cache(uint256) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#314-318) has external calls inside a loop: feeds[_pairs[i]].cache(size) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#316)
+Keep3rV2OracleFactory.workable() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#324-331) has external calls inside a loop: ! feeds[_pairs[i]].updateable() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#327)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Variable 'Keep3rV2Oracle.sample(address,uint256,address,uint256,uint256).timestamp (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#175)' in Keep3rV2Oracle.sample(address,uint256,address,uint256,uint256) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#154-199) potentially used before declaration: (timestamp) = IUniswapV2Pair(pair).getReserves() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#195)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#pre-declaration-usage-of-local-variables[0m
+[92m
+Keep3rV2OracleFactory.deploy(address) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#278-291) uses assembly
+	- INLINE ASM (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#283-288)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Pragma version^0.8.3 (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#6) allows old versions
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Function IKeep3rV1.KPRH() (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#18) is not in mixedCase
+Variable Keep3rV2Oracle._factory (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#52) is not in mixedCase
+Constant Keep3rV2Oracle.periodSize (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#55) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable Keep3rV2Oracle.Q112 (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#56) is not in mixedCase
+Parameter Keep3rV2OracleFactory.setGovernance(address)._governance (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#244) is not in mixedCase
+Variable Keep3rV2OracleFactory._pairs (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#259) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable Keep3rV2Oracle.current(address,uint256,address)._observation (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#97) is too similar to Keep3rV2Oracle.observations (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#49)
+Variable Keep3rV2Oracle._update()._price0CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#82) is too similar to Keep3rV2Oracle._update()._price1CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#83)
+Variable Keep3rV2Oracle.constructor(address)._price0CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#33) is too similar to Keep3rV2Oracle._update()._price1CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#83)
+Variable Keep3rV2Oracle.constructor(address)._price0CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#33) is too similar to Keep3rV2Oracle.constructor(address)._price1CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#34)
+Variable Keep3rV2Oracle._update()._price0CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#82) is too similar to Keep3rV2Oracle.constructor(address)._price1CumulativeLast (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#34)
+Variable Keep3rV2Oracle.current(address,uint256,address).price0Cumulative (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#98) is too similar to Keep3rV2Oracle.current(address,uint256,address).price1Cumulative (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#99)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+Keep3rV2OracleFactory.byteCode(address) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#274-276) uses literals with too many digits:
+	- bytecode = abi.encodePacked(type()(Keep3rV2Oracle).creationCode,abi.encode(pair)) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#275)
+Keep3rV2OracleFactory.deploy(address) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#278-291) uses literals with too many digits:
+	- bytecode = abi.encodePacked(type()(Keep3rV2Oracle).creationCode,abi.encode(pair)) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#281)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+Keep3rV2Oracle.Q112 (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#56) should be constant
+Keep3rV2Oracle.e10 (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#57) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+workable(address) should be declared external:
+	- Keep3rV2OracleFactory.workable(address) (../../sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol#333-335)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x39b1df026010b5aea781f90542ee19e900f2db15.sol analyzed (5 contracts with 78 detectors), 32 result(s) found

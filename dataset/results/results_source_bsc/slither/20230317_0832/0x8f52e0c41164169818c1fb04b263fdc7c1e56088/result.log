@@ -1,0 +1,529 @@
+Compilation warnings/errors on /sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol:2107:1:
+     |
+2107 | contract xWinFarm is IBEP20, BEP20 {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+SyrupBar.safeCakeTransfer(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1233-1240) ignores return value by cake.transfer(_to,cakeBal) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1236)
+SyrupBar.safeCakeTransfer(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1233-1240) ignores return value by cake.transfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1238)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+MasterChef.pendingCake(uint256,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1678-1689) performs a multiplication on the result of a division:
+	-cakeReward = multiplier.mul(cakePerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1685)
+	-accCakePerShare = accCakePerShare.add(cakeReward.mul(1e12).div(lpSupply)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1686)
+MasterChef.updatePool(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1701-1717) performs a multiplication on the result of a division:
+	-cakeReward = multiplier.mul(cakePerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1712)
+	-pool.accCakePerShare = pool.accCakePerShare.add(cakeReward.mul(1e12).div(lpSupply)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1715)
+xWinFarm.Redeem(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2379-2422) performs a multiplication on the result of a division:
+	-redeemratio = _tradeParams.amount.mul(1e18).div(totalSupply()) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2384)
+	-totalOutput = redeemratio.mul(totalBaseBal).div(1e18) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2390)
+xWinFarm.Redeem(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2379-2422) performs a multiplication on the result of a division:
+	-redeemratio = _tradeParams.amount.mul(1e18).div(totalSupply()) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2384)
+	-swapOutput = _swapTokenToBNB(cakeToken,redeemratio.mul(cakeBalDiff).div(1e18),_tradeParams.deadline,address(this),_tradeParams.priceImpactTolerance) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2415)
+xWinFarm._getWithdrawRewardWithCushion(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2424-2446) performs a multiplication on the result of a division:
+	-ratio = withdrawQty.mul(1e18).div(totalSupply) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2432)
+	-ATokenAmount = reserveA.mul(ratio).div(1e18) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2436)
+xWinFarm._getWithdrawRewardWithCushion(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2424-2446) performs a multiplication on the result of a division:
+	-ATokenAmount = reserveA.mul(ratio).div(1e18) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2436)
+	-ATokenAmountMin = ATokenAmount.mul(9950).div(10000) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2442)
+xWinFarm._getPairBalance(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2487-2514) performs a multiplication on the result of a division:
+	-ratio = lpTokenBalance.mul(1e18).div(totalSupply) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2503)
+	-myPortions = reserveA.mul(ratio).div(1e18) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2510)
+xWinFarm._getPairBalance(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2487-2514) performs a multiplication on the result of a division:
+	-ratio = lpTokenBalance.mul(1e18).div(totalSupply) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2503)
+	-(AtoBNBEstAmount,reserveB.mul(ratio).div(1e18)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2513)
+xWinFarm.emergencyRedeem(uint256,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2640-2649) performs a multiplication on the result of a division:
+	-redeemratio = redeemUnit.mul(1e18).div(totalSupply()) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2642)
+	-totalOutput = redeemratio.mul(lpTokenBalance).div(1e18) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2647)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+CakeToken._writeCheckpoint(address,uint32,uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1171-1189) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1181)
+SyrupBar._writeCheckpoint(address,uint32,uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1440-1458) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1450)
+MasterChef.migrate(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1661-1670) uses a dangerous strict equality:
+	- require(bool,string)(bal == newLpToken.balanceOf(address(this)),migrate: bad) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1668)
+MasterChef.updatePool(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1701-1717) uses a dangerous strict equality:
+	- lpSupply == 0 (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1707)
+xWinFarm._getPairBalance(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2487-2514) uses a dangerous strict equality:
+	- lpTokenBalance == 0 (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2501)
+xWinFarm._getPairBalance(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2487-2514) uses a dangerous strict equality:
+	- ratio == 0 (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2505)
+xWinFarm._getUnitPrice() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2471-2478) uses a dangerous strict equality:
+	- totalValueB4 == 0 (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2474)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in xWinFarm.Redeem(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2379-2422):
+	External calls:
+	- _removeFromFarm(_tradeParams.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2393)
+		- _masterChef.withdraw(pid,_removeAmount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2558)
+	- (amountToken,amountBNB) = _removeFromLP(_tradeParams.amount,_tradeParams.deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2395)
+		- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1480)
+		- TransferHelper.safeApprove(pair,address(pancakeSwapRouter),redeemUnit) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2568)
+		- (amountToken,amountBNB) = pancakeSwapRouter.removeLiquidityETH(farmToken,redeemUnit,ATokenAmountMin,amountBMin,address(this),deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2569-2576)
+	State variables written after the call(s):
+	- _burn(msg.sender,_tradeParams.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2397)
+		- _totalSupply = _totalSupply.sub(amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#911)
+Reentrancy in MasterChef.add(uint256,IBEP20,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1614-1627):
+	External calls:
+	- massUpdatePools() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1616)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	State variables written after the call(s):
+	- poolInfo.push(PoolInfo(_lpToken,_allocPoint,lastRewardBlock,0)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1620-1625)
+	- updateStakingPool() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1626)
+		- poolInfo[0].allocPoint = points (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1651)
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1619)
+	- updateStakingPool() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1626)
+		- totalAllocPoint = totalAllocPoint.sub(poolInfo[0].allocPoint).add(points) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1650)
+Reentrancy in MasterChef.deposit(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1720-1739):
+	External calls:
+	- updatePool(_pid) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1726)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1730)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1734)
+	State variables written after the call(s):
+	- user.amount = user.amount.add(_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1735)
+	- user.rewardDebt = user.amount.mul(pool.accCakePerShare).div(1e12) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1737)
+Reentrancy in MasterChef.emergencyWithdraw(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1804-1811):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1807)
+	State variables written after the call(s):
+	- user.amount = 0 (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1809)
+	- user.rewardDebt = 0 (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1810)
+Reentrancy in MasterChef.enterStaking(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1763-1781):
+	External calls:
+	- updatePool(0) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1766)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1770)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1774)
+	State variables written after the call(s):
+	- user.amount = user.amount.add(_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1775)
+	- user.rewardDebt = user.amount.mul(pool.accCakePerShare).div(1e12) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1777)
+Reentrancy in MasterChef.leaveStaking(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1784-1801):
+	External calls:
+	- updatePool(0) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1788)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1791)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	State variables written after the call(s):
+	- user.amount = user.amount.sub(_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1794)
+Reentrancy in MasterChef.leaveStaking(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1784-1801):
+	External calls:
+	- updatePool(0) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1788)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1791)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1795)
+	State variables written after the call(s):
+	- user.rewardDebt = user.amount.mul(pool.accCakePerShare).div(1e12) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1797)
+Reentrancy in MasterChef.migrate(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1661-1670):
+	External calls:
+	- lpToken.safeApprove(address(migrator),bal) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1666)
+	- newLpToken = migrator.migrate(lpToken) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1667)
+	State variables written after the call(s):
+	- pool.lpToken = newLpToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1669)
+Reentrancy in MasterChef.set(uint256,uint256,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1630-1640):
+	External calls:
+	- massUpdatePools() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1632)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	State variables written after the call(s):
+	- poolInfo[_pid].allocPoint = _allocPoint (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1635)
+	- updateStakingPool() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1638)
+		- poolInfo[0].allocPoint = points (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1651)
+	- totalAllocPoint = totalAllocPoint.sub(prevAllocPoint).add(_allocPoint) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1637)
+	- updateStakingPool() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1638)
+		- totalAllocPoint = totalAllocPoint.sub(poolInfo[0].allocPoint).add(points) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1650)
+Reentrancy in MasterChef.updatePool(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1701-1717):
+	External calls:
+	- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+	- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	State variables written after the call(s):
+	- pool.accCakePerShare = pool.accCakePerShare.add(cakeReward.mul(1e12).div(lpSupply)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1715)
+	- pool.lastRewardBlock = block.number (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1716)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1742-1760):
+	External calls:
+	- updatePool(_pid) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1749)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1752)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	State variables written after the call(s):
+	- user.amount = user.amount.sub(_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1755)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1742-1760):
+	External calls:
+	- updatePool(_pid) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1749)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1752)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1756)
+	State variables written after the call(s):
+	- user.rewardDebt = user.amount.mul(pool.accCakePerShare).div(1e12) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1758)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+xWinFarm.GetFundDataAll().targetNamesAddress (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2333) is a local variable never initialized
+PancakeLibrary.getAmountsOut(address,uint256,address[]).i (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1953) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+BEP20.constructor(string,string).name (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#693) shadows:
+	- BEP20.name() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#709-711) (function)
+	- IBEP20.name() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#217) (function)
+BEP20.constructor(string,string).symbol (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#693) shadows:
+	- BEP20.symbol() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#723-725) (function)
+	- IBEP20.symbol() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#212) (function)
+BEP20.allowance(address,address).owner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#757) shadows:
+	- Ownable.owner() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#603-605) (function)
+BEP20._approve(address,address,uint256).owner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#929) shadows:
+	- Ownable.owner() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#603-605) (function)
+xWinFarm.constructor(string,string,address,address,uint256,address,address,address,uint256,bool).name (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2158) shadows:
+	- BEP20.name() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#709-711) (function)
+	- IBEP20.name() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#217) (function)
+xWinFarm.constructor(string,string,address,address,uint256,address,address,address,uint256,bool).symbol (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2159) shadows:
+	- BEP20.symbol() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#723-725) (function)
+	- IBEP20.symbol() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#212) (function)
+xWinFarm._getWithdrawRewardWithCushion(address,uint256).totalSupply (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2425) shadows:
+	- BEP20.totalSupply() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#730-732) (function)
+	- IBEP20.totalSupply() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#202) (function)
+xWinFarm._getPairBalance(address).totalSupply (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2490) shadows:
+	- BEP20.totalSupply() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#730-732) (function)
+	- IBEP20.totalSupply() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#202) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+xWinFarm.updateProtocol(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2267-2270) should emit an event for: 
+	- protocolOwner = _newProtocol (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2268) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+MasterChef.updateMultiplier(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1604-1606) should emit an event for: 
+	- BONUS_MULTIPLIER = multiplierNumber (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1605) 
+MasterChef.add(uint256,IBEP20,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1614-1627) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1619) 
+MasterChef.set(uint256,uint256,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1630-1640) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.sub(prevAllocPoint).add(_allocPoint) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1637) 
+xWinFarm.updateFarmInfo(uint256,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2191-2194) should emit an event for: 
+	- pid = _pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2192) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+MasterChef.constructor(CakeToken,SyrupBar,address,uint256,uint256)._devaddr (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1582) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1588)
+MasterChef.dev(address)._devaddr (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1819) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1821)
+xWinFarm.constructor(string,string,address,address,uint256,address,address,address,uint256,bool)._cakeToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2164) lacks a zero-check on :
+		- cakeToken = _cakeToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2170)
+xWinFarm.constructor(string,string,address,address,uint256,address,address,address,uint256,bool)._farmToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2165) lacks a zero-check on :
+		- farmToken = _farmToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2171)
+xWinFarm.constructor(string,string,address,address,uint256,address,address,address,uint256,bool)._protocolOwner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2160) lacks a zero-check on :
+		- protocolOwner = _protocolOwner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2173)
+xWinFarm.constructor(string,string,address,address,uint256,address,address,address,uint256,bool)._masterOwner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2163) lacks a zero-check on :
+		- masterOwner = _masterOwner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2174)
+xWinFarm.constructor(string,string,address,address,uint256,address,address,address,uint256,bool)._managerOwner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2161) lacks a zero-check on :
+		- managerOwner = _managerOwner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2175)
+xWinFarm.updateManager(address).newManager (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2260) lacks a zero-check on :
+		- managerOwner = newManager (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2263)
+xWinFarm.updateProtocol(address)._newProtocol (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2267) lacks a zero-check on :
+		- protocolOwner = _newProtocol (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2268)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+MasterChef.updatePool(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1701-1717) has external calls inside a loop: lpSupply = pool.lpToken.balanceOf(address(this)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1706)
+MasterChef.updatePool(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1701-1717) has external calls inside a loop: cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+MasterChef.updatePool(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1701-1717) has external calls inside a loop: cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in xWinFarm.Redeem(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2379-2422):
+	External calls:
+	- _removeFromFarm(_tradeParams.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2393)
+		- _masterChef.withdraw(pid,_removeAmount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2558)
+	- (amountToken,amountBNB) = _removeFromLP(_tradeParams.amount,_tradeParams.deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2395)
+		- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1480)
+		- TransferHelper.safeApprove(pair,address(pancakeSwapRouter),redeemUnit) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2568)
+		- (amountToken,amountBNB) = pancakeSwapRouter.removeLiquidityETH(farmToken,redeemUnit,ATokenAmountMin,amountBMin,address(this),deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2569-2576)
+	State variables written after the call(s):
+	- _burn(msg.sender,_tradeParams.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2397)
+		- _balances[account] = _balances[account].sub(amount,BEP20: burn amount exceeds balance) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#910)
+Reentrancy in xWinFarm.Subscribe(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2352-2376):
+	External calls:
+	- swapOutput = _swapBNBToTokens(farmToken,halfAmt,_tradeParams.deadline,address(this),_tradeParams.priceImpactTolerance) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2359)
+		- amounts = pancakeSwapRouter.swapExactETHForTokens{value: amountIn}(quote.sub(quote.mul(priceImpactTolerance).div(10000)),path,destAddress,deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2211)
+	- (amountToken,amountBNB,liquidity) = _addLiquidityBNB(amountBToGo,halfAmt,_tradeParams.deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2363)
+		- TransferHelper.safeApprove(farmToken,address(pancakeSwapRouter),amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2245)
+		- (amountToken,amountBNB,liquidity) = pancakeSwapRouter.addLiquidityETH{value: bnbAmt}(farmToken,amount,amount.mul(9950).div(10000),bnbAmt.mul(9950).div(10000),address(this),deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2247-2254)
+		- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1480)
+	External calls sending eth:
+	- swapOutput = _swapBNBToTokens(farmToken,halfAmt,_tradeParams.deadline,address(this),_tradeParams.priceImpactTolerance) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2359)
+		- amounts = pancakeSwapRouter.swapExactETHForTokens{value: amountIn}(quote.sub(quote.mul(priceImpactTolerance).div(10000)),path,destAddress,deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2211)
+	- (amountToken,amountBNB,liquidity) = _addLiquidityBNB(amountBToGo,halfAmt,_tradeParams.deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2363)
+		- (amountToken,amountBNB,liquidity) = pancakeSwapRouter.addLiquidityETH{value: bnbAmt}(farmToken,amount,amount.mul(9950).div(10000),bnbAmt.mul(9950).div(10000),address(this),deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2247-2254)
+	State variables written after the call(s):
+	- mint(_investorAddress,liquidity) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2365)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#892)
+	- mint(_investorAddress,liquidity) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2365)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#891)
+Reentrancy in xWinFarm.emergencyRemoveFromFarm() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2632-2637):
+	External calls:
+	- _masterChef.withdraw(pid,lpTokenBalance) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2635)
+	State variables written after the call(s):
+	- performFarm = false (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2636)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in xWinFarm.Redeem(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2379-2422):
+	External calls:
+	- _removeFromFarm(_tradeParams.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2393)
+		- _masterChef.withdraw(pid,_removeAmount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2558)
+	- (amountToken,amountBNB) = _removeFromLP(_tradeParams.amount,_tradeParams.deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2395)
+		- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1480)
+		- TransferHelper.safeApprove(pair,address(pancakeSwapRouter),redeemUnit) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2568)
+		- (amountToken,amountBNB) = pancakeSwapRouter.removeLiquidityETH(farmToken,redeemUnit,ATokenAmountMin,amountBMin,address(this),deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2569-2576)
+	Event emitted after the call(s):
+	- Transfer(account,address(0),amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#912)
+		- _burn(msg.sender,_tradeParams.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2397)
+Reentrancy in xWinFarm.Subscribe(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2352-2376):
+	External calls:
+	- swapOutput = _swapBNBToTokens(farmToken,halfAmt,_tradeParams.deadline,address(this),_tradeParams.priceImpactTolerance) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2359)
+		- amounts = pancakeSwapRouter.swapExactETHForTokens{value: amountIn}(quote.sub(quote.mul(priceImpactTolerance).div(10000)),path,destAddress,deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2211)
+	- (amountToken,amountBNB,liquidity) = _addLiquidityBNB(amountBToGo,halfAmt,_tradeParams.deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2363)
+		- TransferHelper.safeApprove(farmToken,address(pancakeSwapRouter),amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2245)
+		- (amountToken,amountBNB,liquidity) = pancakeSwapRouter.addLiquidityETH{value: bnbAmt}(farmToken,amount,amount.mul(9950).div(10000),bnbAmt.mul(9950).div(10000),address(this),deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2247-2254)
+		- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1480)
+	External calls sending eth:
+	- swapOutput = _swapBNBToTokens(farmToken,halfAmt,_tradeParams.deadline,address(this),_tradeParams.priceImpactTolerance) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2359)
+		- amounts = pancakeSwapRouter.swapExactETHForTokens{value: amountIn}(quote.sub(quote.mul(priceImpactTolerance).div(10000)),path,destAddress,deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2211)
+	- (amountToken,amountBNB,liquidity) = _addLiquidityBNB(amountBToGo,halfAmt,_tradeParams.deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2363)
+		- (amountToken,amountBNB,liquidity) = pancakeSwapRouter.addLiquidityETH{value: bnbAmt}(farmToken,amount,amount.mul(9950).div(10000),bnbAmt.mul(9950).div(10000),address(this),deadline) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2247-2254)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#893)
+		- mint(_investorAddress,liquidity) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2365)
+Reentrancy in MasterChef.deposit(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1720-1739):
+	External calls:
+	- updatePool(_pid) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1726)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1730)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1734)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,_pid,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1738)
+Reentrancy in MasterChef.emergencyWithdraw(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1804-1811):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1807)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(msg.sender,_pid,user.amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1808)
+Reentrancy in MasterChef.enterStaking(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1763-1781):
+	External calls:
+	- updatePool(0) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1766)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1770)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1774)
+	- syrup.mint(msg.sender,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1779)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,0,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1780)
+Reentrancy in MasterChef.leaveStaking(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1784-1801):
+	External calls:
+	- updatePool(0) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1788)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1791)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1795)
+	- syrup.burn(msg.sender,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1799)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,0,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1800)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1742-1760):
+	External calls:
+	- updatePool(_pid) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1749)
+		- cake.mint(devaddr,cakeReward.div(10)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1713)
+		- cake.mint(address(syrup),cakeReward) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1714)
+	- safeCakeTransfer(msg.sender,pending) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1752)
+		- syrup.safeCakeTransfer(_to,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1815)
+	- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1756)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_pid,_amount) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1759)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+CakeToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1037-1078) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,CAKE::delegateBySig: signature expired) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1076)
+SyrupBar.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1306-1347) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,CAKE::delegateBySig: signature expired) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1345)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#315-326) uses assembly
+	- INLINE ASM (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#322-324)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#423-449) uses assembly
+	- INLINE ASM (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#441-444)
+CakeToken.getChainId() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1196-1200) uses assembly
+	- INLINE ASM (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1198)
+SyrupBar.getChainId() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1465-1469) uses assembly
+	- INLINE ASM (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1467)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#370-372) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#399-405) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#413-421) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#344-350) is never used and should be removed
+BEP20._burnFrom(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#946-953) is never used and should be removed
+Context._msgData() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#567-570) is never used and should be removed
+PancakeLibrary.getAmountIn(uint256,uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1940-1946) is never used and should be removed
+PancakeLibrary.getAmountsIn(address,uint256,address[]) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1960-1968) is never used and should be removed
+PancakeLibrary.getAmountsOut(address,uint256,address[]) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1949-1957) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#515-525) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#506-513) is never used and should be removed
+SafeMath.min(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#177-179) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#152-154) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#168-175) is never used and should be removed
+SafeMath.sqrt(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#182-193) is never used and should be removed
+TransferHelper.safeTransferFrom(address,address,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1494-1503) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#344-350):
+	- (success) = recipient.call{value: amount}() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#348)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#423-449):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#432)
+Low level call in TransferHelper.safeApprove(address,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1474-1482):
+	- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1480)
+Low level call in TransferHelper.safeTransfer(address,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1484-1492):
+	- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1490)
+Low level call in TransferHelper.safeTransferFrom(address,address,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1494-1503):
+	- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1501)
+Low level call in TransferHelper.safeTransferBNB(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1505-1508):
+	- (success) = to.call{value: value}(new bytes(0)) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1506)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter CakeToken.mint(address,uint256)._to (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#968) is not in mixedCase
+Parameter CakeToken.mint(address,uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#968) is not in mixedCase
+Variable CakeToken._delegates (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#979) is not in mixedCase
+Parameter SyrupBar.mint(address,uint256)._to (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1212) is not in mixedCase
+Parameter SyrupBar.mint(address,uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1212) is not in mixedCase
+Parameter SyrupBar.burn(address,uint256)._from (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1217) is not in mixedCase
+Parameter SyrupBar.burn(address,uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1217) is not in mixedCase
+Parameter SyrupBar.safeCakeTransfer(address,uint256)._to (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1233) is not in mixedCase
+Parameter SyrupBar.safeCakeTransfer(address,uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1233) is not in mixedCase
+Variable SyrupBar._delegates (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1248) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,bool)._allocPoint (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1614) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,bool)._lpToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1614) is not in mixedCase
+Parameter MasterChef.add(uint256,IBEP20,bool)._withUpdate (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1614) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,bool)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1630) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,bool)._allocPoint (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1630) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,bool)._withUpdate (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1630) is not in mixedCase
+Parameter MasterChef.setMigrator(IMigratorChef)._migrator (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1656) is not in mixedCase
+Parameter MasterChef.migrate(uint256)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1661) is not in mixedCase
+Parameter MasterChef.getMultiplier(uint256,uint256)._from (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1673) is not in mixedCase
+Parameter MasterChef.getMultiplier(uint256,uint256)._to (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1673) is not in mixedCase
+Parameter MasterChef.pendingCake(uint256,address)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1678) is not in mixedCase
+Parameter MasterChef.pendingCake(uint256,address)._user (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1678) is not in mixedCase
+Parameter MasterChef.updatePool(uint256)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1701) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1720) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1720) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1742) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1742) is not in mixedCase
+Parameter MasterChef.enterStaking(uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1763) is not in mixedCase
+Parameter MasterChef.leaveStaking(uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1784) is not in mixedCase
+Parameter MasterChef.emergencyWithdraw(uint256)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1804) is not in mixedCase
+Parameter MasterChef.safeCakeTransfer(address,uint256)._to (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1814) is not in mixedCase
+Parameter MasterChef.safeCakeTransfer(address,uint256)._amount (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1814) is not in mixedCase
+Parameter MasterChef.dev(address)._devaddr (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1819) is not in mixedCase
+Variable MasterChef.BONUS_MULTIPLIER (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1562) is not in mixedCase
+Contract xWinMaster (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1825-1832) is not in CapWords
+Contract xWinDefiInterface (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1835-1840) is not in CapWords
+Function IPancakePair.DOMAIN_SEPARATOR() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1857) is not in mixedCase
+Function IPancakePair.PERMIT_TYPEHASH() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1858) is not in mixedCase
+Function IPancakePair.MINIMUM_LIQUIDITY() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1875) is not in mixedCase
+Function IPancakeRouter01.WETH() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1973) is not in mixedCase
+Contract xWinFarm (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2107-2650) is not in CapWords
+Event xWinFarm_ManagerFeeUpdate(uint256,uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2130) is not in CapWords
+Event xWinFarm_ManagerOwnerUpdate(address,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2131) is not in CapWords
+Parameter xWinFarm.updateFarmInfo(uint256,bool)._pid (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2191) is not in mixedCase
+Parameter xWinFarm.updateFarmInfo(uint256,bool)._on (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2191) is not in mixedCase
+Parameter xWinFarm.updateProtocol(address)._newProtocol (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2267) is not in mixedCase
+Parameter xWinFarm.updateXwinMaster(address)._masterOwner (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2280) is not in mixedCase
+Parameter xWinFarm.getPairBalance(address)._targetAdd (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2309) is not in mixedCase
+Function xWinFarm.GetFundDataAll() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2319-2348) is not in mixedCase
+Function xWinFarm.Subscribe(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2352-2376) is not in mixedCase
+Parameter xWinFarm.Subscribe(xWinFarm.TradeParams,address)._tradeParams (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2353) is not in mixedCase
+Parameter xWinFarm.Subscribe(xWinFarm.TradeParams,address)._investorAddress (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2354) is not in mixedCase
+Function xWinFarm.Redeem(xWinFarm.TradeParams,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2379-2422) is not in mixedCase
+Parameter xWinFarm.Redeem(xWinFarm.TradeParams,address)._tradeParams (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2380) is not in mixedCase
+Parameter xWinFarm.Redeem(xWinFarm.TradeParams,address)._investorAddress (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2381) is not in mixedCase
+Parameter xWinFarm.emergencyRedeem(uint256,address)._investorAddress (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2640) is not in mixedCase
+Variable xWinFarm.BaseToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2123) is not in mixedCase
+Variable xWinFarm._masterChef (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2126) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#568)" inContext (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#558-571)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1978) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1979)
+Variable xWinFarm._getFarmCakeEstBalance().cakereserveA (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2602) is too similar to xWinFarm._getFarmCakeEstBalance().cakereserveB (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2602)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+xWinFarm.slitherConstructorVariables() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2107-2650) uses literals with too many digits:
+	- BaseToken = address(0x0000000000000000000000000000000000000000) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2123)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+xWinFarm.BaseToken (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2123) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#622-625)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#631-633)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#716-718)
+transfer(address,uint256) should be declared external:
+	- BEP20.transfer(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#749-752)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#757-759)
+approve(address,uint256) should be declared external:
+	- BEP20.approve(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#768-771)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20.transferFrom(address,address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#785-797)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20.increaseAllowance(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#811-814)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20.decreaseAllowance(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#830-837)
+mint(address,uint256) should be declared external:
+	- CakeToken.mint(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#968-971)
+mint(address,uint256) should be declared external:
+	- SyrupBar.mint(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1212-1215)
+burn(address,uint256) should be declared external:
+	- SyrupBar.burn(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1217-1220)
+safeCakeTransfer(address,uint256) should be declared external:
+	- SyrupBar.safeCakeTransfer(address,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1233-1240)
+updateMultiplier(uint256) should be declared external:
+	- MasterChef.updateMultiplier(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1604-1606)
+add(uint256,IBEP20,bool) should be declared external:
+	- MasterChef.add(uint256,IBEP20,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1614-1627)
+set(uint256,uint256,bool) should be declared external:
+	- MasterChef.set(uint256,uint256,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1630-1640)
+setMigrator(IMigratorChef) should be declared external:
+	- MasterChef.setMigrator(IMigratorChef) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1656-1658)
+migrate(uint256) should be declared external:
+	- MasterChef.migrate(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1661-1670)
+deposit(uint256,uint256) should be declared external:
+	- MasterChef.deposit(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1720-1739)
+withdraw(uint256,uint256) should be declared external:
+	- MasterChef.withdraw(uint256,uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1742-1760)
+enterStaking(uint256) should be declared external:
+	- MasterChef.enterStaking(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1763-1781)
+leaveStaking(uint256) should be declared external:
+	- MasterChef.leaveStaking(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1784-1801)
+emergencyWithdraw(uint256) should be declared external:
+	- MasterChef.emergencyWithdraw(uint256) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1804-1811)
+dev(address) should be declared external:
+	- MasterChef.dev(address) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#1819-1822)
+updateFarmInfo(uint256,bool) should be declared external:
+	- xWinFarm.updateFarmInfo(uint256,bool) (../../sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol#2191-2194)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x8f52e0c41164169818c1fb04b263fdc7c1e56088.sol analyzed (19 contracts with 78 detectors), 183 result(s) found

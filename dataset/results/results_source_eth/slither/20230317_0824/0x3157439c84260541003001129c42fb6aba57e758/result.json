@@ -1,0 +1,295 @@
+{
+    "errors": [
+        "EXIT_CODE_31"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "execute",
+            "impact": "High",
+            "line": 124,
+            "line_end": 139,
+            "message": "Governance.execute(uint256,address,bytes) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124-139) uses delegatecall to a input-controlled function id\n\t- (success,returnData) = _target.delegatecall(_data) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#134)\n",
+            "name": "controlled-delegatecall"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "lockVotes",
+            "impact": "High",
+            "line": 91,
+            "line_end": 97,
+            "message": "Governance.lockVotes() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#91-97) ignores return value by votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#93)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "withdraw",
+            "impact": "High",
+            "line": 183,
+            "line_end": 187,
+            "message": "Governance.withdraw() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#183-187) ignores return value by votingToken.transfer(msg.sender,balanceOf[msg.sender]) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#185)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 183,
+            "line_end": 187,
+            "message": "Reentrancy in Governance.withdraw() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#183-187):\n\tExternal calls:\n\t- votingToken.transfer(msg.sender,balanceOf[msg.sender]) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#185)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,balanceOf[msg.sender]) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#186)\n\t\t- balanceOf[_account] -= _amount (../..0x3157439c84260541003001129c42fb6aba57e758.sol#194)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "execute",
+            "impact": "Medium",
+            "line": 124,
+            "line_end": 139,
+            "message": "Reentrancy in Governance.execute(uint256,address,bytes) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124-139):\n\tExternal calls:\n\t- (success,returnData) = _target.delegatecall(_data) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#134)\n\tState variables written after the call(s):\n\t- proposal.executed = true (../..0x3157439c84260541003001129c42fb6aba57e758.sol#136)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Low",
+            "line": 124,
+            "message": "Governance.execute(uint256,address,bytes)._target (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124) lacks a zero-check on :\n\t\t- (success,returnData) = _target.delegatecall(_data) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#134)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "lockVotes",
+            "impact": "Low",
+            "line": 91,
+            "line_end": 97,
+            "message": "Reentrancy in Governance.lockVotes() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#91-97):\n\tExternal calls:\n\t- votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#93)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,tokenBalance) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#94)\n\t\t- balanceOf[_account] += _amount (../..0x3157439c84260541003001129c42fb6aba57e758.sol#190)\n\t- voteLock[msg.sender] = block.timestamp + votingPeriod (../..0x3157439c84260541003001129c42fb6aba57e758.sol#95)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "vote",
+            "impact": "Low",
+            "line": 163,
+            "line_end": 181,
+            "message": "Reentrancy in Governance.vote(uint256,bool) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#163-181):\n\tExternal calls:\n\t- lockVotes() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#163)\n\t\t- votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#93)\n\tState variables written after the call(s):\n\t- proposal.forVotes += votes (../..0x3157439c84260541003001129c42fb6aba57e758.sol#173)\n\t- proposal.againstVotes += votes (../..0x3157439c84260541003001129c42fb6aba57e758.sol#175)\n\t- receipt.hasVoted = true (../..0x3157439c84260541003001129c42fb6aba57e758.sol#178)\n\t- receipt.support = _support (../..0x3157439c84260541003001129c42fb6aba57e758.sol#179)\n\t- receipt.votes = votes (../..0x3157439c84260541003001129c42fb6aba57e758.sol#180)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "propose",
+            "impact": "Low",
+            "line": 141,
+            "line_end": 161,
+            "message": "Reentrancy in Governance.propose(address,bytes) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#141-161):\n\tExternal calls:\n\t- lockVotes() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#141)\n\t\t- votingToken.transferFrom(msg.sender,address(this),tokenBalance) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#93)\n\tState variables written after the call(s):\n\t- proposalCount ++ (../..0x3157439c84260541003001129c42fb6aba57e758.sol#147)\n\t- proposals[newProposal.id] = newProposal (../..0x3157439c84260541003001129c42fb6aba57e758.sol#158)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 183,
+            "line_end": 187,
+            "message": "Governance.withdraw() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#183-187) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp > voteLock[msg.sender],Governance::withdraw: wait until voteLock expiration) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#184)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "state",
+            "impact": "Low",
+            "line": 103,
+            "line_end": 122,
+            "message": "Governance.state(uint256) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#103-122) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp <= proposal.startTime + votingPeriod (../..0x3157439c84260541003001129c42fb6aba57e758.sol#107)\n\t- block.timestamp < proposal.startTime + executionPeriod (../..0x3157439c84260541003001129c42fb6aba57e758.sol#116)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "state",
+            "impact": "Informational",
+            "line": 103,
+            "line_end": 122,
+            "message": "Governance.state(uint256) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#103-122) compares to a boolean constant:\n\t-proposal.executed == true (../..0x3157439c84260541003001129c42fb6aba57e758.sol#110)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "vote",
+            "impact": "Informational",
+            "line": 163,
+            "line_end": 181,
+            "message": "Governance.vote(uint256,bool) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#163-181) compares to a boolean constant:\n\t-require(bool,string)(receipt.hasVoted == false,Governance::vote: voter already voted) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#168)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Pragma version^0.8.1 (../..0x3157439c84260541003001129c42fb6aba57e758.sol#3) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "message": "solc-0.8.19 is not recommended for deployment\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "execute",
+            "impact": "Informational",
+            "line": 124,
+            "line_end": 139,
+            "message": "Low level call in Governance.execute(uint256,address,bytes) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124-139):\n\t- (success,returnData) = _target.delegatecall(_data) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#134)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 22,
+            "message": "Constant Governance.executionPeriod (../..0x3157439c84260541003001129c42fb6aba57e758.sol#22) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 141,
+            "message": "Parameter Governance.propose(address,bytes)._target (../..0x3157439c84260541003001129c42fb6aba57e758.sol#141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 124,
+            "message": "Parameter Governance.execute(uint256,address,bytes)._target (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 163,
+            "message": "Parameter Governance.vote(uint256,bool)._support (../..0x3157439c84260541003001129c42fb6aba57e758.sol#163) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 163,
+            "message": "Parameter Governance.vote(uint256,bool)._proposalId (../..0x3157439c84260541003001129c42fb6aba57e758.sol#163) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Constant Governance.votingPeriod (../..0x3157439c84260541003001129c42fb6aba57e758.sol#19) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 28,
+            "message": "Constant Governance.proposalThreshold (../..0x3157439c84260541003001129c42fb6aba57e758.sol#28) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 124,
+            "message": "Parameter Governance.execute(uint256,address,bytes)._data (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 124,
+            "message": "Parameter Governance.execute(uint256,address,bytes)._proposalId (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 25,
+            "message": "Constant Governance.quorumVotes (../..0x3157439c84260541003001129c42fb6aba57e758.sol#25) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "impact": "Informational",
+            "line": 141,
+            "message": "Parameter Governance.propose(address,bytes)._data (../..0x3157439c84260541003001129c42fb6aba57e758.sol#141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "propose",
+            "impact": "Optimization",
+            "line": 141,
+            "line_end": 161,
+            "message": "propose(address,bytes) should be declared external:\n\t- Governance.propose(address,bytes) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#141-161)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "execute",
+            "impact": "Optimization",
+            "line": 124,
+            "line_end": 139,
+            "message": "execute(uint256,address,bytes) should be declared external:\n\t- Governance.execute(uint256,address,bytes) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#124-139)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "vote",
+            "impact": "Optimization",
+            "line": 163,
+            "line_end": 181,
+            "message": "vote(uint256,bool) should be declared external:\n\t- Governance.vote(uint256,bool) (../..0x3157439c84260541003001129c42fb6aba57e758.sol#163-181)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x3157439c84260541003001129c42fb6aba57e758.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 183,
+            "line_end": 187,
+            "message": "withdraw() should be declared external:\n\t- Governance.withdraw() (../..0x3157439c84260541003001129c42fb6aba57e758.sol#183-187)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

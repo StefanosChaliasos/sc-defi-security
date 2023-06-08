@@ -1,0 +1,215 @@
+Compilation warnings/errors on /sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol:
+/sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol:35:5: Warning: Variable is shadowed in inline assembly by an instruction of the same name
+    function add(uint x, uint y) internal pure returns (uint z) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol:44:5: Warning: Variable is shadowed in inline assembly by an instruction of the same name
+    function div(uint x, uint y) internal pure returns (uint z) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol:41:5: Warning: Variable is shadowed in inline assembly by an instruction of the same name
+    function mul(uint x, uint y) internal pure returns (uint z) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol:38:5: Warning: Variable is shadowed in inline assembly by an instruction of the same name
+    function sub(uint x, uint y) internal pure returns (uint z) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+/sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol:373:5: Warning: Function state mutability can be restricted to pure
+    function getDecimals(address _token) internal view returns(uint) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+[91m
+SaverExchange.takeOrder(address[3],bytes,uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267-292) sends eth to arbitrary user
+	Dangerous calls:
+	- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).transfer(wrapper,tokens[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#230)
+SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[2]).transfer(msg.sender,ERC20(orderAddresses[2]).balanceOf(address(this))) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#251)
+SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).transfer(msg.sender,ERC20(orderAddresses[1]).balanceOf(address(this))) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#257)
+SaverExchange.takeFee(uint256,address) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#353-370) ignores return value by ERC20(_token).transfer(WALLET_ID,feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#367)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+TokenInterface (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#24-32) has incorrect ERC20 function interface:TokenInterface.approve(address,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#27)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-erc20-interface[0m
+[93m
+SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) uses a dangerous strict equality:
+	- tokens[0] == 0 (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#201)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#192)
+SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260) ignores return value by ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#209)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+SaverExchange.getExpectedRate(address,address,address,uint256)._wrapper (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) lacks a zero-check on :
+		- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)
+SaverExchange.getExpectedRate(address,address,address,uint256)._srcToken (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) lacks a zero-check on :
+		- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)
+SaverExchange.getExpectedRate(address,address,address,uint256)._destToken (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) lacks a zero-check on :
+		- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):
+	External calls:
+	- require(bool,string)(ERC20(orderAddresses[1]).transferFrom(msg.sender,address(this),_amount),Not able to withdraw wanted amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#176)
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- ERC20(_token).transfer(WALLET_ID,feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#367)
+	- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#192)
+	- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+		- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)
+	- (wrapper,price) = getBestPrice(_amount,orderAddresses[1],orderAddresses[2],_exchangeType) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#202)
+		- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)
+	- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#209)
+	- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+		- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)
+	External calls sending eth:
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- WALLET_ID.transfer(feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)
+	- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	Event emitted after the call(s):
+	- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#215)
+Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):
+	External calls:
+	- require(bool,string)(ERC20(orderAddresses[1]).transferFrom(msg.sender,address(this),_amount),Not able to withdraw wanted amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#176)
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- ERC20(_token).transfer(WALLET_ID,feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#367)
+	- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#192)
+	- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+		- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)
+	- (wrapper,price) = getBestPrice(_amount,orderAddresses[1],orderAddresses[2],_exchangeType) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#202)
+		- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)
+	- ERC20(orderAddresses[1]).approve(address(ERC20_PROXY_0X),_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#209)
+	- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+		- TokenInterface(WETH_ADDRESS).withdraw(TokenInterface(WETH_ADDRESS).balanceOf(address(this))) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#284)
+	- (wrapper,price) = getBestPrice(tokens[1],orderAddresses[1],orderAddresses[2],_exchangeType) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#222)
+		- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)
+	- (tokens[0],None) = ExchangeInterface(wrapper).swapEtherToToken.value(tokens[1])(tokens[1],orderAddresses[2],uint256(- 1)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#228)
+	- ERC20(orderAddresses[1]).transfer(wrapper,tokens[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#230)
+	- tokens[0] = ExchangeInterface(wrapper).swapTokenToEther(orderAddresses[1],tokens[1],uint256(- 1)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#233)
+	- tokens[0] = ExchangeInterface(wrapper).swapTokenToToken(orderAddresses[1],orderAddresses[2],tokens[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#235)
+	External calls sending eth:
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- WALLET_ID.transfer(feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)
+	- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	- (tokens[0],None) = ExchangeInterface(wrapper).swapEtherToToken.value(tokens[1])(tokens[1],orderAddresses[2],uint256(- 1)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#228)
+	Event emitted after the call(s):
+	- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#239)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+SaverExchange.sliceUint(bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#390-399) uses assembly
+	- INLINE ASM (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#394-396)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+DSMath.add(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#35-37) is never used and should be removed
+DSMath.div(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#44-46) is never used and should be removed
+DSMath.imax(int256,int256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#57-59) is never used and should be removed
+DSMath.imin(int256,int256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#54-56) is never used and should be removed
+DSMath.max(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#51-53) is never used and should be removed
+DSMath.min(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#48-50) is never used and should be removed
+DSMath.mul(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#41-43) is never used and should be removed
+DSMath.rdiv(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#73-75) is never used and should be removed
+DSMath.rmul(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#67-69) is never used and should be removed
+DSMath.rpow(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#92-102) is never used and should be removed
+DSMath.wdiv(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#70-72) is never used and should be removed
+DSMath.wmul(uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#64-66) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.5.7 (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#1) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in SaverExchange.takeOrder(address[3],bytes,uint256,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267-292):
+	- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+Low level call in SaverExchange.getExpectedRate(address,address,address,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337-348):
+	- (success,result) = _wrapper.call(abi.encodeWithSignature(getExpectedRate(address,address,uint256),_srcToken,_destToken,_amount)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#341)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter Discount.isCustomFeeSet(address)._user (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#135) is not in mixedCase
+Parameter Discount.getCustomServiceFee(address)._user (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#139) is not in mixedCase
+Parameter Discount.setServiceFee(address,uint256)._user (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#143) is not in mixedCase
+Parameter Discount.setServiceFee(address,uint256)._fee (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#143) is not in mixedCase
+Parameter Discount.disableServiceFee(address)._user (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#153) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._src (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._dest (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._amount (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._minPrice (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._exchangeType (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._exchangeAddress (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._callData (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256)._0xPrice (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169) is not in mixedCase
+Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._addresses (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase
+Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._data (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase
+Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._value (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase
+Parameter SaverExchange.takeOrder(address[3],bytes,uint256,uint256)._amount (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#267) is not in mixedCase
+Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._amount (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase
+Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._srcToken (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase
+Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._destToken (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase
+Parameter SaverExchange.getBestPrice(uint256,address,address,uint256)._exchangeType (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#299) is not in mixedCase
+Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._wrapper (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase
+Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._srcToken (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase
+Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._destToken (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase
+Parameter SaverExchange.getExpectedRate(address,address,address,uint256)._amount (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#337) is not in mixedCase
+Parameter SaverExchange.takeFee(uint256,address)._amount (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#353) is not in mixedCase
+Parameter SaverExchange.takeFee(uint256,address)._token (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#353) is not in mixedCase
+Parameter SaverExchange.getDecimals(address)._token (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#373) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):
+	External calls:
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- WALLET_ID.transfer(feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)
+	External calls sending eth:
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- WALLET_ID.transfer(feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)
+	- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	Event emitted after the call(s):
+	- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#215)
+Reentrancy in SaverExchange.swapTokenToToken(address,address,uint256,uint256,uint256,address,bytes,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#169-260):
+	External calls:
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- WALLET_ID.transfer(feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)
+	External calls sending eth:
+	- fee = takeFee(_amount,orderAddresses[1]) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#179)
+		- WALLET_ID.transfer(feeAmount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#365)
+	- (success,tokens[0],None) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#195)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	- (success,tokens[0],tokens[1]) = takeOrder(orderAddresses,_callData,address(this).balance,_amount) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#211)
+		- (success,None) = _addresses[0].call.value(_value)(_data) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#270)
+	- (tokens[0],None) = ExchangeInterface(wrapper).swapEtherToToken.value(tokens[1])(tokens[1],orderAddresses[2],uint256(- 1)) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#228)
+	Event emitted after the call(s):
+	- Swap(orderAddresses[1],orderAddresses[2],_amount,tokens[0],wrapper) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#239)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4[0m
+[92m
+allowance(address,address) should be declared external:
+	- TokenInterface.allowance(address,address) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#25)
+balanceOf(address) should be declared external:
+	- TokenInterface.balanceOf(address) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#26)
+approve(address,uint256) should be declared external:
+	- TokenInterface.approve(address,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#27)
+transfer(address,uint256) should be declared external:
+	- TokenInterface.transfer(address,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#28)
+transferFrom(address,address,uint256) should be declared external:
+	- TokenInterface.transferFrom(address,address,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#29)
+deposit() should be declared external:
+	- TokenInterface.deposit() (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#30)
+withdraw(uint256) should be declared external:
+	- TokenInterface.withdraw(uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#31)
+isCustomFeeSet(address) should be declared external:
+	- Discount.isCustomFeeSet(address) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#135-137)
+getCustomServiceFee(address) should be declared external:
+	- Discount.getCustomServiceFee(address) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#139-141)
+setServiceFee(address,uint256) should be declared external:
+	- Discount.setServiceFee(address,uint256) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#143-151)
+disableServiceFee(address) should be declared external:
+	- Discount.disableServiceFee(address) (../../sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol#153-160)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x606e9758a39d2d7fa7e70bc68e6e7d9b02948962.sol analyzed (7 contracts with 78 detectors), 71 result(s) found

@@ -1,0 +1,449 @@
+{
+    "errors": [
+        "EXIT_CODE_49"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "_safeTransfer",
+            "impact": "Medium",
+            "line": 530,
+            "line_end": 537,
+            "message": "ImpossiblePair._safeTransfer(address,address,uint256) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#530-537) uses a dangerous strict equality:\n\t- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),IF: TRANSFER_FAILED) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#536)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "mint",
+            "impact": "Medium",
+            "line": 671,
+            "line_end": 692,
+            "message": "ImpossiblePair.mint(address) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#671-692) uses a dangerous strict equality:\n\t- _totalSupply == 0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#680)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 695,
+            "line_end": 736,
+            "message": "Reentrancy in ImpossiblePair.burn(address) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):\n\tExternal calls:\n\t- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(_token0,to,amount0) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#724)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(_token1,to,amount1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#725)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\tState variables written after the call(s):\n\t- kLast = _xybkComputeK(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#733)\n\t- kLast = balance0.mul(balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#733)\n\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#732)\n\t\t- reserve0 = uint128(balance0) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#642)\n\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#732)\n\t\t- reserve1 = uint128(balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#643)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 695,
+            "line_end": 736,
+            "message": "Reentrancy in ImpossiblePair.burn(address) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):\n\tExternal calls:\n\t- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\tState variables written after the call(s):\n\t- _burn(address(this),liquidity.sub(liquidity.div(_FEE))) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#718)\n\t\t- balanceOf[from] = balanceOf[from].sub(value) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#202)\n\t- _burn(address(this),liquidity.sub(liquidity.div(_FEE))) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#718)\n\t\t- totalSupply = totalSupply.sub(value) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#203)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 768,
+            "line_end": 825,
+            "message": "Reentrancy in ImpossiblePair.swap(uint256,uint256,address,bytes) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#768-825):\n\tExternal calls:\n\t- _safeTransfer(token0,to,amount0Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#784)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(token1,to,amount1Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#785)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#786)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#822)\n\t\t- reserve0 = uint128(balance0) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#642)\n\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#822)\n\t\t- reserve1 = uint128(balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#643)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "makeXybk",
+            "impact": "Medium",
+            "line": 540,
+            "line_end": 563,
+            "message": "ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#540-563) contains a tautology or contradiction:\n\t- require(bool,string)(0 <= _ratioStart && _ratioStart < _ratioEnd && _ratioEnd <= 100,IF: IF: INVALID_RATIO) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#547)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "updateHardstops",
+            "impact": "Medium",
+            "line": 595,
+            "line_end": 601,
+            "message": "ImpossiblePair.updateHardstops(uint8,uint8) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#595-601) contains a tautology or contradiction:\n\t- require(bool,string)(0 <= _ratioStart && _ratioStart < _ratioEnd && _ratioEnd <= 100,IF: INVALID_RATIO) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#597)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Medium",
+            "line": 524,
+            "message": "ImpossiblePair.calcBoost()._newBoost1_scope_1 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Medium",
+            "line": 524,
+            "message": "ImpossiblePair.calcBoost()._newBoost0_scope_0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 622,
+            "line_end": 637,
+            "message": "ImpossiblePair.initialize(address,address,address) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#622-637) should emit an event for: \n\t- router = _router (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#628) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Low",
+            "line": 623,
+            "message": "ImpossiblePair.initialize(address,address,address)._token0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#623) lacks a zero-check on :\n\t\t- token0 = _token0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#629)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Low",
+            "line": 625,
+            "message": "ImpossiblePair.initialize(address,address,address)._router (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#625) lacks a zero-check on :\n\t\t- router = _router (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#628)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Low",
+            "line": 624,
+            "message": "ImpossiblePair.initialize(address,address,address)._token1 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#624) lacks a zero-check on :\n\t\t- token1 = _token1 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#630)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "calcBoost",
+            "impact": "Low",
+            "line": 520,
+            "message": "Variable 'ImpossiblePair.calcBoost()._newBoost0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#520)' in ImpossiblePair.calcBoost() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#517-528) potentially used before declaration: (_newBoost0,_newBoost1,_oldBoost0,_oldBoost1) = getBoost() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524)\n",
+            "name": "variable-scope"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "calcBoost",
+            "impact": "Low",
+            "line": 520,
+            "message": "Variable 'ImpossiblePair.calcBoost()._newBoost1 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#520)' in ImpossiblePair.calcBoost() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#517-528) potentially used before declaration: (_newBoost0,_newBoost1,_oldBoost0,_oldBoost1) = getBoost() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#524)\n",
+            "name": "variable-scope"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "cheapSwap",
+            "impact": "Low",
+            "line": 739,
+            "line_end": 764,
+            "message": "Reentrancy in ImpossiblePair.cheapSwap(uint256,uint256,address,bytes) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#739-764):\n\tExternal calls:\n\t- _safeTransfer(token0,to,amount0Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#745)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(token1,to,amount1Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#746)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#747)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#762)\n\t\t- reserve0 = uint128(balance0) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#642)\n\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#762)\n\t\t- reserve1 = uint128(balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#643)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 695,
+            "line_end": 736,
+            "message": "Reentrancy in ImpossiblePair.burn(address) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):\n\tExternal calls:\n\t- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\tEvent emitted after the call(s):\n\t- Transfer(from,address(0),value) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#204)\n\t\t- _burn(address(this),liquidity.sub(liquidity.div(_FEE))) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#718)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 768,
+            "line_end": 825,
+            "message": "Reentrancy in ImpossiblePair.swap(uint256,uint256,address,bytes) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#768-825):\n\tExternal calls:\n\t- _safeTransfer(token0,to,amount0Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#784)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(token1,to,amount1Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#785)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#786)\n\tEvent emitted after the call(s):\n\t- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#824)\n\t- Sync(reserve0,reserve1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#644)\n\t\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#822)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 695,
+            "line_end": 736,
+            "message": "Reentrancy in ImpossiblePair.burn(address) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#695-736):\n\tExternal calls:\n\t- _safeTransfer(address(this),IImpossibleFactory(factory).feeTo(),liquidity.div(_FEE)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#717)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(_token0,to,amount0) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#724)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(_token1,to,amount1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#725)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,amount0,amount1,to) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#735)\n\t- Sync(reserve0,reserve1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#644)\n\t\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#732)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "cheapSwap",
+            "impact": "Low",
+            "line": 739,
+            "line_end": 764,
+            "message": "Reentrancy in ImpossiblePair.cheapSwap(uint256,uint256,address,bytes) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#739-764):\n\tExternal calls:\n\t- _safeTransfer(token0,to,amount0Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#745)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- _safeTransfer(token1,to,amount1Out) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#746)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n\t- IImpossibleCallee(to).ImpossibleCall(msg.sender,amount0Out,amount1Out,data) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#747)\n\tEvent emitted after the call(s):\n\t- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#763)\n\t- Sync(reserve0,reserve1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#644)\n\t\t- _update(balance0,balance1) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#762)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 248,
+            "line_end": 269,
+            "message": "ImpossibleERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#248-269) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,IF: EXPIRED) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#257)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 179,
+            "line_end": 193,
+            "message": "ImpossibleERC20.constructor() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#179-193) uses assembly\n\t- INLINE ASM (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#181-183)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "_safeTransfer",
+            "impact": "Informational",
+            "line": 530,
+            "line_end": 537,
+            "message": "Low level call in ImpossiblePair._safeTransfer(address,address,uint256) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#530-537):\n\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#535)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 543,
+            "message": "Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._boost0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#543) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Function IImpossibleERC20.DOMAIN_SEPARATOR() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#19) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "ImpossibleCall",
+            "impact": "Informational",
+            "line": 29,
+            "message": "Function IImpossibleCallee.ImpossibleCall(address,uint256,uint256,bytes) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#29) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 541,
+            "message": "Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._ratioStart (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#541) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 604,
+            "message": "Parameter ImpossiblePair.updateBoost(uint32,uint32)._boost0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#604) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 355,
+            "message": "Event IImpossiblePairchangeInvariant(bool,uint256,uint256) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#355) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 579,
+            "message": "Parameter ImpossiblePair.updateTradeFees(uint16)._fee (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#579) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 357,
+            "message": "Event IImpossiblePairupdatedDelay(uint256,uint256) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#357) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 625,
+            "message": "Parameter ImpossiblePair.initialize(address,address,address)._router (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#625) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 544,
+            "message": "Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._boost1 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#544) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 595,
+            "message": "Parameter ImpossiblePair.updateHardstops(uint8,uint8)._ratioEnd (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#595) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 368,
+            "message": "Function IImpossiblePair.MINIMUM_LIQUIDITY() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#368) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 604,
+            "message": "Parameter ImpossiblePair.updateBoost(uint32,uint32)._boost1 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#604) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 359,
+            "line_end": 366,
+            "message": "Event IImpossiblePairupdatedBoost(uint32,uint32,uint32,uint32,uint256,uint256) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#359-366) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 623,
+            "message": "Parameter ImpossiblePair.initialize(address,address,address)._token0 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#623) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 356,
+            "message": "Event IImpossiblePairupdatedTradeFees(uint256,uint256) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#356) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 173,
+            "message": "Variable ImpossibleERC20.DOMAIN_SEPARATOR (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#173) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 542,
+            "message": "Parameter ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32)._ratioEnd (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#542) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 358,
+            "message": "Event IImpossiblePairupdatedHardstops(uint8,uint8) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#358) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 595,
+            "message": "Parameter ImpossiblePair.updateHardstops(uint8,uint8)._ratioStart (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#595) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 588,
+            "message": "Parameter ImpossiblePair.updateDelay(uint256)._delay (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#588) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 624,
+            "message": "Parameter ImpossiblePair.initialize(address,address,address)._token1 (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#624) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 20,
+            "message": "Function IImpossibleERC20.PERMIT_TYPEHASH() (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#20) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "impact": "Informational",
+            "line": 809,
+            "message": "Variable ImpossiblePair.swap(uint256,uint256,address,bytes).balance0Adjusted (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#809) is too similar to ImpossiblePair.swap(uint256,uint256,address,bytes).balance1Adjusted (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#810)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "updateBoost",
+            "impact": "Informational",
+            "line": 604,
+            "line_end": 615,
+            "message": "ImpossiblePair.updateBoost(uint32,uint32) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#604-615) uses literals with too many digits:\n\t- require(bool,string)(_boost0 >= 1 && _boost1 >= 1 && _boost0 <= 1000000 && _boost1 <= 1000000,IF: INVALID_BOOST) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#606)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol",
+            "function": "makeXybk",
+            "impact": "Informational",
+            "line": 540,
+            "line_end": 563,
+            "message": "ImpossiblePair.makeXybk(uint8,uint8,uint32,uint32) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#540-563) uses literals with too many digits:\n\t- require(bool,string)(_boost0 >= 1 && _boost1 >= 1 && _boost0 <= 1000000 && _boost1 <= 1000000,IF: INVALID_BOOST) (../..0x8ae4dffbf44c1c6c4c18489914401ef830ee146d.sol#548)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

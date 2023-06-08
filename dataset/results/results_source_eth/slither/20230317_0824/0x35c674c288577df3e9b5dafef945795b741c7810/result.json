@@ -1,0 +1,921 @@
+{
+    "errors": [
+        "EXIT_CODE_95"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "safeMfundTransfer",
+            "impact": "High",
+            "line": 1348,
+            "line_end": 1355,
+            "message": "Memestake.safeMfundTransfer(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348-1355) ignores return value by mFundToken.transfer(_to,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "safeMfundTransfer",
+            "impact": "High",
+            "line": 1348,
+            "line_end": 1355,
+            "message": "Memestake.safeMfundTransfer(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348-1355) ignores return value by mFundToken.transfer(_to,mFundBal) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "pendingRewards",
+            "impact": "Medium",
+            "line": 1204,
+            "line_end": 1221,
+            "message": "Memestake.pendingRewards(uint256,address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1204-1221) performs a multiplication on the result of a division:\n\t-mFundReward = multiplier.mul(mFundPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1216)\n\t-accMfundPerShare = accMfundPerShare.add(mFundReward.mul(1e18).div(lpSupply)) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1217)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1247,
+            "line_end": 1273,
+            "message": "Memestake.updatePool(uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) performs a multiplication on the result of a division:\n\t-mFundReward = multiplier.mul(mFundPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1269)\n\t-pool.accMfundPerShare = pool.accMfundPerShare.add(mFundReward.mul(1e18).div(tokenContractSupply)) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1271)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1247,
+            "line_end": 1273,
+            "message": "Memestake.updatePool(uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) uses a dangerous strict equality:\n\t- tokenContractSupply == 0 (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1256)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1247,
+            "line_end": 1273,
+            "message": "Memestake.updatePool(uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) uses a dangerous strict equality:\n\t- multiplier == 0 (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1265)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1303,
+            "line_end": 1323,
+            "message": "Reentrancy in Memestake.withdraw(uint256,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303-1323):\n\tExternal calls:\n\t- safeMfundTransfer(msg.sender,pending) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1313)\n\t\t- mFundToken.transfer(_to,mFundBal) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)\n\t\t- mFundToken.transfer(_to,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.sub(_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1317)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1278,
+            "line_end": 1297,
+            "message": "Reentrancy in Memestake.deposit(uint256,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278-1297):\n\tExternal calls:\n\t- safeMfundTransfer(msg.sender,pending) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1286)\n\t\t- mFundToken.transfer(_to,mFundBal) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)\n\t\t- mFundToken.transfer(_to,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)\n\t- pool.tokenContract.safeTransferFrom(address(msg.sender),address(this),_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1291)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.add(_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1292)\n\t- user.rewardDebt = user.amount.mul(pool.accMfundPerShare).div(1e18) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1295)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1303,
+            "line_end": 1323,
+            "message": "Reentrancy in Memestake.withdraw(uint256,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303-1323):\n\tExternal calls:\n\t- safeMfundTransfer(msg.sender,pending) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1313)\n\t\t- mFundToken.transfer(_to,mFundBal) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)\n\t\t- mFundToken.transfer(_to,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)\n\t- pool.tokenContract.safeTransfer(address(msg.sender),_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1318)\n\tState variables written after the call(s):\n\t- user.rewardDebt = user.amount.mul(pool.accMfundPerShare).div(1e18) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1321)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "set",
+            "impact": "Low",
+            "line": 1187,
+            "line_end": 1198,
+            "message": "Memestake.set(uint256,uint256,bool) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187-1198) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1195) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 1159,
+            "line_end": 1179,
+            "message": "Memestake.add(uint256,IERC20,bool) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159-1179) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1170) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Low",
+            "line": 102,
+            "message": "Memefund.setRebaseOracle(address).newRebaseOracle (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#102) lacks a zero-check on :\n\t\t- rebaseOracle = newRebaseOracle (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#104)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 1247,
+            "line_end": 1273,
+            "message": "Memestake.updatePool(uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247-1273) has external calls inside a loop: tokenContractSupply = pool.tokenContract.balanceOf(address(this)) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1255)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1278,
+            "line_end": 1297,
+            "message": "Reentrancy in Memestake.deposit(uint256,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278-1297):\n\tExternal calls:\n\t- safeMfundTransfer(msg.sender,pending) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1286)\n\t\t- mFundToken.transfer(_to,mFundBal) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)\n\t\t- mFundToken.transfer(_to,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)\n\t- pool.tokenContract.safeTransferFrom(address(msg.sender),address(this),_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1291)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_pid,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1296)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1303,
+            "line_end": 1323,
+            "message": "Reentrancy in Memestake.withdraw(uint256,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303-1323):\n\tExternal calls:\n\t- safeMfundTransfer(msg.sender,pending) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1313)\n\t\t- mFundToken.transfer(_to,mFundBal) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)\n\t\t- mFundToken.transfer(_to,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)\n\t- pool.tokenContract.safeTransfer(address(msg.sender),_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1318)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_pid,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1322)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Low",
+            "line": 1327,
+            "line_end": 1339,
+            "message": "Reentrancy in Memestake.emergencyWithdraw(uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1327-1339):\n\tExternal calls:\n\t- pool.tokenContract.safeTransfer(address(msg.sender),amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1337)\n\tEvent emitted after the call(s):\n\t- EmergencyWithdraw(msg.sender,_pid,amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1338)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "claimRewards",
+            "impact": "Low",
+            "line": 1224,
+            "line_end": 1233,
+            "message": "Reentrancy in Memestake.claimRewards(uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1224-1233):\n\tExternal calls:\n\t- safeMfundTransfer(msg.sender,pending) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1231)\n\t\t- mFundToken.transfer(_to,mFundBal) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1351)\n\t\t- mFundToken.transfer(_to,_amount) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1353)\n\tEvent emitted after the call(s):\n\t- Claim(msg.sender,_pid,pending) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1232)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 937,
+            "line_end": 954,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#937-954) uses assembly\n\t- INLINE ASM (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#946-949)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 792,
+            "line_end": 801,
+            "message": "Address.isContract(address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#792-801) uses assembly\n\t- INLINE ASM (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#799)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "rebase",
+            "impact": "Informational",
+            "line": 137,
+            "line_end": 159,
+            "message": "Memefund.rebase(uint256,bool) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#137-159) compares to a boolean constant:\n\t-increaseSupply == true (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#145)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 1159,
+            "line_end": 1179,
+            "message": "Memestake.add(uint256,IERC20,bool) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159-1179) compares to a boolean constant:\n\t-require(bool,string)(isTokenContractAdded[tokenContractAddress] == false,add: already whitelisted) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1163)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "_contains",
+            "impact": "Informational",
+            "line": 425,
+            "line_end": 427,
+            "message": "EnumerableSet._contains(EnumerableSet.Set,bytes32) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#425-427) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 487,
+            "line_end": 489,
+            "message": "EnumerableSet.length(EnumerableSet.Bytes32Set) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#487-489) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 501,
+            "line_end": 503,
+            "message": "EnumerableSet.at(EnumerableSet.Bytes32Set,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#501-503) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 819,
+            "line_end": 825,
+            "message": "Address.sendValue(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#819-825) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 870,
+            "line_end": 872,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#870-872) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "_length",
+            "impact": "Informational",
+            "line": 432,
+            "line_end": 434,
+            "message": "EnumerableSet._length(EnumerableSet.Set) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#432-434) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "_at",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 449,
+            "message": "EnumerableSet._at(EnumerableSet.Set,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#446-449) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 582,
+            "line_end": 584,
+            "message": "EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#582-584) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 480,
+            "line_end": 482,
+            "message": "EnumerableSet.contains(EnumerableSet.Bytes32Set,bytes32) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#480-482) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 929,
+            "line_end": 935,
+            "message": "Address.functionDelegateCall(address,bytes,string) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#929-935) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 919,
+            "line_end": 921,
+            "message": "Address.functionDelegateCall(address,bytes) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#919-921) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 997,
+            "line_end": 1000,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#997-1000) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 589,
+            "line_end": 591,
+            "message": "EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#589-591) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 527,
+            "line_end": 529,
+            "message": "EnumerableSet.remove(EnumerableSet.AddressSet,address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#527-529) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 986,
+            "line_end": 995,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#986-995) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 765,
+            "line_end": 768,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#765-768) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 555,
+            "line_end": 557,
+            "message": "EnumerableSet.at(EnumerableSet.AddressSet,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#555-557) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 534,
+            "line_end": 536,
+            "message": "EnumerableSet.contains(EnumerableSet.AddressSet,address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#534-536) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 541,
+            "line_end": 543,
+            "message": "EnumerableSet.length(EnumerableSet.AddressSet) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#541-543) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 463,
+            "line_end": 465,
+            "message": "EnumerableSet.add(EnumerableSet.Bytes32Set,bytes32) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#463-465) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 267,
+            "line_end": 270,
+            "message": "Context._msgData() (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#267-270) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 895,
+            "line_end": 897,
+            "message": "Address.functionStaticCall(address,bytes) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#895-897) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 749,
+            "line_end": 751,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#749-751) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "_add",
+            "impact": "Informational",
+            "line": 370,
+            "line_end": 380,
+            "message": "EnumerableSet._add(EnumerableSet.Set,bytes32) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#370-380) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 596,
+            "line_end": 598,
+            "message": "EnumerableSet.length(EnumerableSet.UintSet) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#596-598) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 1002,
+            "line_end": 1005,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1002-1005) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 610,
+            "line_end": 612,
+            "message": "EnumerableSet.at(EnumerableSet.UintSet,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#610-612) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 517,
+            "line_end": 519,
+            "message": "EnumerableSet.add(EnumerableSet.AddressSet,address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#517-519) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 905,
+            "line_end": 911,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#905-911) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "_remove",
+            "impact": "Informational",
+            "line": 388,
+            "line_end": 420,
+            "message": "EnumerableSet._remove(EnumerableSet.Set,bytes32) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#388-420) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 572,
+            "line_end": 574,
+            "message": "EnumerableSet.add(EnumerableSet.UintSet,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#572-574) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 473,
+            "line_end": 475,
+            "message": "EnumerableSet.remove(EnumerableSet.Bytes32Set,bytes32) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#473-475) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 845,
+            "line_end": 847,
+            "message": "Address.functionCall(address,bytes) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#845-847) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 819,
+            "line_end": 825,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#819-825):\n\t- (success) = recipient.call{value: amount}() (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#823)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 929,
+            "line_end": 935,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#929-935):\n\t- (success,returndata) = target.delegatecall(data) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#933)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 905,
+            "line_end": 911,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#905-911):\n\t- (success,returndata) = target.staticcall(data) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#909)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 880,
+            "line_end": 887,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#880-887):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#885)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 113,
+            "message": "Parameter Memefund.transferOwnership(address)._newOwner (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#113) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1159,
+            "message": "Parameter Memestake.add(uint256,IERC20,bool)._tokenContract (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1327,
+            "message": "Parameter Memestake.emergencyWithdraw(uint256)._pid (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1327) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1187,
+            "message": "Parameter Memestake.set(uint256,uint256,bool)._pid (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1204,
+            "message": "Parameter Memestake.pendingRewards(uint256,address)._pid (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1204) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1187,
+            "message": "Parameter Memestake.set(uint256,uint256,bool)._allocPoint (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1348,
+            "message": "Parameter Memestake.safeMfundTransfer(address,uint256)._amount (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1361,
+            "message": "Parameter Memestake.getMultiplier(uint256,uint256)._to (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1361) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1361,
+            "message": "Parameter Memestake.getMultiplier(uint256,uint256)._from (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1361) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1247,
+            "message": "Parameter Memestake.updatePool(uint256)._pid (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1247) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1278,
+            "message": "Parameter Memestake.deposit(uint256,uint256)._amount (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1204,
+            "message": "Parameter Memestake.pendingRewards(uint256,address)._user (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1204) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1159,
+            "message": "Parameter Memestake.add(uint256,IERC20,bool)._withUpdate (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1348,
+            "message": "Parameter Memestake.safeMfundTransfer(address,uint256)._to (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1348) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1303,
+            "message": "Parameter Memestake.withdraw(uint256,uint256)._pid (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1224,
+            "message": "Parameter Memestake.claimRewards(uint256)._pid (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1224) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1278,
+            "message": "Parameter Memestake.deposit(uint256,uint256)._pid (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1278) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1303,
+            "message": "Parameter Memestake.withdraw(uint256,uint256)._amount (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1303) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1159,
+            "message": "Parameter Memestake.add(uint256,IERC20,bool)._allocPoint (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 1187,
+            "message": "Parameter Memestake.set(uint256,uint256,bool)._withUpdate (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "impact": "Informational",
+            "line": 268,
+            "message": "Redundant expression \"this (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#268)\" inContext (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#262-271)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 84,
+            "line_end": 97,
+            "message": "Memefund.constructor() (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#84-97) uses literals with too many digits:\n\t- totalSupply = 100000000 * 10 ** 9 (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#87)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 250,
+            "line_end": 259,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- Memefund.decreaseAllowance(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#250-259)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 1063,
+            "line_end": 1066,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1063-1066)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 113,
+            "line_end": 118,
+            "message": "transferOwnership(address) should be declared external:\n\t- Memefund.transferOwnership(address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#113-118)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "add",
+            "impact": "Optimization",
+            "line": 1159,
+            "line_end": 1179,
+            "message": "add(uint256,IERC20,bool) should be declared external:\n\t- Memestake.add(uint256,IERC20,bool) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1159-1179)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 194,
+            "line_end": 196,
+            "message": "allowance(address,address) should be declared external:\n\t- Memefund.allowance(address,address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#194-196)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "acceptOwnership",
+            "impact": "Optimization",
+            "line": 123,
+            "line_end": 129,
+            "message": "acceptOwnership() should be declared external:\n\t- Memefund.acceptOwnership() (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#123-129)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 225,
+            "line_end": 230,
+            "message": "approve(address,uint256) should be declared external:\n\t- Memefund.approve(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#225-230)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 1044,
+            "line_end": 1046,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1044-1046)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "claimRewards",
+            "impact": "Optimization",
+            "line": 1224,
+            "line_end": 1233,
+            "message": "claimRewards(uint256) should be declared external:\n\t- Memestake.claimRewards(uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1224-1233)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 1072,
+            "line_end": 1076,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1072-1076)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 204,
+            "line_end": 216,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- Memefund.transferFrom(address,address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#204-216)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "set",
+            "impact": "Optimization",
+            "line": 1187,
+            "line_end": 1198,
+            "message": "set(uint256,uint256,bool) should be declared external:\n\t- Memestake.set(uint256,uint256,bool) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#1187-1198)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 165,
+            "line_end": 167,
+            "message": "balanceOf(address) should be declared external:\n\t- Memefund.balanceOf(address) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#165-167)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 238,
+            "line_end": 243,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- Memefund.increaseAllowance(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#238-243)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x35c674c288577df3e9b5dafef945795b741c7810.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 175,
+            "line_end": 186,
+            "message": "transfer(address,uint256) should be declared external:\n\t- Memefund.transfer(address,uint256) (../..0x35c674c288577df3e9b5dafef945795b741c7810.sol#175-186)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

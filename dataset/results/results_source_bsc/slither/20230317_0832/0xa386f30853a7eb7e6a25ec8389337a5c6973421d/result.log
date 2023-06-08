@@ -1,0 +1,834 @@
+Compilation warnings/errors on /sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol:
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing "SPDX-License-Identifier: <SPDX-License>" to each source file. Use "SPDX-License-Identifier: UNLICENSED" for non-open-source code. Please see https://spdx.org for more information.
+--> /sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol
+
+Warning: Documentation tag on non-public state variables will be disallowed in 0.7.0. You will need to use the @dev tag explicitly.
+    --> /sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol:1926:5:
+     |
+1926 |     /// @notice A record of each accounts delegate
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning: Function state mutability can be restricted to pure
+    --> /sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol:2345:2:
+     |
+2345 | 	function onERC721Received(
+     | 	^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Function state mutability can be restricted to pure
+    --> /sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol:2625:5:
+     |
+2625 |     function check_vip_limit(uint ticket_level, uint ticket_count, uint256 amount) public view returns (uint allowed, uint overflow){
+     |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol:2187:1:
+     |
+2187 | contract MasterChef is ParaProxyAdminStorage {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+Reentrancy in MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547-2557):
+	External calls:
+	- (_token,_amount) = _doTransferIn(payer,_token,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2549)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- IERC20(_token).safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2815)
+	- (tokens,amounts) = depositSwapForTokens(_token,_amount,paths) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2551)
+		- amounts = paraRouter.swapExactTokensForTokens(amountIn,0,path,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2580)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+	- liquidity = addLiquidityInternal(address(pool.lpToken),_user,tokens,amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2554)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+		- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+	- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2556)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	External calls sending eth:
+	- (_token,_amount) = _doTransferIn(payer,_token,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2549)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	State variables written after the call(s):
+	- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2556)
+		- pool.lastRewardBlock = block.number (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2470)
+		- pool.accT42PerShare = pool.accT42PerShare.add(t42Reward.mul(1e12).div(lpSupply)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2480-2482)
+		- pool.lastRewardBlock = block.number (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2483)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[91m
+MasterChef.safeT42Transfer(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2846-2853) ignores return value by t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+MasterChef.safeT42Transfer(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2846-2853) ignores return value by t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+ParaToken.softLimit() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1891-1906) performs a multiplication on the result of a division:
+	-__issuePerBlock = __issuePerBlock.mul(HALVE_RATE).div(100) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1899)
+	-_lastSoftLimit.add(__issuePerBlock.mul(blocks)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1903)
+MasterChef.pendingT42(uint256,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2430-2452) performs a multiplication on the result of a division:
+	-t42Reward = multiplier.mul(t42PerBlock(1)).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2442-2445)
+	-accT42PerShare = accT42PerShare.add(t42Reward.mul(1e12).div(lpSupply)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2446-2448)
+MasterChef.updatePool(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2463-2484) performs a multiplication on the result of a division:
+	-t42Reward = multiplier.mul(t42PerBlock(1)).mul(pool.allocPoint).div(totalAllocPoint) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2474-2477)
+	-pool.accT42PerShare = pool.accT42PerShare.add(t42Reward.mul(1e12).div(lpSupply)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2480-2482)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+ParaToken._writeCheckpoint(address,uint32,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2119-2137) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2129)
+ParaToken.currentMaturity(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1824-1832) uses a dangerous strict equality:
+	- maturity.lastBlockHalve == 0 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1827)
+MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) uses a dangerous strict equality:
+	- ticket_level == 0 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2627)
+MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) uses a dangerous strict equality:
+	- ticket_level == 1 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2628)
+MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) uses a dangerous strict equality:
+	- ticket_level == 2 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2629)
+MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) uses a dangerous strict equality:
+	- ticket_level == 3 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2630)
+MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) uses a dangerous strict equality:
+	- ticket_level == 4 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2631)
+MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518-2523) uses a dangerous strict equality:
+	- require(bool,string)(address(pool.ticket) == address(0),T:E) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2520)
+MasterChef.updatePool(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2463-2484) uses a dangerous strict equality:
+	- lpSupply == 0 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2469)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Contract locking ether found:
+	Contract ParaProxy (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#123-245) has payable functions:
+	 - Proxy.fallback() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#65-67)
+	 - Proxy.receive() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#73-75)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#contracts-that-lock-ether[0m
+[93m
+Reentrancy in MasterChef._deposit(uint256,uint256,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2673-2688):
+	External calls:
+	- updatePool(_pid) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2677)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	- _claim(pool.pooltype,pending) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2683)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+	State variables written after the call(s):
+	- user.amount = user.amount.add(_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2685)
+	- user.rewardDebt = user.amount.mul(pool.accT42PerShare).div(1e12) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2686)
+Reentrancy in MasterChef._withdrawWithoutTransfer(uint256,uint256,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2718-2736):
+	External calls:
+	- updatePool(_pid) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2722)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	- _claim(pool.pooltype,pending) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2727)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+	State variables written after the call(s):
+	- poolsTotalDeposit[_pid] = poolsTotalDeposit[_pid].sub(_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2730)
+	- user.amount = user.amount.sub(_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2728)
+	- user.rewardDebt = user.amount.mul(pool.accT42PerShare).div(1e12) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2729)
+Reentrancy in MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2354-2377):
+	External calls:
+	- massUpdatePools() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2362)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	State variables written after the call(s):
+	- poolInfo.push(PoolInfo(_lpToken,_allocPoint,lastRewardBlock,0,_pooltype,_ticket)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2367-2376)
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2366)
+Reentrancy in MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518-2523):
+	External calls:
+	- liquidity = addLiquidityInternal(address(pool.lpToken),_user,_tokens,_amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2521)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+		- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+	- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2522)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	State variables written after the call(s):
+	- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2522)
+		- pool.lastRewardBlock = block.number (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2470)
+		- pool.accT42PerShare = pool.accT42PerShare.add(t42Reward.mul(1e12).div(lpSupply)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2480-2482)
+		- pool.lastRewardBlock = block.number (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2483)
+Reentrancy in MasterChef.depositInternal(uint256,uint256,address,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2652-2670):
+	External calls:
+	- pool.lpToken.safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2654-2658)
+	- deposit_all_tickets(pool.ticket) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2667)
+		- ticket.safeTransferFrom(msg.sender,address(this),tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2608)
+		- ticket.setUsed(tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2610)
+	- _deposit(_pid,_amount,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2669)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	State variables written after the call(s):
+	- _deposit(_pid,_amount,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2669)
+		- pool.lastRewardBlock = block.number (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2470)
+		- pool.accT42PerShare = pool.accT42PerShare.add(t42Reward.mul(1e12).div(lpSupply)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2480-2482)
+		- pool.lastRewardBlock = block.number (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2483)
+	- _deposit(_pid,_amount,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2669)
+		- user.amount = user.amount.add(_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2685)
+		- user.rewardDebt = user.amount.mul(pool.accT42PerShare).div(1e12) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2686)
+Reentrancy in MasterChef.migrate(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2399-2409):
+	External calls:
+	- lpToken.safeApprove(address(migrator),bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2404)
+	- newLpToken = migrator.migrate(lpToken) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2405)
+	State variables written after the call(s):
+	- pool.lpToken = newLpToken (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2408)
+Reentrancy in MasterChef.set(uint256,uint256,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2379-2391):
+	External calls:
+	- massUpdatePools() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2385)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	State variables written after the call(s):
+	- poolInfo[_pid].allocPoint = _allocPoint (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2390)
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2387-2389)
+Reentrancy in MasterChef.updatePool(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2463-2484):
+	External calls:
+	- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+	- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	State variables written after the call(s):
+	- pool.accT42PerShare = pool.accT42PerShare.add(t42Reward.mul(1e12).div(lpSupply)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2480-2482)
+	- pool.lastRewardBlock = block.number (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2483)
+Reentrancy in MasterChef.withdraw_tickets(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2690-2705):
+	External calls:
+	- pool.ticket.safeTransferFrom(address(this),msg.sender,tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2698)
+	State variables written after the call(s):
+	- idlist[i] = idlist[idlist.length - 1] (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2699)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+MasterChef.check_vip_limit(uint256,uint256,uint256).limit (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2626) is a local variable never initialized
+MasterChef.withdraw_tickets(uint256,uint256).i (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2694) is a local variable never initialized
+MasterChef.addLiquidityInternal(address,address,address[2],uint256[2]).vars (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2527) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+MasterChef._claim(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2585-2591) ignores return value by t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+MasterChef._withdrawWithoutTransfer(uint256,uint256,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2718-2736) ignores return value by IERC20(lpToken).approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2733)
+MasterChef.withdrawAndRemoveLiquidity(uint256,uint256,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2738-2755) ignores return value by paraRouter.removeLiquidityETH(token,actual_amount,1,1,msg.sender,block.timestamp.add(600)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2749)
+MasterChef.withdrawAndRemoveLiquidity(uint256,uint256,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2738-2755) ignores return value by paraRouter.removeLiquidity(token0,token1,actual_amount,1,1,msg.sender,block.timestamp.add(600)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2751-2752)
+MasterChef.approveIfNeeded(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2781-2785) ignores return value by IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+MasterChef.swapTokensOut(uint256,address,address[]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2787-2798) ignores return value by paraRouter.swapExactTokensForETH(amountIn,0,path,msg.sender,block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2794)
+MasterChef.swapTokensOut(uint256,address,address[]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2787-2798) ignores return value by paraRouter.swapExactTokensForTokens(amountIn,0,path,msg.sender,block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2796)
+MasterChef.emergencyWithdraw(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2821-2833) ignores return value by pool.lpToken.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2830)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2260-2279) should emit an event for: 
+	- bonusEndBlock = _bonusEndBlock (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2273) 
+MasterChef.setClaimFeeRate(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2329-2333) should emit an event for: 
+	- claimFeeRate = newRate (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2332) 
+MasterChef.setWithdrawFeeRate(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2335-2339) should emit an event for: 
+	- withdrawFeeRate = newRate (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2338) 
+MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2354-2377) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2366) 
+MasterChef.set(uint256,uint256,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2379-2391) should emit an event for: 
+	- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2387-2389) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+ParaProxy._setPendingImplementation(address).newPendingImplementation (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#151) lacks a zero-check on :
+		- pendingImplementation = newPendingImplementation (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#157)
+ParaProxy._setPendingAdmin(address).newPendingAdmin (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#196) lacks a zero-check on :
+		- pendingAdmin = newPendingAdmin (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#206)
+ParaToken._setFineAcceptAddress(address)._fineAcceptAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1753) lacks a zero-check on :
+		- fineAcceptAddress = _fineAcceptAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1754)
+MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._treasury (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2262) lacks a zero-check on :
+		- treasury = _treasury (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2270)
+MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._feeDistributor (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2263) lacks a zero-check on :
+		- feeDistributor = _feeDistributor (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2271)
+MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._devaddr (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2264) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2272)
+MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._WETH (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2266) lacks a zero-check on :
+		- WETH = _WETH (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2275)
+MasterChef.dev(address)._devaddr (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2856) lacks a zero-check on :
+		- devaddr = _devaddr (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2858)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+MasterChef.t42PerBlock(uint8) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2325-2327) has external calls inside a loop: t42.issuePerBlock().mul(farmPercent[index]).div(100) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2326)
+MasterChef.updatePool(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2463-2484) has external calls inside a loop: t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+MasterChef.updatePool(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2463-2484) has external calls inside a loop: t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+MasterChef.deposit_all_tickets(IParaTicket) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2603-2615) has external calls inside a loop: ticket.safeTransferFrom(msg.sender,address(this),tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2608)
+MasterChef.deposit_all_tickets(IParaTicket) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2603-2615) has external calls inside a loop: ! ticket._used(tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2609)
+MasterChef.deposit_all_tickets(IParaTicket) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2603-2615) has external calls inside a loop: ticket.setUsed(tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2610)
+MasterChef.withdraw_tickets(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2690-2705) has external calls inside a loop: (overflow) = check_vip_limit(pool.ticket.level(),idlist.length - 1,user.amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2696)
+MasterChef.withdraw_tickets(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2690-2705) has external calls inside a loop: pool.ticket.safeTransferFrom(address(this),msg.sender,tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2698)
+MasterChef._doTransferOut(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2800-2807) has external calls inside a loop: IWETH(WETH).withdraw(amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2802)
+TransferHelper.safeTransferETH(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#296-299) has external calls inside a loop: (success) = to.call{value: value}(new bytes(0)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#297)
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#922-929) has external calls inside a loop: (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+MasterChef.approveIfNeeded(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2781-2785) has external calls inside a loop: IERC20(_token).allowance(address(this),spender) < _amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2782)
+MasterChef.approveIfNeeded(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2781-2785) has external calls inside a loop: IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+MasterChef.swapTokensOut(uint256,address,address[]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2787-2798) has external calls inside a loop: paraRouter.swapExactTokensForETH(amountIn,0,path,msg.sender,block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2794)
+MasterChef.swapTokensOut(uint256,address,address[]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2787-2798) has external calls inside a loop: paraRouter.swapExactTokensForTokens(amountIn,0,path,msg.sender,block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2796)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in MasterChef._claim(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2585-2591):
+	External calls:
+	- safeT42Transfer(msg.sender,pending.sub(fee)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2587)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+	State variables written after the call(s):
+	- _totalClaimed[msg.sender][pooltype] += pending.sub(fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2588)
+Reentrancy in MasterChef.addLiquidityInternal(address,address,address[2],uint256[2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2525-2538):
+	External calls:
+	- approveIfNeeded(_tokens[0],address(paraRouter),_amounts[0]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2528)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+	- approveIfNeeded(_tokens[1],address(paraRouter),_amounts[1]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2529)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+	- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+	State variables written after the call(s):
+	- addChange(_user,_tokens[0],_amounts[0].sub(vars.amountA)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2535)
+		- userChange[user][_token] = changeOld.add(change) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2575)
+	- addChange(_user,_tokens[1],_amounts[1].sub(vars.amountB)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2536)
+		- userChange[user][_token] = changeOld.add(change) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2575)
+Reentrancy in MasterChef.deposit_all_tickets(IParaTicket) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2603-2615):
+	External calls:
+	- ticket.safeTransferFrom(msg.sender,address(this),tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2608)
+	- ticket.setUsed(tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2610)
+	State variables written after the call(s):
+	- ticket_stakes[msg.sender][address(ticket)].push(tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2612)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in MasterChef._deposit(uint256,uint256,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2673-2688):
+	External calls:
+	- updatePool(_pid) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2677)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	- _claim(pool.pooltype,pending) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2683)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+Reentrancy in MasterChef.depositByAddLiquidity(uint256,address[2],uint256[2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2497-2504):
+	External calls:
+	- (tokens[0],amounts[0]) = _doTransferIn(msg.sender,_tokens[0],_amounts[0]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2501)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- IERC20(_token).safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2815)
+	- (tokens[1],amounts[1]) = _doTransferIn(msg.sender,_tokens[1],_amounts[1]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2502)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- IERC20(_token).safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2815)
+	- depositByAddLiquidityInternal(msg.sender,_pid,tokens,amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2503)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	External calls sending eth:
+	- (tokens[0],amounts[0]) = _doTransferIn(msg.sender,_tokens[0],_amounts[0]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2501)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	- (tokens[1],amounts[1]) = _doTransferIn(msg.sender,_tokens[1],_amounts[1]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2502)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+		- depositByAddLiquidityInternal(msg.sender,_pid,tokens,amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2503)
+Reentrancy in MasterChef.depositByAddLiquidityETH(uint256,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2506-2516):
+	External calls:
+	- (_tokens[0],_amounts[0]) = _doTransferIn(msg.sender,_token,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2510)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- IERC20(_token).safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2815)
+	- IWETH(WETH).deposit{value: msg.value}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2511)
+	- assert(bool)(IWETH(WETH).transfer(address(this),msg.value)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2512)
+	- depositByAddLiquidityInternal(msg.sender,_pid,_tokens,_amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2515)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	External calls sending eth:
+	- (_tokens[0],_amounts[0]) = _doTransferIn(msg.sender,_token,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2510)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	- IWETH(WETH).deposit{value: msg.value}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2511)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+		- depositByAddLiquidityInternal(msg.sender,_pid,_tokens,_amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2515)
+Reentrancy in MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518-2523):
+	External calls:
+	- liquidity = addLiquidityInternal(address(pool.lpToken),_user,_tokens,_amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2521)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+		- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+	- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2522)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+		- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2522)
+Reentrancy in MasterChef.depositInternal(uint256,uint256,address,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2652-2670):
+	External calls:
+	- pool.lpToken.safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2654-2658)
+	- deposit_all_tickets(pool.ticket) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2667)
+		- ticket.safeTransferFrom(msg.sender,address(this),tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2608)
+		- ticket.setUsed(tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2610)
+	- _deposit(_pid,_amount,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2669)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+		- _deposit(_pid,_amount,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2669)
+Reentrancy in MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547-2557):
+	External calls:
+	- (_token,_amount) = _doTransferIn(payer,_token,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2549)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- IERC20(_token).safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2815)
+	- (tokens,amounts) = depositSwapForTokens(_token,_amount,paths) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2551)
+		- amounts = paraRouter.swapExactTokensForTokens(amountIn,0,path,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2580)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+	- liquidity = addLiquidityInternal(address(pool.lpToken),_user,tokens,amounts) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2554)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+		- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+	- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2556)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	External calls sending eth:
+	- (_token,_amount) = _doTransferIn(payer,_token,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2549)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+		- _deposit(_pid,liquidity,_user) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2556)
+Reentrancy in MasterChef.depositSingleTo(address,uint256,address,uint256,address[][2],uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2490-2495):
+	External calls:
+	- IFeeDistributor(feeDistributor).setReferalByChef(_user,_whitelist[msg.sender]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2493)
+	- depositSingleInternal(msg.sender,_user,_pid,_token,_amount,paths,_minTokens) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2494)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- amounts = paraRouter.swapExactTokensForTokens(amountIn,0,path,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2580)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- (vars.amountA,vars.amountB,vars.liquidity) = paraRouter.addLiquidity(_tokens[0],_tokens[1],_amounts[0],_amounts[1],1,1,address(this),block.timestamp + 600) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2531)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- IERC20(_token).safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2815)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	External calls sending eth:
+	- depositSingleInternal(msg.sender,_user,_pid,_token,_amount,paths,_minTokens) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2494)
+		- IWETH(WETH).deposit{value: _amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2812)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+		- depositSingleInternal(msg.sender,_user,_pid,_token,_amount,paths,_minTokens) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2494)
+Reentrancy in MasterChef.depositTo(uint256,uint256,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2644-2649):
+	External calls:
+	- IFeeDistributor(feeDistributor).setReferalByChef(_user,_whitelist[msg.sender]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2647)
+	- depositInternal(_pid,_amount,_user,msg.sender) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2648)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- pool.lpToken.safeTransferFrom(address(payer),address(this),_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2654-2658)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- ticket.safeTransferFrom(msg.sender,address(this),tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2608)
+		- ticket.setUsed(tokenId) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2610)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+	External calls sending eth:
+	- depositInternal(_pid,_amount,_user,msg.sender) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2648)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	Event emitted after the call(s):
+	- Deposit(_user,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2687)
+		- depositInternal(_pid,_amount,_user,msg.sender) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2648)
+Reentrancy in MasterChef.emergencyWithdraw(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2821-2833):
+	External calls:
+	- pool.lpToken.safeTransfer(address(msg.sender),saved_amount.sub(fee)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2829)
+	- pool.lpToken.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2830)
+	- IFeeDistributor(feeDistributor).incomeWithdrawFee(msg.sender,address(pool.lpToken),fee,saved_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2831)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(msg.sender,_pid,saved_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2832)
+Reentrancy in MasterChef.withdraw(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2708-2711):
+	External calls:
+	- _withdrawInternal(_pid,_amount,msg.sender) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2709)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1301)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- IERC20(lpToken).safeTransfer(_operator,actual_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2715)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+		- IERC20(lpToken).approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2733)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+		- IFeeDistributor(feeDistributor).incomeWithdrawFee(_operator,lpToken,fee,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2734)
+	External calls sending eth:
+	- _withdrawInternal(_pid,_amount,msg.sender) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2709)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2710)
+Reentrancy in MasterChef.withdrawChange(address[]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2835-2843):
+	External calls:
+	- IERC20(tokens[i]).safeTransfer(address(msg.sender),change) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2840)
+	Event emitted after the call(s):
+	- WithdrawChange(msg.sender,tokens[i],change) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2841)
+Reentrancy in MasterChef.withdrawSingle(address,uint256,uint256,address[][2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2757-2779):
+	External calls:
+	- (lpToken,actual_amount) = _withdrawWithoutTransfer(_pid,_amount,msg.sender) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2761)
+		- t42.transfer(_to,t42Bal) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2849)
+		- t42.approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2589)
+		- t42.transfer(_to,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2851)
+		- IFeeDistributor(feeDistributor).incomeClaimFee(msg.sender,address(t42),fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2590)
+		- IERC20(lpToken).approve(feeDistributor,fee) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2733)
+		- t42.mint(treasury,t42Reward.div(9)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2478)
+		- t42.mint(address(this),t42Reward) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2479)
+		- IFeeDistributor(feeDistributor).incomeWithdrawFee(_operator,lpToken,fee,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2734)
+	- approveIfNeeded(lpToken,address(paraRouter),actual_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2766)
+		- IERC20(_token).approve(spender,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2783)
+	- (amounts[0],amounts[1]) = paraRouter.removeLiquidity(tokens[0],tokens[1],actual_amount,0,0,address(this),block.timestamp.add(600)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2767-2768)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,_pid,_amount) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2778)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+ParaToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1985-2026) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,PARA::delegateBySig: signature expired) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2024)
+MasterChef.migrate(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2399-2409) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(bal <= newLpAmountNew,migrate: bad) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2407)
+MasterChef.pendingT42(uint256,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2430-2452) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.number > pool.lastRewardBlock && lpSupply != 0 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2439)
+MasterChef.massUpdatePools() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2455-2460) uses timestamp for comparisons
+	Dangerous comparisons:
+	- pid < length (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2457)
+MasterChef.updatePool(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2463-2484) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lpSupply == 0 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2469)
+MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518-2523) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(address(pool.ticket) == address(0),T:E) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2520)
+MasterChef.addLiquidityInternal(address,address,address[2],uint256[2]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2525-2538) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(vars.newBalance > vars.oldBalance,B:E) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2533)
+MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547-2557) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(liquidity >= _minTokens,H:S) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2555)
+MasterChef.addChange(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2572-2577) uses timestamp for comparisons
+	Dangerous comparisons:
+	- change > 0 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2573)
+MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ticket_level == 0 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2627)
+	- ticket_level == 1 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2628)
+	- ticket_level == 2 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2629)
+	- ticket_level == 3 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2630)
+	- ticket_level == 4 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2631)
+	- amount <= limitAll (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2633)
+MasterChef.approveIfNeeded(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2781-2785) uses timestamp for comparisons
+	Dangerous comparisons:
+	- IERC20(_token).allowance(address(this),spender) < _amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2782)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Proxy._delegate(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#23-43) uses assembly
+	- INLINE ASM (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#25-42)
+Address.isContract(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#834-843) uses assembly
+	- INLINE ASM (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#841)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#979-996) uses assembly
+	- INLINE ASM (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#988-991)
+ParaToken.getChainId() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2144-2148) uses assembly
+	- INLINE ASM (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2146)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#887-889) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#912-914) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#961-963) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#971-977) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#937-939) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#947-953) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#861-867) is never used and should be removed
+Context._msgData() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1329-1332) is never used and should be removed
+ERC20._burn(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1652-1660) is never used and should be removed
+ERC20._setupDecimals(uint8) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1690-1692) is never used and should be removed
+EnumerableSet._add(EnumerableSet.Set,bytes32) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#563-573) is never used and should be removed
+EnumerableSet._at(EnumerableSet.Set,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#639-642) is never used and should be removed
+EnumerableSet._contains(EnumerableSet.Set,bytes32) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#618-620) is never used and should be removed
+EnumerableSet._length(EnumerableSet.Set) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#625-627) is never used and should be removed
+EnumerableSet._remove(EnumerableSet.Set,bytes32) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#581-613) is never used and should be removed
+EnumerableSet.add(EnumerableSet.AddressSet,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#710-712) is never used and should be removed
+EnumerableSet.add(EnumerableSet.Bytes32Set,bytes32) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#656-658) is never used and should be removed
+EnumerableSet.add(EnumerableSet.UintSet,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#765-767) is never used and should be removed
+EnumerableSet.at(EnumerableSet.AddressSet,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#748-750) is never used and should be removed
+EnumerableSet.at(EnumerableSet.Bytes32Set,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#694-696) is never used and should be removed
+EnumerableSet.at(EnumerableSet.UintSet,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#803-805) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.AddressSet,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#727-729) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.Bytes32Set,bytes32) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#673-675) is never used and should be removed
+EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#782-784) is never used and should be removed
+EnumerableSet.length(EnumerableSet.AddressSet) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#734-736) is never used and should be removed
+EnumerableSet.length(EnumerableSet.Bytes32Set) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#680-682) is never used and should be removed
+EnumerableSet.length(EnumerableSet.UintSet) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#789-791) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.AddressSet,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#720-722) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.Bytes32Set,bytes32) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#666-668) is never used and should be removed
+EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#775-777) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1285-1288) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1280-1283) is never used and should be removed
+SafeMath.div(uint256,uint256,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1185-1188) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1147-1150) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1205-1208) is never used and should be removed
+SafeMath.tryAdd(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1019-1023) is never used and should be removed
+SafeMath.tryDiv(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1055-1058) is never used and should be removed
+SafeMath.tryMod(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1065-1068) is never used and should be removed
+SafeMath.tryMul(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1040-1048) is never used and should be removed
+SafeMath.trySub(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1030-1033) is never used and should be removed
+TransferHelper.safeApprove(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#265-273) is never used and should be removed
+TransferHelper.safeTransfer(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#275-283) is never used and should be removed
+TransferHelper.safeTransferFrom(address,address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#285-294) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in TransferHelper.safeApprove(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#265-273):
+	- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#271)
+Low level call in TransferHelper.safeTransfer(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#275-283):
+	- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#281)
+Low level call in TransferHelper.safeTransferFrom(address,address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#285-294):
+	- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#292)
+Low level call in TransferHelper.safeTransferETH(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#296-299):
+	- (success) = to.call{value: value}(new bytes(0)) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#297)
+Low level call in Address.sendValue(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#861-867):
+	- (success) = recipient.call{value: amount}() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#865)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#922-929):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#927)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#947-953):
+	- (success,returndata) = target.staticcall(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#951)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#971-977):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#975)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function ParaProxy._setPendingImplementation(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#151-162) is not in mixedCase
+Function ParaProxy._acceptImplementation() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#169-187) is not in mixedCase
+Function ParaProxy._setPendingAdmin(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#196-212) is not in mixedCase
+Function ParaProxy._acceptAdmin() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#219-239) is not in mixedCase
+Function IParaPair.DOMAIN_SEPARATOR() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#320) is not in mixedCase
+Function IParaPair.PERMIT_TYPEHASH() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#321) is not in mixedCase
+Function IParaPair.MINIMUM_LIQUIDITY() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#338) is not in mixedCase
+Function IParaRouter01.WETH() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#363) is not in mixedCase
+Function ParaToken._setMinerAddress(address,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1749-1751) is not in mixedCase
+Parameter ParaToken._setMinerAddress(address,bool)._minerAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1749) is not in mixedCase
+Function ParaToken._setFineAcceptAddress(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1753-1755) is not in mixedCase
+Parameter ParaToken._setFineAcceptAddress(address)._fineAcceptAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1753) is not in mixedCase
+Function ParaToken._setWhiteAdmin(address,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1757-1759) is not in mixedCase
+Parameter ParaToken._setWhiteAdmin(address,bool)._whiteAdmin (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1757) is not in mixedCase
+Function ParaToken._setWhiteListAll(uint256,address[],bool[]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1761-1766) is not in mixedCase
+Function ParaToken._setWhiteList(uint256,address,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1768-1779) is not in mixedCase
+Parameter ParaToken.mint(address,uint256)._to (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1868) is not in mixedCase
+Parameter ParaToken.mint(address,uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1868) is not in mixedCase
+Variable ParaToken._issuePerBlock (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1723) is not in mixedCase
+Variable ParaToken._delegates (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1927) is not in mixedCase
+Function IParaTicket._used(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2173) is not in mixedCase
+Parameter MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._t42 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2261) is not in mixedCase
+Parameter MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._treasury (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2262) is not in mixedCase
+Parameter MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._feeDistributor (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2263) is not in mixedCase
+Parameter MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._devaddr (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2264) is not in mixedCase
+Parameter MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._bonusEndBlock (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2265) is not in mixedCase
+Parameter MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._WETH (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2266) is not in mixedCase
+Parameter MasterChef.initialize(ParaToken,address,address,address,uint256,address,IParaRouter02)._paraRouter (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2267) is not in mixedCase
+Function MasterChef._become(ParaProxy) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2281-2284) is not in mixedCase
+Parameter MasterChef.setWhitelist(address,address)._whtie (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2286) is not in mixedCase
+Parameter MasterChef.setT42(ParaToken)._t42 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2290) is not in mixedCase
+Parameter MasterChef.setTreasury(address)._treasury (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2295) is not in mixedCase
+Parameter MasterChef.setRouter(address)._router (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2301) is not in mixedCase
+Parameter MasterChef.setFeeDistributor(address)._newAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2307) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool)._allocPoint (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2355) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool)._lpToken (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2356) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool)._pooltype (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2357) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool)._ticket (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2358) is not in mixedCase
+Parameter MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool)._withUpdate (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2359) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,bool)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2380) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,bool)._allocPoint (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2381) is not in mixedCase
+Parameter MasterChef.set(uint256,uint256,bool)._withUpdate (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2382) is not in mixedCase
+Parameter MasterChef.setMigrator(IMigratorChef)._migrator (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2394) is not in mixedCase
+Parameter MasterChef.migrate(uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2399) is not in mixedCase
+Parameter MasterChef.getMultiplier(uint256,uint256)._from (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2412) is not in mixedCase
+Parameter MasterChef.getMultiplier(uint256,uint256)._to (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2412) is not in mixedCase
+Parameter MasterChef.pendingT42(uint256,address)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2430) is not in mixedCase
+Parameter MasterChef.pendingT42(uint256,address)._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2430) is not in mixedCase
+Parameter MasterChef.updatePool(uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2463) is not in mixedCase
+Parameter MasterChef.depositSingle(uint256,address,uint256,address[][2],uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2486) is not in mixedCase
+Parameter MasterChef.depositSingle(uint256,address,uint256,address[][2],uint256)._token (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2486) is not in mixedCase
+Parameter MasterChef.depositSingle(uint256,address,uint256,address[][2],uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2486) is not in mixedCase
+Parameter MasterChef.depositSingle(uint256,address,uint256,address[][2],uint256)._minTokens (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2486) is not in mixedCase
+Parameter MasterChef.depositSingleTo(address,uint256,address,uint256,address[][2],uint256)._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2490) is not in mixedCase
+Parameter MasterChef.depositSingleTo(address,uint256,address,uint256,address[][2],uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2490) is not in mixedCase
+Parameter MasterChef.depositSingleTo(address,uint256,address,uint256,address[][2],uint256)._token (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2490) is not in mixedCase
+Parameter MasterChef.depositSingleTo(address,uint256,address,uint256,address[][2],uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2490) is not in mixedCase
+Parameter MasterChef.depositSingleTo(address,uint256,address,uint256,address[][2],uint256)._minTokens (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2490) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidity(uint256,address[2],uint256[2])._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2497) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidity(uint256,address[2],uint256[2])._tokens (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2497) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidity(uint256,address[2],uint256[2])._amounts (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2497) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidityETH(uint256,address,uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2506) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidityETH(uint256,address,uint256)._token (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2506) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidityETH(uint256,address,uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2506) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2])._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2])._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2])._tokens (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518) is not in mixedCase
+Parameter MasterChef.depositByAddLiquidityInternal(address,uint256,address[2],uint256[2])._amounts (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2518) is not in mixedCase
+Parameter MasterChef.addLiquidityInternal(address,address,address[2],uint256[2])._lpAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2525) is not in mixedCase
+Parameter MasterChef.addLiquidityInternal(address,address,address[2],uint256[2])._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2525) is not in mixedCase
+Parameter MasterChef.addLiquidityInternal(address,address,address[2],uint256[2])._tokens (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2525) is not in mixedCase
+Parameter MasterChef.addLiquidityInternal(address,address,address[2],uint256[2])._amounts (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2525) is not in mixedCase
+Parameter MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256)._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547) is not in mixedCase
+Parameter MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547) is not in mixedCase
+Parameter MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256)._token (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547) is not in mixedCase
+Parameter MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547) is not in mixedCase
+Parameter MasterChef.depositSingleInternal(address,address,uint256,address,uint256,address[][2],uint256)._minTokens (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2547) is not in mixedCase
+Parameter MasterChef.depositSwapForTokens(address,uint256,address[][2])._token (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2559) is not in mixedCase
+Parameter MasterChef.depositSwapForTokens(address,uint256,address[][2])._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2559) is not in mixedCase
+Parameter MasterChef.addChange(address,address,uint256)._token (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2572) is not in mixedCase
+Parameter MasterChef.totalClaimed(address,uint256,uint256)._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2593) is not in mixedCase
+Function MasterChef.deposit_all_tickets(IParaTicket) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2603-2615) is not in mixedCase
+Function MasterChef.ticket_staked_count(address,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2617-2619) is not in mixedCase
+Function MasterChef.ticket_staked_array(address,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2621-2623) is not in mixedCase
+Function MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) is not in mixedCase
+Parameter MasterChef.check_vip_limit(uint256,uint256,uint256).ticket_level (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625) is not in mixedCase
+Parameter MasterChef.check_vip_limit(uint256,uint256,uint256).ticket_count (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2640) is not in mixedCase
+Parameter MasterChef.deposit(uint256,uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2640) is not in mixedCase
+Parameter MasterChef.depositTo(uint256,uint256,address)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2644) is not in mixedCase
+Parameter MasterChef.depositTo(uint256,uint256,address)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2644) is not in mixedCase
+Parameter MasterChef.depositTo(uint256,uint256,address)._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2644) is not in mixedCase
+Parameter MasterChef.depositInternal(uint256,uint256,address,address)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2652) is not in mixedCase
+Parameter MasterChef.depositInternal(uint256,uint256,address,address)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2652) is not in mixedCase
+Parameter MasterChef.depositInternal(uint256,uint256,address,address)._user (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2652) is not in mixedCase
+Function MasterChef.withdraw_tickets(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2690-2705) is not in mixedCase
+Parameter MasterChef.withdraw_tickets(uint256,uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2690) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2708) is not in mixedCase
+Parameter MasterChef.withdraw(uint256,uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2708) is not in mixedCase
+Parameter MasterChef.withdrawAndRemoveLiquidity(uint256,uint256,bool)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2738) is not in mixedCase
+Parameter MasterChef.withdrawAndRemoveLiquidity(uint256,uint256,bool)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2738) is not in mixedCase
+Parameter MasterChef.withdrawSingle(address,uint256,uint256,address[][2])._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2757) is not in mixedCase
+Parameter MasterChef.withdrawSingle(address,uint256,uint256,address[][2])._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2757) is not in mixedCase
+Parameter MasterChef.approveIfNeeded(address,address,uint256)._token (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2781) is not in mixedCase
+Parameter MasterChef.approveIfNeeded(address,address,uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2781) is not in mixedCase
+Parameter MasterChef.emergencyWithdraw(uint256)._pid (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2821) is not in mixedCase
+Parameter MasterChef.safeT42Transfer(address,uint256)._to (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2846) is not in mixedCase
+Parameter MasterChef.safeT42Transfer(address,uint256)._amount (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2846) is not in mixedCase
+Parameter MasterChef.dev(address)._devaddr (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2856) is not in mixedCase
+Variable MasterChef.WETH (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2230) is not in mixedCase
+Variable MasterChef.ticket_stakes (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2233) is not in mixedCase
+Variable MasterChef._totalClaimed (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2234) is not in mixedCase
+Variable MasterChef._whitelist (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2235) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1330)" inContext (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1324-1333)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IParaRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#368) is too similar to IParaRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#369)
+Variable ParaToken._setMinerAddress(address,bool)._minerAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1749) is too similar to ParaToken.minersAddress (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1730)
+Variable ParaToken._setWhiteAdmin(address,bool)._whiteAdmin (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1757) is too similar to ParaToken.whiteAdmins (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1732)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+ParaToken.slitherConstructorVariables() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1718-2149) uses literals with too many digits:
+	- hardLimit = 10000000000e18 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1722)
+MasterChef.check_vip_limit(uint256,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2625-2638) uses literals with too many digits:
+	- limit = 100000 * 1e18 (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2631)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+ParaToken.denominator (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1721) should be constant
+ParaToken.hardLimit (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1722) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+_setPendingImplementation(address) should be declared external:
+	- ParaProxy._setPendingImplementation(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#151-162)
+_acceptImplementation() should be declared external:
+	- ParaProxy._acceptImplementation() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#169-187)
+_setPendingAdmin(address) should be declared external:
+	- ParaProxy._setPendingAdmin(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#196-212)
+_acceptAdmin() should be declared external:
+	- ParaProxy._acceptAdmin() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#219-239)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1388-1391)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1397-1401)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1475-1477)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1492-1494)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1518-1521)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1526-1528)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1537-1540)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1555-1559)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1573-1576)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1592-1595)
+mint(address,uint256) should be declared external:
+	- ParaToken.mint(address,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1868-1877)
+issuePerBlock() should be declared external:
+	- ParaToken.issuePerBlock() (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#1908-1918)
+_become(ParaProxy) should be declared external:
+	- MasterChef._become(ParaProxy) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2281-2284)
+setWhitelist(address,address) should be declared external:
+	- MasterChef.setWhitelist(address,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2286-2288)
+setT42(ParaToken) should be declared external:
+	- MasterChef.setT42(ParaToken) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2290-2293)
+setTreasury(address) should be declared external:
+	- MasterChef.setTreasury(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2295-2299)
+setRouter(address) should be declared external:
+	- MasterChef.setRouter(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2301-2305)
+setFeeDistributor(address) should be declared external:
+	- MasterChef.setFeeDistributor(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2307-2311)
+setFarmPercents(uint8[]) should be declared external:
+	- MasterChef.setFarmPercents(uint8[]) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2313-2323)
+setClaimFeeRate(uint256) should be declared external:
+	- MasterChef.setClaimFeeRate(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2329-2333)
+setWithdrawFeeRate(uint256) should be declared external:
+	- MasterChef.setWithdrawFeeRate(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2335-2339)
+onERC721Received(address,address,uint256,bytes) should be declared external:
+	- MasterChef.onERC721Received(address,address,uint256,bytes) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2345-2352)
+add(uint256,IERC20,uint256,IParaTicket,bool) should be declared external:
+	- MasterChef.add(uint256,IERC20,uint256,IParaTicket,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2354-2377)
+set(uint256,uint256,bool) should be declared external:
+	- MasterChef.set(uint256,uint256,bool) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2379-2391)
+setMigrator(IMigratorChef) should be declared external:
+	- MasterChef.setMigrator(IMigratorChef) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2394-2396)
+migrate(uint256) should be declared external:
+	- MasterChef.migrate(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2399-2409)
+totalClaimed(address,uint256,uint256) should be declared external:
+	- MasterChef.totalClaimed(address,uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2593-2601)
+ticket_staked_array(address,address) should be declared external:
+	- MasterChef.ticket_staked_array(address,address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2621-2623)
+withdraw_tickets(uint256,uint256) should be declared external:
+	- MasterChef.withdraw_tickets(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2690-2705)
+withdraw(uint256,uint256) should be declared external:
+	- MasterChef.withdraw(uint256,uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2708-2711)
+emergencyWithdraw(uint256) should be declared external:
+	- MasterChef.emergencyWithdraw(uint256) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2821-2833)
+dev(address) should be declared external:
+	- MasterChef.dev(address) (../../sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol#2856-2859)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xa386f30853a7eb7e6a25ec8389337a5c6973421d.sol analyzed (21 contracts with 78 detectors), 302 result(s) found

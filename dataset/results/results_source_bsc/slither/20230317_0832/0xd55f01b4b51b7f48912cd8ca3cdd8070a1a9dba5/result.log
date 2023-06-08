@@ -1,0 +1,417 @@
+Compilation warnings/errors on /sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol:
+/sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol:2897:10: Warning: Unused local variable.
+        (uint80 roundId,int256 answer,uint256 startedAt,uint256 updatedAt,uint80 answeredInRound) = oracleData[address(rToken)].latestRoundData();
+         ^------------^
+/sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol:2897:39: Warning: Unused local variable.
+        (uint80 roundId,int256 answer,uint256 startedAt,uint256 updatedAt,uint80 answeredInRound) = oracleData[address(rToken)].latestRoundData();
+                                      ^---------------^
+/sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol:2897:57: Warning: Unused local variable.
+        (uint80 roundId,int256 answer,uint256 startedAt,uint256 updatedAt,uint80 answeredInRound) = oracleData[address(rToken)].latestRoundData();
+                                                        ^---------------^
+/sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol:2897:75: Warning: Unused local variable.
+        (uint80 roundId,int256 answer,uint256 startedAt,uint256 updatedAt,uint80 answeredInRound) = oracleData[address(rToken)].latestRoundData();
+                                                                          ^--------------------^
+
+[93m
+EIP20NonStandardInterface (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#116-178) has incorrect ERC20 function interface:EIP20NonStandardInterface.transfer(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#142)
+EIP20NonStandardInterface (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#116-178) has incorrect ERC20 function interface:EIP20NonStandardInterface.transferFrom(address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#156)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-erc20-interface[0m
+[93m
+RToken.accrueInterest() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1589-1667) uses a dangerous strict equality:
+	- accrualBlockNumberPrior == currentBlockNumber (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1595)
+RToken.accrueInterest() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1589-1667) uses a dangerous strict equality:
+	- require(bool,string)(mathErr == MathError.NO_ERROR,could not calculate block delta) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1611)
+RToken.balanceOfUnderlying(address) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1395-1400) uses a dangerous strict equality:
+	- require(bool,string)(mErr == MathError.NO_ERROR,balance could not be calculated) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1398)
+RToken.borrowBalanceStored(address) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1476-1480) uses a dangerous strict equality:
+	- require(bool,string)(err == MathError.NO_ERROR,borrowBalanceStored: borrowBalanceStoredInternal failed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1478)
+CarefulMath.divUInt(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#729-735) uses a dangerous strict equality:
+	- b == 0 (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#730)
+RToken.exchangeRateStored() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1533-1537) uses a dangerous strict equality:
+	- require(bool,string)(err == MathError.NO_ERROR,exchangeRateStored: exchangeRateStoredInternal failed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1535)
+RToken.exchangeRateStoredInternal() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1544-1574) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1546)
+RToken.initialize(CointrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1230-1261) uses a dangerous strict equality:
+	- require(bool,string)(accrualBlockNumber == 0 && borrowIndex == 0,market may only be initialized once) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1237)
+RToken.initialize(CointrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1230-1261) uses a dangerous strict equality:
+	- require(bool,string)(err == uint256(Error.NO_ERROR),setting cointroller failed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1245)
+RToken.initialize(CointrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1230-1261) uses a dangerous strict equality:
+	- require(bool,string)(err == uint256(Error.NO_ERROR),setting interest rate model failed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1253)
+RToken.liquidateBorrowFresh(address,address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2160-2229) uses a dangerous strict equality:
+	- require(bool,string)(amountSeizeError == uint256(Error.NO_ERROR),LIQUIDATE_COINTROLLER_CALCULATE_AMOUNT_SEIZE_FAILED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2205)
+RToken.liquidateBorrowFresh(address,address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2160-2229) uses a dangerous strict equality:
+	- require(bool,string)(seizeError == uint256(Error.NO_ERROR),token seizure failed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2219)
+RToken.mintFresh(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1702-1767) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,MINT_EXCHANGE_CALCULATION_FAILED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1741)
+RToken.mintFresh(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1702-1767) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,MINT_NEW_TOTAL_SUPPLY_CALCULATION_FAILED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1749)
+RToken.mintFresh(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1702-1767) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,MINT_NEW_ACCOUNT_BALANCE_CALCULATION_FAILED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1752)
+Exponential.mulExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1100-1120) uses a dangerous strict equality:
+	- assert(bool)(err2 == MathError.NO_ERROR) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1117)
+CarefulMath.mulUInt(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#712-724) uses a dangerous strict equality:
+	- a == 0 (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#713)
+RToken.repayBorrowFresh(address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2057-2124) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,REPAY_BORROW_NEW_ACCOUNT_BORROW_BALANCE_CALCULATION_FAILED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2106)
+RToken.repayBorrowFresh(address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2057-2124) uses a dangerous strict equality:
+	- require(bool,string)(vars.mathErr == MathError.NO_ERROR,REPAY_BORROW_NEW_TOTAL_BALANCE_CALCULATION_FAILED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2109)
+RToken.transfer(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1340-1342) uses a dangerous strict equality:
+	- transferTokens(msg.sender,msg.sender,dst,amount) == uint256(Error.NO_ERROR) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1341)
+RToken.transferFrom(address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1351-1353) uses a dangerous strict equality:
+	- transferTokens(msg.sender,src,dst,amount) == uint256(Error.NO_ERROR) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1352)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in RToken.liquidateBorrowInternal(address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2134-2149):
+	External calls:
+	- error = rTokenCollateral.accrueInterest() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2141)
+	- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+		- allowed = cointroller.liquidateBorrowAllowed(address(this),address(rTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2162)
+		- allowed = cointroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2256)
+		- allowed = cointroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2059)
+		- seizeError = rTokenCollateral.seize(liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2215)
+	State variables written after the call(s):
+	- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+		- totalBorrows = vars.totalBorrowsNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2114)
+Reentrancy in RToken.redeemFresh(address,uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1819-1913):
+	External calls:
+	- allowed = cointroller.redeemAllowed(address(this),redeemer,vars.redeemTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1859)
+	State variables written after the call(s):
+	- totalSupply = vars.totalSupplyNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1894)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+RToken._addReservesFresh(uint256).actualAddAmount (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2451) is a local variable never initialized
+RToken.borrowFresh(address,uint256).vars (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1959) is a local variable never initialized
+RToken.mintFresh(address,uint256).vars (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1714) is a local variable never initialized
+RToken.repayBorrowFresh(address,address,uint256).vars (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2069) is a local variable never initialized
+RToken.redeemFresh(address,uint256,uint256).vars (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1822) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+RBep20.initialize(address,CointrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2678-2691) ignores return value by EIP20Interface(underlying).totalSupply() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2690)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+Exponential.divScalarByExpTruncate(uint256,ExponentialNoError.Exp).fraction (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1089) shadows:
+	- ExponentialNoError.fraction(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#965-967) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+RToken._setPendingAdmin(address).newPendingAdmin (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2312) lacks a zero-check on :
+		- pendingAdmin = newPendingAdmin (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2322)
+RBep20.initialize(address,CointrollerInterface,InterestRateModel,uint256,string,string,uint8).underlying_ (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2678) lacks a zero-check on :
+		- underlying = underlying_ (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2689)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in RToken.borrowFresh(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1942-2006):
+	External calls:
+	- allowed = cointroller.borrowAllowed(address(this),borrower,borrowAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1944)
+	State variables written after the call(s):
+	- accountBorrows[borrower].principal = vars.accountBorrowsNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1986)
+	- accountBorrows[borrower].interestIndex = borrowIndex (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1987)
+	- totalBorrows = vars.totalBorrowsNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1988)
+Reentrancy in RToken.mintFresh(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1702-1767):
+	External calls:
+	- allowed = cointroller.mintAllowed(address(this),minter,mintAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1704)
+	State variables written after the call(s):
+	- accountTokens[minter] = vars.accountTokensNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1756)
+	- totalSupply = vars.totalSupplyNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1755)
+Reentrancy in RToken.redeemFresh(address,uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1819-1913):
+	External calls:
+	- allowed = cointroller.redeemAllowed(address(this),redeemer,vars.redeemTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1859)
+	State variables written after the call(s):
+	- accountTokens[redeemer] = vars.accountTokensNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1895)
+Reentrancy in RToken.repayBorrowFresh(address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2057-2124):
+	External calls:
+	- allowed = cointroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2059)
+	State variables written after the call(s):
+	- accountBorrows[borrower].principal = vars.accountBorrowsNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2112)
+	- accountBorrows[borrower].interestIndex = borrowIndex (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2113)
+	- totalBorrows = vars.totalBorrowsNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2114)
+Reentrancy in RToken.seizeInternal(address,address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2254-2301):
+	External calls:
+	- allowed = cointroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2256)
+	State variables written after the call(s):
+	- accountTokens[borrower] = borrowerTokensNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2290)
+	- accountTokens[liquidator] = liquidatorTokensNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2291)
+Reentrancy in RToken.transferTokens(address,address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1272-1332):
+	External calls:
+	- allowed = cointroller.transferAllowed(address(this),src,dst,tokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1274)
+	State variables written after the call(s):
+	- accountTokens[src] = srrTokensNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1317)
+	- accountTokens[dst] = dstTokensNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1318)
+	- transferAllowances[src][spender] = allowanceNew (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1322)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in RToken.borrowFresh(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1942-2006):
+	External calls:
+	- allowed = cointroller.borrowAllowed(address(this),borrower,borrowAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1944)
+	Event emitted after the call(s):
+	- Borrow(borrower,borrowAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1999)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.TOKEN_INSUFFICIENT_CASH,FailureInfo.BORROW_CASH_NOT_AVAILABLE) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1956)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.BORROW_NEW_ACCOUNT_BORROW_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1973)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.BORROW_NEW_TOTAL_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1978)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.COINTROLLER_REJECTION,FailureInfo.BORROW_COINTROLLER_REJECTION,allowed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1946)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.BORROW_ACCUMULATED_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1968)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.MARKET_NOT_FRESH,FailureInfo.BORROW_FRESHNESS_CHECK) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1951)
+Reentrancy in RToken.liquidateBorrowFresh(address,address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2160-2229):
+	External calls:
+	- allowed = cointroller.liquidateBorrowAllowed(address(this),address(rTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2162)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(Error.INVALID_CLOSE_AMOUNT_REQUESTED,FailureInfo.LIQUIDATE_CLOSE_AMOUNT_IS_UINT_MAX),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2189)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.LIQUIDATE_COLLATERAL_FRESHNESS_CHECK),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2174)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- (failOpaque(Error.COINTROLLER_REJECTION,FailureInfo.LIQUIDATE_COINTROLLER_REJECTION,allowed),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2164)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(Error.INVALID_CLOSE_AMOUNT_REQUESTED,FailureInfo.LIQUIDATE_CLOSE_AMOUNT_IS_ZERO),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2184)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(Error.INVALID_ACCOUNT_PAIR,FailureInfo.LIQUIDATE_LIQUIDATOR_IS_BORROWER),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2179)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.LIQUIDATE_FRESHNESS_CHECK),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2169)
+Reentrancy in RToken.liquidateBorrowFresh(address,address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2160-2229):
+	External calls:
+	- allowed = cointroller.liquidateBorrowAllowed(address(this),address(rTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2162)
+	- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2194)
+		- allowed = cointroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2059)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2194)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(TokenErrorReporter.Error(repayBorrowError),FailureInfo.LIQUIDATE_REPAY_BORROW_FRESH_FAILED),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2196)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2194)
+	- RepayBorrow(payer,borrower,vars.actualRepayAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2117)
+		- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2194)
+Reentrancy in RToken.liquidateBorrowFresh(address,address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2160-2229):
+	External calls:
+	- allowed = cointroller.liquidateBorrowAllowed(address(this),address(rTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2162)
+	- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2194)
+		- allowed = cointroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2059)
+	- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2213)
+		- allowed = cointroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2256)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2213)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2213)
+	- Transfer(borrower,liquidator,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2294)
+		- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2213)
+Reentrancy in RToken.liquidateBorrowFresh(address,address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2160-2229):
+	External calls:
+	- allowed = cointroller.liquidateBorrowAllowed(address(this),address(rTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2162)
+	- (repayBorrowError,actualRepayAmount) = repayBorrowFresh(liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2194)
+		- allowed = cointroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2059)
+	- seizeError = seizeInternal(address(this),liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2213)
+		- allowed = cointroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2256)
+	- seizeError = rTokenCollateral.seize(liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2215)
+	Event emitted after the call(s):
+	- LiquidateBorrow(liquidator,borrower,actualRepayAmount,address(rTokenCollateral),seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2222)
+Reentrancy in RToken.liquidateBorrowInternal(address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2134-2149):
+	External calls:
+	- error = rTokenCollateral.accrueInterest() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2141)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(TokenErrorReporter.Error(error),FailureInfo.LIQUIDATE_ACCRUE_COLLATERAL_INTEREST_FAILED),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2144)
+Reentrancy in RToken.liquidateBorrowInternal(address,uint256,RTokenInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2134-2149):
+	External calls:
+	- error = rTokenCollateral.accrueInterest() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2141)
+	- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+		- allowed = cointroller.liquidateBorrowAllowed(address(this),address(rTokenCollateral),liquidator,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2162)
+		- allowed = cointroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2256)
+		- allowed = cointroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2059)
+		- seizeError = rTokenCollateral.seize(liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2215)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+	- LiquidateBorrow(liquidator,borrower,actualRepayAmount,address(rTokenCollateral),seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2222)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+	- RepayBorrow(payer,borrower,vars.actualRepayAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2117)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+	- Transfer(borrower,liquidator,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2294)
+		- liquidateBorrowFresh(msg.sender,borrower,repayAmount,rTokenCollateral) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2148)
+Reentrancy in RToken.mintFresh(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1702-1767):
+	External calls:
+	- allowed = cointroller.mintAllowed(address(this),minter,mintAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1704)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- (failOpaque(Error.MATH_ERROR,FailureInfo.MINT_EXCHANGE_RATE_READ_FAILED,uint256(vars.mathErr)),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1718)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.MINT_FRESHNESS_CHECK),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1711)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- (failOpaque(Error.COINTROLLER_REJECTION,FailureInfo.MINT_COINTROLLER_REJECTION,allowed),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1706)
+	- Mint(minter,vars.actualMintAmount,vars.mintTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1759)
+	- Transfer(address(this),minter,vars.mintTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1760)
+Reentrancy in RToken.redeemFresh(address,uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1819-1913):
+	External calls:
+	- allowed = cointroller.redeemAllowed(address(this),redeemer,vars.redeemTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1859)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.COINTROLLER_REJECTION,FailureInfo.REDEEM_COINTROLLER_REJECTION,allowed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1861)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.MARKET_NOT_FRESH,FailureInfo.REDEEM_FRESHNESS_CHECK) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1866)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.REDEEM_NEW_TOTAL_SUPPLY_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1876)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.TOKEN_INSUFFICIENT_CASH,FailureInfo.REDEEM_TRANSFER_OUT_NOT_POSSIBLE) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1886)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.REDEEM_NEW_ACCOUNT_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1881)
+	- Redeem(redeemer,vars.redeemAmount,vars.redeemTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1907)
+	- Transfer(redeemer,address(this),vars.redeemTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1906)
+Reentrancy in RToken.repayBorrowFresh(address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2057-2124):
+	External calls:
+	- allowed = cointroller.repayBorrowAllowed(address(this),payer,borrower,repayAmount) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2059)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- (failOpaque(Error.MATH_ERROR,FailureInfo.REPAY_BORROW_ACCUMULATED_BALANCE_CALCULATION_FAILED,uint256(vars.mathErr)),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2077)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- (failOpaque(Error.COINTROLLER_REJECTION,FailureInfo.REPAY_BORROW_COINTROLLER_REJECTION,allowed),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2061)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- (fail(Error.MARKET_NOT_FRESH,FailureInfo.REPAY_BORROW_FRESHNESS_CHECK),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2066)
+	- RepayBorrow(payer,borrower,vars.actualRepayAmount,vars.accountBorrowsNew,vars.totalBorrowsNew) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2117)
+Reentrancy in RToken.seizeInternal(address,address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2254-2301):
+	External calls:
+	- allowed = cointroller.seizeAllowed(address(this),seizerToken,liquidator,borrower,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2256)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.INVALID_ACCOUNT_PAIR,FailureInfo.LIQUIDATE_SEIZE_LIQUIDATOR_IS_BORROWER) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2263)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.COINTROLLER_REJECTION,FailureInfo.LIQUIDATE_SEIZE_COINTROLLER_REJECTION,allowed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2258)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.LIQUIDATE_SEIZE_BALANCE_INCREMENT_FAILED,uint256(mathErr)) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2282)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.MATH_ERROR,FailureInfo.LIQUIDATE_SEIZE_BALANCE_DECREMENT_FAILED,uint256(mathErr)) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2277)
+	- Transfer(borrower,liquidator,seizeTokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2294)
+Reentrancy in RToken.transferTokens(address,address,address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1272-1332):
+	External calls:
+	- allowed = cointroller.transferAllowed(address(this),src,dst,tokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1274)
+	Event emitted after the call(s):
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.BAD_INPUT,FailureInfo.TRANSFER_NOT_ALLOWED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1281)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.MATH_ERROR,FailureInfo.TRANSFER_TOO_MUCH) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1310)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.MATH_ERROR,FailureInfo.TRANSFER_NOT_ALLOWED) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1300)
+	- Failure(uint256(err),uint256(info),0) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#673)
+		- fail(Error.MATH_ERROR,FailureInfo.TRANSFER_NOT_ENOUGH) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1305)
+	- Failure(uint256(err),uint256(info),opaqueError) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#682)
+		- failOpaque(Error.COINTROLLER_REJECTION,FailureInfo.TRANSFER_COINTROLLER_REJECTION,allowed) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1276)
+	- Transfer(src,dst,tokens) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1326)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+RBep20.doTransferIn(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2809-2834) uses assembly
+	- INLINE ASM (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2815-2827)
+RBep20.doTransferOut(address,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2845-2864) uses assembly
+	- INLINE ASM (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2850-2862)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+CointrollerErrorReporter.fail(CointrollerErrorReporter.Error,CointrollerErrorReporter.FailureInfo) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#536-540) is never used and should be removed
+CointrollerErrorReporter.failOpaque(CointrollerErrorReporter.Error,CointrollerErrorReporter.FailureInfo,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#545-549) is never used and should be removed
+Exponential.addExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1002-1006) is never used and should be removed
+Exponential.divExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1145-1147) is never used and should be removed
+Exponential.divScalar(ExponentialNoError.Exp,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1056-1063) is never used and should be removed
+Exponential.mulExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1100-1120) is never used and should be removed
+Exponential.mulExp(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1125-1127) is never used and should be removed
+Exponential.mulExp3(ExponentialNoError.Exp,ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1132-1138) is never used and should be removed
+Exponential.subExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#1011-1015) is never used and should be removed
+ExponentialNoError.add_(ExponentialNoError.Double,ExponentialNoError.Double) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#864-866) is never used and should be removed
+ExponentialNoError.add_(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#860-862) is never used and should be removed
+ExponentialNoError.add_(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#868-870) is never used and should be removed
+ExponentialNoError.add_(uint256,uint256,string) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#872-876) is never used and should be removed
+ExponentialNoError.div_(ExponentialNoError.Double,ExponentialNoError.Double) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#944-946) is never used and should be removed
+ExponentialNoError.div_(ExponentialNoError.Double,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#948-950) is never used and should be removed
+ExponentialNoError.div_(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#932-934) is never used and should be removed
+ExponentialNoError.div_(ExponentialNoError.Exp,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#936-938) is never used and should be removed
+ExponentialNoError.div_(uint256,ExponentialNoError.Double) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#952-954) is never used and should be removed
+ExponentialNoError.div_(uint256,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#940-942) is never used and should be removed
+ExponentialNoError.div_(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#956-958) is never used and should be removed
+ExponentialNoError.div_(uint256,uint256,string) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#960-963) is never used and should be removed
+ExponentialNoError.fraction(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#965-967) is never used and should be removed
+ExponentialNoError.greaterThanExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#839-841) is never used and should be removed
+ExponentialNoError.isZeroExp(ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#846-848) is never used and should be removed
+ExponentialNoError.lessThanExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#825-827) is never used and should be removed
+ExponentialNoError.lessThanOrEqualExp(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#832-834) is never used and should be removed
+ExponentialNoError.mul_(ExponentialNoError.Double,ExponentialNoError.Double) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#907-909) is never used and should be removed
+ExponentialNoError.mul_(ExponentialNoError.Double,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#911-913) is never used and should be removed
+ExponentialNoError.mul_(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#895-897) is never used and should be removed
+ExponentialNoError.mul_(ExponentialNoError.Exp,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#899-901) is never used and should be removed
+ExponentialNoError.mul_(uint256,ExponentialNoError.Double) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#915-917) is never used and should be removed
+ExponentialNoError.mul_(uint256,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#903-905) is never used and should be removed
+ExponentialNoError.mul_(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#919-921) is never used and should be removed
+ExponentialNoError.mul_(uint256,uint256,string) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#923-930) is never used and should be removed
+ExponentialNoError.mul_ScalarTruncate(ExponentialNoError.Exp,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#809-812) is never used and should be removed
+ExponentialNoError.mul_ScalarTruncateAddUInt(ExponentialNoError.Exp,uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#817-820) is never used and should be removed
+ExponentialNoError.safe224(uint256,string) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#850-853) is never used and should be removed
+ExponentialNoError.safe32(uint256,string) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#855-858) is never used and should be removed
+ExponentialNoError.sub_(ExponentialNoError.Double,ExponentialNoError.Double) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#882-884) is never used and should be removed
+ExponentialNoError.sub_(ExponentialNoError.Exp,ExponentialNoError.Exp) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#878-880) is never used and should be removed
+ExponentialNoError.sub_(uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#886-888) is never used and should be removed
+ExponentialNoError.sub_(uint256,uint256,string) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#890-893) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Constant CointrollerInterface.isCointroller (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#5) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant InterestRateModel.isInterestRateModel (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#86) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable RTokenStorage._notEntered (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#185) is not in mixedCase
+Constant RTokenStorage.borrowRateMaxMantissa (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#206) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant RTokenStorage.reserveFactorMaxMantissa (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#211) is not in UPPER_CASE_WITH_UNDERSCORES
+Function RTokenInterface._setPendingAdmin(address) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#410) is not in mixedCase
+Function RTokenInterface._acceptAdmin() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#411) is not in mixedCase
+Function RTokenInterface._setCointroller(CointrollerInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#412) is not in mixedCase
+Function RTokenInterface._setReserveFactor(uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#413) is not in mixedCase
+Function RTokenInterface._reduceReserves(uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#414) is not in mixedCase
+Function RTokenInterface._setInterestRateModel(InterestRateModel) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#415) is not in mixedCase
+Constant RTokenInterface.isRToken (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#298) is not in UPPER_CASE_WITH_UNDERSCORES
+Function RBep20Interface._addReserves(uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#441) is not in mixedCase
+Function RDelegatorInterface._setImplementation(address,bool,bytes) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#463) is not in mixedCase
+Function RDelegateInterface._becomeImplementation(bytes) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#472) is not in mixedCase
+Function RDelegateInterface._resignImplementation() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#477) is not in mixedCase
+Function ExponentialNoError.mul_ScalarTruncate(ExponentialNoError.Exp,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#809-812) is not in mixedCase
+Function ExponentialNoError.mul_ScalarTruncateAddUInt(ExponentialNoError.Exp,uint256,uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#817-820) is not in mixedCase
+Constant ExponentialNoError.expScale (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#784) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ExponentialNoError.doubleScale (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#785) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ExponentialNoError.halfExpScale (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#786) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ExponentialNoError.mantissaOne (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#787) is not in UPPER_CASE_WITH_UNDERSCORES
+Function RToken._setPendingAdmin(address) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2312-2328) is not in mixedCase
+Function RToken._acceptAdmin() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2335-2355) is not in mixedCase
+Function RToken._setCointroller(CointrollerInterface) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2362-2379) is not in mixedCase
+Function RToken._setReserveFactor(uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2386-2394) is not in mixedCase
+Function RToken._reduceReserves(uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2493-2501) is not in mixedCase
+Function RToken._setInterestRateModel(InterestRateModel) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2558-2566) is not in mixedCase
+Constant PriceOracle.isPriceOracle (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2647) is not in UPPER_CASE_WITH_UNDERSCORES
+Function RBep20._addReserves(uint256) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2784-2786) is not in mixedCase
+Contract oracleChainlink (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2868-2880) is not in CapWords
+Parameter SimplePriceOracle.setOracleData(address,oracleChainlink)._oracle (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2891) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Variable RToken.seize(address,address,uint256).seizeTokens (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2240) is too similar to RToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2254)
+Variable RTokenInterface.seize(address,address,uint256).seizeTokens (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#405) is too similar to RToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2254)
+Variable RToken.liquidateBorrowFresh(address,address,uint256,RTokenInterface).seizeTokens (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2204) is too similar to RToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2254)
+Variable RToken.seizeInternal(address,address,address,uint256).seizeTokens (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2254) is too similar to RToken.seizeInternal(address,address,address,uint256).seizerToken (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2254)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+SimplePriceOracle.prices (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2883) is never used in SimplePriceOracle (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2882-2900)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+RDelegationStorage.implementation (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#448) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+_setInterestRateModel(InterestRateModel) should be declared external:
+	- RToken._setInterestRateModel(InterestRateModel) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2558-2566)
+	- RTokenInterface._setInterestRateModel(InterestRateModel) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#415)
+_setImplementation(address,bool,bytes) should be declared external:
+	- RDelegatorInterface._setImplementation(address,bool,bytes) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#463)
+_becomeImplementation(bytes) should be declared external:
+	- RDelegateInterface._becomeImplementation(bytes) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#472)
+_resignImplementation() should be declared external:
+	- RDelegateInterface._resignImplementation() (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#477)
+initialize(address,CointrollerInterface,InterestRateModel,uint256,string,string,uint8) should be declared external:
+	- RBep20.initialize(address,CointrollerInterface,InterestRateModel,uint256,string,string,uint8) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2678-2691)
+getUnderlyingPrice(RToken) should be declared external:
+	- SimplePriceOracle.getUnderlyingPrice(RToken) (../../sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol#2895-2899)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.sol analyzed (21 contracts with 78 detectors), 140 result(s) found

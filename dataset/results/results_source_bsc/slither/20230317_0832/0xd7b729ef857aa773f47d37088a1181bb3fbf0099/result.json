@@ -1,0 +1,572 @@
+{
+    "errors": [
+        "EXIT_CODE_61"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_stake",
+            "impact": "High",
+            "line": 557,
+            "line_end": 571,
+            "message": "BogDistributive._stake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#557-571) ignores return value by _pair.transferFrom(account,address(this),amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#558)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_unstake",
+            "impact": "High",
+            "line": 576,
+            "line_end": 592,
+            "message": "BogDistributive._unstake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592) ignores return value by _pair.transfer(account,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_txBurn",
+            "impact": "Medium",
+            "line": 718,
+            "line_end": 725,
+            "message": "Burnable._txBurn(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#718-725) performs a multiplication on the result of a division:\n\t-toBurn = txAmount.mul(_burnRate).div(1000) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#719)\n\t-_distribute(account,toBurn.mul(_distributeRatio - 1).div(_distributeRatio)) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#721)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Low",
+            "line": 218,
+            "message": "Ownable.transferOwnership(address).adr (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#218) lacks a zero-check on :\n\t\t- _owner = adr (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#219)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_unstake",
+            "impact": "Low",
+            "line": 576,
+            "line_end": 592,
+            "message": "BogDistributive._unstake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592) has external calls inside a loop: _pair.transfer(account,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "bogdabotTxHook",
+            "impact": "Low",
+            "line": 302,
+            "line_end": 310,
+            "message": "BogdabotController.bogdabotTxHook(address,address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#302-310) has external calls inside a loop: IBogdabot(_bogdabots[i]).txHook(msg.sender,sender,receiver,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#308)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_unstake",
+            "impact": "Low",
+            "line": 576,
+            "line_end": 592,
+            "message": "Reentrancy in BogDistributive._unstake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592):\n\tExternal calls:\n\t- _pair.transfer(account,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)\n\tState variables written after the call(s):\n\t- updateHoldersUnstaked(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#589)\n\t\t- _holders[i] = _holders[_holders.length - 1] (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#390)\n\t\t- _holders.pop() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#391)\n\t- updateHoldersUnstaked(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#589)\n\t\t- _holdersCount -- (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#396)\n\t- updateHoldersUnstaked(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#589)\n\t\t- _holdings[account].holding = false (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#384)\n\t\t- _holdings[_holders[i]].adrIndex = i (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#394)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_stake",
+            "impact": "Low",
+            "line": 557,
+            "line_end": 571,
+            "message": "Reentrancy in BogDistributive._stake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#557-571):\n\tExternal calls:\n\t- _pair.transferFrom(account,address(this),amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#558)\n\tState variables written after the call(s):\n\t- _realise(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#561)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#537)\n\t- updateHoldersStaked(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#568)\n\t\t- _holders.push(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#376)\n\t- updateHoldersStaked(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#568)\n\t\t- _holdersCount ++ (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#377)\n\t- updateHoldersStaked(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#568)\n\t\t- _holdings[account].holding = true (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#374)\n\t\t- _holdings[account].adrIndex = _holders.length (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#375)\n\t- _realise(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#561)\n\t\t- _stakes[account].realised = _stakes[account].realised.add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#538)\n\t\t- _stakes[account].excludedAmt = _totalFees (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#541)\n\t- _stakes[account].LP = _stakes[account].LP.add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#564)\n\t- _totalLP = _totalLP.add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#565)\n\t- _realise(account) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#561)\n\t\t- _totalRealised = _totalRealised.add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#539)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_stake",
+            "impact": "Low",
+            "line": 557,
+            "line_end": 571,
+            "message": "Reentrancy in BogDistributive._stake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#557-571):\n\tExternal calls:\n\t- _pair.transferFrom(account,address(this),amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#558)\n\tEvent emitted after the call(s):\n\t- Staked(account,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#570)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_transferFrom",
+            "impact": "Low",
+            "line": 816,
+            "line_end": 848,
+            "message": "Reentrancy in BOG20._transferFrom(address,address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#816-848):\n\tExternal calls:\n\t- bogdabotTxHook(sender,recipient,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#844)\n\t\t- IBogdabot(_bogdabots[i]).txHook(msg.sender,sender,receiver,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#308)\n\tEvent emitted after the call(s):\n\t- Transfer(sender,recipient,sendAmt) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#846)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_unstake",
+            "impact": "Low",
+            "line": 576,
+            "line_end": 592,
+            "message": "Reentrancy in BogDistributive._unstake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592):\n\tExternal calls:\n\t- _pair.transfer(account,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)\n\tEvent emitted after the call(s):\n\t- Unstaked(account,amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#591)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 316,
+            "line_end": 324,
+            "message": "BogdabotController.isContract(address) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#316-324) uses assembly\n\t- INLINE ASM (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#320-322)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "checkTxAmount",
+            "impact": "Informational",
+            "line": 799,
+            "line_end": 802,
+            "message": "BOG20.checkTxAmount(uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#799-802) has costly operations inside a loop:\n\t- _firstTx = false (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#800)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 738,
+            "line_end": 746,
+            "message": "Burnable._burn(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#738-746) has costly operations inside a loop:\n\t- _totalBurnt = _totalBurnt.add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#742)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_unstake",
+            "impact": "Informational",
+            "line": 576,
+            "line_end": 592,
+            "message": "BogDistributive._unstake(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592) has costly operations inside a loop:\n\t- _totalLP = _totalLP.sub(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#583)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "removeHolder",
+            "impact": "Informational",
+            "line": 383,
+            "line_end": 397,
+            "message": "TracksHolders.removeHolder(address) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#383-397) has costly operations inside a loop:\n\t- _holdersCount -- (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#396)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "checkTxAmount",
+            "impact": "Informational",
+            "line": 799,
+            "line_end": 802,
+            "message": "BOG20.checkTxAmount(uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#799-802) has costly operations inside a loop:\n\t- _firstTx = true (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#800)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "removeHolder",
+            "impact": "Informational",
+            "line": 383,
+            "line_end": 397,
+            "message": "TracksHolders.removeHolder(address) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#383-397) has costly operations inside a loop:\n\t- _holders.pop() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#391)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_realise",
+            "impact": "Informational",
+            "line": 534,
+            "line_end": 542,
+            "message": "BogDistributive._realise(address) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#534-542) has costly operations inside a loop:\n\t- _totalRealised = _totalRealised.add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#539)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "addHolder",
+            "impact": "Informational",
+            "line": 373,
+            "line_end": 378,
+            "message": "TracksHolders.addHolder(address) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#373-378) has costly operations inside a loop:\n\t- _holdersCount ++ (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#377)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_distribute",
+            "impact": "Informational",
+            "line": 608,
+            "line_end": 611,
+            "message": "BogDistributive._distribute(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#608-611) has costly operations inside a loop:\n\t- _totalFees = _totalFees.add(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#609)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 738,
+            "line_end": 746,
+            "message": "Burnable._burn(address,uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#738-746) has costly operations inside a loop:\n\t- _totalSupply = _totalSupply.sub(amount) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#741)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 675,
+            "message": "Variable Burnable._distributeRatio (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#675) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 249,
+            "message": "Variable BogdabotController._bogdabotsCount (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#249) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 448,
+            "message": "Variable BogDistributive._totalFees (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#448) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 676,
+            "message": "Variable Burnable._totalBurnt (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#676) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 762,
+            "message": "Variable BOG20._firstTx (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#762) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 248,
+            "message": "Variable BogdabotController._bogdabots (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#248) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 447,
+            "message": "Variable BogDistributive._totalLP (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#447) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 345,
+            "message": "Variable TracksHolders._holdings (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#345) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 138,
+            "message": "Variable BEP20._decimals (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#138) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 434,
+            "message": "Variable BogDistributive._pairInitialized (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#434) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 674,
+            "message": "Variable Burnable._burnRate (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#674) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 134,
+            "message": "Variable BEP20._totalSupply (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#134) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 445,
+            "message": "Variable BogDistributive._stakes (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#445) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 192,
+            "message": "Variable Ownable._owner (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#192) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 433,
+            "message": "Variable BogDistributive._pair (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#433) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 346,
+            "message": "Variable TracksHolders._holders (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#346) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 137,
+            "message": "Variable BEP20._symbol (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#137) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 131,
+            "message": "Variable BEP20._balances (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#131) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 136,
+            "message": "Variable BEP20._name (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 449,
+            "message": "Variable BogDistributive._totalRealised (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#449) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 132,
+            "message": "Variable BEP20._allowances (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 247,
+            "message": "Variable BogdabotController._botsInfo (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#247) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 761,
+            "message": "Variable BOG20._maxTxPercent (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#761) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Informational",
+            "line": 347,
+            "message": "Variable TracksHolders._holdersCount (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#347) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 900,
+            "line_end": 903,
+            "message": "BoggedFinance.constructor() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#900-903) uses literals with too many digits:\n\t- BOG20(2500000) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#900)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "impact": "Optimization",
+            "line": 138,
+            "message": "BEP20._decimals (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#138) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 156,
+            "line_end": 158,
+            "message": "symbol() should be declared external:\n\t- BEP20.symbol() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#156-158)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "getBots",
+            "impact": "Optimization",
+            "line": 254,
+            "line_end": 256,
+            "message": "getBots() should be declared external:\n\t- BogdabotController.getBots() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#254-256)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 211,
+            "line_end": 213,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#211-213)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "getDistributionRatio",
+            "impact": "Optimization",
+            "line": 695,
+            "line_end": 697,
+            "message": "getDistributionRatio() should be declared external:\n\t- Burnable.getDistributionRatio() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#695-697)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "realise",
+            "impact": "Optimization",
+            "line": 527,
+            "line_end": 529,
+            "message": "realise() should be declared external:\n\t- BogDistributive.realise() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#527-529)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "getHoldersCount",
+            "impact": "Optimization",
+            "line": 359,
+            "line_end": 361,
+            "message": "getHoldersCount() should be declared external:\n\t- TracksHolders.getHoldersCount() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#359-361)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "getBurnRate",
+            "impact": "Optimization",
+            "line": 688,
+            "line_end": 690,
+            "message": "getBurnRate() should be declared external:\n\t- Burnable.getBurnRate() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#688-690)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "burn",
+            "impact": "Optimization",
+            "line": 730,
+            "line_end": 733,
+            "message": "burn(uint256) should be declared external:\n\t- Burnable.burn(uint256) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#730-733)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 152,
+            "line_end": 154,
+            "message": "name() should be declared external:\n\t- BEP20.name() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#152-154)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 148,
+            "line_end": 150,
+            "message": "allowance(address,address) should be declared external:\n\t- BEP20.allowance(address,address) (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#148-150)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "getHolders",
+            "impact": "Optimization",
+            "line": 352,
+            "line_end": 354,
+            "message": "getHolders() should be declared external:\n\t- TracksHolders.getHolders() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#352-354)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 140,
+            "line_end": 142,
+            "message": "totalSupply() should be declared external:\n\t- BEP20.totalSupply() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#140-142)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 160,
+            "line_end": 162,
+            "message": "decimals() should be declared external:\n\t- BEP20.decimals() (../..0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#160-162)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

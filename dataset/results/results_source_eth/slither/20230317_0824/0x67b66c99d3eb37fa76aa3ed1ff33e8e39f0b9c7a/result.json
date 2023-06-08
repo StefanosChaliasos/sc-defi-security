@@ -1,0 +1,416 @@
+{
+    "errors": [
+        "EXIT_CODE_41"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "work",
+            "impact": "High",
+            "line": 784,
+            "line_end": 824,
+            "message": "Reentrancy in Bank.work(uint256,address,uint256,uint256,bytes) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#784-824):\n\tExternal calls:\n\t- Goblin(goblin).work.value(sendETH)(id,msg.sender,debt,data) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#809)\n\tState variables written after the call(s):\n\t- _addDebt(id,debt) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)\n\t\t- glbDebtShare = glbDebtShare.add(debtShare) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#854)\n\t- _addDebt(id,debt) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)\n\t\t- glbDebtVal = glbDebtVal.add(debtVal) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#855)\n\t- _addDebt(id,debt) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)\n\t\t- pos.debtShare = pos.debtShare.add(debtShare) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#853)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "debtShareToVal",
+            "impact": "Medium",
+            "line": 740,
+            "line_end": 743,
+            "message": "Bank.debtShareToVal(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#740-743) uses a dangerous strict equality:\n\t- glbDebtShare == 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#741)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 765,
+            "line_end": 769,
+            "message": "Bank.deposit() (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#765-769) uses a dangerous strict equality:\n\t- total == 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#767)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "debtValToShare",
+            "impact": "Medium",
+            "line": 747,
+            "line_end": 750,
+            "message": "Bank.debtValToShare(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#747-750) uses a dangerous strict equality:\n\t- glbDebtShare == 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#748)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "reduceReserve",
+            "impact": "Low",
+            "line": 891,
+            "line_end": 893,
+            "message": "Bank.reduceReserve(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#891-893) should emit an event for: \n\t- reservePool = reservePool.sub(value) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#892) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "withdrawReserve",
+            "impact": "Low",
+            "line": 884,
+            "line_end": 887,
+            "message": "Bank.withdrawReserve(address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#884-887) should emit an event for: \n\t- reservePool = reservePool.sub(value) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#885) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 784,
+            "line_end": 824,
+            "message": "Reentrancy in Bank.work(uint256,address,uint256,uint256,bytes) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#784-824):\n\tExternal calls:\n\t- Goblin(goblin).work.value(sendETH)(id,msg.sender,debt,data) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#809)\n\tEvent emitted after the call(s):\n\t- AddDebt(id,debtShare) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#856)\n\t\t- _addDebt(id,debt) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#820)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "kill",
+            "impact": "Low",
+            "line": 828,
+            "line_end": 847,
+            "message": "Reentrancy in Bank.kill(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#828-847):\n\tExternal calls:\n\t- Goblin(pos.goblin).liquidate(id) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#838)\n\t- SafeToken.safeTransferETH(msg.sender,prize) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#843)\n\t- SafeToken.safeTransferETH(pos.owner,left) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#845)\n\tEvent emitted after the call(s):\n\t- Kill(id,msg.sender,prize,left) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#846)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "pendingInterest",
+            "impact": "Low",
+            "line": 727,
+            "line_end": 736,
+            "message": "Bank.pendingInterest(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#727-736) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now > lastAccrueTime (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#728)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "work",
+            "impact": "Low",
+            "line": 784,
+            "line_end": 824,
+            "message": "Bank.work(uint256,address,uint256,uint256,bytes) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#784-824) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(positions[id].goblin == goblin,bad position goblin) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#795)\n\t- require(bool,string)(positions[id].owner == msg.sender,not position owner) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#796)\n\t- debt > 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#815)\n\t- require(bool,string)(debt >= config.minDebtSize(),too small debt size) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#816)\n\t- require(bool,string)(health.mul(workFactor) >= debt.mul(10000),bad work factor) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#819)\n\t- back > lessDebt (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#823)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "debtValToShare",
+            "impact": "Low",
+            "line": 747,
+            "line_end": 750,
+            "message": "Bank.debtValToShare(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#747-750) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- glbDebtShare == 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#748)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "debtShareToVal",
+            "impact": "Low",
+            "line": 740,
+            "line_end": 743,
+            "message": "Bank.debtShareToVal(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#740-743) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- glbDebtShare == 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#741)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 765,
+            "line_end": 769,
+            "message": "Bank.deposit() (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#765-769) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- total == 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#767)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "kill",
+            "impact": "Low",
+            "line": 828,
+            "line_end": 847,
+            "message": "Bank.kill(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#828-847) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(health.mul(killFactor) < debt.mul(10000),can't liquidate) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#835)\n\t- left > 0 (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#845)\n\t- rest > debt (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#844)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "_burnFrom",
+            "impact": "Informational",
+            "line": 492,
+            "line_end": 495,
+            "message": "ERC20._burnFrom(address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#492-495) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 648,
+            "line_end": 652,
+            "message": "SafeToken.safeTransferFrom(address,address,address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#648-652) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 509,
+            "line_end": 511,
+            "message": "Math.max(uint256,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#509-511) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "average",
+            "impact": "Informational",
+            "line": 524,
+            "line_end": 527,
+            "message": "Math.average(uint256,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#524-527) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 636,
+            "line_end": 640,
+            "message": "SafeToken.safeApprove(address,address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#636-640) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "myBalance",
+            "impact": "Informational",
+            "line": 628,
+            "line_end": 630,
+            "message": "SafeToken.myBalance(address) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#628-630) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "balanceOf",
+            "impact": "Informational",
+            "line": 632,
+            "line_end": 634,
+            "message": "SafeToken.balanceOf(address,address) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#632-634) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 262,
+            "line_end": 265,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#262-265) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 654,
+            "line_end": 657,
+            "message": "Low level call in SafeToken.safeTransferETH(address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#654-657):\n\t- (success) = to.call.value(value)(new bytes(0)) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#655)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 642,
+            "line_end": 646,
+            "message": "Low level call in SafeToken.safeTransfer(address,address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#642-646):\n\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#644)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 648,
+            "line_end": 652,
+            "message": "Low level call in SafeToken.safeTransferFrom(address,address,address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#648-652):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#650)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 636,
+            "line_end": 640,
+            "message": "Low level call in SafeToken.safeApprove(address,address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#636-640):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#638)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "impact": "Informational",
+            "line": 877,
+            "message": "Parameter Bank.updateConfig(BankConfig)._config (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#877) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "impact": "Optimization",
+            "line": 683,
+            "message": "Bank.name (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#683) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "impact": "Optimization",
+            "line": 685,
+            "message": "Bank.decimals (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#685) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "impact": "Optimization",
+            "line": 684,
+            "message": "Bank.symbol (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#684) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 364,
+            "line_end": 368,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#364-368)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 56,
+            "line_end": 59,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#56-59)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 401,
+            "line_end": 404,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#401-404)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 316,
+            "line_end": 318,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#316-318)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 328,
+            "line_end": 331,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#328-331)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 30,
+            "line_end": 32,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#30-32)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 382,
+            "line_end": 385,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#382-385)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 65,
+            "line_end": 67,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#65-67)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 347,
+            "line_end": 350,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#347-350)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "positionInfo",
+            "impact": "Optimization",
+            "line": 754,
+            "line_end": 757,
+            "message": "positionInfo(uint256) should be declared external:\n\t- Bank.positionInfo(uint256) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#754-757)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 336,
+            "line_end": 338,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x67b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a.sol#336-338)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "address": 587,
+            "contract": "MAIN",
+            "exploit": {
+                "initialState": {
+                    "accounts": {
+                        "0x0": {
+                            "balance": "0x1",
+                            "code": "608060405234801561001057600080fd5b506004361061004c5760003560e01c806350b54fd81461005157806366331bba14610093578063ead99147146100af578063fc57d4df146100df575b600080fd5b6100776004803603602081101561006757600080fd5b50356001600160a01b0316610117565b604080516001600160a01b039092168252519081900360200190f35b61009b610132565b604080519115158252519081900360200190f35b6100dd600480360360408110156100c557600080fd5b506001600160a01b0381358116916020013516610137565b005b610105600480360360208110156100f557600080fd5b50356001600160a01b0316610165565b60408051918252519081900360200190f35b6001602052600090815260409020546001600160a01b031681565b600181565b6001600160a01b03918216600090815260016020526040902080546001600160a01b03191691909216179055565b6001600160a01b03808216600090815260016020908152604080832054815163313ce56760e01b815291519394859491169263313ce5679260048082019391829003018186803b1580156101b857600080fd5b505afa1580156101cc573d6000803e3d6000fd5b505050506040513d60208110156101e257600080fd5b50516001600160a01b03808516600090815260016020526040808220548151633fabe5a360e21b8152915160ff909516955091938493849384938493919092169163feaf968c9160048083019260a0929190829003018186803b15801561024857600080fd5b505afa15801561025c573d6000803e3d6000fd5b505050506040513d60a081101561027257600080fd5b5060200151601296909603600a0a90950297965050505050505056fea265627a7a72315820784978384f8a73348c264f9b84d8c2b6a19ae47e878208de65abf84b4bf963f564736f6c63430005100032",
+                            "nonce": 0,
+                            "storage": "{}"
+                        },
+                        "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef": {
+                            "balance": "0x0",
+                            "code": "",
+                            "nonce": 0,
+                            "storage": "{}"
+                        }
+                    }
+                },
+                "steps": [
+                    {
+                        "address": "0x0",
+                        "calldata": "0xead9914700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "input": "0xead9914700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "name": "unknown",
+                        "origin": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "value": "0x0"
+                    },
+                    {
+                        "address": "0x0",
+                        "calldata": "0xfc57d4df0000000000000000000000000000000000000000000000000000000000000040",
+                        "input": "0xfc57d4df0000000000000000000000000000000000000000000000000000000000000040",
+                        "name": "unknown",
+                        "origin": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+                        "value": "0x0"
+                    }
+                ]
+            },
+            "filename": "../retrospective-sc-analysis/data/bytecodes/bsc/0xd55f01b4b51b7f48912cd8ca3cdd8070a1a9dba5.hex",
+            "function": "_function_0xfc57d4df",
+            "message": "Multiple calls are executed in the same transaction.\nThis call is executed following another call within the same transaction. It is possible that the call never gets executed if a prior call fails permanently. This might be caused intentionally by a malicious callee. If possible, refactor the code such that each transaction only executes one external call or make sure that all callees can be trusted (i.e. they\u2019re part of your own codebase).\nClassification: SWC-113",
+            "name": "Multiple Calls in a Single Transaction (SWC 113)",
+            "severity": "Low"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "mythril-0.23.15",
+        "mode": "runtime",
+        "version": "2023/01/20"
+    }
+}

@@ -1,0 +1,353 @@
+{
+    "errors": [
+        "EXIT_CODE_36"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "stake",
+            "impact": "Medium",
+            "line": 694,
+            "line_end": 714,
+            "message": "WUSDMaster.stake(uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#694-714) ignores return value by usdt.approve(address(wswapRouter),wexAmount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#703)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Low",
+            "line": 682,
+            "message": "WUSDMaster.setStrategistAddress(address)._strategist (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#682) lacks a zero-check on :\n\t\t- strategist = _strategist (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#683)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Low",
+            "line": 676,
+            "message": "WUSDMaster.setTreasuryAddress(address)._treasury (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#676) lacks a zero-check on :\n\t\t- treasury = _treasury (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#677)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "withdrawWex",
+            "impact": "Low",
+            "line": 735,
+            "line_end": 739,
+            "message": "Reentrancy in WUSDMaster.withdrawWex(uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#735-739):\n\tExternal calls:\n\t- wex.safeTransfer(msg.sender,amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#736)\n\tEvent emitted after the call(s):\n\t- WexWithdrawn(amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#738)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "withdrawUsdt",
+            "impact": "Low",
+            "line": 728,
+            "line_end": 733,
+            "message": "Reentrancy in WUSDMaster.withdrawUsdt(uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#728-733):\n\tExternal calls:\n\t- usdt.safeTransfer(strategist,amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#730)\n\tEvent emitted after the call(s):\n\t- UsdtWithdrawn(amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#732)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "redeem",
+            "impact": "Low",
+            "line": 716,
+            "line_end": 726,
+            "message": "Reentrancy in WUSDMaster.redeem(uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#716-726):\n\tExternal calls:\n\t- wusd.burn(msg.sender,amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#720)\n\t- usdt.safeTransfer(treasury,usdtTreasuryAmount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#721)\n\t- usdt.safeTransfer(msg.sender,usdtTransferAmount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#722)\n\t- wex.safeTransfer(msg.sender,wexTransferAmount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#723)\n\tEvent emitted after the call(s):\n\t- Redeem(msg.sender,amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#725)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 694,
+            "line_end": 714,
+            "message": "Reentrancy in WUSDMaster.stake(uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#694-714):\n\tExternal calls:\n\t- usdt.safeTransferFrom(msg.sender,address(this),amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#696)\n\t- usdt.safeTransfer(treasury,feeAmount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#699)\n\t- usdt.approve(address(wswapRouter),wexAmount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#703)\n\t- wswapRouter.swapExactTokensForTokensSupportingFeeOnTransferTokens(wexAmount,0,swapPath,address(this),block.timestamp) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#704-710)\n\t- wusd.mint(msg.sender,amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#711)\n\tEvent emitted after the call(s):\n\t- Stake(msg.sender,amount) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#713)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 471,
+            "line_end": 491,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#471-491) uses assembly\n\t- INLINE ASM (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#483-486)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 308,
+            "line_end": 318,
+            "message": "Address.isContract(address) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#308-318) uses assembly\n\t- INLINE ASM (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#314-316)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 336,
+            "line_end": 341,
+            "message": "Address.sendValue(address,uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#336-341) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 390,
+            "line_end": 396,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#390-396) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 460,
+            "line_end": 469,
+            "message": "Address.functionDelegateCall(address,bytes,string) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#460-469) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 450,
+            "line_end": 452,
+            "message": "Address.functionDelegateCall(address,bytes) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#450-452) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 545,
+            "line_end": 552,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#545-552) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 530,
+            "line_end": 543,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#530-543) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 20,
+            "line_end": 22,
+            "message": "Context._msgData() (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#20-22) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 423,
+            "line_end": 425,
+            "message": "Address.functionStaticCall(address,bytes) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#423-425) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 554,
+            "line_end": 565,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#554-565) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 433,
+            "line_end": 442,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#433-442) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 361,
+            "line_end": 363,
+            "message": "Address.functionCall(address,bytes) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#361-363) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "message": "solc-0.8.19 is not recommended for deployment\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 433,
+            "line_end": 442,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#433-442):\n\t- (success,returndata) = target.staticcall(data) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#440)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 336,
+            "line_end": 341,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#336-341):\n\t- (success) = recipient.call{value: amount}() (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#339)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 460,
+            "line_end": 469,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#460-469):\n\t- (success,returndata) = target.delegatecall(data) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#467)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 404,
+            "line_end": 415,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#404-415):\n\t- (success,returndata) = target.call{value: value}(data) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#413)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "line": 655,
+            "message": "Parameter WUSDMaster.setWexPermille(uint256)._wexPermille (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#655) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "line": 682,
+            "message": "Parameter WUSDMaster.setStrategistAddress(address)._strategist (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#682) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "line": 676,
+            "message": "Parameter WUSDMaster.setTreasuryAddress(address)._treasury (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#676) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "line": 662,
+            "message": "Parameter WUSDMaster.setTreasuryPermille(uint256)._treasuryPermille (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#662) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "line": 669,
+            "message": "Parameter WUSDMaster.setFeePermille(uint256)._feePermille (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#669) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "line": 649,
+            "message": "Parameter WUSDMaster.setSwapPath(address[])._swapPath (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#649) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "impact": "Informational",
+            "line": 688,
+            "message": "Parameter WUSDMaster.setMaxStakeAmount(uint256)._maxStakeAmount (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#688) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "withdrawer",
+            "impact": "Optimization",
+            "line": 126,
+            "line_end": 128,
+            "message": "withdrawer() should be declared external:\n\t- Withdrawable.withdrawer() (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#126-128)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "transferWithdrawership",
+            "impact": "Optimization",
+            "line": 142,
+            "line_end": 147,
+            "message": "transferWithdrawership(address) should be declared external:\n\t- Withdrawable.transferWithdrawership(address) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#142-147)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 71,
+            "line_end": 73,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#71-73)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 79,
+            "line_end": 82,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#79-82)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

@@ -1,0 +1,1769 @@
+{
+    "errors": [
+        "EXIT_CODE_196"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferUnderlying",
+            "impact": "High",
+            "line": 2071,
+            "line_end": 2077,
+            "message": "OptionsContract.transferUnderlying(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071-2077) sends eth to arbitrary user\n\tDangerous calls:\n\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferCollateral",
+            "impact": "High",
+            "line": 2058,
+            "line_end": 2064,
+            "message": "OptionsContract.transferCollateral(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) sends eth to arbitrary user\n\tDangerous calls:\n\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "High",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899) use msg.value in a loop: require(bool,string)(msg.value == amtUnderlyingToPay,Incorrect msg.value) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1875)\n",
+            "name": "msg-value-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "uniswapBuyOToken",
+            "impact": "High",
+            "line": 835,
+            "line_end": 904,
+            "message": "OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#835-904) ignores return value by paymentToken.transferFrom(msg.sender,address(this),paymentTokensToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#853-857)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferUnderlying",
+            "impact": "High",
+            "line": 2071,
+            "line_end": 2077,
+            "message": "OptionsContract.transferUnderlying(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071-2077) ignores return value by underlying.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2075)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "sellOTokens",
+            "impact": "High",
+            "line": 698,
+            "line_end": 723,
+            "message": "OptionsExchange.sellOTokens(address,address,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#698-723) ignores return value by oToken.transferFrom(msg.sender,address(this),oTokensToSell) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#707)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferCollateral",
+            "impact": "High",
+            "line": 2058,
+            "line_end": 2064,
+            "message": "OptionsContract.transferCollateral(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) ignores return value by collateral.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "calculateOTokens",
+            "impact": "Medium",
+            "line": 1980,
+            "line_end": 2009,
+            "message": "OptionsContract.calculateOTokens(uint256,OptionsContract.Number) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1980-2009) performs a multiplication on the result of a division:\n\t-numeratorVal = (collateralAmt.mul(collateralToEthPrice)).div(strikeToEthPrice) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1992-1994)\n\t-numOptions = numeratorVal.mul(10 ** exp).div(denomVal) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2005)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "isSafe",
+            "impact": "Medium",
+            "line": 1923,
+            "line_end": 1956,
+            "message": "OptionsContract.isSafe(uint256,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1923-1956) performs a multiplication on the result of a division:\n\t-rightSideVal = (collateralAmt.mul(collateralToEthPrice)).div(strikeToEthPrice) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1939-1941)\n\t-stillSafe = leftSideVal <= rightSideVal.mul(10 ** exp) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1952)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addAndSellERC20CollateralOption",
+            "impact": "Medium",
+            "line": 2290,
+            "line_end": 2304,
+            "message": "Reentrancy in oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304):\n\tExternal calls:\n\t- addERC20Collateral(msg.sender,amtCollateral) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2295)\n\t\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tState variables written after the call(s):\n\t- issueOTokens(amtToCreate,address(this)) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)\n\t\t- vault.oTokensIssued = newOTokensBalance (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1559)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addERC20CollateralOption",
+            "impact": "Medium",
+            "line": 2253,
+            "line_end": 2260,
+            "message": "Reentrancy in oToken.addERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2253-2260):\n\tExternal calls:\n\t- addERC20Collateral(msg.sender,amtCollateral) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2258)\n\t\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tState variables written after the call(s):\n\t- issueOTokens(amtToCreate,receiver) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)\n\t\t- vault.oTokensIssued = newOTokensBalance (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1559)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "Medium",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "Reentrancy in OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):\n\tExternal calls:\n\t- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,oTokensToExercise) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1887)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#463)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "setDetails",
+            "impact": "Medium",
+            "line": 1350,
+            "line_end": 1361,
+            "message": "OptionsContract.setDetails(string,string) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350-1361) contains a tautology or contradiction:\n\t- require(bool,string)(decimals >= 0,1 oToken cannot protect less than the smallest unit of the asset) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1357-1360)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Medium",
+            "line": 1292,
+            "message": "OptionsContract.getVaultOwners().owners (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1292) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "uniswapSellOToken",
+            "impact": "Medium",
+            "line": 801,
+            "line_end": 833,
+            "message": "OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#801-833) ignores return value by oToken.approve(address(exchange),_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#812)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addAndSellETHCollateralOption",
+            "impact": "Medium",
+            "line": 2209,
+            "line_end": 2222,
+            "message": "oToken.addAndSellETHCollateralOption(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2209-2222) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2215)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "createAndSellERC20CollateralOption",
+            "impact": "Medium",
+            "line": 2268,
+            "line_end": 2282,
+            "message": "oToken.createAndSellERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2268-2282) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2275)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addAndSellERC20CollateralOption",
+            "impact": "Medium",
+            "line": 2290,
+            "line_end": 2304,
+            "message": "oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2297)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "uniswapSellOToken",
+            "impact": "Medium",
+            "line": 801,
+            "line_end": 833,
+            "message": "OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#801-833) ignores return value by oToken.approve(address(exchange),_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#822)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "uniswapBuyOToken",
+            "impact": "Medium",
+            "line": 835,
+            "line_end": 904,
+            "message": "OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#835-904) ignores return value by paymentToken.approve(address(exchange),LARGE_APPROVAL_NUMBER) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#860)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "createAndSellETHCollateralOption",
+            "impact": "Medium",
+            "line": 2189,
+            "line_end": 2202,
+            "message": "oToken.createAndSellETHCollateralOption(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2189-2202) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2195)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 950,
+            "message": "ERC20Detailed.constructor(string,string,uint8).symbol (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#950) shadows:\n\t- ERC20Detailed.symbol() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#967-969) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "decimals",
+            "impact": "Low",
+            "line": 950,
+            "message": "ERC20Detailed.constructor(string,string,uint8).decimals (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#950) shadows:\n\t- ERC20Detailed.decimals() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#983-985) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 1380,
+            "message": "OptionsContract.hasVault(address).owner (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1380) shadows:\n\t- Ownable.owner() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1017-1019) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 950,
+            "message": "ERC20Detailed.constructor(string,string,uint8).name (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#950) shadows:\n\t- ERC20Detailed.name() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#959-961) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "Low",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899) has external calls inside a loop: require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferCollateral",
+            "impact": "Low",
+            "line": 2058,
+            "line_end": 2064,
+            "message": "OptionsContract.transferCollateral(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) has external calls inside a loop: collateral.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "getPrice",
+            "impact": "Low",
+            "line": 2083,
+            "line_end": 2091,
+            "message": "OptionsContract.getPrice(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2083-2091) has external calls inside a loop: COMPOUND_ORACLE.getPrice(asset) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2089)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferCollateral",
+            "impact": "Low",
+            "line": 2058,
+            "line_end": 2064,
+            "message": "OptionsContract.transferCollateral(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) has external calls inside a loop: _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addERC20Collateral",
+            "impact": "Low",
+            "line": 1436,
+            "line_end": 1449,
+            "message": "Reentrancy in OptionsContract.addERC20Collateral(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1436-1449):\n\tExternal calls:\n\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tState variables written after the call(s):\n\t- _addCollateral(vaultOwner,amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1448)\n\t\t- vault.collateral = vault.collateral.add(amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1912)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "Low",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "Reentrancy in OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):\n\tExternal calls:\n\t- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,oTokensToExercise) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1887)\n\t\t- _totalSupply = _totalSupply.sub(amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#464)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addERC20CollateralOption",
+            "impact": "Low",
+            "line": 2253,
+            "line_end": 2260,
+            "message": "Reentrancy in oToken.addERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2253-2260):\n\tExternal calls:\n\t- addERC20Collateral(msg.sender,amtCollateral) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2258)\n\t\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tState variables written after the call(s):\n\t- issueOTokens(amtToCreate,receiver) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#445)\n\t- issueOTokens(amtToCreate,receiver) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#444)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addAndSellERC20CollateralOption",
+            "impact": "Low",
+            "line": 2290,
+            "line_end": 2304,
+            "message": "Reentrancy in oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304):\n\tExternal calls:\n\t- addERC20Collateral(msg.sender,amtCollateral) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2295)\n\t\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tState variables written after the call(s):\n\t- issueOTokens(amtToCreate,address(this)) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#445)\n\t- issueOTokens(amtToCreate,address(this)) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#444)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addERC20Collateral",
+            "impact": "Low",
+            "line": 1436,
+            "line_end": 1449,
+            "message": "Reentrancy in OptionsContract.addERC20Collateral(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1436-1449):\n\tExternal calls:\n\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tEvent emitted after the call(s):\n\t- ERC20CollateralAdded(vaultOwner,amt,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1447)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "removeCollateral",
+            "impact": "Low",
+            "line": 1614,
+            "line_end": 1637,
+            "message": "Reentrancy in OptionsContract.removeCollateral(uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1614-1637):\n\tExternal calls:\n\t- transferCollateral(msg.sender,amtToRemove) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1634)\n\t\t- collateral.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)\n\tExternal calls sending eth:\n\t- transferCollateral(msg.sender,amtToRemove) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1634)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- RemoveCollateral(amtToRemove,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1636)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addAndSellERC20CollateralOption",
+            "impact": "Low",
+            "line": 2290,
+            "line_end": 2304,
+            "message": "Reentrancy in oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304):\n\tExternal calls:\n\t- addERC20Collateral(msg.sender,amtCollateral) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2295)\n\t\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tEvent emitted after the call(s):\n\t- IssuedOTokens(receiver,oTokensToIssue,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1562)\n\t\t- issueOTokens(amtToCreate,address(this)) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)\n\t- Transfer(address(0),account,amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#446)\n\t\t- issueOTokens(amtToCreate,address(this)) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferFee",
+            "impact": "Low",
+            "line": 1367,
+            "line_end": 1373,
+            "message": "Reentrancy in OptionsContract.transferFee(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367-1373):\n\tExternal calls:\n\t- transferCollateral(_address,fees) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1370)\n\t\t- collateral.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)\n\tExternal calls sending eth:\n\t- transferCollateral(_address,fees) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1370)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- TransferFee(_address,fees) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1372)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "uniswapBuyOToken",
+            "impact": "Low",
+            "line": 835,
+            "line_end": 904,
+            "message": "Reentrancy in OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#835-904):\n\tExternal calls:\n\t- paymentToken.transferFrom(msg.sender,address(this),paymentTokensToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#853-857)\n\t- paymentToken.approve(address(exchange),LARGE_APPROVAL_NUMBER) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#860)\n\tEvent emitted after the call(s):\n\t- BuyOTokens(msg.sender,_transferTo,address(oToken),address(paymentToken),_amt,paymentTokensToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#862-869)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "sellOTokens",
+            "impact": "Low",
+            "line": 698,
+            "line_end": 723,
+            "message": "Reentrancy in OptionsExchange.sellOTokens(address,address,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#698-723):\n\tExternal calls:\n\t- oToken.transferFrom(msg.sender,address(this),oTokensToSell) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#707)\n\t- payoutTokensReceived = uniswapSellOToken(oToken,payoutToken,oTokensToSell,receiver) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#708-713)\n\t\t- oToken.approve(address(exchange),_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#812)\n\t\t- exchange.tokenToEthTransferInput(_amt,1,LARGE_BLOCK_SIZE,_transferTo) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#813-819)\n\t\t- oToken.approve(address(exchange),_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#822)\n\t\t- exchange.tokenToTokenTransferInput(_amt,1,1,LARGE_BLOCK_SIZE,_transferTo,address(payoutToken)) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#823-831)\n\tEvent emitted after the call(s):\n\t- SellOTokens(msg.sender,receiver,oTokenAddress,payoutTokenAddress,oTokensToSell,payoutTokensReceived) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#715-722)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "redeemVaultBalance",
+            "impact": "Low",
+            "line": 1644,
+            "line_end": 1667,
+            "message": "Reentrancy in OptionsContract.redeemVaultBalance() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1644-1667):\n\tExternal calls:\n\t- transferCollateral(msg.sender,collateralToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1659)\n\t\t- collateral.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)\n\t- transferUnderlying(msg.sender,underlyingToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1660)\n\t\t- underlying.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2075)\n\tExternal calls sending eth:\n\t- transferCollateral(msg.sender,collateralToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1659)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\t- transferUnderlying(msg.sender,underlyingToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1660)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)\n\tEvent emitted after the call(s):\n\t- RedeemVaultBalance(collateralToTransfer,underlyingToTransfer,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1662-1666)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "liquidate",
+            "impact": "Low",
+            "line": 1705,
+            "line_end": 1758,
+            "message": "Reentrancy in OptionsContract.liquidate(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1705-1758):\n\tExternal calls:\n\t- transferCollateral(msg.sender,amtCollateralToPay) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1755)\n\t\t- collateral.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)\n\tExternal calls sending eth:\n\t- transferCollateral(msg.sender,amtCollateralToPay) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1755)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- Liquidate(amtCollateralToPay,vaultOwner,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1757)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "Low",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "Reentrancy in OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):\n\tExternal calls:\n\t- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)\n\t- transferCollateral(msg.sender,amtCollateralToPay) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1890)\n\t\t- collateral.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)\n\tExternal calls sending eth:\n\t- transferCollateral(msg.sender,amtCollateralToPay) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1890)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- Exercise(amtUnderlyingToPay,amtCollateralToPay,msg.sender,vaultToExerciseFrom) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1892-1897)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addERC20CollateralOption",
+            "impact": "Low",
+            "line": 2253,
+            "line_end": 2260,
+            "message": "Reentrancy in oToken.addERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2253-2260):\n\tExternal calls:\n\t- addERC20Collateral(msg.sender,amtCollateral) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2258)\n\t\t- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)\n\tEvent emitted after the call(s):\n\t- IssuedOTokens(receiver,oTokensToIssue,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1562)\n\t\t- issueOTokens(amtToCreate,receiver) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)\n\t- Transfer(address(0),account,amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#446)\n\t\t- issueOTokens(amtToCreate,receiver) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "Low",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "Reentrancy in OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):\n\tExternal calls:\n\t- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)\n\tEvent emitted after the call(s):\n\t- Transfer(account,address(0),amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#465)\n\t\t- _burn(msg.sender,oTokensToExercise) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1887)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "removeUnderlying",
+            "impact": "Low",
+            "line": 1521,
+            "line_end": 1533,
+            "message": "Reentrancy in OptionsContract.removeUnderlying() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1521-1533):\n\tExternal calls:\n\t- transferUnderlying(msg.sender,underlyingToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1530)\n\t\t- underlying.transfer(_addr,_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2075)\n\tExternal calls sending eth:\n\t- transferUnderlying(msg.sender,underlyingToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1530)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)\n\tEvent emitted after the call(s):\n\t- RemoveUnderlying(underlyingToTransfer,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1531)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "constructor",
+            "impact": "Low",
+            "line": 1180,
+            "line_end": 1230,
+            "message": "OptionsContract.constructor(IERC20,int32,IERC20,int32,int32,uint256,int32,IERC20,uint256,OptionsExchange,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1180-1230) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < _expiry,Can't deploy an expired contract) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1194)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "hasExpired",
+            "impact": "Low",
+            "line": 1476,
+            "line_end": 1478,
+            "message": "OptionsContract.hasExpired() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1476-1478) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- (block.timestamp >= expiry) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1477)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "isExerciseWindow",
+            "impact": "Low",
+            "line": 1468,
+            "line_end": 1471,
+            "message": "OptionsContract.isExerciseWindow() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1468-1471) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- ((block.timestamp >= expiry.sub(windowSize)) && (block.timestamp < expiry)) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1469-1470)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "Informational",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899) has costly operations inside a loop:\n\t- totalFee = totalFee.add(amtFee) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1860)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 460,
+            "line_end": 466,
+            "message": "ERC20._burn(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#460-466) has costly operations inside a loop:\n\t- _totalSupply = _totalSupply.sub(amount) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#464)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_burnFrom",
+            "impact": "Informational",
+            "line": 495,
+            "line_end": 498,
+            "message": "ERC20._burnFrom(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#495-498) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 263,
+            "line_end": 266,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#263-266) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 25,
+            "line_end": 28,
+            "message": "Context._msgData() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#25-28) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 246,
+            "line_end": 248,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#246-248) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 990,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#990) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 33,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#33) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 656,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#656) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 615,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#615) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 582,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#582) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#503) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 112,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#112) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1068,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1068) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 529,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#529) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 2096,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2096) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#3) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 271,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#271) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 934,
+            "message": "Pragma version^0.5.10 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#934) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 625,
+            "message": "Variable OptionsUtils.COMPOUND_ORACLE (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#625) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 553,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthTransferInput(uint256,uint256,uint256,address).min_eth (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#553) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 623,
+            "message": "Variable OptionsUtils.UNISWAP_FACTORY (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#623) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 577,
+            "message": "Parameter UniswapExchangeInterface.setup(address).token_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#577) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 2058,
+            "message": "Parameter OptionsContract.transferCollateral(address,uint256)._amt (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 564,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 558,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).min_eth_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1155,
+            "message": "Variable OptionsContract.COMPOUND_ORACLE (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1155) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1315,
+            "message": "Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._minCollateralizationRatio (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1315) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 550,
+            "message": "Parameter UniswapExchangeInterface.ethToTokenTransferOutput(uint256,uint256,address).tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#550) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 559,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).max_tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 540,
+            "message": "Parameter UniswapExchangeInterface.removeLiquidity(uint256,uint256,uint256,uint256).min_eth (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#540) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 2071,
+            "message": "Parameter OptionsContract.transferUnderlying(address,uint256)._amt (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 557,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).token_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 563,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).exchange_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 906,
+            "message": "Parameter OptionsExchange.getExchange(address)._token (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#906) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 558,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).min_tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 922,
+            "message": "Parameter OptionsExchange.isETH(IERC20)._ierc20 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#922) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 562,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).min_eth_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1588,
+            "message": "Parameter OptionsContract.isETH(IERC20)._ierc20 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1588) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1350,
+            "message": "Parameter OptionsContract.setDetails(string,string)._name (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 552,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthSwapInput(uint256,uint256,uint256).tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#552) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 565,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).max_tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 562,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 565,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).max_eth_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 542,
+            "message": "Parameter UniswapExchangeInterface.getEthToTokenInputPrice(uint256).eth_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#542) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 539,
+            "message": "Parameter UniswapExchangeInterface.addLiquidity(uint256,uint256,uint256).min_liquidity (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#539) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 543,
+            "message": "Parameter UniswapExchangeInterface.getEthToTokenOutputPrice(uint256).tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#543) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1367,
+            "message": "Parameter OptionsContract.transferFee(address)._address (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 633,
+            "message": "Parameter OptionsUtils.getExchange(address)._token (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#633) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1312,
+            "message": "Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._liquidationIncentive (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1312) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 554,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthSwapOutput(uint256,uint256,uint256).max_tokens (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#554) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 559,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).max_eth_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 552,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthSwapInput(uint256,uint256,uint256).min_eth (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#552) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 545,
+            "message": "Parameter UniswapExchangeInterface.getTokenToEthOutputPrice(uint256).eth_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#545) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 560,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).token_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 557,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).min_tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 562,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).exchange_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 558,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).token_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 564,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).max_tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 539,
+            "message": "Parameter UniswapExchangeInterface.addLiquidity(uint256,uint256,uint256).max_tokens (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#539) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 557,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).min_eth_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 558,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 559,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 805,
+            "message": "Parameter OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address)._transferTo (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#805) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 2021,
+            "message": "Parameter OptionsContract.calculateCollateralToPay(uint256,OptionsContract.Number)._oTokens (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2021) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 560,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).max_tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 540,
+            "message": "Parameter UniswapExchangeInterface.removeLiquidity(uint256,uint256,uint256,uint256).min_tokens (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#540) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 555,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthTransferOutput(uint256,uint256,uint256,address).eth_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#555) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 2058,
+            "message": "Parameter OptionsContract.transferCollateral(address,uint256)._addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 547,
+            "message": "Parameter UniswapExchangeInterface.ethToTokenSwapInput(uint256,uint256).min_tokens (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#547) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 563,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).min_tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1313,
+            "message": "Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._liquidationFactor (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1313) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 560,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).max_eth_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 838,
+            "message": "Parameter OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address)._amt (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#838) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 553,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthTransferInput(uint256,uint256,uint256,address).tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#553) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 2071,
+            "message": "Parameter OptionsContract.transferUnderlying(address,uint256)._addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 560,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 563,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 649,
+            "message": "Parameter OptionsUtils.isETH(IERC20)._ierc20 (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#649) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 804,
+            "message": "Parameter OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address)._amt (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#804) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 544,
+            "message": "Parameter UniswapExchangeInterface.getTokenToEthInputPrice(uint256).tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#544) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 555,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthTransferOutput(uint256,uint256,uint256,address).max_tokens (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#555) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 565,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1314,
+            "message": "Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._transactionFee (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1314) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 557,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).tokens_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 549,
+            "message": "Parameter UniswapExchangeInterface.ethToTokenSwapOutput(uint256,uint256).tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#549) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 562,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).min_tokens_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 565,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).exchange_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "oToken",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 2104,
+            "line_end": 2306,
+            "message": "Contract oToken (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2104-2306) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 839,
+            "message": "Parameter OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address)._transferTo (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#839) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 548,
+            "message": "Parameter UniswapExchangeInterface.ethToTokenTransferInput(uint256,uint256,address).min_tokens (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#548) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 559,
+            "message": "Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).token_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 563,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).min_eth_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 564,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).exchange_addr (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 1350,
+            "message": "Parameter OptionsContract.setDetails(string,string)._symbol (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 667,
+            "message": "Variable OptionsExchange.UNISWAP_FACTORY (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#667) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 564,
+            "message": "Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).max_eth_sold (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 554,
+            "message": "Parameter UniswapExchangeInterface.tokenToEthSwapOutput(uint256,uint256,uint256).eth_bought (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#554) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 26,
+            "message": "Redundant expression \"this (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#26)\" inContext (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#15-29)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "redeemVaultBalance",
+            "impact": "Informational",
+            "line": 1644,
+            "line_end": 1667,
+            "message": "Reentrancy in OptionsContract.redeemVaultBalance() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1644-1667):\n\tExternal calls:\n\t- transferCollateral(msg.sender,collateralToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1659)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\t- transferUnderlying(msg.sender,underlyingToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1660)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)\n\tEvent emitted after the call(s):\n\t- RedeemVaultBalance(collateralToTransfer,underlyingToTransfer,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1662-1666)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferFee",
+            "impact": "Informational",
+            "line": 1367,
+            "line_end": 1373,
+            "message": "Reentrancy in OptionsContract.transferFee(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367-1373):\n\tExternal calls:\n\t- transferCollateral(_address,fees) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1370)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- TransferFee(_address,fees) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1372)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "removeCollateral",
+            "impact": "Informational",
+            "line": 1614,
+            "line_end": 1637,
+            "message": "Reentrancy in OptionsContract.removeCollateral(uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1614-1637):\n\tExternal calls:\n\t- transferCollateral(msg.sender,amtToRemove) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1634)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- RemoveCollateral(amtToRemove,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1636)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "liquidate",
+            "impact": "Informational",
+            "line": 1705,
+            "line_end": 1758,
+            "message": "Reentrancy in OptionsContract.liquidate(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1705-1758):\n\tExternal calls:\n\t- transferCollateral(msg.sender,amtCollateralToPay) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1755)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- Liquidate(amtCollateralToPay,vaultOwner,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1757)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "removeUnderlying",
+            "impact": "Informational",
+            "line": 1521,
+            "line_end": 1533,
+            "message": "Reentrancy in OptionsContract.removeUnderlying() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1521-1533):\n\tExternal calls:\n\t- transferUnderlying(msg.sender,underlyingToTransfer) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1530)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)\n\tEvent emitted after the call(s):\n\t- RemoveUnderlying(underlyingToTransfer,msg.sender) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1531)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "_exercise",
+            "impact": "Informational",
+            "line": 1816,
+            "line_end": 1899,
+            "message": "Reentrancy in OptionsContract._exercise(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):\n\tExternal calls:\n\t- transferCollateral(msg.sender,amtCollateralToPay) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1890)\n\t\t- _addr.transfer(_amt) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)\n\tEvent emitted after the call(s):\n\t- Exercise(amtUnderlyingToPay,amtCollateralToPay,msg.sender,vaultToExerciseFrom) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1892-1897)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 625,
+            "message": "Variable OptionsUtils.COMPOUND_ORACLE (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#625) is too similar to OptionsUtils.constructor(address,address)._compoundOracle (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#627)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 667,
+            "message": "Variable OptionsExchange.UNISWAP_FACTORY (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#667) is too similar to OptionsExchange.constructor(address)._uniswapFactory (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#669)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Informational",
+            "line": 623,
+            "message": "Variable OptionsUtils.UNISWAP_FACTORY (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#623) is too similar to OptionsUtils.constructor(address,address)._uniswapFactory (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#627)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "contract": "CompoundOracleInterface",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "getUnderlyingPrice",
+            "impact": "Informational",
+            "line": 506,
+            "line_end": 525,
+            "message": "CompoundOracleInterface (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#506-525) does not implement functions:\n\t- CompoundOracleInterface.getPrice(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#519)\n\t- CompoundOracleInterface.getUnderlyingPrice(ERC20) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#520)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Detailed",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferFrom",
+            "impact": "Informational",
+            "line": 940,
+            "line_end": 986,
+            "message": "ERC20Detailed (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#940-986) does not implement functions:\n\t- IERC20.allowance(address,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#66)\n\t- IERC20.approve(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#82)\n\t- IERC20.balanceOf(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#48)\n\t- IERC20.totalSupply() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#43)\n\t- IERC20.transfer(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#57)\n\t- IERC20.transferFrom(address,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#93)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Optimization",
+            "line": 588,
+            "message": "UniswapFactoryInterface.exchangeTemplate (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#588) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Optimization",
+            "line": 589,
+            "message": "UniswapFactoryInterface.tokenCount (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#589) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Optimization",
+            "line": 567,
+            "message": "UniswapExchangeInterface.name (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#567) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Optimization",
+            "line": 568,
+            "message": "UniswapExchangeInterface.symbol (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#568) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "impact": "Optimization",
+            "line": 569,
+            "message": "UniswapExchangeInterface.decimals (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#569) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 983,
+            "line_end": 985,
+            "message": "decimals() should be declared external:\n\t- ERC20Detailed.decimals() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#983-985)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 967,
+            "line_end": 969,
+            "message": "symbol() should be declared external:\n\t- ERC20Detailed.symbol() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#967-969)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 959,
+            "line_end": 961,
+            "message": "name() should be declared external:\n\t- ERC20Detailed.name() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#959-961)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 367,
+            "line_end": 371,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#367-371)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "burnOTokens",
+            "impact": "Optimization",
+            "line": 1598,
+            "line_end": 1607,
+            "message": "burnOTokens(uint256) should be declared external:\n\t- OptionsContract.burnOTokens(uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1598-1607)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "updateParameters",
+            "impact": "Optimization",
+            "line": 1311,
+            "line_end": 1343,
+            "message": "updateParameters(uint256,uint256,uint256,uint256) should be declared external:\n\t- OptionsContract.updateParameters(uint256,uint256,uint256,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1311-1343)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 1043,
+            "line_end": 1046,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1043-1046)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "getUnderlyingPrice",
+            "impact": "Optimization",
+            "line": 520,
+            "message": "getUnderlyingPrice(ERC20) should be declared external:\n\t- CompoundOracleInterface.getUnderlyingPrice(ERC20) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#520)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "maxOTokensLiquidatable",
+            "impact": "Optimization",
+            "line": 1673,
+            "line_end": 1694,
+            "message": "maxOTokensLiquidatable(address) should be declared external:\n\t- OptionsContract.maxOTokensLiquidatable(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1673-1694)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "getVaultOwners",
+            "impact": "Optimization",
+            "line": 1291,
+            "line_end": 1302,
+            "message": "getVaultOwners() should be declared external:\n\t- OptionsContract.getVaultOwners() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1291-1302)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "setDetails",
+            "impact": "Optimization",
+            "line": 1350,
+            "line_end": 1361,
+            "message": "setDetails(string,string) should be declared external:\n\t- OptionsContract.setDetails(string,string) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350-1361)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "sellOTokens",
+            "impact": "Optimization",
+            "line": 698,
+            "line_end": 723,
+            "message": "sellOTokens(address,address,address,uint256) should be declared external:\n\t- OptionsExchange.sellOTokens(address,address,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#698-723)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "maxOTokensIssuable",
+            "impact": "Optimization",
+            "line": 1962,
+            "line_end": 1969,
+            "message": "maxOTokensIssuable(uint256) should be declared external:\n\t- OptionsContract.maxOTokensIssuable(uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1962-1969)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 404,
+            "line_end": 407,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#404-407)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 331,
+            "line_end": 334,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#331-334)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "getPrice",
+            "impact": "Optimization",
+            "line": 519,
+            "message": "getPrice(address) should be declared external:\n\t- CompoundOracleInterface.getPrice(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#519)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 385,
+            "line_end": 388,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#385-388)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "getExchange",
+            "impact": "Optimization",
+            "line": 633,
+            "line_end": 647,
+            "message": "getExchange(address) should be declared external:\n\t- OptionsUtils.getExchange(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#633-647)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferFee",
+            "impact": "Optimization",
+            "line": 1367,
+            "line_end": 1373,
+            "message": "transferFee(address) should be declared external:\n\t- OptionsContract.transferFee(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367-1373)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 1052,
+            "line_end": 1054,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1052-1054)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "redeemVaultBalance",
+            "impact": "Optimization",
+            "line": 1644,
+            "line_end": 1667,
+            "message": "redeemVaultBalance() should be declared external:\n\t- OptionsContract.redeemVaultBalance() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1644-1667)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addAndSellERC20CollateralOption",
+            "impact": "Optimization",
+            "line": 2290,
+            "line_end": 2304,
+            "message": "addAndSellERC20CollateralOption(uint256,uint256,address) should be declared external:\n\t- oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "premiumReceived",
+            "impact": "Optimization",
+            "line": 750,
+            "line_end": 770,
+            "message": "premiumReceived(address,address,uint256) should be declared external:\n\t- OptionsExchange.premiumReceived(address,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#750-770)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "buyOTokens",
+            "impact": "Optimization",
+            "line": 732,
+            "line_end": 741,
+            "message": "buyOTokens(address,address,address,uint256) should be declared external:\n\t- OptionsExchange.buyOTokens(address,address,address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#732-741)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "removeCollateral",
+            "impact": "Optimization",
+            "line": 1614,
+            "line_end": 1637,
+            "message": "removeCollateral(uint256) should be declared external:\n\t- OptionsContract.removeCollateral(uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1614-1637)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 312,
+            "line_end": 314,
+            "message": "totalSupply() should be declared external:\n\t- ERC20.totalSupply() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#312-314)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "getVault",
+            "impact": "Optimization",
+            "line": 1570,
+            "line_end": 1582,
+            "message": "getVault(address) should be declared external:\n\t- OptionsContract.getVault(address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1570-1582)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 350,
+            "line_end": 353,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#350-353)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "addAndSellETHCollateralOption",
+            "impact": "Optimization",
+            "line": 2209,
+            "line_end": 2222,
+            "message": "addAndSellETHCollateralOption(uint256,address) should be declared external:\n\t- oToken.addAndSellETHCollateralOption(uint256,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2209-2222)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "removeUnderlying",
+            "impact": "Optimization",
+            "line": 1521,
+            "line_end": 1533,
+            "message": "removeUnderlying() should be declared external:\n\t- OptionsContract.removeUnderlying() (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1521-1533)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "liquidate",
+            "impact": "Optimization",
+            "line": 1705,
+            "line_end": 1758,
+            "message": "liquidate(address,uint256) should be declared external:\n\t- OptionsContract.liquidate(address,uint256) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1705-1758)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "isETH",
+            "impact": "Optimization",
+            "line": 649,
+            "line_end": 651,
+            "message": "isETH(IERC20) should be declared external:\n\t- OptionsUtils.isETH(IERC20) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#649-651)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 339,
+            "line_end": 341,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#339-341)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

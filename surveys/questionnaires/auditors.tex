@@ -1,0 +1,314 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{wasysym}% provides \ocircle and \Box
+\usepackage{enumitem}% easy control of topsep and leftmargin for lists
+\usepackage{color}% used for background color
+\usepackage{forloop}% used for \Qrating and \Qlines
+\usepackage{ifthen}% used for \Qitem and \QItem
+\usepackage{typearea}
+\usepackage{array}
+\areaset{17cm}{26cm}
+\setlength{\topmargin}{-1cm}
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\ihead{Auditors' perspective on smart contracts security}
+\ohead{\pagemark}
+\chead{}
+\cfoot{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Beginning of questionnaire command definitions %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% 2010, 2012 by Sven Hartenstein
+%% mail@svenhartenstein.de
+%% http://www.svenhartenstein.de
+
+%% \Qq = Questionaire question. Oh, this is just too simple. It helps
+%% making it easy to globally change the appearance of questions.
+\newcommand{\Qq}[1]{\textbf{#1}}
+
+%% \QO = Circle or box to be ticked. Used both by direct call and by
+%% \Qrating and \Qlist.
+\newcommand{\QO}{$\Box$}% or: $\ocircle$
+
+
+%% \Qline = Again, this is very simple. It helps setting the line
+%% thickness globally. Used both by direct call and by \Qlines.
+\newcommand{\Qline}[1]{\noindent\rule{#1}{0.6pt}}
+
+%% \Qlines = Insert NUM lines with width=\linewith. You can change the
+%% \vskip value to adjust the spacing.
+\newcounter{ql}
+\newcommand{\Qlines}[1]{\forloop{ql}{0}{\value{ql}<#1}{\vskip0em\Qline{\linewidth}}}
+
+%% \Qlist = This is an environment very similar to itemize but with
+%% \QO in front of each list item. Useful for classical multiple
+%% choice. Change leftmargin and topsep accourding to your taste.
+\newenvironment{Qlist}{%
+\renewcommand{\labelitemi}{\QO}
+\begin{itemize}[leftmargin=1.5em,topsep=-.5em]
+}{%
+\end{itemize}
+}
+
+
+
+%% \Qitem = Item with automatic numbering. 
+\newcounter{itemnummer}
+\newcommand{\Qitem}[2][]{% #1 optional, #2 notwendig
+\ifthenelse{\equal{#1}{}}{\stepcounter{itemnummer}}{}
+\ifthenelse{\equal{#1}{a}}{\stepcounter{itemnummer}}{}
+\begin{enumerate}[topsep=2pt,leftmargin=2.8em]
+\item[\textbf{\arabic{itemnummer}#1.}] #2
+\end{enumerate}
+}
+
+%% \QItem = Like \Qitem but with alternating background color. This
+%% might be error prone as I hard-coded some lengths (-5.25pt and
+%% -3pt)! I do not yet understand why I need them.
+\definecolor{bgodd}{rgb}{0.8,0.8,0.8}
+\definecolor{bgeven}{rgb}{0.9,0.9,0.9}
+\newcounter{itemoddeven}
+\newlength{\gb}
+\newcommand{\QItem}[2][]{% #1 optional, #2 notwendig
+\setlength{\gb}{\linewidth}
+\addtolength{\gb}{-5.25pt}
+\ifthenelse{\equal{\value{itemoddeven}}{0}}{%
+\noindent\colorbox{bgeven}{\hskip-3pt\begin{minipage}{\gb}\Qitem[#1]{#2}\end{minipage}}%
+\stepcounter{itemoddeven}%
+}{%
+\noindent\colorbox{bgodd}{\hskip-3pt\begin{minipage}{\gb}\Qitem[#1]{#2}\end{minipage}}%
+\setcounter{itemoddeven}{0}%
+}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End of questionnaire command definitions %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+\textbf{\huge Smart Contracts Security: How Far Are We? Auditors' perspective.}
+\end{center}\vskip1em
+
+\section{Demographics}
+The following questions are intended to gauge the experience level of the participants and understand the nature of the dapps they are working on.
+
+\QItem{ \Qq{Please specify your smart contract auditing experience in years.}
+\begin{Qlist}
+    \item [A] less than 1
+    \item [B] 1-2
+    \item [C] 3-5
+    \item [D] 5+
+\end{Qlist}
+}
+
+
+\QItem{ \Qq{What is the size of the organization you work for (the number of people involved)?}
+\begin{Qlist}
+    \item [A] 1-5
+    \item [B] 5-25
+    \item [C] 25-50
+    \item [D] 50-250
+    \item [E] 251+
+    \item [F] I'm an independent auditor
+\end{Qlist}
+}
+
+\QItem{ \Qq{What are the main blockchains where your organization's clients deploy their applications?}
+\begin{Qlist}
+    \item [A] Ethereum
+    \item [B] BSC
+    \item [C] Polygon
+    \item [D] Arbitrum
+    \item [E] Avalanche
+    \item [F] Solana
+    \item [G] Fantom
+    \item [H] Other
+\end{Qlist}
+}
+
+
+\QItem{ \Qq{Which resources do you use to get informed about smart contract/DeFi security and the latest exploits?}
+Go to the next question if you do not use any resources
+\begin{Qlist}
+    \item [A] Research Papers
+    \item [B] Social Media (e.g., Twitter, YouTube)
+    \item [C] Blogposts (e.g., medium)
+    \item [D] Security companies guides
+    \item [E] News Websites (e.g., coindesk, rekt)
+    \item [F] Colleagues
+    \item [G] Questionnaire/Answer Websites (e.g., StackOverflow)
+    \item [H] Conferences/Security workshops
+    \item [I] Other
+\end{Qlist}
+}
+
+
+
+\section{Familiarity/experience with security tools}
+\QItem{ \Qq{Which of the following type of tools have you used?}
+\begin{Qlist}
+    \item [A] IDE (e.g., Remix)
+    \item [B] Linter (e.g., EthLinter)
+    \item [C] Static analysis (e.g., slither)
+    \item [D] Fuzzer (e.g., Echidna)
+    \item [E] Symbolic execution (e.g., Mythril)
+    \item [F] Automated patcher/Bytecode hardening (e.g., sGuard)
+    \item [G] Model checking/Formal verification (e.g., VeriSmart)
+    \item [H] Runtime monitoring
+    \item [I] Developers toolkits (e.g., hardhat/foundry)
+    \item [J] Other
+\end{Qlist}
+}
+
+\QItem{ \Qq{Below we enumerate a number of security analysis characteristics. To what extent do you agree regarding their importance?}
+
+\begin{tabular}{|>{\centering\arraybackslash}p{3cm}|*{5}{>{\centering\arraybackslash}p{2cm}|}}
+    \hline
+& \textbf{Strongly Disagree} & \textbf{Disagree} & \textbf{Neither agree nor disagree} & \textbf{Agree} & \textbf{Strongly Agree} \\
+\hline
+Low false positives (tool does not wrongly indicate that there is a vulnerability) & \QO & \QO & \QO & \QO & \QO \\
+\hline
+Ease of use (e.g., simple CLI, integrated into IDE) & \QO & \QO & \QO & \QO & \QO \\
+\hline
+Documentation & \QO & \QO & \QO & \QO & \QO \\
+\hline
+Report quality (i.e., detail of vulnerabilities detected) & \QO & \QO & \QO & \QO & \QO \\
+\hline
+\end{tabular}
+}
+
+\QItem{ \Qq{What other factors could positively or negatively affect you when using a security analysis tool?}: 
+\Qline{8cm} }
+
+\QItem{ \Qq{Which vulnerabilities do you think are more \textbf{difficult} to be detected \textbf{manually}?}
+\begin{Qlist}
+    \item [A] Reentrancy
+    \item [B] Absence of coding logic or sanity check
+    \item [C] Logic errors
+    \item [D] Oracle manipulation
+    \item [E] Token standard incompatibility
+    \item [F] Function/State Visibility Error
+    \item [G] Improper asset locks or frozen asset
+    \item [H] Unhandled or mishandled exception
+    \item [I] Timestamp Dependence
+    \item [J] Integer Overflow and Underflow
+    \item [K] Other
+\end{Qlist}
+}
+
+\QItem{ \Qq{Which vulnerabilities that you deem crucial \textbf{cannot} be detected by \textbf{automated security} tools that you have used?}
+\begin{Qlist}
+    \item [A] Reentrancy
+    \item [B] Absence of coding logic or sanity check
+    \item [C] Logic errors
+    \item [D] Oracle manipulation
+    \item [E] Token standard incompatibility
+    \item [F] Function/State Visibility Error
+    \item [G] Improper asset locks or frozen asset
+    \item [H] Unhandled or mishandled exception
+    \item [I] Timestamp Dependence
+    \item [J] Integer Overflow and Underflow
+    \item [K] Other
+\end{Qlist}
+}
+
+\QItem{\Qq{For each of the vulnerabilities you selected in question you selected:  \textit{(Which vulnerabilities do you think are more difficult to be detected?)}, write which methods you think are the most efficient to detect it (e.g., reentrancy: manually / fuzzing).
+\Qline{8cm} }}
+
+
+\QItem{ \Qq{Do you find security tools helpful when auditing smart contracts?}
+\hskip0.4cm \QO{} 1
+\hskip0.5cm \QO{} 2
+\hskip0.5cm \QO{} 3
+\hskip0.5cm \QO{} 4
+\hskip0.5cm \QO{} 5}
+
+\QItem{ \Qq{If you have developed an automated security tool specify its type}
+\begin{Qlist}
+    \item [A] Static Analyzer
+    \item [B] Fuzzer
+    \item [C] Symbolic Executor
+    \item [D] Formal Verification tool
+    \item [E] Runtime monitor tool
+\end{Qlist}
+}
+
+\section{Security practices in the current organization}
+If you are an independent auditor answer the following questions on how you perform audits.
+
+
+\QItem{ \Qq{What techniques does the organization you work for employ in audits?}
+\begin{Qlist}
+    \item [A] Manual Auditing
+    \item [B] Runtime monitoring
+    \item [C] Running/Extending Tests (e.g., unit testing, integration testing)
+    \item [D] Using offline tools (e.g., static analyzers and fuzzers)
+    \item [E] Other
+\end{Qlist}
+}
+
+\QItem{ \Qq{Does the organization you work for develop in-house automated tools?}
+\begin{Qlist}
+    \item [A] Yes
+    \item [B] Yes and it open-source some of them
+    \item [C] No
+\end{Qlist}
+}
+
+\QItem{ \Qq{Specify the tools that the team you work with employs.}
+\begin{Qlist}
+    \item [A] Slither
+    \item [B] Manticore
+    \item [C] Mythril
+    \item [D] Echidna
+    \item [E] Foundry's propert-based fuzzer
+    \item [F] Remix-analyzer
+    \item [G] Oyente
+    \item [H] Ethlint
+    \item [I] Solhint
+    \item [J] Maian
+    \item [K] Securify2
+    \item [L] MythX (Consensys)
+    \item [M] Certora’s prover
+    \item [N] Other linter (similar to Ethlint)
+    \item [O] Other static analyzer (similar to Slither)
+    \item [P] Other fuzzer (similar to Echidna)
+    \item [Q] Other symbolic execution tool (similar to Mythril)
+    \item [R] Other formal verification / model checking tool (e.g., Dafny or Act)
+    \item [S] Other runtime monitoring (e.g., forta)
+    \item [T] Other
+\end{Qlist}
+}
+
+\QItem{ \Qq{If the organization you work for runs any tool that requires specifications (e.g., for formal verification), who is going to write them?}
+Go to the next question if you don't use such tools.
+\begin{Qlist}
+    \item [A] Developers of the dapp
+    \item [B] Auditors
+    \item [C] Auditors and developers
+    \item [D] I don't know
+    \item [E] Other
+\end{Qlist}
+}
+
+\QItem{ \Qq{Does the organization you work for hire external security auditors for auditing its protocols?}
+Go to the next question if you don't use such tools.
+\begin{Qlist}
+    \item [A] 0\%-20\%
+    \item [B] 21\%-40\%
+    \item [C] 41\%-60\%
+    \item [D] 61\%-80\%
+    \item [E] 81\%-100\%
+\end{Qlist}
+}
+
+\QItem{ \Qq{What other strategies (if any) does the team you work with use to audit smart contracts?}: 
+\Qline{8cm} }
+
+
+\end{document}

@@ -1,0 +1,882 @@
+{
+    "errors": [
+        "EXIT_CODE_91"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "initialize",
+            "impact": "High",
+            "line": 1851,
+            "line_end": 1859,
+            "message": "Reentrancy in AutoCake.initialize(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1851-1859):\n\tExternal calls:\n\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1852)\n\t- CAKE.safeApprove(address(MASTERCHEF),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1853)\n\t- setMinter(minter) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- _stakingToken.safeApprove(newMinter,0) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1793)\n\t\t- _stakingToken.safeApprove(newMinter,uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1794)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- WBNB.safeApprove(minter,uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1856)\n\tExternal calls sending eth:\n\t- setMinter(minter) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tState variables written after the call(s):\n\t- initializer = address(0) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1858)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "balanceOf",
+            "impact": "Medium",
+            "line": 1870,
+            "line_end": 1873,
+            "message": "AutoCake.balanceOf(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1870-1873) uses a dangerous strict equality:\n\t- totalShares == 0 (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1871)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "priceShare",
+            "impact": "Medium",
+            "line": 1895,
+            "line_end": 1898,
+            "message": "AutoCake.priceShare() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1895-1898) uses a dangerous strict equality:\n\t- totalShares == 0 (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1896)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 1392,
+            "message": "BEP20.allowance(address,address).owner (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1392) shadows:\n\t- Ownable.owner() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1243-1245) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 1327,
+            "message": "BEP20.constructor(string,string).symbol (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1327) shadows:\n\t- BEP20.symbol() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1351-1353) (function)\n\t- IBEP20.symbol() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#412) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "owner",
+            "impact": "Low",
+            "line": 1556,
+            "message": "BEP20._approve(address,address,uint256).owner (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1556) shadows:\n\t- Ownable.owner() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1243-1245) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "minter",
+            "impact": "Low",
+            "line": 1851,
+            "message": "AutoCake.initialize(address).minter (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1851) shadows:\n\t- VaultController.minter() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1766-1768) (function)\n\t- IVaultController.minter() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#695) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1327,
+            "message": "BEP20.constructor(string,string).name (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1327) shadows:\n\t- BEP20.name() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1343-1345) (function)\n\t- IBEP20.name() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#417) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "setKeeper",
+            "impact": "Low",
+            "line": 1783,
+            "line_end": 1786,
+            "message": "VaultController.setKeeper(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1783-1786) should emit an event for: \n\t- keeper = _keeper (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1785) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 1851,
+            "line_end": 1859,
+            "message": "Reentrancy in AutoCake.initialize(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1851-1859):\n\tExternal calls:\n\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1852)\n\t- CAKE.safeApprove(address(MASTERCHEF),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1853)\n\t- setMinter(minter) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- _stakingToken.safeApprove(newMinter,0) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1793)\n\t\t- _stakingToken.safeApprove(newMinter,uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1794)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tExternal calls sending eth:\n\t- setMinter(minter) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tState variables written after the call(s):\n\t- setMinter(minter) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1855)\n\t\t- _minter = ISpaceMinter(newMinter) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1790)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1908,
+            "line_end": 1915,
+            "message": "Reentrancy in AutoCake.deposit(uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1908-1915):\n\tExternal calls:\n\t- _deposit(_amount,msg.sender) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1909)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)\n\t\t- MASTERCHEF.enterStaking(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t\t- MASTERCHEF.enterStaking(_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2036)\n\tExternal calls sending eth:\n\t- _deposit(_amount,msg.sender) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1909)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tState variables written after the call(s):\n\t- _depositedAt[msg.sender] = block.timestamp (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1913)\n\t- _principal[msg.sender] = _principal[msg.sender].add(_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1912)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2023,
+            "line_end": 2040,
+            "message": "Reentrancy in AutoCake._deposit(uint256,address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2023-2040):\n\tExternal calls:\n\t- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)\n\tState variables written after the call(s):\n\t- _shares[_to] = _shares[_to].add(shares) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2034)\n\t- totalShares = totalShares.add(shares) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2033)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2023,
+            "line_end": 2040,
+            "message": "Reentrancy in AutoCake._deposit(uint256,address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2023-2040):\n\tExternal calls:\n\t- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)\n\t- MASTERCHEF.enterStaking(_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2036)\n\tEvent emitted after the call(s):\n\t- Deposited(msg.sender,_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2037)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 1992,
+            "line_end": 2012,
+            "message": "Reentrancy in AutoCake.getReward() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1992-2012):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1999)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- convertedAssets = convert(performanceFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)\n\t\t- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2004)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2008)\n\tExternal calls sending eth:\n\t- convertedAssets = convert(performanceFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tEvent emitted after the call(s):\n\t- ProfitPaid(msg.sender,amount,performanceFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2009)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 1992,
+            "line_end": 2012,
+            "message": "Reentrancy in AutoCake.getReward() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1992-2012):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1999)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- convertedAssets = convert(performanceFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)\n\t\t- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2004)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2008)\n\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2011)\n\t\t- MASTERCHEF.enterStaking(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)\n\tExternal calls sending eth:\n\t- convertedAssets = convert(performanceFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2003)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tEvent emitted after the call(s):\n\t- Harvested(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)\n\t\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2011)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdrawUnderlying",
+            "impact": "Low",
+            "line": 1970,
+            "line_end": 1990,
+            "message": "Reentrancy in AutoCake.withdrawUnderlying(uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1970-1990):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1977)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- convertedAssets = convert(withdrawalFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)\n\t\t- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- _minter.mintFor(address(WBNB),convertedAssets,0,msg.sender,depositTimestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1982)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1986)\n\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1989)\n\t\t- MASTERCHEF.enterStaking(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)\n\tExternal calls sending eth:\n\t- convertedAssets = convert(withdrawalFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tEvent emitted after the call(s):\n\t- Harvested(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)\n\t\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1989)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1957,
+            "line_end": 1967,
+            "message": "Reentrancy in AutoCake.withdraw(uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1957-1967):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1962)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1963)\n\tEvent emitted after the call(s):\n\t- Withdrawn(msg.sender,amount,0) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1964)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1957,
+            "line_end": 1967,
+            "message": "Reentrancy in AutoCake.withdraw(uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1957-1967):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1962)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1963)\n\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1966)\n\t\t- MASTERCHEF.enterStaking(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)\n\tEvent emitted after the call(s):\n\t- Harvested(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)\n\t\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1966)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 1921,
+            "line_end": 1950,
+            "message": "Reentrancy in AutoCake.withdrawAll() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1921-1950):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1931)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)\n\t\t- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1939)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1946)\n\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1949)\n\t\t- MASTERCHEF.enterStaking(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)\n\tExternal calls sending eth:\n\t- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tEvent emitted after the call(s):\n\t- Harvested(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)\n\t\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1949)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 1921,
+            "line_end": 1950,
+            "message": "Reentrancy in AutoCake.withdrawAll() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1921-1950):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1931)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)\n\t\t- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1939)\n\tExternal calls sending eth:\n\t- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tEvent emitted after the call(s):\n\t- ProfitPaid(msg.sender,profit,performanceFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1941)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2023,
+            "line_end": 2040,
+            "message": "Reentrancy in AutoCake._deposit(uint256,address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2023-2040):\n\tExternal calls:\n\t- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2025)\n\t- MASTERCHEF.enterStaking(_amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2036)\n\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2039)\n\t\t- MASTERCHEF.enterStaking(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)\n\tEvent emitted after the call(s):\n\t- Harvested(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)\n\t\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2039)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdrawUnderlying",
+            "impact": "Low",
+            "line": 1970,
+            "line_end": 1990,
+            "message": "Reentrancy in AutoCake.withdrawUnderlying(uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1970-1990):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1977)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- convertedAssets = convert(withdrawalFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)\n\t\t- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- _minter.mintFor(address(WBNB),convertedAssets,0,msg.sender,depositTimestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1982)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1986)\n\tExternal calls sending eth:\n\t- convertedAssets = convert(withdrawalFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1981)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tEvent emitted after the call(s):\n\t- Withdrawn(msg.sender,amount,withdrawalFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1987)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "recoverToken",
+            "impact": "Low",
+            "line": 1804,
+            "line_end": 1809,
+            "message": "Reentrancy in VaultController.recoverToken(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1804-1809):\n\tExternal calls:\n\t- IBEP20(_token).safeTransfer(owner(),amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1806)\n\tEvent emitted after the call(s):\n\t- Recovered(_token,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1808)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 1921,
+            "line_end": 1950,
+            "message": "Reentrancy in AutoCake.withdrawAll() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1921-1950):\n\tExternal calls:\n\t- _withdrawTokenWithCorrection(amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1931)\n\t\t- MASTERCHEF.leaveStaking(amount.sub(cakeBalance)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2045)\n\t- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)\n\t\t- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1093)\n\t\t- CAKE.safeApprove(address(ROUTER),uint256(~ 0)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2068)\n\t\t- amounts = ROUTER.swapExactTokensForTokens(amount,0,path,address(this),block.timestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2062)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\t- _minter.mintFor(address(WBNB),0,convertedAssets,msg.sender,depositTimestamp) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1939)\n\t- CAKE.safeTransfer(msg.sender,amount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1946)\n\tExternal calls sending eth:\n\t- convertedAssets = convert(withdrawalFee.add(performanceFee)) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1938)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n\tEvent emitted after the call(s):\n\t- Withdrawn(msg.sender,amount,withdrawalFee) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1947)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "harvest",
+            "impact": "Low",
+            "line": 1952,
+            "line_end": 1955,
+            "message": "Reentrancy in AutoCake.harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1952-1955):\n\tExternal calls:\n\t- MASTERCHEF.leaveStaking(0) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1953)\n\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1954)\n\t\t- MASTERCHEF.enterStaking(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2019)\n\tEvent emitted after the call(s):\n\t- Harvested(cakeAmount) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#2018)\n\t\t- _harvest() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1954)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 993,
+            "line_end": 1010,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#993-1010) uses assembly\n\t- INLINE ASM (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1002-1005)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 848,
+            "line_end": 857,
+            "message": "Address.isContract(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#848-857) uses assembly\n\t- INLINE ASM (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#855)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "deposit",
+            "impact": "Informational",
+            "line": 1908,
+            "line_end": 1915,
+            "message": "AutoCake.deposit(uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1908-1915) compares to a boolean constant:\n\t-isWhitelist(msg.sender) == false (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1911)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 1073,
+            "line_end": 1080,
+            "message": "SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1073-1080) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 225,
+            "line_end": 228,
+            "message": "SafeMath.tryDiv(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#225-228) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 875,
+            "line_end": 881,
+            "message": "Address.sendValue(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#875-881) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 926,
+            "line_end": 928,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#926-928) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 235,
+            "line_end": 238,
+            "message": "SafeMath.tryMod(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#235-238) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 985,
+            "line_end": 991,
+            "message": "Address.functionDelegateCall(address,bytes,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#985-991) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "_burnFrom",
+            "impact": "Informational",
+            "line": 1573,
+            "line_end": 1576,
+            "message": "BEP20._burnFrom(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1573-1576) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 1534,
+            "line_end": 1540,
+            "message": "BEP20._burn(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1534-1540) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 796,
+            "line_end": 798,
+            "message": "Math.max(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#796-798) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "average",
+            "impact": "Informational",
+            "line": 811,
+            "line_end": 814,
+            "message": "Math.average(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#811-814) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 975,
+            "line_end": 977,
+            "message": "Address.functionDelegateCall(address,bytes) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#975-977) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 189,
+            "line_end": 193,
+            "message": "SafeMath.tryAdd(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#189-193) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 375,
+            "line_end": 378,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#375-378) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 355,
+            "line_end": 358,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#355-358) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 1208,
+            "line_end": 1211,
+            "message": "Context._msgData() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1208-1211) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 951,
+            "line_end": 953,
+            "message": "Address.functionStaticCall(address,bytes) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#951-953) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 317,
+            "line_end": 320,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#317-320) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 218,
+            "message": "SafeMath.tryMul(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#210-218) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 200,
+            "line_end": 203,
+            "message": "SafeMath.trySub(uint256,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#200-203) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 1064,
+            "line_end": 1071,
+            "message": "SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1064-1071) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 961,
+            "line_end": 967,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#961-967) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 901,
+            "line_end": 903,
+            "message": "Address.functionCall(address,bytes) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#901-903) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 985,
+            "line_end": 991,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#985-991):\n\t- (success,returndata) = target.delegatecall(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#989)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 961,
+            "line_end": 967,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#961-967):\n\t- (success,returndata) = target.staticcall(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#965)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 875,
+            "line_end": 881,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#875-881):\n\t- (success) = recipient.call{value: amount}() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#879)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 936,
+            "line_end": 943,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#936-943):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#941)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1804,
+            "message": "Parameter VaultController.recoverToken(address,uint256)._token (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1804) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1826,
+            "message": "Constant AutoCake.poolType (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1826) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1725,
+            "message": "Parameter Whitelist.setWhitelist(address,bool)._address (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1725) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1750,
+            "message": "Variable VaultController._minter (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1750) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1677,
+            "message": "Parameter Pausable.setPaused(bool)._paused (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1677) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1749,
+            "message": "Variable VaultController._stakingToken (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1749) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1830,
+            "message": "Variable AutoCake.ROUTER (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1830) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 622,
+            "message": "Function IApePair.PERMIT_TYPEHASH() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#622) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1783,
+            "message": "Parameter VaultController.setKeeper(address)._keeper (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1783) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1751,
+            "message": "Variable VaultController._spaceChef (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1751) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1908,
+            "message": "Parameter AutoCake.deposit(uint256)._amount (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1908) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1825,
+            "message": "Constant AutoCake.pid (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1825) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1721,
+            "message": "Parameter Whitelist.isWhitelist(address)._address (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1721) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1970,
+            "message": "Parameter AutoCake.withdrawUnderlying(uint256)._amount (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 620,
+            "message": "Function IApePair.DOMAIN_SEPARATOR() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#620) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1745,
+            "message": "Variable VaultController.SPACE (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1745) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 641,
+            "message": "Function IApePair.MINIMUM_LIQUIDITY() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#641) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "WETH",
+            "impact": "Informational",
+            "line": 17,
+            "message": "Function IApeRouter01.WETH() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#17) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1725,
+            "message": "Parameter Whitelist.setWhitelist(address,bool)._on (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1725) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 1209,
+            "message": "Redundant expression \"this (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1209)\" inContext (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1203-1212)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "impact": "Informational",
+            "line": 22,
+            "message": "Variable IApeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#22) is too similar to IApeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#23)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 1384,
+            "line_end": 1387,
+            "message": "transfer(address,uint256) should be declared external:\n\t- BEP20.transfer(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1384-1387)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 1351,
+            "line_end": 1353,
+            "message": "symbol() should be declared external:\n\t- BEP20.symbol() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1351-1353)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 1262,
+            "line_end": 1265,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1262-1265)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 1403,
+            "line_end": 1406,
+            "message": "approve(address,uint256) should be declared external:\n\t- BEP20.approve(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1403-1406)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 1343,
+            "line_end": 1345,
+            "message": "name() should be declared external:\n\t- BEP20.name() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1343-1345)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 1372,
+            "line_end": 1374,
+            "message": "balanceOf(address) should be declared external:\n\t- BEP20.balanceOf(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1372-1374)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 1420,
+            "line_end": 1428,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- BEP20.transferFrom(address,address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1420-1428)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 1271,
+            "line_end": 1275,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1271-1275)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "withdrawableBalanceOf",
+            "impact": "Optimization",
+            "line": 1875,
+            "line_end": 1877,
+            "message": "withdrawableBalanceOf(address) should be declared external:\n\t- AutoCake.withdrawableBalanceOf(address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1875-1877)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "mint",
+            "impact": "Optimization",
+            "line": 1474,
+            "line_end": 1477,
+            "message": "mint(uint256) should be declared external:\n\t- BEP20.mint(uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1474-1477)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 1392,
+            "line_end": 1394,
+            "message": "allowance(address,address) should be declared external:\n\t- BEP20.allowance(address,address) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1392-1394)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "setSpaceChef",
+            "impact": "Optimization",
+            "line": 1798,
+            "line_end": 1801,
+            "message": "setSpaceChef(ISpaceChef) should be declared external:\n\t- VaultController.setSpaceChef(ISpaceChef) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1798-1801)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 1365,
+            "line_end": 1367,
+            "message": "totalSupply() should be declared external:\n\t- BEP20.totalSupply() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1365-1367)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 1358,
+            "line_end": 1360,
+            "message": "decimals() should be declared external:\n\t- BEP20.decimals() (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1358-1360)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 1442,
+            "line_end": 1445,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- BEP20.increaseAllowance(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1442-1445)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 1461,
+            "line_end": 1464,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- BEP20.decreaseAllowance(address,uint256) (../..0x274b5b7868c848ac690dc9b4011e9e7e29133700.sol#1461-1464)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

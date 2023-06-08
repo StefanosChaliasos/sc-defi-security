@@ -1,0 +1,1023 @@
+{
+    "errors": [
+        "EXIT_CODE_112"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "burnByPool",
+            "impact": "Medium",
+            "line": 1063,
+            "line_end": 1073,
+            "message": "Reentrancy in SodaVault.burnByPool(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073):\n\tExternal calls:\n\t- _withdraw(_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1069)\n\t\t- strategies[i].withdraw(address(this),_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1151)\n\tState variables written after the call(s):\n\t- _burn(_account,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1071)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#785)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "transferByBank",
+            "impact": "Medium",
+            "line": 1076,
+            "line_end": 1088,
+            "message": "Reentrancy in SodaVault.transferByBank(address,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088):\n\tExternal calls:\n\t- _claim() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1082)\n\t\t- strategies[i].claim(address(this)) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1157)\n\tState variables written after the call(s):\n\t- _transfer(_from,_to,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1085)\n\t\t- _balances[sender] = _balances[sender].sub(amount,ERC20: transfer amount exceeds balance) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#745)\n\t\t- _balances[recipient] = _balances[recipient].add(amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#746)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 587,
+            "message": "ERC20.constructor(string,string).name (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#587) shadows:\n\t- ERC20.name() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#596-598) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 1035,
+            "message": "SodaVault.constructor(SodaMaster,string,string)._symbol (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1035) shadows:\n\t- ERC20._symbol (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#575) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 1035,
+            "message": "SodaVault.constructor(SodaMaster,string,string)._name (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1035) shadows:\n\t- ERC20._name (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#574) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 587,
+            "message": "ERC20.constructor(string,string).symbol (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#587) shadows:\n\t- ERC20.symbol() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#604-606) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 940,
+            "message": "SodaMaster.setBank(address)._bank (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#940) lacks a zero-check on :\n\t\t- bank = _bank (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#942)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 951,
+            "message": "SodaMaster.setDev(address)._dev (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#951) lacks a zero-check on :\n\t\t- dev = _dev (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#952)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 962,
+            "message": "SodaMaster.setWETH(address)._wETH (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#962) lacks a zero-check on :\n\t\t- wETH = _wETH (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#964)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 975,
+            "message": "SodaMaster.setSoda(address)._soda (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#975) lacks a zero-check on :\n\t\t- soda = _soda (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#977)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 969,
+            "message": "SodaMaster.setUSDT(address)._usdt (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#969) lacks a zero-check on :\n\t\t- usdt = _usdt (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#971)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 957,
+            "message": "SodaMaster.setUniswapV2Factory(address)._uniswapV2Factory (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#957) lacks a zero-check on :\n\t\t- uniswapV2Factory = _uniswapV2Factory (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#958)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 946,
+            "message": "SodaMaster.setRevenue(address)._revenue (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#946) lacks a zero-check on :\n\t\t- revenue = _revenue (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#947)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Low",
+            "line": 933,
+            "message": "SodaMaster.setPool(address)._pool (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#933) lacks a zero-check on :\n\t\t- pool = _pool (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#935)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "burnByPool",
+            "impact": "Low",
+            "line": 1063,
+            "line_end": 1073,
+            "message": "Reentrancy in SodaVault.burnByPool(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073):\n\tExternal calls:\n\t- _withdraw(_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1069)\n\t\t- strategies[i].withdraw(address(this),_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1151)\n\tState variables written after the call(s):\n\t- _burn(_account,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1071)\n\t\t- _totalSupply = _totalSupply.sub(amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#786)\n\t- _updateDebt(_account) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1072)\n\t\t- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)\n\t- _updateReward(_account) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1070)\n\t\t- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "transferByBank",
+            "impact": "Low",
+            "line": 1076,
+            "line_end": 1088,
+            "message": "Reentrancy in SodaVault.transferByBank(address,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088):\n\tExternal calls:\n\t- _claim() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1082)\n\t\t- strategies[i].claim(address(this)) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1157)\n\tState variables written after the call(s):\n\t- _updateDebt(_to) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1086)\n\t\t- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)\n\t- _updateDebt(_from) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1087)\n\t\t- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)\n\t- _updateReward(_from) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1083)\n\t\t- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)\n\t- _updateReward(_to) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1084)\n\t\t- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "mintByPool",
+            "impact": "Low",
+            "line": 1051,
+            "line_end": 1060,
+            "message": "Reentrancy in SodaVault.mintByPool(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051-1060):\n\tExternal calls:\n\t- _deposit(_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1054)\n\t\t- strategies[i].deposit(address(this),_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1145)\n\tState variables written after the call(s):\n\t- _mint(_to,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1057)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#765)\n\t- _mint(_to,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1057)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#764)\n\t- _updateDebt(_to) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1059)\n\t\t- debts[_who][i] = balance.mul(value).div(PER_SHARE_SIZE) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1176)\n\t- _updateReward(_to) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1055)\n\t\t- rewards[_who][i] = rewards[_who][i].add(balance.mul(value).div(PER_SHARE_SIZE).sub(debts[_who][i])) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1166-1167)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "transferByBank",
+            "impact": "Low",
+            "line": 1076,
+            "line_end": 1088,
+            "message": "Reentrancy in SodaVault.transferByBank(address,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088):\n\tExternal calls:\n\t- _claim() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1082)\n\t\t- strategies[i].claim(address(this)) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1157)\n\tEvent emitted after the call(s):\n\t- Transfer(sender,recipient,amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#747)\n\t\t- _transfer(_from,_to,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1085)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "claim",
+            "impact": "Low",
+            "line": 1255,
+            "line_end": 1263,
+            "message": "Reentrancy in SodaPool.claim(uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255-1263):\n\tExternal calls:\n\t- pool.vault.mintByPool(msg.sender,0) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1259)\n\t- _handleRewards(pool.vault) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1260)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\t\t- IERC20(_vault.strategies(i).getTargetToken()).safeTransferFrom(address(_vault.strategies(i)),msg.sender,rewardPending) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1234-1235)\n\t\t- _vault.clearRewardByPool(msg.sender) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1239)\n\tExternal calls sending eth:\n\t- _handleRewards(pool.vault) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1260)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\tEvent emitted after the call(s):\n\t- Claim(msg.sender,_poolId) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1262)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "mintByPool",
+            "impact": "Low",
+            "line": 1051,
+            "line_end": 1060,
+            "message": "Reentrancy in SodaVault.mintByPool(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051-1060):\n\tExternal calls:\n\t- _deposit(_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1054)\n\t\t- strategies[i].deposit(address(this),_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1145)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#766)\n\t\t- _mint(_to,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1057)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1266,
+            "line_end": 1276,
+            "message": "Reentrancy in SodaPool.withdraw(uint256,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266-1276):\n\tExternal calls:\n\t- pool.vault.burnByPool(msg.sender,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1270)\n\t- _handleWithdraw(pool.vault,pool.token,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1272)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\t\t- _token.safeTransferFrom(strategy0,address(msg.sender),_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1225)\n\t- _handleRewards(pool.vault) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1273)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\t\t- IERC20(_vault.strategies(i).getTargetToken()).safeTransferFrom(address(_vault.strategies(i)),msg.sender,rewardPending) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1234-1235)\n\t\t- _vault.clearRewardByPool(msg.sender) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1239)\n\tExternal calls sending eth:\n\t- _handleWithdraw(pool.vault,pool.token,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1272)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\t- _handleRewards(pool.vault) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1273)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_poolId,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1275)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1244,
+            "line_end": 1252,
+            "message": "Reentrancy in SodaPool.deposit(uint256,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244-1252):\n\tExternal calls:\n\t- _handleDeposit(pool.vault,pool.token,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1248)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#441)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\t\t- _token.safeTransferFrom(address(msg.sender),strategy0,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1217)\n\t- pool.vault.mintByPool(msg.sender,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1249)\n\tExternal calls sending eth:\n\t- _handleDeposit(pool.vault,pool.token,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1248)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_poolId,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1251)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "burnByPool",
+            "impact": "Low",
+            "line": 1063,
+            "line_end": 1073,
+            "message": "Reentrancy in SodaVault.burnByPool(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073):\n\tExternal calls:\n\t- _withdraw(_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1069)\n\t\t- strategies[i].withdraw(address(this),_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1151)\n\tEvent emitted after the call(s):\n\t- Transfer(account,address(0),amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#787)\n\t\t- _burn(_account,_amount) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1071)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1266,
+            "line_end": 1276,
+            "message": "SodaPool.withdraw(uint256,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266-1276) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now >= pool.startTime,withdraw: after startTime) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1268)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "claim",
+            "impact": "Low",
+            "line": 1255,
+            "line_end": 1263,
+            "message": "SodaPool.claim(uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255-1263) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now >= pool.startTime,claim: after startTime) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1257)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1244,
+            "line_end": 1252,
+            "message": "SodaPool.deposit(uint256,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244-1252) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now >= pool.startTime,deposit: after startTime) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1246)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 262,
+            "line_end": 271,
+            "message": "Address.isContract(address) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#262-271) uses assembly\n\t- INLINE ASM (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#269)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 355,
+            "line_end": 376,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#355-376) uses assembly\n\t- INLINE ASM (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#368-371)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 289,
+            "line_end": 295,
+            "message": "Address.sendValue(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#289-295) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 340,
+            "line_end": 342,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#340-342) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 394,
+            "line_end": 396,
+            "message": "SafeERC20.safeTransfer(IERC20,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#394-396) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 420,
+            "line_end": 423,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#420-423) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 409,
+            "line_end": 418,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#409-418) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 233,
+            "line_end": 236,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#233-236) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 350,
+            "line_end": 353,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#350-353) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 818,
+            "line_end": 820,
+            "message": "ERC20._setupDecimals(uint8) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#818-820) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 466,
+            "line_end": 469,
+            "message": "Context._msgData() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#466-469) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 217,
+            "line_end": 219,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#217-219) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 425,
+            "line_end": 428,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#425-428) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 315,
+            "line_end": 317,
+            "message": "Address.functionCall(address,bytes) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#315-317) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 355,
+            "line_end": 376,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#355-376):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#359)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 289,
+            "line_end": 295,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#289-295):\n\t- (success) = recipient.call{value: amount}() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#293)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1013,
+            "message": "Parameter SodaMaster.removeCalculator(uint256)._key (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1013) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1063,
+            "message": "Parameter SodaVault.burnByPool(address,uint256)._account (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1105,
+            "message": "Parameter SodaVault.lockByBank(address,uint256)._account (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1105) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1063,
+            "message": "Parameter SodaVault.burnByPool(address,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1076,
+            "message": "Parameter SodaVault.transferByBank(address,address,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1039,
+            "message": "Parameter SodaVault.setStrategies(IStrategy[])._strategies (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1039) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1205,
+            "message": "Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._startTime (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 989,
+            "message": "Parameter SodaMaster.addSodaMade(uint256,address)._key (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#989) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 969,
+            "message": "Parameter SodaMaster.setUSDT(address)._usdt (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#969) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1105,
+            "message": "Parameter SodaVault.lockByBank(address,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1105) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 975,
+            "message": "Parameter SodaMaster.setSoda(address)._soda (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#975) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 997,
+            "message": "Parameter SodaMaster.addStrategy(uint256,address)._strategy (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#997) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1244,
+            "message": "Parameter SodaPool.deposit(uint256,uint256)._poolId (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1051,
+            "message": "Parameter SodaVault.mintByPool(address,uint256)._to (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1130,
+            "message": "Parameter SodaVault.getPendingReward(address,uint256)._index (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1130) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 957,
+            "message": "Parameter SodaMaster.setUniswapV2Factory(address)._uniswapV2Factory (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#957) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1091,
+            "message": "Parameter SodaVault.transfer(address,uint256)._to (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1091) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1255,
+            "message": "Parameter SodaPool.claim(uint256)._poolId (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 940,
+            "message": "Parameter SodaMaster.setBank(address)._bank (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#940) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1091,
+            "message": "Parameter SodaVault.transfer(address,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1091) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 981,
+            "message": "Parameter SodaMaster.addVault(uint256,address)._key (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#981) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1114,
+            "message": "Parameter SodaVault.unlockByBank(address,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1114) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1266,
+            "message": "Parameter SodaPool.withdraw(uint256,uint256)._poolId (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1002,
+            "message": "Parameter SodaMaster.removeStrategy(uint256)._key (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1002) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1114,
+            "message": "Parameter SodaVault.unlockByBank(address,uint256)._account (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1114) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1122,
+            "message": "Parameter SodaVault.clearRewardByPool(address)._who (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1122) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1266,
+            "message": "Parameter SodaPool.withdraw(uint256,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1205,
+            "message": "Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._token (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 981,
+            "message": "Parameter SodaMaster.addVault(uint256,address)._vault (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#981) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1051,
+            "message": "Parameter SodaVault.mintByPool(address,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1076,
+            "message": "Parameter SodaVault.transferByBank(address,address,uint256)._from (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1205,
+            "message": "Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._poolId (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1008,
+            "message": "Parameter SodaMaster.addCalculator(uint256,address)._calculator (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1008) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 962,
+            "message": "Parameter SodaMaster.setWETH(address)._wETH (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#962) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1244,
+            "message": "Parameter SodaPool.deposit(uint256,uint256)._amount (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 997,
+            "message": "Parameter SodaMaster.addStrategy(uint256,address)._key (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#997) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 933,
+            "message": "Parameter SodaMaster.setPool(address)._pool (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#933) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1130,
+            "message": "Parameter SodaVault.getPendingReward(address,uint256)._who (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1130) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 951,
+            "message": "Parameter SodaMaster.setDev(address)._dev (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#951) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1076,
+            "message": "Parameter SodaVault.transferByBank(address,address,uint256)._to (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 946,
+            "message": "Parameter SodaMaster.setRevenue(address)._revenue (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#946) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1205,
+            "message": "Parameter SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256)._vault (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 989,
+            "message": "Parameter SodaMaster.addSodaMade(uint256,address)._sodaMade (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#989) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 1008,
+            "message": "Parameter SodaMaster.addCalculator(uint256,address)._key (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1008) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "impact": "Informational",
+            "line": 467,
+            "message": "Redundant expression \"this (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#467)\" inContext (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#461-470)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "getPendingReward",
+            "impact": "Optimization",
+            "line": 1130,
+            "line_end": 1141,
+            "message": "getPendingReward(address,uint256) should be declared external:\n\t- SodaVault.getPendingReward(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1130-1141)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 683,
+            "line_end": 687,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#683-687)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 522,
+            "line_end": 525,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#522-525)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "burnByPool",
+            "impact": "Optimization",
+            "line": 1063,
+            "line_end": 1073,
+            "message": "burnByPool(address,uint256) should be declared external:\n\t- SodaVault.burnByPool(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1063-1073)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "unlockByBank",
+            "impact": "Optimization",
+            "line": 1114,
+            "line_end": 1119,
+            "message": "unlockByBank(address,uint256) should be declared external:\n\t- SodaVault.unlockByBank(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1114-1119)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "clearRewardByPool",
+            "impact": "Optimization",
+            "line": 1122,
+            "line_end": 1128,
+            "message": "clearRewardByPool(address) should be declared external:\n\t- SodaVault.clearRewardByPool(address) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1122-1128)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 621,
+            "line_end": 623,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#621-623)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 647,
+            "line_end": 650,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#647-650)\n\t- SodaVault.transfer(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1091-1102)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 720,
+            "line_end": 723,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#720-723)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 604,
+            "line_end": 606,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#604-606)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 1266,
+            "line_end": 1276,
+            "message": "withdraw(uint256,uint256) should be declared external:\n\t- SodaPool.withdraw(uint256,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1266-1276)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 503,
+            "line_end": 505,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#503-505)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 701,
+            "line_end": 704,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#701-704)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "setPoolInfo",
+            "impact": "Optimization",
+            "line": 1205,
+            "line_end": 1209,
+            "message": "setPoolInfo(uint256,IERC20,SodaVault,uint256) should be declared external:\n\t- SodaPool.setPoolInfo(uint256,IERC20,SodaVault,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1205-1209)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "getStrategyCount",
+            "impact": "Optimization",
+            "line": 1046,
+            "line_end": 1048,
+            "message": "getStrategyCount() should be declared external:\n\t- SodaVault.getStrategyCount() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1046-1048)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 531,
+            "line_end": 535,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#531-535)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "deposit",
+            "impact": "Optimization",
+            "line": 1244,
+            "line_end": 1252,
+            "message": "deposit(uint256,uint256) should be declared external:\n\t- SodaPool.deposit(uint256,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1244-1252)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 596,
+            "line_end": 598,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#596-598)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "mintByPool",
+            "impact": "Optimization",
+            "line": 1051,
+            "line_end": 1060,
+            "message": "mintByPool(address,uint256) should be declared external:\n\t- SodaVault.mintByPool(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1051-1060)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 666,
+            "line_end": 669,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#666-669)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "lockByBank",
+            "impact": "Optimization",
+            "line": 1105,
+            "line_end": 1111,
+            "message": "lockByBank(address,uint256) should be declared external:\n\t- SodaVault.lockByBank(address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1105-1111)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "transferByBank",
+            "impact": "Optimization",
+            "line": 1076,
+            "line_end": 1088,
+            "message": "transferByBank(address,address,uint256) should be declared external:\n\t- SodaVault.transferByBank(address,address,uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1076-1088)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "claim",
+            "impact": "Optimization",
+            "line": 1255,
+            "line_end": 1263,
+            "message": "claim(uint256) should be declared external:\n\t- SodaPool.claim(uint256) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1255-1263)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "setStrategies",
+            "impact": "Optimization",
+            "line": 1039,
+            "line_end": 1044,
+            "message": "setStrategies(IStrategy[]) should be declared external:\n\t- SodaVault.setStrategies(IStrategy[]) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#1039-1044)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x74bcb8b78996f49f46497be185174b2a89191fd6.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 655,
+            "line_end": 657,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x74bcb8b78996f49f46497be185174b2a89191fd6.sol#655-657)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

@@ -1,0 +1,396 @@
+{
+    "errors": [
+        "EXIT_CODE_41"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV2",
+            "impact": "High",
+            "line": 199,
+            "line_end": 212,
+            "message": "Vether3.upgradeV2() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212) ignores return value by ERC20(vether2).transferFrom(msg.sender,burnAddress,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#209)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV1",
+            "impact": "High",
+            "line": 184,
+            "line_end": 197,
+            "message": "Vether3.upgradeV1() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197) ignores return value by ERC20(vether1).transferFrom(msg.sender,burnAddress,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#194)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "receive",
+            "impact": "Medium",
+            "line": 225,
+            "line_end": 228,
+            "message": "Vether3.receive() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228) ignores return value by burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "burnEtherForMember",
+            "impact": "Medium",
+            "line": 230,
+            "line_end": 233,
+            "message": "Vether3.burnEtherForMember(address) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233) ignores return value by burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV2",
+            "impact": "Low",
+            "line": 199,
+            "line_end": 212,
+            "message": "Vether3.upgradeV2() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212) should emit an event for: \n\t- upgradedAmount += amount (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#207) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV1",
+            "impact": "Low",
+            "line": 184,
+            "line_end": 197,
+            "message": "Vether3.upgradeV1() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197) should emit an event for: \n\t- upgradedAmount += amount (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#192) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV2",
+            "impact": "Low",
+            "line": 199,
+            "line_end": 212,
+            "message": "Reentrancy in Vether3.upgradeV2() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212):\n\tExternal calls:\n\t- ERC20(vether2).transferFrom(msg.sender,burnAddress,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#209)\n\tState variables written after the call(s):\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)\n\t\t- _balances[_from] = _balances[_from].sub(_value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#153)\n\t\t- _balances[_to] += (_value.sub(_fee)) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#155)\n\t\t- _balances[address(this)] += _fee (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#156)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)\n\t\t- holderArray.push(_to) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)\n\t\t- holders += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)\n\t\t- mapHolder[_to] = true (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)\n\t\t- totalFees += _fee (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#157)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "burnEtherForMember",
+            "impact": "Low",
+            "line": 230,
+            "line_end": 233,
+            "message": "Reentrancy in Vether3.burnEtherForMember(address) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233):\n\tExternal calls:\n\t- burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)\n\tState variables written after the call(s):\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- currentDay = 0 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)\n\t\t- currentDay += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#332)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- currentEra += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- emission = getNextEraEmission() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#328)\n\t\t- emission = getDayEmission() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#334)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapEraDay_EmissionRemaining[currentEra][currentDay] = emission (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#335)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapEraDay_MemberCount[_era][_day] += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#239)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapEraDay_MemberUnits[_era][_day][_member] += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#242)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapEraDay_Members[_era][_day].push(_member) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#240)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapEraDay_Units[_era][_day] += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#244)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapEraDay_UnitsRemaining[_era][_day] += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#243)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapEra_Emission[currentEra] = emission (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#329)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- mapMemberEra_Days[_member][_era].push(_day) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#238)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- nextDayTime = _now + secondsPerDay (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#333)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- nextEraTime = _now + (secondsPerDay * daysPerEra) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#327)\n\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t\t- totalBurnt += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#245)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "receive",
+            "impact": "Low",
+            "line": 225,
+            "line_end": 228,
+            "message": "Reentrancy in Vether3.receive() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228):\n\tExternal calls:\n\t- burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)\n\tState variables written after the call(s):\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- currentDay = 0 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)\n\t\t- currentDay += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#332)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- currentEra += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#326)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- emission = getNextEraEmission() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#328)\n\t\t- emission = getDayEmission() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#334)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapEraDay_EmissionRemaining[currentEra][currentDay] = emission (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#335)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapEraDay_MemberCount[_era][_day] += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#239)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapEraDay_MemberUnits[_era][_day][_member] += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#242)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapEraDay_Members[_era][_day].push(_member) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#240)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapEraDay_Units[_era][_day] += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#244)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapEraDay_UnitsRemaining[_era][_day] += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#243)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapEra_Emission[currentEra] = emission (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#329)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- mapMemberEra_Days[_member][_era].push(_day) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#238)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- nextDayTime = _now + secondsPerDay (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#333)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- nextEraTime = _now + (secondsPerDay * daysPerEra) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#327)\n\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t\t- totalBurnt += _eth (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#245)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV1",
+            "impact": "Low",
+            "line": 184,
+            "line_end": 197,
+            "message": "Reentrancy in Vether3.upgradeV1() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197):\n\tExternal calls:\n\t- ERC20(vether1).transferFrom(msg.sender,burnAddress,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#194)\n\tState variables written after the call(s):\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)\n\t\t- _balances[_from] = _balances[_from].sub(_value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#153)\n\t\t- _balances[_to] += (_value.sub(_fee)) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#155)\n\t\t- _balances[address(this)] += _fee (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#156)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)\n\t\t- holderArray.push(_to) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)\n\t\t- holders += 1 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)\n\t\t- mapHolder[_to] = true (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#152)\n\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)\n\t\t- totalFees += _fee (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#157)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV2",
+            "impact": "Low",
+            "line": 199,
+            "line_end": 212,
+            "message": "Reentrancy in Vether3.upgradeV2() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212):\n\tExternal calls:\n\t- ERC20(vether2).transferFrom(msg.sender,burnAddress,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#209)\n\tEvent emitted after the call(s):\n\t- Transfer(_from,_to,(_value.sub(_fee))) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#158)\n\t\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)\n\t- Transfer(_from,address(this),_fee) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#160)\n\t\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#210)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "burnEtherForMember",
+            "impact": "Low",
+            "line": 230,
+            "line_end": 233,
+            "message": "Reentrancy in Vether3.burnEtherForMember(address) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233):\n\tExternal calls:\n\t- burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)\n\tEvent emitted after the call(s):\n\t- Burn(_payer,_member,_era,_day,_eth,mapEraDay_Units[_era][_day]) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#246)\n\t\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t- NewDay(currentEra,currentDay,nextDayTime,mapEraDay_Units[_era][_day],mapEraDay_MemberCount[_era][_day]) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#338-339)\n\t\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n\t- NewEra(currentEra,emission,nextEraTime,totalBurnt) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#330)\n\t\t- _recordBurn(msg.sender,member,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#232)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "receive",
+            "impact": "Low",
+            "line": 225,
+            "line_end": 228,
+            "message": "Reentrancy in Vether3.receive() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228):\n\tExternal calls:\n\t- burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)\n\tEvent emitted after the call(s):\n\t- Burn(_payer,_member,_era,_day,_eth,mapEraDay_Units[_era][_day]) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#246)\n\t\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t- NewDay(currentEra,currentDay,nextDayTime,mapEraDay_Units[_era][_day],mapEraDay_MemberCount[_era][_day]) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#338-339)\n\t\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n\t- NewEra(currentEra,emission,nextEraTime,totalBurnt) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#330)\n\t\t- _recordBurn(msg.sender,msg.sender,currentEra,currentDay,msg.value) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#227)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV1",
+            "impact": "Low",
+            "line": 184,
+            "line_end": 197,
+            "message": "Reentrancy in Vether3.upgradeV1() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197):\n\tExternal calls:\n\t- ERC20(vether1).transferFrom(msg.sender,burnAddress,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#194)\n\tEvent emitted after the call(s):\n\t- Transfer(_from,_to,(_value.sub(_fee))) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#158)\n\t\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)\n\t- Transfer(_from,address(this),_fee) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#160)\n\t\t- _transfer(address(this),msg.sender,amount) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#195)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "_updateEmission",
+            "impact": "Low",
+            "line": 322,
+            "line_end": 341,
+            "message": "Vether3._updateEmission() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#322-341) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- _now >= nextDayTime (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#324)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 1,
+            "message": "Pragma version^0.6.4 (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#1) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "receive",
+            "impact": "Informational",
+            "line": 225,
+            "line_end": 228,
+            "message": "Low level call in Vether3.receive() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#225-228):\n\t- burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#226)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "burnEtherForMember",
+            "impact": "Informational",
+            "line": 230,
+            "line_end": 233,
+            "message": "Low level call in Vether3.burnEtherForMember(address) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#230-233):\n\t- burnAddress.call.value(msg.value)() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#231)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 70,
+            "message": "Variable Vether3.mapMemberEra_Days (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#70) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 67,
+            "message": "Variable Vether3.mapEraDay_UnitsRemaining (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#67) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "mapEraDay_Units",
+            "impact": "Informational",
+            "line": 29,
+            "message": "Function VETH.mapEraDay_Units(uint256,uint256) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#29) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 64,
+            "message": "Variable Vether3.mapEraDay_MemberCount (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#64) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 68,
+            "message": "Variable Vether3.mapEraDay_EmissionRemaining (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#68) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 65,
+            "message": "Variable Vether3.mapEraDay_Members (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#65) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 74,
+            "message": "Variable Vether3.mapAddress_BlockChange (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#74) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Variable Vether3.mapEra_Emission (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 73,
+            "message": "Variable Vether3.mapAddress_Excluded (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#73) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 69,
+            "message": "Variable Vether3.mapEraDay_MemberUnits (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#69) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 66,
+            "message": "Variable Vether3.mapEraDay_Units (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#66) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Informational",
+            "line": 64,
+            "message": "Variable Vether3.mapEraDay_MemberCount (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#64) is too similar to Vether3.mapEraDay_MemberUnits (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#69)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "impact": "Optimization",
+            "line": 53,
+            "message": "Vether3.coin (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#53) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "snapshot",
+            "impact": "Optimization",
+            "line": 214,
+            "line_end": 219,
+            "message": "snapshot(address[],uint256[]) should be declared external:\n\t- Vether3.snapshot(address[],uint256[]) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#214-219)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 129,
+            "line_end": 132,
+            "message": "transfer(address,uint256) should be declared external:\n\t- Vether3.transfer(address,uint256) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#129-132)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "purgeDeployer",
+            "impact": "Optimization",
+            "line": 221,
+            "message": "purgeDeployer() should be declared external:\n\t- Vether3.purgeDeployer() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#221)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 121,
+            "line_end": 127,
+            "message": "allowance(address,address) should be declared external:\n\t- Vether3.allowance(address,address) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#121-127)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV2",
+            "impact": "Optimization",
+            "line": 199,
+            "line_end": 212,
+            "message": "upgradeV2() should be declared external:\n\t- Vether3.upgradeV2() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#199-212)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "getDaysContributedForEra",
+            "impact": "Optimization",
+            "line": 266,
+            "line_end": 268,
+            "message": "getDaysContributedForEra(address,uint256) should be declared external:\n\t- Vether3.getDaysContributedForEra(address,uint256) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#266-268)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "upgradeV1",
+            "impact": "Optimization",
+            "line": 184,
+            "line_end": 197,
+            "message": "upgradeV1() should be declared external:\n\t- Vether3.upgradeV1() (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#184-197)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 140,
+            "line_end": 147,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- Vether3.transferFrom(address,address,uint256) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#140-147)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 134,
+            "line_end": 138,
+            "message": "approve(address,uint256) should be declared external:\n\t- Vether3.approve(address,uint256) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#134-138)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x75572098dc462f976127f59f8c97dfa291f81d8b.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 118,
+            "line_end": 120,
+            "message": "balanceOf(address) should be declared external:\n\t- Vether3.balanceOf(address) (../..0x75572098dc462f976127f59f8c97dfa291f81d8b.sol#118-120)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

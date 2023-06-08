@@ -1,0 +1,838 @@
+{
+    "errors": [
+        "EXIT_CODE_90"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "collectDust",
+            "impact": "High",
+            "line": 825,
+            "line_end": 839,
+            "message": "Blacksmith.collectDust(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825-839) sends eth to arbitrary user\n\tDangerous calls:\n\t- address(treasury).transfer(amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#835)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "withdraw",
+            "impact": "High",
+            "line": 718,
+            "line_end": 736,
+            "message": "Reentrancy in Blacksmith.withdraw(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736):\n\tExternal calls:\n\t- _claimCoverRewards(pool,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#726)\n\t\t- cover.mint(msg.sender,minedSinceLastUpdate) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\t- _safeTransfer(_lpToken,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\tExternal calls sending eth:\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t- _safeTransfer(_lpToken,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\tState variables written after the call(s):\n\t- _safeTransfer(_lpToken,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)\n\t\t- _status = _ENTERED (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#566)\n\t\t- _status = _NOT_ENTERED (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#572)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "deposit",
+            "impact": "High",
+            "line": 696,
+            "line_end": 716,
+            "message": "Reentrancy in Blacksmith.deposit(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696-716):\n\tExternal calls:\n\t- _claimCoverRewards(pool,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#706)\n\t\t- cover.mint(msg.sender,minedSinceLastUpdate) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\tExternal calls sending eth:\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\tState variables written after the call(s):\n\t- miner.amount = miner.amount.add(_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#709)\n\t- miner.rewardWriteoff = miner.amount.mul(pool.accRewardsPerToken).div(CAL_MULTIPLIER) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#711)\n\t- miner.bonusWriteoff = miner.amount.mul(bonusToken.accBonusPerToken).div(CAL_MULTIPLIER) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#712)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "withdraw",
+            "impact": "High",
+            "line": 718,
+            "line_end": 736,
+            "message": "Reentrancy in Blacksmith.withdraw(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736):\n\tExternal calls:\n\t- _claimCoverRewards(pool,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#726)\n\t\t- cover.mint(msg.sender,minedSinceLastUpdate) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\tExternal calls sending eth:\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\tState variables written after the call(s):\n\t- miner.amount = miner.amount.sub(_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#729)\n\t- miner.rewardWriteoff = miner.amount.mul(pool.accRewardsPerToken).div(CAL_MULTIPLIER) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#731)\n\t- miner.bonusWriteoff = miner.amount.mul(bonusToken.accBonusPerToken).div(CAL_MULTIPLIER) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#732)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "claimRewards",
+            "impact": "High",
+            "line": 676,
+            "line_end": 688,
+            "message": "Reentrancy in Blacksmith.claimRewards(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#676-688):\n\tExternal calls:\n\t- _claimCoverRewards(pool,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#683)\n\t\t- cover.mint(msg.sender,minedSinceLastUpdate) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#684)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\tExternal calls sending eth:\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#684)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\tState variables written after the call(s):\n\t- miner.rewardWriteoff = miner.amount.mul(pool.accRewardsPerToken).div(CAL_MULTIPLIER) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#686)\n\t- miner.bonusWriteoff = miner.amount.mul(bonusToken.accBonusPerToken).div(CAL_MULTIPLIER) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#687)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "collectDust",
+            "impact": "Medium",
+            "line": 825,
+            "line_end": 839,
+            "message": "Blacksmith.collectDust(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825-839) uses a dangerous strict equality:\n\t- require(bool,string)(pool.lastUpdatedAt == 0,Blacksmith: lpToken, not allowed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#827)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "addBonusToken",
+            "impact": "Medium",
+            "line": 789,
+            "line_end": 822,
+            "message": "Blacksmith.addBonusToken(address,address,uint256,uint256,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#789-822) uses a dangerous strict equality:\n\t- require(bool,string)(IERC20(currentBonusToken.addr).balanceOf(address(this)) == 0,Blacksmith: last bonus not all claimed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#803)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 655,
+            "line_end": 674,
+            "message": "Blacksmith.updatePool(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655-674) uses a dangerous strict equality:\n\t- lpTotal == 0 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#659)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "addBonusToken",
+            "impact": "Medium",
+            "line": 789,
+            "line_end": 822,
+            "message": "Reentrancy in Blacksmith.addBonusToken(address,address,uint256,uint256,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#789-822):\n\tExternal calls:\n\t- bonusToken.safeTransferFrom(msg.sender,address(this),_totalBonus) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#810)\n\tState variables written after the call(s):\n\t- bonusTokens[_lpToken] = BonusToken(_bonusToken,_startTime,_endTime,balanceAfter.sub(balanceBefore),0,_startTime) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#814-821)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "transferMintingRights",
+            "impact": "Medium",
+            "line": 866,
+            "line_end": 868,
+            "message": "Blacksmith.transferMintingRights(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#866-868) ignores return value by cover.setBlacksmith(_newAddress) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#867)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Low",
+            "line": 782,
+            "message": "Blacksmith.updateBonusTokenStatus(address,uint8)._status (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) shadows:\n\t- ReentrancyGuard._status (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#548) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "addPool",
+            "impact": "Low",
+            "line": 761,
+            "line_end": 771,
+            "message": "Blacksmith.addPool(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761-771) should emit an event for: \n\t- totalWeight = totalWeight.add(_weight) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#769) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updateWeeklyTotal",
+            "impact": "Low",
+            "line": 853,
+            "line_end": 855,
+            "message": "Blacksmith.updateWeeklyTotal(uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#853-855) should emit an event for: \n\t- weeklyTotal = _weeklyTotal (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#854) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updatePoolWeights",
+            "impact": "Low",
+            "line": 750,
+            "line_end": 758,
+            "message": "Blacksmith.updatePoolWeights(address[],uint256[]) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750-758) should emit an event for: \n\t- totalWeight = totalWeight.add(_weights[i]).sub(pool.weight) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#754) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Low",
+            "line": 623,
+            "message": "Blacksmith.constructor(address,address,address)._treasury (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#623) lacks a zero-check on :\n\t\t- treasury = _treasury (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#626)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Low",
+            "line": 623,
+            "message": "Blacksmith.constructor(address,address,address)._governance (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#623) lacks a zero-check on :\n\t\t- governance = _governance (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#625)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_safeTransfer",
+            "impact": "Low",
+            "line": 885,
+            "line_end": 893,
+            "message": "Blacksmith._safeTransfer(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#885-893) has external calls inside a loop: balance = token.balanceOf(address(this)) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#887)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_claimCoverRewards",
+            "impact": "Low",
+            "line": 895,
+            "line_end": 902,
+            "message": "Blacksmith._claimCoverRewards(IBlacksmith.Pool,IBlacksmith.Miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#895-902) has external calls inside a loop: cover.mint(msg.sender,minedSinceLastUpdate) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 655,
+            "line_end": 674,
+            "message": "Blacksmith.updatePool(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655-674) has external calls inside a loop: lpTotal = IERC20(_lpToken).balanceOf(address(this)) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#658)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Low",
+            "line": 366,
+            "line_end": 387,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#366-387) has external calls inside a loop: (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 718,
+            "line_end": 736,
+            "message": "Reentrancy in Blacksmith.withdraw(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736):\n\tExternal calls:\n\t- _claimCoverRewards(pool,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#726)\n\t\t- cover.mint(msg.sender,minedSinceLastUpdate) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\t- _safeTransfer(_lpToken,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\tExternal calls sending eth:\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#727)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t- _safeTransfer(_lpToken,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#734)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_lpToken,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#735)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Low",
+            "line": 739,
+            "line_end": 747,
+            "message": "Reentrancy in Blacksmith.emergencyWithdraw(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#739-747):\n\tExternal calls:\n\t- _safeTransfer(_lpToken,amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#745)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\tExternal calls sending eth:\n\t- _safeTransfer(_lpToken,amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#745)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_lpToken,amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#746)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 696,
+            "line_end": 716,
+            "message": "Reentrancy in Blacksmith.deposit(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696-716):\n\tExternal calls:\n\t- _claimCoverRewards(pool,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#706)\n\t\t- cover.mint(msg.sender,minedSinceLastUpdate) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#899)\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#450)\n\t\t- token.safeTransfer(msg.sender,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#889)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\t\t- token.safeTransfer(msg.sender,balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#891)\n\t- IERC20(_lpToken).safeTransferFrom(msg.sender,address(this),_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#714)\n\tExternal calls sending eth:\n\t- _claimBonus(bonusToken,miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#707)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_lpToken,_amount) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#715)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_claimBonus",
+            "impact": "Low",
+            "line": 904,
+            "line_end": 911,
+            "message": "Blacksmith._claimBonus(IBlacksmith.BonusToken,IBlacksmith.Miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#904-911) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- bonusToken.totalBonus > 0 && miner.amount > 0 && bonusToken.startTime < block.timestamp (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#905)\n\t- bonusSinceLastUpdate > 0 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#907)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 696,
+            "line_end": 716,
+            "message": "Blacksmith.deposit(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696-716) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= START_TIME,Blacksmith: not started) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#697)\n\t- require(bool,string)(pool.lastUpdatedAt > 0,Blacksmith: pool does not exists) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#700)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_safeTransfer",
+            "impact": "Low",
+            "line": 885,
+            "line_end": 893,
+            "message": "Blacksmith._safeTransfer(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#885-893) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- balance > _amount (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#888)\n\t- balance > 0 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#890)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 655,
+            "line_end": 674,
+            "message": "Blacksmith.updatePool(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655-674) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp <= pool.lastUpdatedAt (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#657)\n\t- bonusToken.lastUpdatedAt < bonusToken.endTime && bonusToken.startTime < block.timestamp (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#669)\n\t- block.timestamp <= bonusToken.endTime (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#672)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_claimCoverRewards",
+            "impact": "Low",
+            "line": 895,
+            "line_end": 902,
+            "message": "Blacksmith._claimCoverRewards(IBlacksmith.Pool,IBlacksmith.Miner) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#895-902) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- minedSinceLastUpdate > 0 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#898)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 718,
+            "line_end": 736,
+            "message": "Blacksmith.withdraw(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718-736) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(miner.amount >= _amount,Blacksmith: insufficient balance) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#721)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "addBonusToken",
+            "impact": "Low",
+            "line": 789,
+            "line_end": 822,
+            "message": "Blacksmith.addBonusToken(address,address,uint256,uint256,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#789-822) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(pools[_lpToken].lastUpdatedAt != 0,Blacksmith: pool does NOT exist) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#797)\n\t- currentBonusToken.totalBonus != 0 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#801)\n\t- require(bool,string)(currentBonusToken.endTime.add(WEEK) < block.timestamp,Blacksmith: last bonus period hasn't ended) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#802)\n\t- require(bool,string)(IERC20(currentBonusToken.addr).balanceOf(address(this)) == 0,Blacksmith: last bonus not all claimed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#803)\n\t- require(bool,string)(_startTime >= block.timestamp && _endTime > _startTime,Blacksmith: messed up timeline) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#806)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "collectDust",
+            "impact": "Low",
+            "line": 825,
+            "line_end": 839,
+            "message": "Blacksmith.collectDust(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825-839) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(pool.lastUpdatedAt == 0,Blacksmith: lpToken, not allowed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#827)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updateBonusTokenStatus",
+            "impact": "Low",
+            "line": 782,
+            "line_end": 786,
+            "message": "Blacksmith.updateBonusTokenStatus(address,uint8) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782-786) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(pools[_bonusToken].lastUpdatedAt == 0,Blacksmith: lpToken is not allowed) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#784)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_calculateBonusForPeriod",
+            "impact": "Low",
+            "line": 875,
+            "line_end": 882,
+            "message": "Blacksmith._calculateBonusForPeriod(IBlacksmith.BonusToken) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#875-882) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp > _bonusToken.endTime (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#878)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "viewMined",
+            "impact": "Low",
+            "line": 633,
+            "line_end": 652,
+            "message": "Blacksmith.viewMined(address,address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#633-652) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- miner.amount > 0 && lpTotal > 0 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#639)\n\t- bonusToken.startTime < block.timestamp && bonusToken.totalBonus > 0 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#645)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "collectBonusDust",
+            "impact": "Low",
+            "line": 842,
+            "line_end": 850,
+            "message": "Blacksmith.collectBonusDust(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#842-850) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(bonusToken.endTime.add(WEEK) < block.timestamp,Blacksmith: bonusToken, not ready) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#844)\n\t- require(bool,string)(amount > 0,Blacksmith: 0 to collect) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#848)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 366,
+            "line_end": 387,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#366-387) uses assembly\n\t- INLINE ASM (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#379-382)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 273,
+            "line_end": 282,
+            "message": "Address.isContract(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#273-282) uses assembly\n\t- INLINE ASM (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#280)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "nonReentrant",
+            "impact": "Informational",
+            "line": 561,
+            "line_end": 573,
+            "message": "ReentrancyGuard.nonReentrant() (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#561-573) has costly operations inside a loop:\n\t- _status = _NOT_ENTERED (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#572)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updatePoolWeights",
+            "impact": "Informational",
+            "line": 750,
+            "line_end": 758,
+            "message": "Blacksmith.updatePoolWeights(address[],uint256[]) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750-758) has costly operations inside a loop:\n\t- totalWeight = totalWeight.add(_weights[i]).sub(pool.weight) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#754)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "addPool",
+            "impact": "Informational",
+            "line": 761,
+            "line_end": 771,
+            "message": "Blacksmith.addPool(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761-771) has costly operations inside a loop:\n\t- totalWeight = totalWeight.add(_weight) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#769)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "nonReentrant",
+            "impact": "Informational",
+            "line": 561,
+            "line_end": 573,
+            "message": "ReentrancyGuard.nonReentrant() (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#561-573) has costly operations inside a loop:\n\t- _status = _ENTERED (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#566)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 300,
+            "line_end": 306,
+            "message": "Address.sendValue(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#300-306) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 351,
+            "line_end": 353,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#351-353) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 429,
+            "line_end": 432,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#429-432) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 418,
+            "line_end": 427,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#418-427) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 155,
+            "line_end": 158,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#155-158) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 361,
+            "line_end": 364,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#361-364) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 139,
+            "line_end": 141,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#139-141) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 434,
+            "line_end": 437,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#434-437) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 326,
+            "line_end": 328,
+            "message": "Address.functionCall(address,bytes) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#326-328) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Pragma version^0.7.4 (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#3) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 300,
+            "line_end": 306,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#300-306):\n\t- (success) = recipient.call{value: amount}() (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#304)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 366,
+            "line_end": 387,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#366-387):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#370)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 853,
+            "message": "Parameter Blacksmith.updateWeeklyTotal(uint256)._weeklyTotal (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#853) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 774,
+            "message": "Parameter Blacksmith.addPools(address[],uint256[])._lpTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#774) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 866,
+            "message": "Parameter Blacksmith.transferMintingRights(address)._newAddress (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#866) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 676,
+            "message": "Parameter Blacksmith.claimRewards(address)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#676) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 782,
+            "message": "Parameter Blacksmith.updateBonusTokenStatus(address,uint8)._status (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 718,
+            "message": "Parameter Blacksmith.withdraw(address,uint256)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 774,
+            "message": "Parameter Blacksmith.addPools(address[],uint256[])._weights (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#774) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 825,
+            "message": "Parameter Blacksmith.collectDust(address)._token (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#825) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 739,
+            "message": "Parameter Blacksmith.emergencyWithdraw(address)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#739) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 655,
+            "message": "Parameter Blacksmith.updatePool(address)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#655) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 793,
+            "message": "Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._endTime (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#793) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 633,
+            "message": "Parameter Blacksmith.viewMined(address,address)._miner (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#633) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 858,
+            "message": "Parameter Blacksmith.updatePools(uint256,uint256)._end (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#858) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 791,
+            "message": "Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._bonusToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#791) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 794,
+            "message": "Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._totalBonus (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#794) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 718,
+            "message": "Parameter Blacksmith.withdraw(address,uint256)._amount (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#718) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 633,
+            "message": "Parameter Blacksmith.viewMined(address,address)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#633) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 690,
+            "message": "Parameter Blacksmith.claimRewardsForPools(address[])._lpTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#690) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 696,
+            "message": "Parameter Blacksmith.deposit(address,uint256)._amount (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 750,
+            "message": "Parameter Blacksmith.updatePoolWeights(address[],uint256[])._weights (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 792,
+            "message": "Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._startTime (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#792) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 761,
+            "message": "Parameter Blacksmith.addPool(address,uint256)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 842,
+            "message": "Parameter Blacksmith.collectBonusDust(address)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#842) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 696,
+            "message": "Parameter Blacksmith.deposit(address,uint256)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#696) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 761,
+            "message": "Parameter Blacksmith.addPool(address,uint256)._weight (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#761) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 790,
+            "message": "Parameter Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._lpToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#790) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 782,
+            "message": "Parameter Blacksmith.updateBonusTokenStatus(address,uint8)._bonusToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 858,
+            "message": "Parameter Blacksmith.updatePools(uint256,uint256)._start (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#858) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 750,
+            "message": "Parameter Blacksmith.updatePoolWeights(address[],uint256[])._lpTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 875,
+            "message": "Variable Blacksmith._calculateBonusForPeriod(IBlacksmith.BonusToken)._bonusToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#875) is too similar to Blacksmith.bonusTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 782,
+            "message": "Variable Blacksmith.updateBonusTokenStatus(address,uint8)._bonusToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#782) is too similar to Blacksmith.bonusTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 791,
+            "message": "Variable Blacksmith.addBonusToken(address,address,uint256,uint256,uint256)._bonusToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#791) is too similar to Blacksmith.bonusTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 223,
+            "message": "Variable IBlacksmith.addBonusToken(address,address,uint256,uint256,uint256)._bonusToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#223) is too similar to Blacksmith.bonusTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "impact": "Informational",
+            "line": 235,
+            "message": "Variable IBlacksmith.updateBonusTokenStatus(address,uint8)._bonusToken (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#235) is too similar to Blacksmith.bonusTokens (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#612)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 491,
+            "line_end": 493,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#491-493)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 507,
+            "line_end": 511,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#507-511)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol",
+            "function": "updatePoolWeights",
+            "impact": "Optimization",
+            "line": 750,
+            "line_end": 758,
+            "message": "updatePoolWeights(address[],uint256[]) should be declared external:\n\t- Blacksmith.updatePoolWeights(address[],uint256[]) (../..0xe0b94a7bb45dd905c79bb1992c9879f40f1caed5.sol#750-758)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

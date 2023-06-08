@@ -1,0 +1,760 @@
+{
+    "errors": [
+        "EXIT_CODE_82"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "allocateMoreRewards",
+            "impact": "High",
+            "line": 777,
+            "line_end": 791,
+            "message": "Reentrancy in ProfitSharingRewardPool.allocateMoreRewards(uint256,uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#777-791):\n\tExternal calls:\n\t- _allocateMoreRewards(wbnb,_wbnbAmount,_days) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#782)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- IERC20(_rewardToken).safeTransferFrom(msg.sender,address(this),_addedReward) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#801)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t- _allocateMoreRewards(busd,_busdAmount,_days) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#783)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- IERC20(_rewardToken).safeTransferFrom(msg.sender,address(this),_addedReward) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#801)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tExternal calls sending eth:\n\t- _allocateMoreRewards(wbnb,_wbnbAmount,_days) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#782)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t- _allocateMoreRewards(busd,_busdAmount,_days) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#783)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tState variables written after the call(s):\n\t- endRewardBlock = block.number.add(_days.mul(BLOCKS_PER_DAY)) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#786)\n\t- endRewardBlock = endRewardBlock.add(_days.mul(BLOCKS_PER_DAY)) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#788)\n\t- _allocateMoreRewards(busd,_busdAmount,_days) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#783)\n\t\t- rewardPoolInfo[_rewardToken].rewardPerBlock = _newPendingReward.div(_newPendingBlocks) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#804)\n\t\t- rewardPool.accRewardPerShare = rewardPool.accRewardPerShare.add(_incRewardPerShare) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#822)\n\t\t- rewardPool.lastRewardBlock = _endRewardBlockApplicable (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#824)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "_withdraw",
+            "impact": "High",
+            "line": 851,
+            "line_end": 863,
+            "message": "Reentrancy in ProfitSharingRewardPool._withdraw(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#851-863):\n\tExternal calls:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#853)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\t- IERC20(stakeToken).safeTransfer(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#856)\n\tExternal calls sending eth:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#853)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tState variables written after the call(s):\n\t- user.rewardDebt[_wbnb] = user.amount.mul(rewardPoolInfo[_wbnb].accRewardPerShare).div(1e18) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#860)\n\t- user.rewardDebt[_busd] = user.amount.mul(rewardPoolInfo[_busd].accRewardPerShare).div(1e18) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#861)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "_withdraw",
+            "impact": "High",
+            "line": 851,
+            "line_end": 863,
+            "message": "Reentrancy in ProfitSharingRewardPool._withdraw(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#851-863):\n\tExternal calls:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#853)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#853)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.sub(_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#855)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "getAllRewards",
+            "impact": "High",
+            "line": 873,
+            "line_end": 876,
+            "message": "Reentrancy in ProfitSharingRewardPool.getAllRewards(address) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#873-876):\n\tExternal calls:\n\t- getReward(wbnb,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#874)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\t- getReward(busd,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#875)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- getReward(wbnb,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#874)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t- getReward(busd,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#875)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tState variables written after the call(s):\n\t- getReward(busd,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#875)\n\t\t- rewardPool.totalPaidRewards = rewardPool.totalPaidRewards.add(_pendingReward) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#886)\n\t\t- rewardPool.accRewardPerShare = rewardPool.accRewardPerShare.add(_incRewardPerShare) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#822)\n\t\t- rewardPool.lastRewardBlock = _endRewardBlockApplicable (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#824)\n\t- getReward(busd,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#875)\n\t\t- user.accumulatedEarned[_rewardToken] = user.accumulatedEarned[_rewardToken].add(_pendingReward) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#885)\n\t\t- user.rewardDebt[_rewardToken] = user.amount.mul(_accRewardPerShare).div(1e18) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#887)\n\t\t- user.reward[_rewardToken] = _paidAmount (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#892)\n\t\t- user.reward[_rewardToken] = 0 (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#894)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "_deposit",
+            "impact": "High",
+            "line": 829,
+            "line_end": 838,
+            "message": "Reentrancy in ProfitSharingRewardPool._deposit(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#829-838):\n\tExternal calls:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#831)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#831)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.add(_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#832)\n\t- user.rewardDebt[_wbnb] = user.amount.mul(rewardPoolInfo[_wbnb].accRewardPerShare).div(1e18) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#835)\n\t- user.rewardDebt[_busd] = user.amount.mul(rewardPoolInfo[_busd].accRewardPerShare).div(1e18) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#836)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "_allocateMoreRewards",
+            "impact": "Medium",
+            "line": 793,
+            "line_end": 806,
+            "message": "Reentrancy in ProfitSharingRewardPool._allocateMoreRewards(address,uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#793-806):\n\tExternal calls:\n\t- IERC20(_rewardToken).safeTransferFrom(msg.sender,address(this),_addedReward) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#801)\n\tState variables written after the call(s):\n\t- rewardPoolInfo[_rewardToken].rewardPerBlock = _newPendingReward.div(_newPendingBlocks) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#804)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 698,
+            "line_end": 719,
+            "message": "ProfitSharingRewardPool.initialize(address,address,address,address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#698-719) should emit an event for: \n\t- reserveFund = _reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#710) \n\t- operator = msg.sender (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#714) \n\t- operator = msg.sender (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#714) \n\t- operator = msg.sender (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#714) \n\t- operator = msg.sender (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#714) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "setExchangeProxy",
+            "impact": "Low",
+            "line": 725,
+            "line_end": 727,
+            "message": "ProfitSharingRewardPool.setExchangeProxy(address) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#725-727) should emit an event for: \n\t- exchangeProxy = _exchangeProxy (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#726) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "setOperator",
+            "impact": "Low",
+            "line": 721,
+            "line_end": 723,
+            "message": "ProfitSharingRewardPool.setOperator(address) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#721-723) should emit an event for: \n\t- operator = _operator (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#722) \n\t- operator = _operator (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#722) \n\t- operator = _operator (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#722) \n\t- operator = _operator (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#722) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "setReserveFund",
+            "impact": "Low",
+            "line": 729,
+            "line_end": 731,
+            "message": "ProfitSharingRewardPool.setReserveFund(address) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#729-731) should emit an event for: \n\t- reserveFund = _reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#730) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 698,
+            "line_end": 719,
+            "message": "ProfitSharingRewardPool.initialize(address,address,address,address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#698-719) should emit an event for: \n\t- startRewardBlock = _startRewardBlock (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#711) \n\t- endRewardBlock = _startRewardBlock (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#712) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "allocateMoreRewards",
+            "impact": "Low",
+            "line": 777,
+            "line_end": 791,
+            "message": "ProfitSharingRewardPool.allocateMoreRewards(uint256,uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#777-791) should emit an event for: \n\t- endRewardBlock = block.number.add(_days.mul(BLOCKS_PER_DAY)) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#786) \n\t- endRewardBlock = endRewardBlock.add(_days.mul(BLOCKS_PER_DAY)) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#788) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Low",
+            "line": 700,
+            "message": "ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._wbnb (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#700) lacks a zero-check on :\n\t\t- wbnb = _wbnb (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#708)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Low",
+            "line": 725,
+            "message": "ProfitSharingRewardPool.setExchangeProxy(address)._exchangeProxy (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#725) lacks a zero-check on :\n\t\t- exchangeProxy = _exchangeProxy (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#726)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Low",
+            "line": 702,
+            "message": "ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#702) lacks a zero-check on :\n\t\t- reserveFund = _reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#710)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Low",
+            "line": 699,
+            "message": "ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._stakeToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#699) lacks a zero-check on :\n\t\t- stakeToken = _stakeToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#707)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Low",
+            "line": 721,
+            "message": "ProfitSharingRewardPool.setOperator(address)._operator (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#721) lacks a zero-check on :\n\t\t- operator = _operator (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#722)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Low",
+            "line": 729,
+            "message": "ProfitSharingRewardPool.setReserveFund(address)._reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#729) lacks a zero-check on :\n\t\t- reserveFund = _reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#730)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Low",
+            "line": 701,
+            "message": "ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._busd (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#701) lacks a zero-check on :\n\t\t- busd = _busd (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#709)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "depositFor",
+            "impact": "Low",
+            "line": 845,
+            "line_end": 848,
+            "message": "Reentrancy in ProfitSharingRewardPool.depositFor(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#845-848):\n\tExternal calls:\n\t- IERC20(stakeToken).safeTransferFrom(msg.sender,address(this),_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#846)\n\t- _deposit(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#847)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- _deposit(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#847)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tEvent emitted after the call(s):\n\t- Deposit(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#837)\n\t\t- _deposit(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#847)\n\t- RewardPaid(_rewardToken,_account,_paidAmount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#896)\n\t\t- _deposit(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#847)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 878,
+            "line_end": 899,
+            "message": "Reentrancy in ProfitSharingRewardPool.getReward(address,address) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#878-899):\n\tExternal calls:\n\t- _safeTokenTransfer(_rewardToken,_account,_paidAmount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#895)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- _safeTokenTransfer(_rewardToken,_account,_paidAmount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#895)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tEvent emitted after the call(s):\n\t- RewardPaid(_rewardToken,_account,_paidAmount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#896)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 840,
+            "line_end": 843,
+            "message": "Reentrancy in ProfitSharingRewardPool.deposit(uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#840-843):\n\tExternal calls:\n\t- IERC20(stakeToken).safeTransferFrom(msg.sender,address(this),_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#841)\n\t- _deposit(msg.sender,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#842)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- _deposit(msg.sender,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#842)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tEvent emitted after the call(s):\n\t- Deposit(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#837)\n\t\t- _deposit(msg.sender,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#842)\n\t- RewardPaid(_rewardToken,_account,_paidAmount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#896)\n\t\t- _deposit(msg.sender,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#842)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "getAllRewards",
+            "impact": "Low",
+            "line": 873,
+            "line_end": 876,
+            "message": "Reentrancy in ProfitSharingRewardPool.getAllRewards(address) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#873-876):\n\tExternal calls:\n\t- getReward(wbnb,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#874)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\t- getReward(busd,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#875)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- getReward(wbnb,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#874)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t- getReward(busd,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#875)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tEvent emitted after the call(s):\n\t- RewardPaid(_rewardToken,_account,_paidAmount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#896)\n\t\t- getReward(busd,_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#875)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Low",
+            "line": 902,
+            "line_end": 912,
+            "message": "Reentrancy in ProfitSharingRewardPool.emergencyWithdraw() (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#902-912):\n\tExternal calls:\n\t- IERC20(stakeToken).safeTransfer(msg.sender,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#910)\n\tEvent emitted after the call(s):\n\t- EmergencyWithdraw(msg.sender,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#911)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 851,
+            "line_end": 863,
+            "message": "Reentrancy in ProfitSharingRewardPool._withdraw(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#851-863):\n\tExternal calls:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#853)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\t- IERC20(stakeToken).safeTransfer(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#856)\n\tExternal calls sending eth:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#853)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tEvent emitted after the call(s):\n\t- Withdraw(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#862)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 829,
+            "line_end": 838,
+            "message": "Reentrancy in ProfitSharingRewardPool._deposit(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#829-838):\n\tExternal calls:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#831)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#598)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\t\t- IERC20(_token).safeTransfer(_to,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#924)\n\tExternal calls sending eth:\n\t- getAllRewards(_account) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#831)\n\t\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n\tEvent emitted after the call(s):\n\t- Deposit(_account,_amount) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#837)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 495,
+            "line_end": 516,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#495-516) uses assembly\n\t- INLINE ASM (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#508-511)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 327,
+            "line_end": 338,
+            "message": "Address.isContract(address) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#327-338) uses assembly\n\t- INLINE ASM (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#334-336)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 138,
+            "line_end": 141,
+            "message": "SafeMath.tryDiv(uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#138-141) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 356,
+            "line_end": 362,
+            "message": "Address.sendValue(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#356-362) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 411,
+            "line_end": 417,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#411-417) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 148,
+            "line_end": 151,
+            "message": "SafeMath.tryMod(uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#148-151) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 483,
+            "line_end": 493,
+            "message": "Address.functionDelegateCall(address,bytes,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#483-493) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 248,
+            "line_end": 255,
+            "message": "SafeMath.sub(uint256,uint256,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#248-255) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 473,
+            "line_end": 475,
+            "message": "Address.functionDelegateCall(address,bytes) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#473-475) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 569,
+            "line_end": 576,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#569-576) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 556,
+            "line_end": 567,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#556-567) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 102,
+            "line_end": 106,
+            "message": "SafeMath.tryAdd(uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#102-106) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 296,
+            "line_end": 303,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#296-303) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 272,
+            "line_end": 279,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#272-279) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 445,
+            "line_end": 447,
+            "message": "Address.functionStaticCall(address,bytes) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#445-447) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 230,
+            "line_end": 233,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#230-233) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 123,
+            "line_end": 131,
+            "message": "SafeMath.tryMul(uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#123-131) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 113,
+            "line_end": 116,
+            "message": "SafeMath.trySub(uint256,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#113-116) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 578,
+            "line_end": 585,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#578-585) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 455,
+            "line_end": 465,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#455-465) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 382,
+            "line_end": 384,
+            "message": "Address.functionCall(address,bytes) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#382-384) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 455,
+            "line_end": 465,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#455-465):\n\t- (success,returndata) = target.staticcall(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#463)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 483,
+            "line_end": 493,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#483-493):\n\t- (success,returndata) = target.delegatecall(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#491)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 356,
+            "line_end": 362,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#356-362):\n\t- (success) = recipient.call{value: amount}() (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#360)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 425,
+            "line_end": 437,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#425-437):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#435)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 703,
+            "message": "Parameter ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._startRewardBlock (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#703) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 845,
+            "message": "Parameter ProfitSharingRewardPool.depositFor(address,uint256)._account (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#845) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 751,
+            "message": "Parameter ProfitSharingRewardPool.getRewardPerBlock(address)._rewardToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#751) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 873,
+            "message": "Parameter ProfitSharingRewardPool.getAllRewards(address)._account (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#873) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 701,
+            "message": "Parameter ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._busd (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#701) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 778,
+            "message": "Parameter ProfitSharingRewardPool.allocateMoreRewards(uint256,uint256,uint256)._wbnbAmount (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#778) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 779,
+            "message": "Parameter ProfitSharingRewardPool.allocateMoreRewards(uint256,uint256,uint256)._busdAmount (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#779) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 729,
+            "message": "Parameter ProfitSharingRewardPool.setReserveFund(address)._reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#729) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 725,
+            "message": "Parameter ProfitSharingRewardPool.setExchangeProxy(address)._exchangeProxy (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#725) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 813,
+            "message": "Parameter ProfitSharingRewardPool.updateReward(address)._rewardToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#813) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 755,
+            "message": "Parameter ProfitSharingRewardPool.pendingReward(address,address)._rewardToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#755) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 878,
+            "message": "Parameter ProfitSharingRewardPool.getReward(address,address)._account (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#878) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 755,
+            "message": "Parameter ProfitSharingRewardPool.pendingReward(address,address)._account (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#755) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 772,
+            "message": "Parameter ProfitSharingRewardPool.setRewardPool(address,uint256)._startBlock (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#772) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 699,
+            "message": "Parameter ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._stakeToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#699) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 702,
+            "message": "Parameter ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._reserveFund (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#702) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 865,
+            "message": "Parameter ProfitSharingRewardPool.withdraw(uint256)._amount (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#865) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 840,
+            "message": "Parameter ProfitSharingRewardPool.deposit(uint256)._amount (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#840) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 737,
+            "message": "Parameter ProfitSharingRewardPool.getRewardPerBlock(address,uint256,uint256)._from (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#737) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 845,
+            "message": "Parameter ProfitSharingRewardPool.depositFor(address,uint256)._amount (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#845) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 721,
+            "message": "Parameter ProfitSharingRewardPool.setOperator(address)._operator (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#721) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 878,
+            "message": "Parameter ProfitSharingRewardPool.getReward(address,address)._rewardToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#878) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 931,
+            "message": "Parameter ProfitSharingRewardPool.governanceRecoverUnsupported(IERC20,uint256,address)._token (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#931) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 780,
+            "message": "Parameter ProfitSharingRewardPool.allocateMoreRewards(uint256,uint256,uint256)._days (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#780) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 736,
+            "message": "Parameter ProfitSharingRewardPool.getRewardPerBlock(address,uint256,uint256)._rewardToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#736) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 700,
+            "message": "Parameter ProfitSharingRewardPool.initialize(address,address,address,address,uint256)._wbnb (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 772,
+            "message": "Parameter ProfitSharingRewardPool.setRewardPool(address,uint256)._rewardToken (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#772) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Informational",
+            "line": 738,
+            "message": "Parameter ProfitSharingRewardPool.getRewardPerBlock(address,uint256,uint256)._to (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#738) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Optimization",
+            "line": 618,
+            "message": "ProfitSharingRewardPool.initialized (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#618) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "impact": "Optimization",
+            "line": 619,
+            "message": "ProfitSharingRewardPool.publicAllowed (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#619) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol",
+            "function": "initialize",
+            "impact": "Optimization",
+            "line": 698,
+            "line_end": 719,
+            "message": "initialize(address,address,address,address,uint256) should be declared external:\n\t- ProfitSharingRewardPool.initialize(address,address,address,address,uint256) (../..0x7a8ac384d3a9086afcc13eb58e90916f17affc89.sol#698-719)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

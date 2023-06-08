@@ -1,0 +1,1392 @@
+{
+    "errors": [],
+    "fails": [
+        "DOCKER_RECEIVED_SIGNAL_17"
+    ],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "safeGenTransfer",
+            "impact": "High",
+            "line": 1797,
+            "line_end": 1804,
+            "message": "MasterChef.safeGenTransfer(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797-1804) ignores return value by gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "safeGenTransfer",
+            "impact": "High",
+            "line": 1797,
+            "line_end": 1804,
+            "message": "MasterChef.safeGenTransfer(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797-1804) ignores return value by gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionIfNeeded",
+            "impact": "Medium",
+            "line": 1823,
+            "line_end": 1846,
+            "message": "MasterChef.updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846) performs a multiplication on the result of a division:\n\t-priceCents = busd.balanceOf(busdGenLP).mul(100).div(genBalance) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1831)\n\t-genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionIfNeeded",
+            "impact": "Medium",
+            "line": 1823,
+            "line_end": 1846,
+            "message": "MasterChef.updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846) performs a multiplication on the result of a division:\n\t-priceCents = busd.balanceOf(busdGenLP).mul(100).div(genBalance) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1831)\n\t-genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1635,
+            "line_end": 1650,
+            "message": "MasterChef.updatePool(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650) performs a multiplication on the result of a division:\n\t-genReward = blockAmount.mul(genPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1645)\n\t-pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_pendingGen",
+            "impact": "Medium",
+            "line": 1770,
+            "line_end": 1794,
+            "message": "MasterChef._pendingGen(uint256,address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1770-1794) performs a multiplication on the result of a division:\n\t-truePower = user.amount.mul(powerBonus).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1789)\n\t-user.power.mul(accGenPerPower).div(1e12).sub(user.rewardDebt) * truePower / user.power (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1790)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_pendingGen",
+            "impact": "Medium",
+            "line": 1770,
+            "line_end": 1794,
+            "message": "MasterChef._pendingGen(uint256,address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1770-1794) performs a multiplication on the result of a division:\n\t-genReward = blockAmount.mul(genPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1779)\n\t-accGenPerPower = accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1780)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "add",
+            "impact": "Medium",
+            "line": 1592,
+            "line_end": 1608,
+            "message": "Reentrancy in MasterChef.add(uint256,IERC20,uint16,bool) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592-1608):\n\tExternal calls:\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1595)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- poolInfo.push(PoolInfo(0,_lpToken,_allocPoint,lastRewardBlock,0,_depositFeeBP)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1600-1607)\n\t- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1599)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1635,
+            "line_end": 1650,
+            "message": "Reentrancy in MasterChef.updatePool(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650):\n\tExternal calls:\n\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionIfNeeded",
+            "impact": "Medium",
+            "line": 1823,
+            "line_end": 1846,
+            "message": "Reentrancy in MasterChef.updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846):\n\tExternal calls:\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1830)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1839)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1839)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)\n\t\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionRate",
+            "impact": "Medium",
+            "line": 1818,
+            "line_end": 1821,
+            "message": "Reentrancy in MasterChef.updateEmissionRate(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818-1821):\n\tExternal calls:\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1819)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- genPerBlock = _genPerBlock (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1820)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "powerUpWithNFTs",
+            "impact": "Medium",
+            "line": 1696,
+            "line_end": 1721,
+            "message": "Reentrancy in MasterChef.powerUpWithNFTs(uint256,uint256[]) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1700)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)\n\t\t- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)\n\t\t- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)\n\t\t- genPerBlock = 1e18 (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)\n\t\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n\t- updatePower(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1717)\n\t\t- pool.totalPower = pool.totalPower.add(user.power).sub(currentPower) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1737)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)\n\t\t- user.lastClaimedBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1758)\n\t- user.lastPoweredBlock += proxy.getNFTPowerBonusBlocks(nftId) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1707)\n\t- user.lastPoweredBlock = block.number + proxy.getNFTPowerBonusBlocks(nftId) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1709)\n\t- updatePower(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1717)\n\t\t- user.power = user.amount.mul(powerBonus).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1735)\n\t- user.rewardDebt = user.power.mul(pool.accGenPerPower).div(1e12) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1719)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1677,
+            "line_end": 1694,
+            "message": "Reentrancy in MasterChef.withdraw(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1682)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)\n\t\t- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)\n\t\t- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)\n\t\t- genPerBlock = 1e18 (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)\n\t\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)\n\t\t- user.lastClaimedBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1758)\n\t- user.amount = user.amount.sub(_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1686)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionIfNeeded",
+            "impact": "Medium",
+            "line": 1823,
+            "line_end": 1846,
+            "message": "Reentrancy in MasterChef.updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846):\n\tExternal calls:\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1830)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1835)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1835)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)\n\t\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1677,
+            "line_end": 1694,
+            "message": "Reentrancy in MasterChef.withdraw(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1682)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1687)\n\tState variables written after the call(s):\n\t- updatePower(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1690)\n\t\t- pool.totalPower = pool.totalPower.add(user.power).sub(currentPower) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1737)\n\t- updatePower(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1690)\n\t\t- user.power = user.amount.mul(powerBonus).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1735)\n\t- user.rewardDebt = user.power.mul(pool.accGenPerPower).div(1e12) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1692)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "claim",
+            "impact": "Medium",
+            "line": 1755,
+            "line_end": 1768,
+            "message": "Reentrancy in MasterChef.claim(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1755-1768):\n\tExternal calls:\n\t- safeGenTransfer(msg.sender,pending) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1764)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t- updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1767)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1767)\n\t\t- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)\n\t\t- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)\n\t\t- genPerBlock = 1e18 (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)\n\t- updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1767)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)\n\t\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1653,
+            "line_end": 1674,
+            "message": "Reentrancy in MasterChef.deposit(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)\n\t\t- genPerBlock = priceCents.mul(1e18).div(bottomPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1836)\n\t\t- genPerBlock = priceCents.mul(1e18).div(topPrice).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1840)\n\t\t- genPerBlock = 1e18 (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)\n\t\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)\n\t\t- user.lastClaimedBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1758)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "set",
+            "impact": "Medium",
+            "line": 1611,
+            "line_end": 1619,
+            "message": "Reentrancy in MasterChef.set(uint256,uint256,uint16,bool) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611-1619):\n\tExternal calls:\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1614)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- poolInfo[_pid].allocPoint = _allocPoint (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1617)\n\t- poolInfo[_pid].depositFeeBP = _depositFeeBP (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1618)\n\t- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1616)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1653,
+            "line_end": 1674,
+            "message": "Reentrancy in MasterChef.deposit(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1660)\n\t- pool.lpToken.safeTransfer(feeAddress,depositFee) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1663)\n\tState variables written after the call(s):\n\t- updatePower(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1670)\n\t\t- pool.totalPower = pool.totalPower.add(user.power).sub(currentPower) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1737)\n\t- user.amount = user.amount.add(_amount).sub(depositFee) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1664)\n\t- updatePower(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1670)\n\t\t- user.power = user.amount.mul(powerBonus).div(100) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1735)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionIfNeeded",
+            "impact": "Medium",
+            "line": 1823,
+            "line_end": 1846,
+            "message": "Reentrancy in MasterChef.updateEmissionIfNeeded() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1823-1846):\n\tExternal calls:\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1830)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1842)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tState variables written after the call(s):\n\t- genPerBlock = 1e18 (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1843)\n\t- massUpdatePools() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1842)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1641)\n\t\t- pool.accGenPerPower = pool.accGenPerPower.add(genReward.mul(1e12).div(pool.totalPower)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1648)\n\t\t- pool.lastRewardBlock = block.number (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1649)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1653,
+            "line_end": 1674,
+            "message": "Reentrancy in MasterChef.deposit(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1660)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.add(_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1666)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 1476,
+            "message": "OwnableToken.constructor(string,string).symbol (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1476) shadows:\n\t- ERC20.symbol() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#563-565) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1476,
+            "message": "OwnableToken.constructor(string,string).name (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1476) shadows:\n\t- ERC20.name() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#555-557) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "set",
+            "impact": "Low",
+            "line": 1611,
+            "line_end": 1619,
+            "message": "MasterChef.set(uint256,uint256,uint16,bool) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611-1619) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1616) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 1592,
+            "line_end": 1608,
+            "message": "MasterChef.add(uint256,IERC20,uint16,bool) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592-1608) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1599) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionParameters",
+            "impact": "Low",
+            "line": 1848,
+            "line_end": 1852,
+            "message": "MasterChef.updateEmissionParameters(uint256,uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848-1852) should emit an event for: \n\t- topPrice = _topPrice (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1849) \n\t- bottomPrice = _bottomPrice (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1850) \n\t- emissionUpdateInterval = _emissionUpdateInterval (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1851) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionRate",
+            "impact": "Low",
+            "line": 1818,
+            "line_end": 1821,
+            "message": "MasterChef.updateEmissionRate(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818-1821) should emit an event for: \n\t- genPerBlock = _genPerBlock (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1820) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Low",
+            "line": 1812,
+            "message": "MasterChef.setFeeAddress(address)._feeAddress (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1812) lacks a zero-check on :\n\t\t- feeAddress = _feeAddress (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1814)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Low",
+            "line": 1807,
+            "message": "MasterChef.dev(address)._devaddr (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1807) lacks a zero-check on :\n\t\t- devaddr = _devaddr (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1809)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Low",
+            "line": 1565,
+            "message": "MasterChef.constructor(GenToken,IERC20,IGenNFT,address,IProxy,address,address,uint256,uint256)._busdGenLP (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1565) lacks a zero-check on :\n\t\t- busdGenLP = _busdGenLP (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1578)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "powerUpWithNFTs",
+            "impact": "Low",
+            "line": 1696,
+            "line_end": 1721,
+            "message": "MasterChef.powerUpWithNFTs(uint256,uint256[]) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: user.lastPoweredBlock += proxy.getNFTPowerBonusBlocks(nftId) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1707)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "powerUpWithNFTs",
+            "impact": "Low",
+            "line": 1696,
+            "line_end": 1721,
+            "message": "MasterChef.powerUpWithNFTs(uint256,uint256[]) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: nft.changeType(nftId,0) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1712)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 1635,
+            "line_end": 1650,
+            "message": "MasterChef.updatePool(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650) has external calls inside a loop: gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "powerUpWithNFTs",
+            "impact": "Low",
+            "line": 1696,
+            "line_end": 1721,
+            "message": "MasterChef.powerUpWithNFTs(uint256,uint256[]) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: nft.ownerOf(nftId) == msg.sender (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1705)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 1635,
+            "line_end": 1650,
+            "message": "MasterChef.updatePool(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635-1650) has external calls inside a loop: gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "powerUpWithNFTs",
+            "impact": "Low",
+            "line": 1696,
+            "line_end": 1721,
+            "message": "MasterChef.powerUpWithNFTs(uint256,uint256[]) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721) has external calls inside a loop: user.lastPoweredBlock = block.number + proxy.getNFTPowerBonusBlocks(nftId) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1709)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1677,
+            "line_end": 1694,
+            "message": "Reentrancy in MasterChef.withdraw(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1682)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1683)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1687)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_pid,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1693)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Low",
+            "line": 1741,
+            "line_end": 1753,
+            "message": "Reentrancy in MasterChef.emergencyWithdraw(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1741-1753):\n\tExternal calls:\n\t- pool.lpToken.safeTransfer(address(msg.sender),amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1751)\n\tEvent emitted after the call(s):\n\t- EmergencyWithdraw(msg.sender,_pid,amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1752)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1653,
+            "line_end": 1674,
+            "message": "Reentrancy in MasterChef.deposit(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1656)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1657)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1660)\n\t- pool.lpToken.safeTransfer(feeAddress,depositFee) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1663)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_pid,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1673)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "powerUpWithNFTs",
+            "impact": "Low",
+            "line": 1696,
+            "line_end": 1721,
+            "message": "Reentrancy in MasterChef.powerUpWithNFTs(uint256,uint256[]) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1700)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\t- claim(_pid) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1701)\n\t\t- gen.transfer(_to,genBal) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1800)\n\t\t- gen.transfer(_to,_amount) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1802)\n\t\t- gen.mint(devaddr,genReward.div(10)) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1646)\n\t\t- gen.mint(address(this),genReward) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1647)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_pid,1) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1720)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 977,
+            "line_end": 994,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#977-994) uses assembly\n\t- INLINE ASM (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#986-989)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 832,
+            "line_end": 841,
+            "message": "Address.isContract(address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#832-841) uses assembly\n\t- INLINE ASM (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#839)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 1306,
+            "line_end": 1311,
+            "message": "SafeMath.tryDiv(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1306-1311) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_contains",
+            "impact": "Informational",
+            "line": 238,
+            "line_end": 240,
+            "message": "EnumerableSet._contains(EnumerableSet.Set,bytes32) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#238-240) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 300,
+            "line_end": 302,
+            "message": "EnumerableSet.length(EnumerableSet.Bytes32Set) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#300-302) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 314,
+            "line_end": 316,
+            "message": "EnumerableSet.at(EnumerableSet.Bytes32Set,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#314-316) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 859,
+            "line_end": 865,
+            "message": "Address.sendValue(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#859-865) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 910,
+            "line_end": 912,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#910-912) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_length",
+            "impact": "Informational",
+            "line": 245,
+            "line_end": 247,
+            "message": "EnumerableSet._length(EnumerableSet.Set) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#245-247) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_at",
+            "impact": "Informational",
+            "line": 259,
+            "line_end": 262,
+            "message": "EnumerableSet._at(EnumerableSet.Set,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#259-262) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 395,
+            "line_end": 397,
+            "message": "EnumerableSet.remove(EnumerableSet.UintSet,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#395-397) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 293,
+            "line_end": 295,
+            "message": "EnumerableSet.contains(EnumerableSet.Bytes32Set,bytes32) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#293-295) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 1318,
+            "line_end": 1323,
+            "message": "SafeMath.tryMod(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1318-1323) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 969,
+            "line_end": 975,
+            "message": "Address.functionDelegateCall(address,bytes,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#969-975) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "sub",
+            "impact": "Informational",
+            "line": 1410,
+            "line_end": 1415,
+            "message": "SafeMath.sub(uint256,uint256,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1410-1415) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 959,
+            "line_end": 961,
+            "message": "Address.functionDelegateCall(address,bytes) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#959-961) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 1036,
+            "line_end": 1039,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1036-1039) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 402,
+            "line_end": 404,
+            "message": "EnumerableSet.contains(EnumerableSet.UintSet,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#402-404) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 340,
+            "line_end": 342,
+            "message": "EnumerableSet.remove(EnumerableSet.AddressSet,address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#340-342) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 1025,
+            "line_end": 1034,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1025-1034) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 1264,
+            "line_end": 1270,
+            "message": "SafeMath.tryAdd(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1264-1270) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 1455,
+            "line_end": 1460,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1455-1460) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 368,
+            "line_end": 370,
+            "message": "EnumerableSet.at(EnumerableSet.AddressSet,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#368-370) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "contains",
+            "impact": "Informational",
+            "line": 347,
+            "line_end": 349,
+            "message": "EnumerableSet.contains(EnumerableSet.AddressSet,address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#347-349) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 1433,
+            "line_end": 1438,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1433-1438) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 354,
+            "line_end": 356,
+            "message": "EnumerableSet.length(EnumerableSet.AddressSet) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#354-356) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 276,
+            "line_end": 278,
+            "message": "EnumerableSet.add(EnumerableSet.Bytes32Set,bytes32) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#276-278) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 121,
+            "line_end": 124,
+            "message": "Context._msgData() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#121-124) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 935,
+            "line_end": 937,
+            "message": "Address.functionStaticCall(address,bytes) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#935-937) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 1393,
+            "line_end": 1395,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1393-1395) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_add",
+            "impact": "Informational",
+            "line": 183,
+            "line_end": 193,
+            "message": "EnumerableSet._add(EnumerableSet.Set,bytes32) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#183-193) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 1289,
+            "line_end": 1299,
+            "message": "SafeMath.tryMul(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1289-1299) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 1277,
+            "line_end": 1282,
+            "message": "SafeMath.trySub(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1277-1282) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "length",
+            "impact": "Informational",
+            "line": 409,
+            "line_end": 411,
+            "message": "EnumerableSet.length(EnumerableSet.UintSet) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#409-411) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 1041,
+            "line_end": 1048,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1041-1048) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "at",
+            "impact": "Informational",
+            "line": 423,
+            "line_end": 425,
+            "message": "EnumerableSet.at(EnumerableSet.UintSet,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#423-425) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 330,
+            "line_end": 332,
+            "message": "EnumerableSet.add(EnumerableSet.AddressSet,address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#330-332) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 945,
+            "line_end": 951,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#945-951) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "_remove",
+            "impact": "Informational",
+            "line": 201,
+            "line_end": 233,
+            "message": "EnumerableSet._remove(EnumerableSet.Set,bytes32) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#201-233) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "add",
+            "impact": "Informational",
+            "line": 385,
+            "line_end": 387,
+            "message": "EnumerableSet.add(EnumerableSet.UintSet,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#385-387) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "remove",
+            "impact": "Informational",
+            "line": 286,
+            "line_end": 288,
+            "message": "EnumerableSet.remove(EnumerableSet.Bytes32Set,bytes32) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#286-288) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 885,
+            "line_end": 887,
+            "message": "Address.functionCall(address,bytes) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#885-887) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Pragma version^0.8.0 (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#3) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "message": "solc-0.8.19 is not recommended for deployment\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 859,
+            "line_end": 865,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#859-865):\n\t- (success) = recipient.call{value: amount}() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#863)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 920,
+            "line_end": 927,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#920-927):\n\t- (success,returndata) = target.call{value: value}(data) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#925)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 969,
+            "line_end": 975,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#969-975):\n\t- (success,returndata) = target.delegatecall(data) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#973)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 945,
+            "line_end": 951,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#945-951):\n\t- (success,returndata) = target.staticcall(data) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#949)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1848,
+            "message": "Parameter MasterChef.updateEmissionParameters(uint256,uint256,uint256)._emissionUpdateInterval (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1611,
+            "message": "Parameter MasterChef.set(uint256,uint256,uint16,bool)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1741,
+            "message": "Parameter MasterChef.emergencyWithdraw(uint256)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1741) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1611,
+            "message": "Parameter MasterChef.set(uint256,uint256,uint16,bool)._depositFeeBP (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1653,
+            "message": "Parameter MasterChef.deposit(uint256,uint256)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1807,
+            "message": "Parameter MasterChef.dev(address)._devaddr (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1807) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1592,
+            "message": "Parameter MasterChef.add(uint256,IERC20,uint16,bool)._depositFeeBP (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1635,
+            "message": "Parameter MasterChef.updatePool(uint256)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1635) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1696,
+            "message": "Parameter MasterChef.powerUpWithNFTs(uint256,uint256[])._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1592,
+            "message": "Parameter MasterChef.add(uint256,IERC20,uint16,bool)._allocPoint (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1696,
+            "message": "Parameter MasterChef.powerUpWithNFTs(uint256,uint256[])._nftIds (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1797,
+            "message": "Parameter MasterChef.safeGenTransfer(address,uint256)._amount (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1797,
+            "message": "Parameter MasterChef.safeGenTransfer(address,uint256)._to (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1797) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1653,
+            "message": "Parameter MasterChef.deposit(uint256,uint256)._amount (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1611,
+            "message": "Parameter MasterChef.set(uint256,uint256,uint16,bool)._allocPoint (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1622,
+            "message": "Parameter MasterChef.pendingGen(uint256,address)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1622) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1677,
+            "message": "Parameter MasterChef.withdraw(uint256,uint256)._amount (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1755,
+            "message": "Parameter MasterChef.claim(uint256)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1755) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1854,
+            "message": "Parameter MasterChef.setProxy(IProxy)._proxy (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1854) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1592,
+            "message": "Parameter MasterChef.add(uint256,IERC20,uint16,bool)._withUpdate (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1848,
+            "message": "Parameter MasterChef.updateEmissionParameters(uint256,uint256,uint256)._bottomPrice (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1818,
+            "message": "Parameter MasterChef.updateEmissionRate(uint256)._genPerBlock (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1677,
+            "message": "Parameter MasterChef.withdraw(uint256,uint256)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1611,
+            "message": "Parameter MasterChef.set(uint256,uint256,uint16,bool)._withUpdate (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1592,
+            "message": "Parameter MasterChef.add(uint256,IERC20,uint16,bool)._lpToken (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1848,
+            "message": "Parameter MasterChef.updateEmissionParameters(uint256,uint256,uint256)._topPrice (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1723,
+            "message": "Parameter MasterChef.updatePower(uint256)._pid (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1723) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1622,
+            "message": "Parameter MasterChef.pendingGen(uint256,address)._user (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1622) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 1812,
+            "message": "Parameter MasterChef.setFeeAddress(address)._feeAddress (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1812) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "impact": "Informational",
+            "line": 122,
+            "message": "Redundant expression \"this (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#122)\" inContext (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#116-125)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 643,
+            "line_end": 651,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#643-651)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 1677,
+            "line_end": 1694,
+            "message": "withdraw(uint256,uint256) should be declared external:\n\t- MasterChef.withdraw(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1677-1694)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "dev",
+            "impact": "Optimization",
+            "line": 1807,
+            "line_end": 1810,
+            "message": "dev(address) should be declared external:\n\t- MasterChef.dev(address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1807-1810)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 481,
+            "line_end": 484,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#481-484)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "mint",
+            "impact": "Optimization",
+            "line": 1478,
+            "line_end": 1480,
+            "message": "mint(address,uint256) should be declared external:\n\t- OwnableToken.mint(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1478-1480)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionRate",
+            "impact": "Optimization",
+            "line": 1818,
+            "line_end": 1821,
+            "message": "updateEmissionRate(uint256) should be declared external:\n\t- MasterChef.updateEmissionRate(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1818-1821)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 580,
+            "line_end": 582,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#580-582)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 684,
+            "line_end": 690,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#684-690)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 563,
+            "line_end": 565,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#563-565)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 594,
+            "line_end": 596,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#594-596)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 606,
+            "line_end": 609,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#606-609)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 665,
+            "line_end": 668,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#665-668)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "deposit",
+            "impact": "Optimization",
+            "line": 1653,
+            "line_end": 1674,
+            "message": "deposit(uint256,uint256) should be declared external:\n\t- MasterChef.deposit(uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1653-1674)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 490,
+            "line_end": 494,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#490-494)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "burn",
+            "impact": "Optimization",
+            "line": 1482,
+            "line_end": 1484,
+            "message": "burn(address,uint256) should be declared external:\n\t- OwnableToken.burn(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1482-1484)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Optimization",
+            "line": 1741,
+            "line_end": 1753,
+            "message": "emergencyWithdraw(uint256) should be declared external:\n\t- MasterChef.emergencyWithdraw(uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1741-1753)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 555,
+            "line_end": 557,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#555-557)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "updateEmissionParameters",
+            "impact": "Optimization",
+            "line": 1848,
+            "line_end": 1852,
+            "message": "updateEmissionParameters(uint256,uint256,uint256) should be declared external:\n\t- MasterChef.updateEmissionParameters(uint256,uint256,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1848-1852)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "powerUpWithNFTs",
+            "impact": "Optimization",
+            "line": 1696,
+            "line_end": 1721,
+            "message": "powerUpWithNFTs(uint256,uint256[]) should be declared external:\n\t- MasterChef.powerUpWithNFTs(uint256,uint256[]) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1696-1721)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 587,
+            "line_end": 589,
+            "message": "totalSupply() should be declared external:\n\t- ERC20.totalSupply() (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#587-589)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 625,
+            "line_end": 628,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#625-628)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "add",
+            "impact": "Optimization",
+            "line": 1592,
+            "line_end": 1608,
+            "message": "add(uint256,IERC20,uint16,bool) should be declared external:\n\t- MasterChef.add(uint256,IERC20,uint16,bool) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1592-1608)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "set",
+            "impact": "Optimization",
+            "line": 1611,
+            "line_end": 1619,
+            "message": "set(uint256,uint256,uint16,bool) should be declared external:\n\t- MasterChef.set(uint256,uint256,uint16,bool) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1611-1619)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "onERC721Received",
+            "impact": "Optimization",
+            "line": 1109,
+            "line_end": 1111,
+            "message": "onERC721Received(address,address,uint256,bytes) should be declared external:\n\t- ERC721Holder.onERC721Received(address,address,uint256,bytes) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1109-1111)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "setFeeAddress",
+            "impact": "Optimization",
+            "line": 1812,
+            "line_end": 1815,
+            "message": "setFeeAddress(address) should be declared external:\n\t- MasterChef.setFeeAddress(address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1812-1815)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 614,
+            "line_end": 616,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#614-616)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol",
+            "function": "setProxy",
+            "impact": "Optimization",
+            "line": 1854,
+            "line_end": 1856,
+            "message": "setProxy(IProxy) should be declared external:\n\t- MasterChef.setProxy(IProxy) (../..0xf1f8e3ff67e386165e05b2b795097e95aac899f0.sol#1854-1856)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

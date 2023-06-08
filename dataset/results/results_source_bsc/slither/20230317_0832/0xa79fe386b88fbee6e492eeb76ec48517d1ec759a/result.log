@@ -1,0 +1,90 @@
+[93m
+WUSDMaster.stake(uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#694-714) ignores return value by usdt.approve(address(wswapRouter),wexAmount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#703)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+WUSDMaster.setTreasuryAddress(address)._treasury (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#676) lacks a zero-check on :
+		- treasury = _treasury (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#677)
+WUSDMaster.setStrategistAddress(address)._strategist (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#682) lacks a zero-check on :
+		- strategist = _strategist (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#683)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in WUSDMaster.redeem(uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#716-726):
+	External calls:
+	- wusd.burn(msg.sender,amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#720)
+	- usdt.safeTransfer(treasury,usdtTreasuryAmount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#721)
+	- usdt.safeTransfer(msg.sender,usdtTransferAmount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#722)
+	- wex.safeTransfer(msg.sender,wexTransferAmount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#723)
+	Event emitted after the call(s):
+	- Redeem(msg.sender,amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#725)
+Reentrancy in WUSDMaster.stake(uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#694-714):
+	External calls:
+	- usdt.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#696)
+	- usdt.safeTransfer(treasury,feeAmount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#699)
+	- usdt.approve(address(wswapRouter),wexAmount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#703)
+	- wswapRouter.swapExactTokensForTokensSupportingFeeOnTransferTokens(wexAmount,0,swapPath,address(this),block.timestamp) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#704-710)
+	- wusd.mint(msg.sender,amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#711)
+	Event emitted after the call(s):
+	- Stake(msg.sender,amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#713)
+Reentrancy in WUSDMaster.withdrawUsdt(uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#728-733):
+	External calls:
+	- usdt.safeTransfer(strategist,amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#730)
+	Event emitted after the call(s):
+	- UsdtWithdrawn(amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#732)
+Reentrancy in WUSDMaster.withdrawWex(uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#735-739):
+	External calls:
+	- wex.safeTransfer(msg.sender,amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#736)
+	Event emitted after the call(s):
+	- WexWithdrawn(amount) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#738)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#308-318) uses assembly
+	- INLINE ASM (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#314-316)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#471-491) uses assembly
+	- INLINE ASM (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#483-486)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#361-363) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#390-396) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#450-452) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#460-469) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#423-425) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#433-442) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#336-341) is never used and should be removed
+Context._msgData() (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#20-22) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#530-543) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#554-565) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#545-552) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#336-341):
+	- (success) = recipient.call{value: amount}() (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#339)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#404-415):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#413)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#433-442):
+	- (success,returndata) = target.staticcall(data) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#440)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#460-469):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#467)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter WUSDMaster.setSwapPath(address[])._swapPath (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#649) is not in mixedCase
+Parameter WUSDMaster.setWexPermille(uint256)._wexPermille (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#655) is not in mixedCase
+Parameter WUSDMaster.setTreasuryPermille(uint256)._treasuryPermille (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#662) is not in mixedCase
+Parameter WUSDMaster.setFeePermille(uint256)._feePermille (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#669) is not in mixedCase
+Parameter WUSDMaster.setTreasuryAddress(address)._treasury (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#676) is not in mixedCase
+Parameter WUSDMaster.setStrategistAddress(address)._strategist (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#682) is not in mixedCase
+Parameter WUSDMaster.setMaxStakeAmount(uint256)._maxStakeAmount (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#688) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#71-73)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#79-82)
+withdrawer() should be declared external:
+	- Withdrawable.withdrawer() (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#126-128)
+transferWithdrawership(address) should be declared external:
+	- Withdrawable.transferWithdrawership(address) (../../sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol#142-147)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xa79fe386b88fbee6e492eeb76ec48517d1ec759a.sol analyzed (10 contracts with 78 detectors), 36 result(s) found

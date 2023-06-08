@@ -1,0 +1,237 @@
+[91m
+OlympusBondDepository.stakeOrSend(address,bool,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#917-930) ignores return value by IERC20(OHM).transfer(_recipient,_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#919)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#526)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#527)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#528)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#529)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#530)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#531)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#532)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#522)
+	-r *= 2 - d * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#533)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#516-535) performs a multiplication on the result of a division:
+	-l /= pow2 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#523)
+	-l * r (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#534)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Reentrancy in OlympusBondDepository.deposit(uint256,uint256,address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#817-872):
+	External calls:
+	- IERC20(principle).safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#847)
+	- IERC20(principle).approve(address(treasury),_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#848)
+	- ITreasury(treasury).deposit(_amount,principle,profit) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#849)
+	- IERC20(OHM).safeTransfer(DAO,fee) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#852)
+	State variables written after the call(s):
+	- BondPriceChanged(bondPriceInUSD(),_bondPrice(),debtRatio()) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#868)
+		- terms.minimumPrice = 0 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#1006)
+	- adjust() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#870)
+		- terms.controlVariable = terms.controlVariable.add(adjustment.rate) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#940)
+		- terms.controlVariable = terms.controlVariable.sub(adjustment.rate) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#945)
+	- totalDebt = totalDebt.add(value) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#856)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+OlympusBondDepository.deposit(uint256,uint256,address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#817-872) ignores return value by IERC20(principle).approve(address(treasury),_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#848)
+OlympusBondDepository.deposit(uint256,uint256,address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#817-872) ignores return value by ITreasury(treasury).deposit(_amount,principle,profit) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#849)
+OlympusBondDepository.stakeOrSend(address,bool,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#917-930) ignores return value by IERC20(OHM).approve(stakingHelper,_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#922)
+OlympusBondDepository.stakeOrSend(address,bool,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#917-930) ignores return value by IERC20(OHM).approve(staking,_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#925)
+OlympusBondDepository.stakeOrSend(address,bool,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#917-930) ignores return value by IStaking(staking).stake(_amount,_recipient) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#926)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#717-737) should emit an event for: 
+	- totalDebt = _initialDebt (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#735) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+OlympusBondDepository.constructor(address,address,address,address,address)._bondCalculator (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#692) lacks a zero-check on :
+		- bondCalculator = _bondCalculator (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#703)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in OlympusBondDepository.deposit(uint256,uint256,address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#817-872):
+	External calls:
+	- IERC20(principle).safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#847)
+	- IERC20(principle).approve(address(treasury),_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#848)
+	- ITreasury(treasury).deposit(_amount,principle,profit) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#849)
+	- IERC20(OHM).safeTransfer(DAO,fee) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#852)
+	State variables written after the call(s):
+	- adjust() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#870)
+		- adjustment.rate = 0 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#942)
+		- adjustment.rate = 0 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#947)
+		- adjustment.lastBlock = block.number (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#950)
+	- bondInfo[_depositor] = Bond(bondInfo[_depositor].payout.add(payout),terms.vestingTerm,block.number,priceInUSD) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#859-864)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in OlympusBondDepository.deposit(uint256,uint256,address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#817-872):
+	External calls:
+	- IERC20(principle).safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#847)
+	- IERC20(principle).approve(address(treasury),_amount) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#848)
+	- ITreasury(treasury).deposit(_amount,principle,profit) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#849)
+	- IERC20(OHM).safeTransfer(DAO,fee) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#852)
+	Event emitted after the call(s):
+	- BondCreated(_amount,payout,block.number.add(terms.vestingTerm),priceInUSD) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#867)
+	- BondPriceChanged(bondPriceInUSD(),_bondPrice(),debtRatio()) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#868)
+	- ControlVariableAdjustment(initial,terms.controlVariable,adjustment.rate,adjustment.add) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#951)
+		- adjust() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#870)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#440-461) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp <= deadline,Permit: expired deadline) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#449)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#124-130) uses assembly
+	- INLINE ASM (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#128)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#161-182) uses assembly
+	- INLINE ASM (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#174-177)
+Address._verifyCallResult(bool,bytes,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#208-222) uses assembly
+	- INLINE ASM (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#214-217)
+ERC20Permit.constructor() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#423-438) uses assembly
+	- INLINE ASM (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#425-427)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address._verifyCallResult(bool,bytes,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#208-222) is never used and should be removed
+Address.addressToString(address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#224-239) is never used and should be removed
+Address.functionCall(address,bytes) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#140-142) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#148-150) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#152-159) is never used and should be removed
+Address.functionDelegateCall(address,bytes) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#196-198) is never used and should be removed
+Address.functionDelegateCall(address,bytes,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#200-206) is never used and should be removed
+Address.functionStaticCall(address,bytes) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#184-186) is never used and should be removed
+Address.functionStaticCall(address,bytes,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#188-194) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#132-138) is never used and should be removed
+Counters.decrement(Counters.Counter) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#408-410) is never used and should be removed
+ERC20._burn(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#356-364) is never used and should be removed
+ERC20._mint(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#348-354) is never used and should be removed
+FixedPoint.decode(FixedPoint.uq112x112) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#566-568) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#480-486) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#493-496) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#488-491) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#99-101) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#103-106) is never used and should be removed
+SafeMath.sqrrt(uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#108-119) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#132-138):
+	- (success) = recipient.call{value: amount}() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#136)
+Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#152-159):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#157)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#161-182):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#165)
+Low level call in Address.functionStaticCall(address,bytes,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#188-194):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#192)
+Low level call in Address.functionDelegateCall(address,bytes,string) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#200-206):
+	- (success,returndata) = target.delegatecall(data) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#204)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable Ownable._owner (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#20) is not in mixedCase
+Variable Ownable._newOwner (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#21) is not in mixedCase
+Parameter Address.addressToString(address)._address (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#224) is not in mixedCase
+Variable ERC20._balances (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#269) is not in mixedCase
+Variable ERC20._allowances (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#271) is not in mixedCase
+Variable ERC20._totalSupply (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#273) is not in mixedCase
+Variable ERC20._name (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#275) is not in mixedCase
+Variable ERC20._symbol (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#277) is not in mixedCase
+Variable ERC20._decimals (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#279) is not in mixedCase
+Variable ERC20Permit.DOMAIN_SEPARATOR (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#421) is not in mixedCase
+Struct FixedPoint.uq112x112 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#553-555) is not in CapWords
+Struct FixedPoint.uq144x112 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#557-559) is not in CapWords
+Parameter IBondCalculator.valuation(address,uint256)._LP (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#597) is not in mixedCase
+Parameter IBondCalculator.markdown(address)._LP (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#598) is not in mixedCase
+Parameter OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)._controlVariable (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#718) is not in mixedCase
+Parameter OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)._vestingTerm (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#719) is not in mixedCase
+Parameter OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)._minimumPrice (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#720) is not in mixedCase
+Parameter OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)._maxPayout (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#721) is not in mixedCase
+Parameter OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)._fee (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#722) is not in mixedCase
+Parameter OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)._maxDebt (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#723) is not in mixedCase
+Parameter OlympusBondDepository.initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)._initialDebt (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#724) is not in mixedCase
+Parameter OlympusBondDepository.setBondTerms(OlympusBondDepository.PARAMETER,uint256)._parameter (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#750) is not in mixedCase
+Parameter OlympusBondDepository.setBondTerms(OlympusBondDepository.PARAMETER,uint256)._input (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#750) is not in mixedCase
+Parameter OlympusBondDepository.setAdjustment(bool,uint256,uint256,uint256)._addition (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#773) is not in mixedCase
+Parameter OlympusBondDepository.setAdjustment(bool,uint256,uint256,uint256)._increment (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#774) is not in mixedCase
+Parameter OlympusBondDepository.setAdjustment(bool,uint256,uint256,uint256)._target (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#775) is not in mixedCase
+Parameter OlympusBondDepository.setAdjustment(bool,uint256,uint256,uint256)._buffer (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#776) is not in mixedCase
+Parameter OlympusBondDepository.setStaking(address,bool)._staking (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#794) is not in mixedCase
+Parameter OlympusBondDepository.setStaking(address,bool)._helper (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#794) is not in mixedCase
+Parameter OlympusBondDepository.deposit(uint256,uint256,address)._amount (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#818) is not in mixedCase
+Parameter OlympusBondDepository.deposit(uint256,uint256,address)._maxPrice (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#819) is not in mixedCase
+Parameter OlympusBondDepository.deposit(uint256,uint256,address)._depositor (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#820) is not in mixedCase
+Parameter OlympusBondDepository.redeem(address,bool)._recipient (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#880) is not in mixedCase
+Parameter OlympusBondDepository.redeem(address,bool)._stake (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#880) is not in mixedCase
+Parameter OlympusBondDepository.stakeOrSend(address,bool,uint256)._recipient (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#917) is not in mixedCase
+Parameter OlympusBondDepository.stakeOrSend(address,bool,uint256)._stake (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#917) is not in mixedCase
+Parameter OlympusBondDepository.stakeOrSend(address,bool,uint256)._amount (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#917) is not in mixedCase
+Parameter OlympusBondDepository.payoutFor(uint256)._value (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#981) is not in mixedCase
+Parameter OlympusBondDepository.percentVestedFor(address)._depositor (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#1073) is not in mixedCase
+Parameter OlympusBondDepository.pendingPayoutFor(address)._depositor (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#1090) is not in mixedCase
+Parameter OlympusBondDepository.recoverLostToken(address)._token (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#1110) is not in mixedCase
+Variable OlympusBondDepository.OHM (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#630) is not in mixedCase
+Variable OlympusBondDepository.DAO (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#633) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+FixedPoint.slitherConstructorConstantVariables() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#551-589) uses literals with too many digits:
+	- Q112 = 0x10000000000000000000000000000 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#562)
+FixedPoint.slitherConstructorConstantVariables() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#551-589) uses literals with too many digits:
+	- Q224 = 0x100000000000000000000000000000000000000000000000000000000 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#563)
+OlympusBondDepository.deposit(uint256,uint256,address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#817-872) uses literals with too many digits:
+	- require(bool,string)(payout >= 10000000,Bond too small) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#835)
+OlympusBondDepository.maxPayout() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#972-974) uses literals with too many digits:
+	- IERC20(OHM).totalSupply().mul(terms.maxPayout).div(100000) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#973)
+OlympusBondDepository.bondPrice() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#990-995) uses literals with too many digits:
+	- price_ = terms.controlVariable.mul(debtRatio()).add(1000000000).div(1e7) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#991)
+OlympusBondDepository._bondPrice() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#1001-1008) uses literals with too many digits:
+	- price_ = terms.controlVariable.mul(debtRatio()).add(1000000000).div(1e7) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#1002)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+ERC20.ERC20TOKEN_ERC1820_INTERFACE_ID (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#267) is never used in ERC20Permit (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#413-466)
+FixedPoint.Q224 (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#563) is never used in FixedPoint (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#551-589)
+FixedPoint.LOWER_MASK (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#564) is never used in FixedPoint (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#551-589)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+policy() should be declared external:
+	- Ownable.policy() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#31-33)
+renounceManagement() should be declared external:
+	- Ownable.renounceManagement() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#40-43)
+pushManagement(address) should be declared external:
+	- Ownable.pushManagement(address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#45-49)
+pullManagement() should be declared external:
+	- Ownable.pullManagement() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#51-55)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#291-293)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#295-297)
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#299-301)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#303-305)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#307-310)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#312-314)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#316-319)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#321-325)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#327-330)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#332-335)
+permit(address,address,uint256,uint256,uint8,bytes32,bytes32) should be declared external:
+	- ERC20Permit.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#440-461)
+nonces(address) should be declared external:
+	- ERC20Permit.nonces(address) (../../sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol#463-465)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x956c43998316b6a2f21f89a1539f73fb5b78c151.sol analyzed (17 contracts with 78 detectors), 118 result(s) found

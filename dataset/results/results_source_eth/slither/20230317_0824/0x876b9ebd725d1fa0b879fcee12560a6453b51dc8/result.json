@@ -1,0 +1,640 @@
+{
+    "errors": [
+        "EXIT_CODE_72"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "findMethod",
+            "impact": "Medium",
+            "line": 429,
+            "line_end": 442,
+            "message": "LibFindMethod.findMethod(bytes) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#429-442) is declared view but contains assembly code\n",
+            "name": "constant-function-asm"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "changeDragoDao",
+            "impact": "Medium",
+            "line": 703,
+            "line_end": 710,
+            "message": "Reentrancy in Drago.changeDragoDao(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#703-710):\n\tExternal calls:\n\t- events = DragoEventful(getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#707)\n\t\t- auth.getDragoEventful() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)\n\t- require(bool)(events.changeDragoDao(msg.sender,this,_dragoDao)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#708)\n\tState variables written after the call(s):\n\t- admin.dragoDao = _dragoDao (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#709)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "changeFeeCollector",
+            "impact": "Medium",
+            "line": 692,
+            "line_end": 699,
+            "message": "Reentrancy in Drago.changeFeeCollector(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#692-699):\n\tExternal calls:\n\t- events = DragoEventful(getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#696)\n\t\t- auth.getDragoEventful() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)\n\t- events.changeFeeCollector(msg.sender,this,_feeCollector) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#697)\n\tState variables written after the call(s):\n\t- admin.feeCollector = _feeCollector (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#698)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "batchOperateOnExchange",
+            "impact": "Medium",
+            "line": 813,
+            "line_end": 824,
+            "message": "Reentrancy in Drago.batchOperateOnExchange(address,Drago.Transaction[]) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#813-824):\n\tExternal calls:\n\t- ! operateOnExchange(_exchange,transactions[i]) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#822)\n\t\t- approvedExchange = ExchangesAuthority(getExchangesAuthority()).isWhitelistedExchange(_target) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#508-509)\n\t\t- ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).isMethodAllowed(_method,_adapter) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1212-1215)\n\t\t- Authority(admin.authority).getExchangesAuthority() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1174)\n\t\t- ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).getExchangeAdapter(_exchange) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1185-1188)\n\t\t- approvedWrapper = ExchangesAuthority(getExchangesAuthority()).isWhitelistedWrapper(_target) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#510-511)\n\t- whenApprovedExchangeOrWrapper(_exchange) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#819)\n\t\t- Authority(admin.authority).getExchangesAuthority() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1174)\n\t\t- approvedExchange = ExchangesAuthority(getExchangesAuthority()).isWhitelistedExchange(_target) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#508-509)\n\t\t- approvedWrapper = ExchangesAuthority(getExchangesAuthority()).isWhitelistedWrapper(_target) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#510-511)\n\tState variables written after the call(s):\n\t- ! operateOnExchange(_exchange,transactions[i]) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#822)\n\t\t- locked = true (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#369)\n\t\t- locked = false (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#375)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "changeRatio",
+            "impact": "Medium",
+            "line": 669,
+            "line_end": 676,
+            "message": "Reentrancy in Drago.changeRatio(uint256) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#669-676):\n\tExternal calls:\n\t- events = DragoEventful(getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#673)\n\t\t- auth.getDragoEventful() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)\n\t- require(bool)(events.changeRatio(msg.sender,this,_ratio)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#674)\n\tState variables written after the call(s):\n\t- admin.ratio = _ratio (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#675)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "buyDragoInternal",
+            "impact": "Medium",
+            "line": 963,
+            "line_end": 979,
+            "message": "Reentrancy in Drago.buyDragoInternal(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#963-979):\n\tExternal calls:\n\t- require(bool)(Kyc(admin.kycProvider).isWhitelistedUser(_hodler)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#968)\n\t- addPurchaseLog(amount) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#975)\n\t\t- events = DragoEventful(auth.getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1024)\n\t\t- require(bool)(events.buyDrago(msg.sender,this,msg.value,_amount,name,symbol)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1025)\n\tState variables written after the call(s):\n\t- data.totalSupply = safeAdd(data.totalSupply,grossAmount) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#977)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "setPrices",
+            "impact": "Medium",
+            "line": 640,
+            "line_end": 665,
+            "message": "Reentrancy in Drago.setPrices(uint256,uint256,uint256,bytes32,bytes) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#640-665):\n\tExternal calls:\n\t- require(bool)(isValidNav(_newSellPrice,_newBuyPrice,_signaturevaliduntilBlock,_hash,_signedData)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#652-660)\n\t\t- isValid = NavVerifier(getNavVerifier()).isValidNav(sellPrice,buyPrice,signaturevaliduntilBlock,hash,signedData) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1157-1163)\n\t\t- Authority(admin.authority).getNavVerifier() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1136-1137)\n\t- events = DragoEventful(getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#661)\n\t\t- auth.getDragoEventful() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)\n\t- require(bool)(events.setDragoPrice(msg.sender,this,_newSellPrice,_newBuyPrice)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#662)\n\t- onlyOwnerOrAuthority() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#648)\n\t\t- require(bool)(auth.isAuthority(msg.sender) || msg.sender == owner) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#503)\n\tState variables written after the call(s):\n\t- data.sellPrice = _newSellPrice (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#663)\n\t- data.buyPrice = _newBuyPrice (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#664)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "sellDrago",
+            "impact": "Medium",
+            "line": 614,
+            "line_end": 632,
+            "message": "Reentrancy in Drago.sellDrago(uint256) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#614-632):\n\tExternal calls:\n\t- addSaleLog(_amount,netRevenue) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#627)\n\t\t- events = DragoEventful(auth.getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1037)\n\t\t- require(bool)(events.sellDrago(msg.sender,this,_amount,_netRevenue,name,symbol)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1038)\n\tState variables written after the call(s):\n\t- allocateSaleTokens(msg.sender,_amount,feeDrago,feeDragoDao) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#628)\n\t\t- accounts[_hodler].balance = safeSub(accounts[_hodler].balance,_amount) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1011)\n\t\t- accounts[admin.feeCollector].balance = safeAdd(accounts[admin.feeCollector].balance,_feeDrago) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1012)\n\t\t- accounts[admin.dragoDao].balance = safeAdd(accounts[admin.dragoDao].balance,_feeDragoDao) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1013)\n\t- data.totalSupply = safeSub(data.totalSupply,netAmount) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#629)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "changeFeeCollector",
+            "impact": "Medium",
+            "line": 692,
+            "line_end": 699,
+            "message": "Drago.changeFeeCollector(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#692-699) ignores return value by events.changeFeeCollector(msg.sender,this,_feeCollector) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#697)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Low",
+            "line": 557,
+            "message": "Drago.constructor(string,string,uint256,address,address)._owner (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#557) lacks a zero-check on :\n\t\t- owner = _owner (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#566)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "whenApprovedExchangeOrWrapper",
+            "impact": "Low",
+            "line": 507,
+            "line_end": 514,
+            "message": "Drago.whenApprovedExchangeOrWrapper(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#507-514) has external calls inside a loop: approvedExchange = ExchangesAuthority(getExchangesAuthority()).isWhitelistedExchange(_target) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#508-509)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "methodAllowedOnExchange",
+            "impact": "Low",
+            "line": 1205,
+            "line_end": 1216,
+            "message": "Drago.methodAllowedOnExchange(bytes4,address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1205-1216) has external calls inside a loop: ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).isMethodAllowed(_method,_adapter) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1212-1215)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "whenApprovedExchangeOrWrapper",
+            "impact": "Low",
+            "line": 507,
+            "line_end": 514,
+            "message": "Drago.whenApprovedExchangeOrWrapper(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#507-514) has external calls inside a loop: approvedWrapper = ExchangesAuthority(getExchangesAuthority()).isWhitelistedWrapper(_target) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#510-511)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "setAllowancesInternal",
+            "impact": "Low",
+            "line": 1044,
+            "line_end": 1054,
+            "message": "Drago.setAllowancesInternal(address,address,uint256) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1044-1054) has external calls inside a loop: require(bool)(Token(_token).approve(_tokenTransferProxy,_amount)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1051-1052)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "getExchangesAuthority",
+            "impact": "Low",
+            "line": 1169,
+            "line_end": 1175,
+            "message": "Drago.getExchangesAuthority() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1169-1175) has external calls inside a loop: Authority(admin.authority).getExchangesAuthority() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1174)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "getExchangeAdapter",
+            "impact": "Low",
+            "line": 1180,
+            "line_end": 1189,
+            "message": "Drago.getExchangeAdapter(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1180-1189) has external calls inside a loop: ExchangesAuthority(Authority(admin.authority).getExchangesAuthority()).getExchangeAdapter(_exchange) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1185-1188)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "buyDragoInternal",
+            "impact": "Low",
+            "line": 963,
+            "line_end": 979,
+            "message": "Reentrancy in Drago.buyDragoInternal(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#963-979):\n\tExternal calls:\n\t- require(bool)(Kyc(admin.kycProvider).isWhitelistedUser(_hodler)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#968)\n\t- addPurchaseLog(amount) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#975)\n\t\t- events = DragoEventful(auth.getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1024)\n\t\t- require(bool)(events.buyDrago(msg.sender,this,msg.value,_amount,name,symbol)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1025)\n\tState variables written after the call(s):\n\t- allocatePurchaseTokens(_hodler,amount,feeDrago,feeDragoDao) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#976)\n\t\t- accounts[_hodler].balance = safeAdd(accounts[_hodler].balance,_amount) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#993)\n\t\t- accounts[admin.feeCollector].balance = safeAdd(accounts[admin.feeCollector].balance,_feeDrago) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#994)\n\t\t- accounts[admin.dragoDao].balance = safeAdd(accounts[admin.dragoDao].balance,_feeDragoDao) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#995)\n\t\t- accounts[_hodler].receipt.activation = uint32(now) + data.minPeriod (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#996)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "setTransactionFee",
+            "impact": "Low",
+            "line": 680,
+            "line_end": 688,
+            "message": "Reentrancy in Drago.setTransactionFee(uint256) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#680-688):\n\tExternal calls:\n\t- events = DragoEventful(getDragoEventful()) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#685)\n\t\t- auth.getDragoEventful() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1113)\n\t- require(bool)(events.setTransactionFee(msg.sender,this,_transactionFee)) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#686)\n\tState variables written after the call(s):\n\t- data.transactionFee = _transactionFee (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#687)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "operateOnExchange",
+            "impact": "Informational",
+            "line": 764,
+            "line_end": 807,
+            "message": "Drago.operateOnExchange(address,Drago.Transaction) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#764-807) uses assembly\n\t- INLINE ASM (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#785-806)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "findMethod",
+            "impact": "Informational",
+            "line": 429,
+            "line_end": 442,
+            "message": "LibFindMethod.findMethod(bytes) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#429-442) uses assembly\n\t- INLINE ASM (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#435-441)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "nonReentrant",
+            "impact": "Informational",
+            "line": 361,
+            "line_end": 376,
+            "message": "ReentrancyGuard.nonReentrant() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#361-376) has costly operations inside a loop:\n\t- locked = false (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#375)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "nonReentrant",
+            "impact": "Informational",
+            "line": 361,
+            "line_end": 376,
+            "message": "ReentrancyGuard.nonReentrant() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#361-376) has costly operations inside a loop:\n\t- locked = true (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#369)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Pragma version^0.4.25 (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#19) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is not recommended for deployment\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "SigVerifier",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 448,
+            "line_end": 1218,
+            "message": "Drago (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#448-1218) should inherit from SigVerifier (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#259-272)\n",
+            "name": "missing-inheritance"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 641,
+            "message": "Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._newSellPrice (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#641) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 963,
+            "message": "Parameter Drago.buyDragoInternal(address)._hodler (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#963) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 703,
+            "message": "Parameter Drago.changeDragoDao(address)._dragoDao (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#703) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1018,
+            "message": "Parameter Drago.addPurchaseLog(uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1018) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Parameter Drago.enforceKyc(bool,address)._enforced (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#722) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 642,
+            "message": "Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._newBuyPrice (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#642) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 751,
+            "message": "Parameter Drago.setMultipleAllowances(address,address[],uint256[])._tokenTransferProxy (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#751) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 738,
+            "message": "Parameter Drago.setAllowance(address,address,uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#738) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 714,
+            "message": "Parameter Drago.changeMinPeriod(uint32)._minPeriod (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#714) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 736,
+            "message": "Parameter Drago.setAllowance(address,address,uint256)._tokenTransferProxy (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#736) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 765,
+            "message": "Parameter Drago.operateOnExchange(address,Drago.Transaction)._exchange (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#765) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 692,
+            "message": "Parameter Drago.changeFeeCollector(address)._feeCollector (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#692) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 987,
+            "message": "Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._hodler (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#987) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 680,
+            "message": "Parameter Drago.setTransactionFee(uint256)._transactionFee (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#680) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1031,
+            "message": "Parameter Drago.addSaleLog(uint256,uint256)._netRevenue (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1031) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1206,
+            "message": "Parameter Drago.methodAllowedOnExchange(bytes4,address)._method (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1206) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1086,
+            "message": "Parameter Drago.getSaleAmounts(uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1086) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1047,
+            "message": "Parameter Drago.setAllowancesInternal(address,address,uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1047) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 669,
+            "message": "Parameter Drago.changeRatio(uint256)._ratio (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#669) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 988,
+            "message": "Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#988) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 644,
+            "message": "Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._hash (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#644) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 601,
+            "message": "Parameter Drago.buyDragoOnBehalf(address)._hodler (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#601) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 643,
+            "message": "Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._signaturevaliduntilBlock (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#643) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1045,
+            "message": "Parameter Drago.setAllowancesInternal(address,address,uint256)._tokenTransferProxy (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1045) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 752,
+            "message": "Parameter Drago.setMultipleAllowances(address,address[],uint256[])._tokens (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#752) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1006,
+            "message": "Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1006) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 614,
+            "message": "Parameter Drago.sellDrago(uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#614) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 832,
+            "message": "Parameter Drago.balanceOf(address)._who (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#832) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1005,
+            "message": "Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._hodler (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1005) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 990,
+            "message": "Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._feeDragoDao (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#990) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1207,
+            "message": "Parameter Drago.methodAllowedOnExchange(bytes4,address)._adapter (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1207) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1007,
+            "message": "Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._feeDrago (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1007) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1031,
+            "message": "Parameter Drago.addSaleLog(uint256,uint256)._amount (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1031) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1180,
+            "message": "Parameter Drago.getExchangeAdapter(address)._exchange (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1180) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 814,
+            "message": "Parameter Drago.batchOperateOnExchange(address,Drago.Transaction[])._exchange (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#814) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 645,
+            "message": "Parameter Drago.setPrices(uint256,uint256,uint256,bytes32,bytes)._signedData (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#645) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 989,
+            "message": "Parameter Drago.allocatePurchaseTokens(address,uint256,uint256,uint256)._feeDrago (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#989) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 390,
+            "message": "Parameter Owned.setOwner(address)._new (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#390) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 737,
+            "message": "Parameter Drago.setAllowance(address,address,uint256)._token (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#737) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1008,
+            "message": "Parameter Drago.allocateSaleTokens(address,uint256,uint256,uint256)._feeDragoDao (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1008) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 723,
+            "message": "Parameter Drago.enforceKyc(bool,address)._kycProvider (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#723) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 753,
+            "message": "Parameter Drago.setMultipleAllowances(address,address[],uint256[])._amounts (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#753) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 1046,
+            "message": "Parameter Drago.setAllowancesInternal(address,address,uint256)._token (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#1046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 448,
+            "line_end": 1218,
+            "message": "Drago.slitherConstructorConstantVariables() (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#448-1218) uses literals with too many digits:\n\t- BASE = 1000000 (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#453)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "Drago",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "impact": "Informational",
+            "line": 452,
+            "message": "Drago.VERSION (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#452) is never used in Drago (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#448-1218)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "setOwner",
+            "impact": "Optimization",
+            "line": 390,
+            "line_end": 394,
+            "message": "setOwner(address) should be declared external:\n\t- Owned.setOwner(address) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#390-394)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol",
+            "function": "batchOperateOnExchange",
+            "impact": "Optimization",
+            "line": 813,
+            "line_end": 824,
+            "message": "batchOperateOnExchange(address,Drago.Transaction[]) should be declared external:\n\t- Drago.batchOperateOnExchange(address,Drago.Transaction[]) (../..0x876b9ebd725d1fa0b879fcee12560a6453b51dc8.sol#813-824)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

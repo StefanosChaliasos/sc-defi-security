@@ -1,0 +1,65 @@
+[93m
+Reentrancy in Flipper.deal(uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#214-218):
+	External calls:
+	- vat.flux(ilk,address(this),bids[id].guy,bids[id].lot) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#216)
+	State variables written after the call(s):
+	- delete bids[id] (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#217)
+Reentrancy in Flipper.dent(uint256,uint256,uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#197-213):
+	External calls:
+	- vat.move(msg.sender,bids[id].guy,bid) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#207)
+	- vat.flux(ilk,address(this),bids[id].usr,bids[id].lot - lot) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#208)
+	State variables written after the call(s):
+	- bids[id].guy = msg.sender (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#210)
+	- bids[id].lot = lot (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#211)
+	- bids[id].tic = add(uint48(now),ttl) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#212)
+Reentrancy in Flipper.tend(uint256,uint256,uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#180-196):
+	External calls:
+	- vat.move(msg.sender,bids[id].guy,bids[id].bid) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#190)
+	- vat.move(msg.sender,bids[id].gal,bid - bids[id].bid) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#191)
+	State variables written after the call(s):
+	- bids[id].guy = msg.sender (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#193)
+	- bids[id].bid = bid (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#194)
+	- bids[id].tic = add(uint48(now),ttl) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#195)
+Reentrancy in Flipper.yank(uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#220-226):
+	External calls:
+	- vat.flux(ilk,address(this),msg.sender,bids[id].lot) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#223)
+	- vat.move(msg.sender,bids[id].guy,bids[id].bid) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#224)
+	State variables written after the call(s):
+	- delete bids[id] (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#225)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+Reentrancy in Flipper.kick(address,address,uint256,uint256,uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#157-174):
+	External calls:
+	- vat.flux(ilk,msg.sender,address(this),lot) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#171)
+	Event emitted after the call(s):
+	- Kick(id,lot,bid,tab,usr,gal) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#173)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Flipper.add(uint48,uint48) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#141-143) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool)((z = x + y) >= x) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#142)
+Flipper.tick(uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#175-179) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(bids[id].end < now,Flipper/not-finished) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#176)
+Flipper.tend(uint256,uint256,uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#180-196) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(bids[id].tic > now || bids[id].tic == 0,Flipper/already-finished-tic) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#182)
+	- require(bool,string)(bids[id].end > now,Flipper/already-finished-end) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#183)
+Flipper.dent(uint256,uint256,uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#197-213) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(bids[id].tic > now || bids[id].tic == 0,Flipper/already-finished-tic) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#199)
+	- require(bool,string)(bids[id].end > now,Flipper/already-finished-end) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#200)
+Flipper.deal(uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#214-218) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(bids[id].tic != 0 && (bids[id].tic < now || bids[id].end < now),Flipper/not-finished) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#215)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Pragma version^0.5.12 (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#2) allows old versions
+Pragma version^0.5.12 (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#18) allows old versions
+Pragma version^0.5.12 (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#67) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+kick(address,address,uint256,uint256,uint256) should be declared external:
+	- Flipper.kick(address,address,uint256,uint256,uint256) (../../sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol#157-174)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xd8a04f5412223f513dc55f839574430f5ec15531.sol analyzed (3 contracts with 78 detectors), 14 result(s) found

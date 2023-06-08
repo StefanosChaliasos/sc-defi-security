@@ -1,0 +1,538 @@
+[91m
+BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1108-1159) use msg.value in a loop: toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#msgvalue-inside-a-loop[0m
+[93m
+BancorNetwork.getReturn(address,address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1364-1383) is declared view but contains assembly code
+BancorNetwork.isV28OrHigherConverter(IConverter) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1389-1406) is declared view but contains assembly code
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#constant-functions-using-assembly-code[0m
+[93m
+Contract locking ether found:
+	Contract IConverter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#170-204) has payable functions:
+	 - IConverter.convert(IERC20Token,IERC20Token,uint256,address,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#176-180)
+	 - IConverter.fallback() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#186)
+	But does not have a function to withdraw the ether
+Contract locking ether found:
+	Contract IEtherToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#697-702) has payable functions:
+	 - IEtherToken.deposit() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#698)
+	 - IEtherToken.depositTo(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#700)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#contracts-that-lock-ether[0m
+[93m
+Reentrancy in ContractRegistryClient.updateRegistry() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#418-436):
+	External calls:
+	- newRegistry = IContractRegistry(addressOf(CONTRACT_REGISTRY)) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#423)
+		- registry.addressOf(_contractName) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#464)
+	- require(bool,string)(newRegistry.addressOf(CONTRACT_REGISTRY) != address(0),ERR_INVALID_REGISTRY) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#429)
+	State variables written after the call(s):
+	- registry = newRegistry (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#435)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+BancorNetwork.rateByPath(IERC20Token[],uint256).converter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#877) is a local variable never initialized
+BancorNetwork.rateByPath(IERC20Token[],uint256).supply (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#874) is a local variable never initialized
+BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256).toAmount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1115) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: supply = ISmartToken(anchor).totalSupply() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#894)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: converter = IConverter(IConverterAnchor(anchor).owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#895)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: balance = converter.getConnectorBalance(sourceToken) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#899)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: (None,weight,None,None,None) = converter.connectors(sourceToken) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#900)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: amount = formula.purchaseRate(supply,balance,weight,amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#901)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: fee = amount.mul(converter.conversionFee()).div(CONVERSION_FEE_RESOLUTION) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#902)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: supply = ISmartToken(anchor).totalSupply() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#911)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: converter = IConverter(IConverterAnchor(anchor).owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#912)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: balance = converter.getConnectorBalance(targetToken) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#916)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: (None,weight,None,None,None) = converter.connectors(targetToken) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#917)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: amount = formula.saleRate(supply,balance,weight,amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#918)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: fee = amount.mul(converter.conversionFee()).div(CONVERSION_FEE_RESOLUTION) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#919)
+BancorNetwork.rateByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871-936) has external calls inside a loop: converter = IConverter(IConverterAnchor(anchor).owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#928)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in ContractRegistryClient.updateRegistry() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#418-436):
+	External calls:
+	- newRegistry = IContractRegistry(addressOf(CONTRACT_REGISTRY)) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#423)
+		- registry.addressOf(_contractName) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#464)
+	- require(bool,string)(newRegistry.addressOf(CONTRACT_REGISTRY) != address(0),ERR_INVALID_REGISTRY) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#429)
+	State variables written after the call(s):
+	- prevRegistry = registry (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#432)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1084-1095):
+	External calls:
+	- require(bool,string)(_path[0] == _bancorX.token(),ERR_INVALID_SOURCE_TOKEN) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1088)
+	- amount = _bancorX.getXTransferAmount(_conversionId,msg.sender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1091)
+	- convertByPath(_path,amount,_minReturn,_beneficiary,address(0),0) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1094)
+		- registry.addressOf(_contractName) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#464)
+		- firstConverter = IConverter(_anchor.owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1169)
+		- allowance = _token.allowance(this,_spender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1341)
+		- reserveCount = _converter.connectorTokenCount() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1351)
+		- reserveTokenAddress = _converter.connectorTokens(i) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1353)
+		- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1181)
+		- IEtherToken(targetToken).withdrawTo(_beneficiary,_amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1226)
+		- converter = IConverter(anchor.owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1252)
+		- IEtherToken(_sourceToken).withdraw(_amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1191)
+		- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1138)
+		- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+		- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1142)
+		- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1147)
+	External calls sending eth:
+	- convertByPath(_path,amount,_minReturn,_beneficiary,address(0),0) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1094)
+		- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1181)
+		- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+	Event emitted after the call(s):
+	- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1151)
+		- convertByPath(_path,amount,_minReturn,_beneficiary,address(0),0) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1094)
+Reentrancy in BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#953-989):
+	External calls:
+	- handleSourceToken(_path[0],IConverterAnchor(_path[1]),_amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#964)
+		- firstConverter = IConverter(_anchor.owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1169)
+		- reserveCount = _converter.connectorTokenCount() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1351)
+		- reserveTokenAddress = _converter.connectorTokens(i) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1353)
+		- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1181)
+		- IEtherToken(_sourceToken).withdraw(_amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1191)
+	- data = createConversionData(_path,beneficiary,affiliateFeeEnabled) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#982)
+		- registry.addressOf(_contractName) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#464)
+		- reserveCount = _converter.connectorTokenCount() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1351)
+		- reserveTokenAddress = _converter.connectorTokens(i) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1353)
+		- converter = IConverter(anchor.owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1252)
+	- amount = doConversion(data,_amount,_minReturn,_affiliateAccount,_affiliateFee) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#983)
+		- allowance = _token.allowance(this,_spender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1341)
+		- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1138)
+		- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+		- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1142)
+		- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1147)
+	External calls sending eth:
+	- handleSourceToken(_path[0],IConverterAnchor(_path[1]),_amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#964)
+		- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1181)
+	- amount = doConversion(data,_amount,_minReturn,_affiliateAccount,_affiliateFee) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#983)
+		- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+	Event emitted after the call(s):
+	- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1151)
+		- amount = doConversion(data,_amount,_minReturn,_affiliateAccount,_affiliateFee) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#983)
+Reentrancy in BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1108-1159):
+	External calls:
+	- ensureAllowance(stepData.sourceToken,stepData.converter,fromAmount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1133)
+		- allowance = _token.allowance(this,_spender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1341)
+	- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1138)
+	- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+	- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1142)
+	- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1147)
+	External calls sending eth:
+	- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+	Event emitted after the call(s):
+	- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1151)
+Reentrancy in BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1036-1067):
+	External calls:
+	- bancorX = IBancorX(addressOf(BANCOR_X)) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1052)
+		- registry.addressOf(_contractName) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#464)
+	- require(bool,string)(targetToken == addressOf(BNT_TOKEN),ERR_INVALID_TARGET_TOKEN) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1055)
+		- registry.addressOf(_contractName) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#464)
+	- amount = convertByPath(_path,_amount,_minReturn,this,_affiliateAccount,_affiliateFee) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1058)
+		- registry.addressOf(_contractName) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#464)
+		- firstConverter = IConverter(_anchor.owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1169)
+		- allowance = _token.allowance(this,_spender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1341)
+		- reserveCount = _converter.connectorTokenCount() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1351)
+		- reserveTokenAddress = _converter.connectorTokens(i) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1353)
+		- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1181)
+		- IEtherToken(targetToken).withdrawTo(_beneficiary,_amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1226)
+		- converter = IConverter(anchor.owner()) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1252)
+		- IEtherToken(_sourceToken).withdraw(_amount) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1191)
+		- toAmount = ILegacyConverter(stepData.converter).change(stepData.sourceToken,stepData.targetToken,fromAmount,1) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1138)
+		- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+		- toAmount = stepData.converter.convert(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1142)
+		- require(bool,string)(stepData.targetToken.transfer(_affiliateAccount,affiliateAmount),ERR_FEE_TRANSFER_FAILED) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1147)
+	External calls sending eth:
+	- amount = convertByPath(_path,_amount,_minReturn,this,_affiliateAccount,_affiliateFee) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1058)
+		- IEtherToken(getConverterEtherTokenAddress(firstConverter)).deposit.value(msg.value)() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1181)
+		- toAmount = stepData.converter.convert.value(msg.value)(stepData.sourceToken,stepData.targetToken,fromAmount,msg.sender,stepData.beneficiary) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1140)
+	Event emitted after the call(s):
+	- Conversion(stepData.anchor,stepData.sourceToken,stepData.targetToken,fromAmount,toAmount,msg.sender) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1151)
+		- amount = convertByPath(_path,_amount,_minReturn,this,_affiliateAccount,_affiliateFee) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1058)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+TokenHandler.execute(IERC20Token,bytes) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#559-578) uses assembly
+	- INLINE ASM (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#562-577)
+BancorNetwork.getReturn(address,address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1364-1383) uses assembly
+	- INLINE ASM (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1368-1382)
+BancorNetwork.isV28OrHigherConverter(IConverter) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1389-1406) uses assembly
+	- INLINE ASM (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1394-1405)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+ContractRegistryClient._only(bytes32) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#401-403) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#3) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#24) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#98) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#110) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#125) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#138) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#150) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#161) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#208) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#248) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#309) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#351) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#365) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#470) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#503) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#583) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#623) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#691) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#706) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#722) allows old versions
+Pragma version^0.4.26 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#733) allows old versions
+solc-0.4.26 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Parameter Owned.transferOwnership(address)._newOwner (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#291) is not in mixedCase
+Parameter ContractRegistryClient.restrictRegistryUpdate(bool)._onlyOwnerCanUpdateRegistry (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#451) is not in mixedCase
+Parameter ContractRegistryClient.addressOf(bytes32)._contractName (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#463) is not in mixedCase
+Parameter TokenHandler.safeApprove(IERC20Token,address,uint256)._token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#520) is not in mixedCase
+Parameter TokenHandler.safeApprove(IERC20Token,address,uint256)._spender (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#520) is not in mixedCase
+Parameter TokenHandler.safeApprove(IERC20Token,address,uint256)._value (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#520) is not in mixedCase
+Parameter TokenHandler.safeTransfer(IERC20Token,address,uint256)._token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#533) is not in mixedCase
+Parameter TokenHandler.safeTransfer(IERC20Token,address,uint256)._to (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#533) is not in mixedCase
+Parameter TokenHandler.safeTransfer(IERC20Token,address,uint256)._value (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#533) is not in mixedCase
+Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#547) is not in mixedCase
+Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._from (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#547) is not in mixedCase
+Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._to (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#547) is not in mixedCase
+Parameter TokenHandler.safeTransferFrom(IERC20Token,address,address,uint256)._value (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#547) is not in mixedCase
+Parameter TokenHolder.withdrawTokens(IERC20Token,address,uint256)._token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#610) is not in mixedCase
+Parameter TokenHolder.withdrawTokens(IERC20Token,address,uint256)._to (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#610) is not in mixedCase
+Parameter TokenHolder.withdrawTokens(IERC20Token,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#610) is not in mixedCase
+Parameter SafeMath.add(uint256,uint256)._x (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#637) is not in mixedCase
+Parameter SafeMath.add(uint256,uint256)._y (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#637) is not in mixedCase
+Parameter SafeMath.sub(uint256,uint256)._x (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#651) is not in mixedCase
+Parameter SafeMath.sub(uint256,uint256)._y (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#651) is not in mixedCase
+Parameter SafeMath.mul(uint256,uint256)._x (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#664) is not in mixedCase
+Parameter SafeMath.mul(uint256,uint256)._y (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#664) is not in mixedCase
+Parameter SafeMath.div(uint256,uint256)._x (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#682) is not in mixedCase
+Parameter SafeMath.div(uint256,uint256)._y (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#682) is not in mixedCase
+Parameter BancorNetwork.setMaxAffiliateFee(uint256)._maxAffiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#825) is not in mixedCase
+Parameter BancorNetwork.registerEtherToken(IEtherToken,bool)._token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#839) is not in mixedCase
+Parameter BancorNetwork.registerEtherToken(IEtherToken,bool)._register (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#839) is not in mixedCase
+Parameter BancorNetwork.conversionPath(IERC20Token,IERC20Token)._sourceToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#857) is not in mixedCase
+Parameter BancorNetwork.conversionPath(IERC20Token,IERC20Token)._targetToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#857) is not in mixedCase
+Parameter BancorNetwork.rateByPath(IERC20Token[],uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871) is not in mixedCase
+Parameter BancorNetwork.rateByPath(IERC20Token[],uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#871) is not in mixedCase
+Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#953) is not in mixedCase
+Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#953) is not in mixedCase
+Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#953) is not in mixedCase
+Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#953) is not in mixedCase
+Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#953) is not in mixedCase
+Parameter BancorNetwork.convertByPath(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#953) is not in mixedCase
+Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1006) is not in mixedCase
+Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1007) is not in mixedCase
+Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1008) is not in mixedCase
+Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._targetBlockchain (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1009) is not in mixedCase
+Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._targetAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1010) is not in mixedCase
+Parameter BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256)._conversionId (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1011) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1037) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1038) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1039) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._targetBlockchain (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1040) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._targetAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1041) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._conversionId (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1042) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._affiliateAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1043) is not in mixedCase
+Parameter BancorNetwork.xConvert2(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256,address,uint256)._affiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1044) is not in mixedCase
+Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1084) is not in mixedCase
+Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._bancorX (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1084) is not in mixedCase
+Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._conversionId (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1084) is not in mixedCase
+Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1084) is not in mixedCase
+Parameter BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1084) is not in mixedCase
+Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._data (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1109) is not in mixedCase
+Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1110) is not in mixedCase
+Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1111) is not in mixedCase
+Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._affiliateAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1112) is not in mixedCase
+Parameter BancorNetwork.doConversion(BancorNetwork.ConversionStep[],uint256,uint256,address,uint256)._affiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1113) is not in mixedCase
+Parameter BancorNetwork.handleSourceToken(IERC20Token,IConverterAnchor,uint256)._sourceToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1168) is not in mixedCase
+Parameter BancorNetwork.handleSourceToken(IERC20Token,IConverterAnchor,uint256)._anchor (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1168) is not in mixedCase
+Parameter BancorNetwork.handleSourceToken(IERC20Token,IConverterAnchor,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1168) is not in mixedCase
+Parameter BancorNetwork.handleTargetToken(BancorNetwork.ConversionStep[],uint256,address)._data (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1211) is not in mixedCase
+Parameter BancorNetwork.handleTargetToken(BancorNetwork.ConversionStep[],uint256,address)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1211) is not in mixedCase
+Parameter BancorNetwork.handleTargetToken(BancorNetwork.ConversionStep[],uint256,address)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1211) is not in mixedCase
+Parameter BancorNetwork.createConversionData(IERC20Token[],address,bool)._conversionPath (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1243) is not in mixedCase
+Parameter BancorNetwork.createConversionData(IERC20Token[],address,bool)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1243) is not in mixedCase
+Parameter BancorNetwork.createConversionData(IERC20Token[],address,bool)._affiliateFeeEnabled (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1243) is not in mixedCase
+Parameter BancorNetwork.ensureAllowance(IERC20Token,address,uint256)._token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1340) is not in mixedCase
+Parameter BancorNetwork.ensureAllowance(IERC20Token,address,uint256)._spender (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1340) is not in mixedCase
+Parameter BancorNetwork.ensureAllowance(IERC20Token,address,uint256)._value (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1340) is not in mixedCase
+Parameter BancorNetwork.getConverterEtherTokenAddress(IConverter)._converter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1350) is not in mixedCase
+Parameter BancorNetwork.getReturn(address,address,address,uint256)._sourceToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1364) is not in mixedCase
+Parameter BancorNetwork.getReturn(address,address,address,uint256)._targetToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1364) is not in mixedCase
+Parameter BancorNetwork.getReturn(address,address,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1364) is not in mixedCase
+Parameter BancorNetwork.getReturnByPath(IERC20Token[],uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1411) is not in mixedCase
+Parameter BancorNetwork.getReturnByPath(IERC20Token[],uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1411) is not in mixedCase
+Parameter BancorNetwork.convert(IERC20Token[],uint256,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1418) is not in mixedCase
+Parameter BancorNetwork.convert(IERC20Token[],uint256,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1418) is not in mixedCase
+Parameter BancorNetwork.convert(IERC20Token[],uint256,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1418) is not in mixedCase
+Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1426) is not in mixedCase
+Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1427) is not in mixedCase
+Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1428) is not in mixedCase
+Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1429) is not in mixedCase
+Parameter BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1430) is not in mixedCase
+Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1442) is not in mixedCase
+Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1442) is not in mixedCase
+Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1442) is not in mixedCase
+Parameter BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1442) is not in mixedCase
+Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1450) is not in mixedCase
+Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1451) is not in mixedCase
+Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1452) is not in mixedCase
+Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1453) is not in mixedCase
+Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1454) is not in mixedCase
+Parameter BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1455) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1468) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1468) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1468) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1476) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1477) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1478) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1479) is not in mixedCase
+Parameter BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256)._affiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1480) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1491) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1491) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1491) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1491) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._path (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1499) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._amount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1500) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._minReturn (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1501) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._beneficiary (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1502) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateAccount (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1503) is not in mixedCase
+Parameter BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256)._affiliateFee (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1504) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#10)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#11)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#12)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#13)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "_owner (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#14)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#14)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "_owner (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#15)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "_spender (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#15)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#15)" inIERC20Token (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#8-20)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#117)" inIOwned (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#115-121)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#172)" inIConverter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#170-204)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#182)" inIConverter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#170-204)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#183)" inIConverter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#170-204)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#184)" inIConverter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#170-204)
+Redundant expression "this (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#726)" inIBancorX (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#725-729)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+BancorNetwork.slitherConstructorConstantVariables() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512) uses literals with too many digits:
+	- CONVERSION_FEE_RESOLUTION = 1000000 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#774)
+BancorNetwork.slitherConstructorConstantVariables() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512) uses literals with too many digits:
+	- AFFILIATE_FEE_RESOLUTION = 1000000 (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#775)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+IConverter (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#170-204) does not implement functions:
+	- IConverter.acceptAnchorOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#189)
+	- IOwned.acceptOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#120)
+	- IConverter.acceptTokenOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#199)
+	- IConverter.addReserve(IERC20Token,uint32) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#194)
+	- IConverter.connectorTokenCount() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#203)
+	- IConverter.connectorTokens(uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#202)
+	- IConverter.connectors(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#200)
+	- IConverter.convert(IERC20Token,IERC20Token,uint256,address,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#176-180)
+	- IConverter.converterType() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#171)
+	- IConverter.getConnectorBalance(IERC20Token) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#201)
+	- IConverter.isActive() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#173)
+	- IConverter.rateAndFee(IERC20Token,IERC20Token,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#175)
+	- IConverter.reserveBalance(IERC20Token) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#185)
+	- IConverter.setConversionFee(uint32) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#190)
+	- IConverter.setConversionWhitelist(IWhitelist) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#191)
+	- IConverter.token() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#197)
+	- IConverter.transferAnchorOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#188)
+	- IOwned.transferOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#119)
+	- IConverter.transferTokenOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#198)
+	- IConverter.withdrawETH(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#193)
+	- IConverter.withdrawTokens(IERC20Token,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#192)
+IEtherToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#697-702) does not implement functions:
+	- IERC20Token.approve(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#19)
+	- IEtherToken.deposit() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#698)
+	- IEtherToken.depositTo(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#700)
+	- IERC20Token.transfer(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#17)
+	- IERC20Token.transferFrom(address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#18)
+	- IEtherToken.withdraw(uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#699)
+	- IEtherToken.withdrawTo(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#701)
+ISmartToken (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#714-718) does not implement functions:
+	- IOwned.acceptOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#120)
+	- IERC20Token.approve(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#19)
+	- ISmartToken.destroy(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#717)
+	- ISmartToken.disableTransfers(bool) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#715)
+	- ISmartToken.issue(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#716)
+	- IERC20Token.transfer(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#17)
+	- IERC20Token.transferFrom(address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#18)
+	- IOwned.transferOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#119)
+	- ITokenHolder.withdrawTokens(IERC20Token,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#133)
+IBancorX (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#725-729) does not implement functions:
+	- IBancorX.getXTransferAmount(uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#728)
+	- IBancorX.xTransfer(bytes32,bytes32,uint256,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#727)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unimplemented-functions[0m
+[92m
+ContractRegistryClient.BANCOR_NETWORK (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#375) is never used in BancorNetwork (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512)
+ContractRegistryClient.CONVERTER_FACTORY (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#377) is never used in BancorNetwork (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512)
+ContractRegistryClient.CONVERTER_UPGRADER (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#379) is never used in BancorNetwork (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512)
+ContractRegistryClient.CONVERTER_REGISTRY (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#380) is never used in BancorNetwork (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512)
+ContractRegistryClient.CONVERTER_REGISTRY_DATA (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#381) is never used in BancorNetwork (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512)
+ContractRegistryClient.BANCOR_X_UPGRADER (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#384) is never used in BancorNetwork (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#771-1512)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+name() should be declared external:
+	- IERC20Token.name() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#10)
+symbol() should be declared external:
+	- IERC20Token.symbol() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#11)
+decimals() should be declared external:
+	- IERC20Token.decimals() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#12)
+totalSupply() should be declared external:
+	- IERC20Token.totalSupply() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#13)
+balanceOf(address) should be declared external:
+	- IERC20Token.balanceOf(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#14)
+allowance(address,address) should be declared external:
+	- IERC20Token.allowance(address,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#15)
+transfer(address,uint256) should be declared external:
+	- IERC20Token.transfer(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#17)
+transferFrom(address,address,uint256) should be declared external:
+	- IERC20Token.transferFrom(address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#18)
+approve(address,uint256) should be declared external:
+	- IERC20Token.approve(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#19)
+convert2(IERC20Token[],uint256,uint256,address,uint256) should be declared external:
+	- BancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1425-1437)
+	- IBancorNetwork.convert2(IERC20Token[],uint256,uint256,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#31-37)
+claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256) should be declared external:
+	- BancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1475-1486)
+	- IBancorNetwork.claimAndConvert2(IERC20Token[],uint256,uint256,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#39-45)
+convertFor2(IERC20Token[],uint256,uint256,address,address,uint256) should be declared external:
+	- BancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1449-1463)
+	- IBancorNetwork.convertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#47-54)
+claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256) should be declared external:
+	- BancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1498-1510)
+	- IBancorNetwork.claimAndConvertFor2(IERC20Token[],uint256,uint256,address,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#56-63)
+convert(IERC20Token[],uint256,uint256) should be declared external:
+	- BancorNetwork.convert(IERC20Token[],uint256,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1418-1420)
+	- IBancorNetwork.convert(IERC20Token[],uint256,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#66-70)
+claimAndConvert(IERC20Token[],uint256,uint256) should be declared external:
+	- BancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1468-1470)
+	- IBancorNetwork.claimAndConvert(IERC20Token[],uint256,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#73-77)
+convertFor(IERC20Token[],uint256,uint256,address) should be declared external:
+	- BancorNetwork.convertFor(IERC20Token[],uint256,uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1442-1444)
+	- IBancorNetwork.convertFor(IERC20Token[],uint256,uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#80-85)
+claimAndConvertFor(IERC20Token[],uint256,uint256,address) should be declared external:
+	- BancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1491-1493)
+	- IBancorNetwork.claimAndConvertFor(IERC20Token[],uint256,uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#88-93)
+findPath(address,address) should be declared external:
+	- IConversionPathFinder.findPath(address,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#105)
+owner() should be declared external:
+	- IOwned.owner() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#117)
+transferOwnership(address) should be declared external:
+	- IOwned.transferOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#119)
+	- Owned.transferOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#291-294)
+acceptOwnership() should be declared external:
+	- IOwned.acceptOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#120)
+	- Owned.acceptOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#299-304)
+withdrawTokens(IERC20Token,address,uint256) should be declared external:
+	- ITokenHolder.withdrawTokens(IERC20Token,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#133)
+	- TokenHolder.withdrawTokens(IERC20Token,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#610-618)
+isWhitelisted(address) should be declared external:
+	- IWhitelist.isWhitelisted(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#156)
+converterType() should be declared external:
+	- IConverter.converterType() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#171)
+anchor() should be declared external:
+	- IConverter.anchor() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#172)
+isActive() should be declared external:
+	- IConverter.isActive() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#173)
+rateAndFee(IERC20Token,IERC20Token,uint256) should be declared external:
+	- IConverter.rateAndFee(IERC20Token,IERC20Token,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#175)
+convert(IERC20Token,IERC20Token,uint256,address,address) should be declared external:
+	- IConverter.convert(IERC20Token,IERC20Token,uint256,address,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#176-180)
+conversionWhitelist() should be declared external:
+	- IConverter.conversionWhitelist() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#182)
+conversionFee() should be declared external:
+	- IConverter.conversionFee() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#183)
+maxConversionFee() should be declared external:
+	- IConverter.maxConversionFee() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#184)
+reserveBalance(IERC20Token) should be declared external:
+	- IConverter.reserveBalance(IERC20Token) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#185)
+transferAnchorOwnership(address) should be declared external:
+	- IConverter.transferAnchorOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#188)
+acceptAnchorOwnership() should be declared external:
+	- IConverter.acceptAnchorOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#189)
+setConversionFee(uint32) should be declared external:
+	- IConverter.setConversionFee(uint32) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#190)
+setConversionWhitelist(IWhitelist) should be declared external:
+	- IConverter.setConversionWhitelist(IWhitelist) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#191)
+withdrawTokens(IERC20Token,address,uint256) should be declared external:
+	- IConverter.withdrawTokens(IERC20Token,address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#192)
+withdrawETH(address) should be declared external:
+	- IConverter.withdrawETH(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#193)
+addReserve(IERC20Token,uint32) should be declared external:
+	- IConverter.addReserve(IERC20Token,uint32) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#194)
+token() should be declared external:
+	- IConverter.token() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#197)
+transferTokenOwnership(address) should be declared external:
+	- IConverter.transferTokenOwnership(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#198)
+acceptTokenOwnership() should be declared external:
+	- IConverter.acceptTokenOwnership() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#199)
+connectors(address) should be declared external:
+	- IConverter.connectors(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#200)
+getConnectorBalance(IERC20Token) should be declared external:
+	- IConverter.getConnectorBalance(IERC20Token) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#201)
+connectorTokens(uint256) should be declared external:
+	- IConverter.connectorTokens(uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#202)
+connectorTokenCount() should be declared external:
+	- IConverter.connectorTokenCount() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#203)
+purchaseRate(uint256,uint256,uint32,uint256) should be declared external:
+	- IBancorFormula.purchaseRate(uint256,uint256,uint32,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#214-218)
+saleRate(uint256,uint256,uint32,uint256) should be declared external:
+	- IBancorFormula.saleRate(uint256,uint256,uint32,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#220-224)
+crossReserveRate(uint256,uint32,uint256,uint32,uint256) should be declared external:
+	- IBancorFormula.crossReserveRate(uint256,uint32,uint256,uint32,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#226-231)
+fundCost(uint256,uint256,uint32,uint256) should be declared external:
+	- IBancorFormula.fundCost(uint256,uint256,uint32,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#233-237)
+liquidateRate(uint256,uint256,uint32,uint256) should be declared external:
+	- IBancorFormula.liquidateRate(uint256,uint256,uint32,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#239-243)
+addressOf(bytes32) should be declared external:
+	- IContractRegistry.addressOf(bytes32) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#357)
+getAddress(bytes32) should be declared external:
+	- IContractRegistry.getAddress(bytes32) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#360)
+updateRegistry() should be declared external:
+	- ContractRegistryClient.updateRegistry() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#418-436)
+restoreRegistry() should be declared external:
+	- ContractRegistryClient.restoreRegistry() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#441-444)
+restrictRegistryUpdate(bool) should be declared external:
+	- ContractRegistryClient.restrictRegistryUpdate(bool) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#451-454)
+deposit() should be declared external:
+	- IEtherToken.deposit() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#698)
+withdraw(uint256) should be declared external:
+	- IEtherToken.withdraw(uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#699)
+depositTo(address) should be declared external:
+	- IEtherToken.depositTo(address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#700)
+withdrawTo(address,uint256) should be declared external:
+	- IEtherToken.withdrawTo(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#701)
+disableTransfers(bool) should be declared external:
+	- ISmartToken.disableTransfers(bool) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#715)
+issue(address,uint256) should be declared external:
+	- ISmartToken.issue(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#716)
+destroy(address,uint256) should be declared external:
+	- ISmartToken.destroy(address,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#717)
+token() should be declared external:
+	- IBancorX.token() (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#726)
+xTransfer(bytes32,bytes32,uint256,uint256) should be declared external:
+	- IBancorX.xTransfer(bytes32,bytes32,uint256,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#727)
+getXTransferAmount(uint256,address) should be declared external:
+	- IBancorX.getXTransferAmount(uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#728)
+change(IERC20Token,IERC20Token,uint256,uint256) should be declared external:
+	- ILegacyConverter.change(IERC20Token,IERC20Token,uint256,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#749)
+setMaxAffiliateFee(uint256) should be declared external:
+	- BancorNetwork.setMaxAffiliateFee(uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#825-831)
+registerEtherToken(IEtherToken,bool) should be declared external:
+	- BancorNetwork.registerEtherToken(IEtherToken,bool) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#839-846)
+conversionPath(IERC20Token,IERC20Token) should be declared external:
+	- BancorNetwork.conversionPath(IERC20Token,IERC20Token) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#857-860)
+xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256) should be declared external:
+	- BancorNetwork.xConvert(IERC20Token[],uint256,uint256,bytes32,bytes32,uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1005-1018)
+completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address) should be declared external:
+	- BancorNetwork.completeXConversion(IERC20Token[],IBancorX,uint256,uint256,address) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1084-1095)
+getReturnByPath(IERC20Token[],uint256) should be declared external:
+	- BancorNetwork.getReturnByPath(IERC20Token[],uint256) (../../sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol#1411-1413)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x923cab01e6a4639664aa64b76396eec0ea7d3a5f.sol analyzed (22 contracts with 78 detectors), 268 result(s) found

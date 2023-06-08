@@ -1,0 +1,29 @@
+#!/bin/sh
+
+FILENAME="$1"
+BIN="$2"
+
+export PATH="$BIN:$PATH"
+chmod +x "$BIN/solc"
+
+ echo """
+{
+  \"extends\": \"solhint:default\",
+  \"plugins\": [],
+  \"rules\": {
+    \"avoid-call-value\": \"error\",
+    \"avoid-low-level-calls\": \"error\",
+    \"avoid-suicide\": \"error\",
+    \"avoid-tx-origin\": \"error\",
+    \"check-send-result\": \"error\",
+    \"compiler-version\": \"error\",
+    \"func-visibility\": \"error\",
+    \"not-rely-on-block-hash\": \"error\",
+    \"not-rely-on-time\": \"error\",
+    \"reentrancy\": \"error\",
+    \"state-visibility\": \"error\"
+  }
+}
+""" > .solhint.json
+
+solhint -f unix "$FILENAME"

@@ -1,0 +1,819 @@
+[91m
+UniswapV2OracleLibrary.currentBlockTimestamp() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1950-1952) uses a weak PRNG: "uint32(block.timestamp % 2 ** 32) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1951)" 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#weak-PRNG[0m
+[91m
+Reentrancy in HunnyPool.withdrawAll() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3827-3833):
+	External calls:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3830)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3823)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- (rewardHunny) = ROUTER.removeLiquidity(address(stakingToken),wbnb,amount,0,0,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3847-3849)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- IBEP20(ROUTER.WETH()).safeTransfer(msg.sender,reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3840)
+		- ROUTER.swapExactTokensForTokens(rewardHunny,0,path,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3853)
+	External calls sending eth:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3830)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	State variables written after the call(s):
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- _status = _ENTERED (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3416)
+		- _status = _NOT_ENTERED (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3422)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3950)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3949)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- rewards[msg.sender] = 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3838)
+		- rewards[account] = earned(account) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3952)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3953)
+Reentrancy in CakeFlipVault.withdrawAll() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4626-4632):
+	External calls:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4629)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- CAKE_MASTER_CHEF.withdraw(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4608)
+		- minter.mintFor(address(stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,_depositedAt) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4615)
+		- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4620)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- rewardsToken.withdraw(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4638)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- minter.mintFor(CAKE,0,performanceFee,msg.sender,depositedAt[msg.sender]) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4643)
+		- IBEP20(CAKE).safeTransfer(msg.sender,cakeBalance) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4647)
+	External calls sending eth:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4629)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	State variables written after the call(s):
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- _status = _ENTERED (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3416)
+		- _status = _NOT_ENTERED (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3422)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4767)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4766)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- rewards[msg.sender] = 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4637)
+		- rewards[account] = earned(account) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4769)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4770)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[91m
+PancakeSwap.generateFlipToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2715-2729) ignores return value by IBEP20(_hunny).transfer(msg.sender,IBEP20(_hunny).balanceOf(address(this))) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2727)
+PancakeSwap.generateFlipToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2715-2729) ignores return value by IBEP20(_wbnb).transfer(msg.sender,IBEP20(_wbnb).balanceOf(address(this))) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2728)
+HunnyMinter.mint(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2989-2999) ignores return value by hunny.transfer(to,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2991)
+HunnyMinter.mintForLottery() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3003-3011) ignores return value by hunny.transfer(lotteryPool,amountHunny) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3007)
+Deployer2.step4_setupLiquidityReward(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4939-4965) ignores return value by deployer1.hunny().transfer(owner(),deployer1.hunny().balanceOf(address(this))) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4951)
+Deployer2.step4_setupLiquidityReward(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4939-4965) ignores return value by IBEP20(presale.flipToken()).transfer(address(deployer1.hunnyPool()),rewardAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4958)
+Deployer2.emergencyTransfer() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4980-4983) ignores return value by deployer1.hunny().transfer(owner(),deployer1.hunny().balanceOf(address(this))) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4982)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1530)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1531)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1532)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1533)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1534)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1535)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1536)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-d /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1526)
+	-r *= 2 - d * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1537)
+FullMath.fullDiv(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1520-1539) performs a multiplication on the result of a division:
+	-l /= pow2 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1527)
+	-l * r (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1538)
+StrategyHelperV1.tvl(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3255-3279) performs a multiplication on the result of a division:
+	-hunnyBalance.mul(price).div(1e18).mul(2) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3267)
+StrategyHelperV1.tvl(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3255-3279) performs a multiplication on the result of a division:
+	-bnb.mul(price_scope_0).div(1e18).mul(2) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3273)
+StrategyHelperV1.tvl(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3255-3279) performs a multiplication on the result of a division:
+	-balanceToken0.mul(price_scope_1).div(1e18).mul(bnbPriceInUSD()).div(1e18).mul(2) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3278)
+StrategyHelperV1.tvlInBNB(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3281-3303) performs a multiplication on the result of a division:
+	-hunnyBalance.mul(priceInBNB).div(1e18).mul(2) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3292)
+StrategyHelperV1.tvlInBNB(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3281-3303) performs a multiplication on the result of a division:
+	-bnb = WBNB.balanceOf(address(_flip)).mul(amount).div(IBEP20(_flip).totalSupply()) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3296)
+	-bnb.mul(2) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3297)
+StrategyHelperV1.tvlInBNB(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3281-3303) performs a multiplication on the result of a division:
+	-balanceToken0.mul(price).div(1e18).mul(2) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3302)
+HunnyPool.withdrawableBalanceOf(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3729-3750) performs a multiplication on the result of a division:
+	-soldInPresale = IPresale(presaleContract).totalBalance().div(2).mul(3) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3736)
+HunnyPool.withdrawableBalanceOf(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3729-3750) performs a multiplication on the result of a division:
+	-lockedRatio = (soldInPresale.sub(hunnyNewMint)).mul(1e18).div(soldInPresale) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3746)
+	-lockedBalance = _presaleBalance[account].mul(lockedRatio).div(1e18) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3747)
+HunnyPool.apy() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3763-3777) performs a multiplication on the result of a division:
+	-rewardPerTokenPerSecond = rewardRate.mul(tokenDecimals).div(__totalSupply) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3770)
+	-_bnb = rewardPerTokenPerSecond.mul(31536000).mul(flipPrice).div(hunnyPrice) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3776)
+HunnyPool.notifyRewardAmount(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3913-3932) performs a multiplication on the result of a division:
+	-rewardRate = reward.div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3915)
+	-leftover = remaining.mul(rewardRate) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3918)
+CakeFlipVault.apy() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4543-4559) performs a multiplication on the result of a division:
+	-dailyAPY = helper.compoundingAPY(poolId,31536000).div(365) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4544)
+	-_usd = dailyAPY.mul(cakeAPY).div(cakeDailyAPY) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4556)
+CakeFlipVault._notifyRewardAmount(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4730-4749) performs a multiplication on the result of a division:
+	-rewardRate = reward.div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4732)
+	-leftover = remaining.mul(rewardRate) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4735)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+HunnyToken._writeCheckpoint(address,uint32,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1293-1311) uses a dangerous strict equality:
+	- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1303)
+HunnyPool.apy() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3763-3777) uses a dangerous strict equality:
+	- __totalSupply == 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3766)
+HunnyPool.rewardPerToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3783-3791) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3784)
+CakeVault.balanceOf(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4277-4280) uses a dangerous strict equality:
+	- totalShares == 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4278)
+CakeVault.priceShare() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4333-4336) uses a dangerous strict equality:
+	- totalShares == 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4334)
+CakeFlipVault.rewardPerToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4565-4573) uses a dangerous strict equality:
+	- _totalSupply == 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4566)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in CakeFlipVault._deposit(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4584-4594):
+	External calls:
+	- stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4589)
+	- CAKE_MASTER_CHEF.deposit(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4590)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+	State variables written after the call(s):
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4767)
+		- lastUpdateTime = block.timestamp (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4746)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- periodFinish = block.timestamp.add(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4747)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4766)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- rewardRate = reward.div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4732)
+		- rewardRate = reward.add(leftover).div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4736)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- rewards[account] = earned(account) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4769)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4770)
+Reentrancy in HunnyBNBPool._depositTo(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4134-4146):
+	External calls:
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4135)
+	- mintHunny(amount,duration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4140)
+		- minter.mintForHunnyBNB(amount,duration,msg.sender) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4173)
+	State variables written after the call(s):
+	- _shares[_to] = _shares[_to].add(_amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4144)
+	- depositedAt[_to] = block.timestamp (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4145)
+Reentrancy in HunnyMinter.mintForLottery() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3003-3011):
+	External calls:
+	- hunny.mint(amountHunny) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3006)
+	- hunny.transfer(lotteryPool,amountHunny) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3007)
+	State variables written after the call(s):
+	- lastLotteryMintBlock = block.number (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3010)
+Reentrancy in CakeFlipVault.withdraw(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4604-4624):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4608)
+	- minter.mintFor(address(stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,_depositedAt) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4615)
+	- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4620)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+	State variables written after the call(s):
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4767)
+		- lastUpdateTime = block.timestamp (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4746)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- periodFinish = block.timestamp.add(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4747)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4766)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- rewardRate = reward.div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4732)
+		- rewardRate = reward.add(leftover).div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4736)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- rewards[account] = earned(account) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4769)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4770)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+CakeFlipVault.info(address).userInfo (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4668) is a local variable never initialized
+HunnyBNBPool.info(address).poolAPY (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4115) is a local variable never initialized
+HunnyBNBPool.info(address).profit (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4106) is a local variable never initialized
+HunnyPool.info(address).poolAPY (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3876) is a local variable never initialized
+CakeVault.info(address).userInfo (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4308) is a local variable never initialized
+UniswapV2Library.getAmountsOut(address,uint256,address[]).i (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1919) is a local variable never initialized
+HunnyBNBPool.info(address).userInfo (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4100) is a local variable never initialized
+CakeVault.info(address).profit (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4314) is a local variable never initialized
+CakeFlipVault.info(address).poolAPY (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4683) is a local variable never initialized
+HunnyPool.info(address).profit (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3867) is a local variable never initialized
+CakeFlipVault.info(address).profit (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4674) is a local variable never initialized
+CakeVault.info(address).poolAPY (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4323) is a local variable never initialized
+HunnyPool.info(address).userInfo (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3861) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+PancakeSwap._flipToHunnyBNBFlip(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2675-2693) ignores return value by ROUTER.removeLiquidity(_token0,_token1,amount,0,0,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2681)
+PancakeSwap.swapToken(address,uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2695-2713) ignores return value by ROUTER.swapExactTokensForTokens(_amount,0,path,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2712)
+HunnyMinter.constructor(address,address,address,address,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2873-2885) ignores return value by hunny.approve(hunnyPool,uint256(~ 0)) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2884)
+HunnyMinter.mint(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2989-2999) ignores return value by hunny.mint(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2990)
+HunnyMinter.mint(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2989-2999) ignores return value by hunny.mint(hunnyForDev) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2994)
+HunnyMinter.mintForLottery() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3003-3011) ignores return value by hunny.mint(amountHunny) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3006)
+HunnyPool._flipToWBNB(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3845-3856) ignores return value by ROUTER.swapExactTokensForTokens(rewardHunny,0,path,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3853)
+Deployer2.step4_setupLiquidityReward(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4939-4965) ignores return value by router.addLiquidityETH{value: bnbAmount}(token,tokenAmount,0,0,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4948)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+BEP20Virtual.constructor(string,string).name (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#725) shadows:
+	- BEP20Virtual.name() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#741-743) (function)
+	- IBEP20.name() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#326) (function)
+BEP20Virtual.constructor(string,string).symbol (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#725) shadows:
+	- BEP20Virtual.symbol() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#755-757) (function)
+	- IBEP20.symbol() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#321) (function)
+BEP20Virtual.allowance(address,address).owner (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#789) shadows:
+	- Ownable.owner() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#259-261) (function)
+BEP20Virtual._approve(address,address,uint256).owner (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#961) shadows:
+	- Ownable.owner() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#259-261) (function)
+BEP20.constructor(string,string).name (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2140) shadows:
+	- BEP20.name() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2156-2158) (function)
+	- IBEP20.name() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#326) (function)
+BEP20.constructor(string,string).symbol (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2140) shadows:
+	- BEP20.symbol() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2170-2172) (function)
+	- IBEP20.symbol() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#321) (function)
+BEP20.allowance(address,address).owner (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2204) shadows:
+	- Ownable.owner() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#259-261) (function)
+BEP20._approve(address,address,uint256).owner (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2376) shadows:
+	- Ownable.owner() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#259-261) (function)
+HunnyMinter.constructor(address,address,address,address,address)._hunny (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2873) shadows:
+	- PancakeSwap._hunny (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2648) (state variable)
+HunnyMinter.transferHunnyOwner(address)._owner (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2887) shadows:
+	- Ownable._owner (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#243) (state variable)
+CakeFlipVault.tvl().earned (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4527) shadows:
+	- CakeFlipVault.earned(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4575-4577) (function)
+CakeFlipVault.tvlReward().earned (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4539) shadows:
+	- CakeFlipVault.earned(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4575-4577) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+RewardsDistributionRecipient.setRewardsDistribution(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3476-3478) should emit an event for: 
+	- rewardsDistribution = _rewardsDistribution (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3477) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+HunnyMinter.setWithdrawalFee(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2891-2894) should emit an event for: 
+	- WITHDRAWAL_FEE = _fee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2893) 
+HunnyMinter.setPerformanceFee(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2896-2899) should emit an event for: 
+	- PERFORMANCE_FEE = _fee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2898) 
+HunnyMinter.setWithdrawalFeeFreePeriod(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2901-2903) should emit an event for: 
+	- WITHDRAWAL_FEE_FREE_PERIOD = _period (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2902) 
+HunnyMinter.setHunnyPerProfitBNB(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2913-2915) should emit an event for: 
+	- hunnyPerProfitBNB = _ratio (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2914) 
+HunnyMinter.setHunnyPerHunnyBNBFlip(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2917-2919) should emit an event for: 
+	- hunnyPerHunnyBNBFlip = _hunnyPerHunnyBNBFlip (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2918) 
+HunnyMinter.setHunnyPerBlockLottery(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2921-2923) should emit an event for: 
+	- hunnyPerBlockLottery = _hunnyPerBlockLottery (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2922) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+HunnyOracle.constructor(address).hunny (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2013) lacks a zero-check on :
+		- hunnyToken = hunny (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2014)
+PancakeSwap.constructor(address)._hunnyAddress (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2651) lacks a zero-check on :
+		- _hunny = _hunnyAddress (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2652)
+HunnyMinter.constructor(address,address,address,address,address)._hunnyPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2873) lacks a zero-check on :
+		- hunnyPool = _hunnyPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2875)
+HunnyMinter.constructor(address,address,address,address,address)._lotteryPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2873) lacks a zero-check on :
+		- lotteryPool = _lotteryPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2876)
+RewardsDistributionRecipient.setRewardsDistribution(address)._rewardsDistribution (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3476) lacks a zero-check on :
+		- rewardsDistribution = _rewardsDistribution (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3477)
+HunnyPool.constructor(address,address,address)._presale (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3691) lacks a zero-check on :
+		- presaleContract = _presale (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3693)
+HunnyBNBPool.constructor(address,address,address)._presale (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4031) lacks a zero-check on :
+		- presale = _presale (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4033)
+CakeFlipVault.constructor(uint256,address,address,address,address).cake (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4466) lacks a zero-check on :
+		- CAKE = cake (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4467)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in HunnyBNBPool._depositTo(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4134-4146):
+	External calls:
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4135)
+	- mintHunny(amount,duration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4140)
+		- minter.mintForHunnyBNB(amount,duration,msg.sender) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4173)
+	State variables written after the call(s):
+	- totalShares = totalShares.add(_amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4143)
+Reentrancy in CakeVault._depositTo(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4338-4356):
+	External calls:
+	- CAKE.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4342)
+	State variables written after the call(s):
+	- _shares[_to] = _shares[_to].add(shares) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4351)
+	- totalShares = totalShares.add(shares) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4350)
+Reentrancy in CakeFlipVault._harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4657-4665):
+	External calls:
+	- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+	State variables written after the call(s):
+	- _notifyRewardAmount(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4663)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4767)
+		- lastUpdateTime = block.timestamp (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4746)
+	- _notifyRewardAmount(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4663)
+		- periodFinish = block.timestamp.add(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4747)
+	- _notifyRewardAmount(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4663)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4766)
+	- _notifyRewardAmount(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4663)
+		- rewardRate = reward.div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4732)
+		- rewardRate = reward.add(leftover).div(rewardsDuration) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4736)
+	- _notifyRewardAmount(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4663)
+		- rewards[account] = earned(account) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4769)
+	- _notifyRewardAmount(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4663)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4770)
+Reentrancy in HunnyPool.stakeTo(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3906-3911):
+	External calls:
+	- _deposit(amount,_to) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3907)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3806)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	External calls sending eth:
+	- _deposit(amount,_to) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3907)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	State variables written after the call(s):
+	- _presaleBalance[_to] = _presaleBalance[_to].add(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3909)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in HunnyPool._deposit(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3802-3808):
+	External calls:
+	- stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3806)
+	Event emitted after the call(s):
+	- Staked(_to,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3807)
+Reentrancy in CakeFlipVault._deposit(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4584-4594):
+	External calls:
+	- stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4589)
+	- CAKE_MASTER_CHEF.deposit(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4590)
+	Event emitted after the call(s):
+	- Staked(_to,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4591)
+Reentrancy in CakeFlipVault._deposit(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4584-4594):
+	External calls:
+	- stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4589)
+	- CAKE_MASTER_CHEF.deposit(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4590)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+		- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+	Event emitted after the call(s):
+	- RewardAdded(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4748)
+		- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4593)
+Reentrancy in CakeFlipVault._harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4657-4665):
+	External calls:
+	- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+	Event emitted after the call(s):
+	- RewardAdded(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4748)
+		- _notifyRewardAmount(amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4663)
+Reentrancy in HunnyPool.getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3835-3843):
+	External calls:
+	- reward = _flipToWBNB(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3839)
+		- (rewardHunny) = ROUTER.removeLiquidity(address(stakingToken),wbnb,amount,0,0,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3847-3849)
+		- ROUTER.swapExactTokensForTokens(rewardHunny,0,path,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3853)
+	- IBEP20(ROUTER.WETH()).safeTransfer(msg.sender,reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3840)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3841)
+Reentrancy in CakeFlipVault.getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4634-4650):
+	External calls:
+	- rewardsToken.withdraw(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4638)
+	- minter.mintFor(CAKE,0,performanceFee,msg.sender,depositedAt[msg.sender]) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4643)
+	- IBEP20(CAKE).safeTransfer(msg.sender,cakeBalance) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4647)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,cakeBalance) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4648)
+Reentrancy in CakeFlipVault.harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4652-4655):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(poolId,0) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4653)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4654)
+		- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+	Event emitted after the call(s):
+	- RewardAdded(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4748)
+		- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4654)
+Reentrancy in HunnyPool.recoverBEP20(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3934-3938):
+	External calls:
+	- IBEP20(tokenAddress).safeTransfer(owner(),tokenAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3936)
+	Event emitted after the call(s):
+	- Recovered(tokenAddress,tokenAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3937)
+Reentrancy in CakeFlipVault.recoverBEP20(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4751-4755):
+	External calls:
+	- IBEP20(tokenAddress).safeTransfer(owner(),tokenAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4753)
+	Event emitted after the call(s):
+	- Recovered(tokenAddress,tokenAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4754)
+Reentrancy in HunnyPool.withdraw(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3818-3825):
+	External calls:
+	- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3823)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3824)
+Reentrancy in CakeFlipVault.withdraw(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4604-4624):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4608)
+	- minter.mintFor(address(stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,_depositedAt) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4615)
+	- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4620)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4621)
+Reentrancy in CakeFlipVault.withdraw(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4604-4624):
+	External calls:
+	- CAKE_MASTER_CHEF.withdraw(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4608)
+	- minter.mintFor(address(stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,_depositedAt) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4615)
+	- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4620)
+	- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+		- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+	Event emitted after the call(s):
+	- RewardAdded(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4748)
+		- _harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4623)
+Reentrancy in HunnyPool.withdrawAll() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3827-3833):
+	External calls:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3830)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3823)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- (rewardHunny) = ROUTER.removeLiquidity(address(stakingToken),wbnb,amount,0,0,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3847-3849)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- IBEP20(ROUTER.WETH()).safeTransfer(msg.sender,reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3840)
+		- ROUTER.swapExactTokensForTokens(rewardHunny,0,path,address(this),block.timestamp) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3853)
+	External calls sending eth:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3830)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3841)
+		- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3832)
+Reentrancy in CakeFlipVault.withdrawAll() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4626-4632):
+	External calls:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4629)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- rewardsToken.deposit(cakeAmount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4660)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- CAKE_MASTER_CHEF.withdraw(poolId,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4608)
+		- minter.mintFor(address(stakingToken),withdrawalFee.sub(performanceFee),performanceFee,msg.sender,_depositedAt) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4615)
+		- stakingToken.safeTransfer(msg.sender,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4620)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#657)
+		- rewardsToken.withdraw(reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4638)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+		- minter.mintFor(CAKE,0,performanceFee,msg.sender,depositedAt[msg.sender]) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4643)
+		- IBEP20(CAKE).safeTransfer(msg.sender,cakeBalance) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4647)
+	External calls sending eth:
+	- withdraw(_withdraw) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4629)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,cakeBalance) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4648)
+		- getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4631)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+HunnyToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1159-1200) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(now <= expiry,HUNNY::delegateBySig: signature expired) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1198)
+UniswapV2OracleLibrary.currentCumulativePrices(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1955-1973) uses timestamp for comparisons
+	Dangerous comparisons:
+	- blockTimestampLast != blockTimestamp (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1964)
+HunnyMinter.isMinter(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2935-2944) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < 1605585600 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2940)
+HunnyMinter.withdrawalFee(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2954-2959) uses timestamp for comparisons
+	Dangerous comparisons:
+	- depositedAt.add(WITHDRAWAL_FEE_FREE_PERIOD) > block.timestamp (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2955)
+HunnyPool.withdrawableBalanceOf(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3729-3750) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > TIMESTAMP_90_DAYS_AFTER_PRESALE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3730)
+	- block.timestamp < TIMESTAMP_2_HOURS_AFTER_PRESALE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3733)
+HunnyPool.getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3835-3843) uses timestamp for comparisons
+	Dangerous comparisons:
+	- reward > 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3837)
+HunnyPool.notifyRewardAmount(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3913-3932) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= periodFinish (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3914)
+	- require(bool,string)(rewardRate <= _balance.div(rewardsDuration),reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3927)
+HunnyPool.setRewardsDuration(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3940-3944) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(periodFinish == 0 || block.timestamp > periodFinish,period) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3941)
+HunnyBNBPool._depositTo(uint256,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4134-4146) uses timestamp for comparisons
+	Dangerous comparisons:
+	- amount != 0 && depositedAt[_to] != 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4138)
+CakeFlipVault.withdraw(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4604-4624) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(amount > 0,amount) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4605)
+	- withdrawalFee > 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4613)
+CakeFlipVault.getReward() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4634-4650) uses timestamp for comparisons
+	Dangerous comparisons:
+	- reward > 0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4636)
+CakeFlipVault._notifyRewardAmount(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4730-4749) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= periodFinish (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4731)
+	- require(bool,string)(rewardRate <= _balance.div(rewardsDuration),reward) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4744)
+CakeFlipVault.setRewardsDuration(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4757-4761) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(periodFinish == 0 || block.timestamp > periodFinish,period) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4758)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#429-440) uses assembly
+	- INLINE ASM (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#436-438)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#537-563) uses assembly
+	- INLINE ASM (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#555-558)
+HunnyToken.getChainId() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1318-1322) uses assembly
+	- INLINE ASM (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1320)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+HunnyToken.antiWhale(address,address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1037-1047) compares to a boolean constant:
+	-_excludedFromAntiWhale[sender] == false && _excludedFromAntiWhale[recipient] == false (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1040-1041)
+HunnyMinter.onlyMinter() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2868-2871) compares to a boolean constant:
+	-require(bool,string)(isMinter(msg.sender) == true,not minter) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2869)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#484-486) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#513-519) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#527-535) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#458-464) is never used and should be removed
+BEP20._burn(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2354-2360) is never used and should be removed
+BEP20._burnFrom(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2393-2400) is never used and should be removed
+BEP20Virtual._burn(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#939-945) is never used and should be removed
+BEP20Virtual._burnFrom(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#978-985) is never used and should be removed
+Babylonian.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1569-1611) is never used and should be removed
+BitMath.leastSignificantBit(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1659-1699) is never used and should be removed
+BitMath.mostSignificantBit(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1622-1654) is never used and should be removed
+Context._msgData() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#218-221) is never used and should be removed
+FixedPoint.decode(FixedPoint.uq112x112) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1742-1744) is never used and should be removed
+FixedPoint.divuq(FixedPoint.uq112x112,FixedPoint.uq112x112) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1797-1811) is never used and should be removed
+FixedPoint.encode(uint112) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1732-1734) is never used and should be removed
+FixedPoint.encode144(uint144) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1737-1739) is never used and should be removed
+FixedPoint.muli(FixedPoint.uq112x112,int256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1761-1765) is never used and should be removed
+FixedPoint.muluq(FixedPoint.uq112x112,FixedPoint.uq112x112) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1769-1794) is never used and should be removed
+FixedPoint.reciprocal(FixedPoint.uq112x112) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1833-1837) is never used and should be removed
+FixedPoint.sqrt(FixedPoint.uq112x112) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1841-1849) is never used and should be removed
+HomoraMath.divCeil(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3025-3027) is never used and should be removed
+HomoraMath.fdiv(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3033-3035) is never used and should be removed
+HomoraMath.fmul(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3029-3031) is never used and should be removed
+HomoraMath.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3039-3082) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3355-3358) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3340-3342) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#634-644) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#625-632) is never used and should be removed
+SafeMath.min(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#174-176) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#149-151) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#165-172) is never used and should be removed
+SafeMath.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#179-190) is never used and should be removed
+UniswapV2Library.getAmountIn(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1906-1912) is never used and should be removed
+UniswapV2Library.getAmountOut(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1896-1903) is never used and should be removed
+UniswapV2Library.getAmountsIn(address,uint256,address[]) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1926-1934) is never used and should be removed
+UniswapV2Library.getAmountsOut(address,uint256,address[]) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1915-1923) is never used and should be removed
+UniswapV2Library.getReserves(address,address,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1882-1886) is never used and should be removed
+UniswapV2Library.pairFor(address,address,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1871-1879) is never used and should be removed
+UniswapV2Library.quote(uint256,uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1889-1893) is never used and should be removed
+UniswapV2Library.sortTokens(address,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1864-1868) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#458-464):
+	- (success) = recipient.call{value: amount}() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#462)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#537-563):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#546)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+HunnyPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3655-3971) should inherit from IStakingRewards (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2773-2776)
+HunnyBNBPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4013-4187) should inherit from ICakeVault (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4406-4412)
+CakeVault (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4230-4399) should inherit from ICakeVault (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4406-4412)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance[0m
+[92m
+Parameter HunnyToken.isExcludedFromAntiWhale(address)._account (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1066) is not in mixedCase
+Parameter HunnyToken.updateMaxTransferAmountRate(uint16)._maxTransferAmountRate (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1070) is not in mixedCase
+Parameter HunnyToken.setExcludedFromAntiWhale(address,bool)._account (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1076) is not in mixedCase
+Parameter HunnyToken.setExcludedFromAntiWhale(address,bool)._excluded (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1076) is not in mixedCase
+Parameter HunnyToken.mint(address,uint256)._to (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1088) is not in mixedCase
+Parameter HunnyToken.mint(address,uint256)._amount (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1088) is not in mixedCase
+Variable HunnyToken._delegates (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1100) is not in mixedCase
+Function IUniswapV2Pair.DOMAIN_SEPARATOR() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1366) is not in mixedCase
+Function IUniswapV2Pair.PERMIT_TYPEHASH() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1367) is not in mixedCase
+Function IUniswapV2Pair.MINIMUM_LIQUIDITY() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1384) is not in mixedCase
+Parameter Whitelist.isWhitelist(address)._address (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1485) is not in mixedCase
+Parameter Whitelist.setWhitelist(address,bool)._address (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1489) is not in mixedCase
+Parameter Whitelist.setWhitelist(address,bool)._on (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1489) is not in mixedCase
+Struct FixedPoint.uq112x112 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1716-1718) is not in CapWords
+Struct FixedPoint.uq144x112 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1722-1724) is not in CapWords
+Function IPancakeRouter01.WETH() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2410) is not in mixedCase
+Function IPancakePair.DOMAIN_SEPARATOR() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2571) is not in mixedCase
+Function IPancakePair.PERMIT_TYPEHASH() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2572) is not in mixedCase
+Function IPancakePair.MINIMUM_LIQUIDITY() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2589) is not in mixedCase
+Parameter PancakeSwap.swapToken(address,uint256,address)._from (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2695) is not in mixedCase
+Parameter PancakeSwap.swapToken(address,uint256,address)._amount (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2695) is not in mixedCase
+Parameter PancakeSwap.swapToken(address,uint256,address)._to (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2695) is not in mixedCase
+Variable PancakeSwap.ROUTER (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2644) is not in mixedCase
+Function IHunnyMinter.WITHDRAWAL_FEE_FREE_PERIOD() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2748) is not in mixedCase
+Function IHunnyMinter.WITHDRAWAL_FEE() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2749) is not in mixedCase
+Parameter HunnyMinter.transferHunnyOwner(address)._owner (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2887) is not in mixedCase
+Parameter HunnyMinter.setWithdrawalFee(uint256)._fee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2891) is not in mixedCase
+Parameter HunnyMinter.setPerformanceFee(uint256)._fee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2896) is not in mixedCase
+Parameter HunnyMinter.setWithdrawalFeeFreePeriod(uint256)._period (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2901) is not in mixedCase
+Parameter HunnyMinter.setHunnyPerProfitBNB(uint256)._ratio (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2913) is not in mixedCase
+Parameter HunnyMinter.setHunnyPerHunnyBNBFlip(uint256)._hunnyPerHunnyBNBFlip (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2917) is not in mixedCase
+Parameter HunnyMinter.setHunnyPerBlockLottery(uint256)._hunnyPerBlockLottery (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2921) is not in mixedCase
+Parameter HunnyMinter.setHelper(IStrategyHelper)._helper (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2925) is not in mixedCase
+Parameter HunnyMinter.setOracle(IHunnyOracle)._oracle (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2930) is not in mixedCase
+Parameter HunnyMinter.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2965) is not in mixedCase
+Parameter HunnyMinter.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2965) is not in mixedCase
+Variable HunnyMinter.WBNB (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2848) is not in mixedCase
+Variable HunnyMinter.WITHDRAWAL_FEE_FREE_PERIOD (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2850) is not in mixedCase
+Variable HunnyMinter.WITHDRAWAL_FEE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2851) is not in mixedCase
+Variable HunnyMinter.PERFORMANCE_FEE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2854) is not in mixedCase
+Parameter StrategyHelperV1.tokenPriceInBNB(address)._token (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3181) is not in mixedCase
+Parameter StrategyHelperV1.unsafeTokenPriceInBNB(address)._token (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3191) is not in mixedCase
+Parameter StrategyHelperV1.tvl(address,uint256)._flip (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3255) is not in mixedCase
+Parameter StrategyHelperV1.tvlInBNB(address,uint256)._flip (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3281) is not in mixedCase
+Variable StrategyHelperV1.WBNB (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3165) is not in mixedCase
+Variable StrategyHelperV1.CAKE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3166) is not in mixedCase
+Variable StrategyHelperV1.BUSD (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3167) is not in mixedCase
+Parameter RewardsDistributionRecipient.setRewardsDistribution(address)._rewardsDistribution (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3476) is not in mixedCase
+Parameter Pausable.setPaused(bool)._paused (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3537) is not in mixedCase
+Parameter HunnyPool.setRewardsToken(address)._rewardsToken (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3887) is not in mixedCase
+Parameter HunnyPool.setHelper(IStrategyHelper)._helper (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3897) is not in mixedCase
+Parameter HunnyPool.setStakePermission(address,bool)._address (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3902) is not in mixedCase
+Parameter HunnyPool.stakeTo(uint256,address)._to (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3906) is not in mixedCase
+Parameter HunnyPool.setRewardsDuration(uint256)._rewardsDuration (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3940) is not in mixedCase
+Constant HunnyPool.deadAddress (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3679) is not in UPPER_CASE_WITH_UNDERSCORES
+Variable HunnyPool.TIMESTAMP_2_HOURS_AFTER_PRESALE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3682) is not in mixedCase
+Variable HunnyPool.TIMESTAMP_90_DAYS_AFTER_PRESALE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3683) is not in mixedCase
+Variable HunnyPool.ROUTER (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3687) is not in mixedCase
+Parameter HunnyBNBPool.setFlipToken(address)._token (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4037) is not in mixedCase
+Parameter HunnyBNBPool.setMinter(IHunnyMinter)._minter (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4042) is not in mixedCase
+Parameter HunnyBNBPool.setHelper(IStrategyHelper)._helper (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4050) is not in mixedCase
+Parameter HunnyBNBPool.depositTo(uint256,uint256,address)._amount (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4129) is not in mixedCase
+Parameter HunnyBNBPool.depositTo(uint256,uint256,address)._to (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4129) is not in mixedCase
+Parameter HunnyBNBPool.deposit(uint256)._amount (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4148) is not in mixedCase
+Variable HunnyBNBPool.HUNNY (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4017) is not in mixedCase
+Variable HunnyBNBPool.CAKE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4018) is not in mixedCase
+Variable HunnyBNBPool.WBNB (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4019) is not in mixedCase
+Parameter CakeVault.setKeeper(address)._keeper (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4254) is not in mixedCase
+Parameter CakeVault.setHelper(IStrategyHelper)._helper (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4260) is not in mixedCase
+Parameter CakeVault.setWhitelist(address,bool)._address (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4267) is not in mixedCase
+Parameter CakeVault.setWhitelist(address,bool)._on (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4267) is not in mixedCase
+Parameter CakeVault.deposit(uint256)._amount (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4358) is not in mixedCase
+Parameter CakeVault.withdraw(uint256)._amount (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4385) is not in mixedCase
+Variable CakeVault.CAKE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4234) is not in mixedCase
+Variable CakeVault.CAKE_MASTER_CHEF (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4235) is not in mixedCase
+Parameter CakeFlipVault.setKeeper(address)._keeper (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4694) is not in mixedCase
+Parameter CakeFlipVault.setMinter(IHunnyMinter)._minter (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4700) is not in mixedCase
+Parameter CakeFlipVault.setRewardsToken(address)._rewardsToken (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4712) is not in mixedCase
+Parameter CakeFlipVault.setHelper(IStrategyHelper)._helper (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4721) is not in mixedCase
+Parameter CakeFlipVault.setRewardsDuration(uint256)._rewardsDuration (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4757) is not in mixedCase
+Variable CakeFlipVault.CAKE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4453) is not in mixedCase
+Variable CakeFlipVault.CAKE_MASTER_CHEF (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4454) is not in mixedCase
+Function Deployer2.step1_presaleInitialize() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4882-4905) is not in mixedCase
+Function Deployer2.step2_1_presaleDistributeTokens(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4907-4911) is not in mixedCase
+Function Deployer2.step2_2_presaleDistributeTokensWhiteList() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4913-4917) is not in mixedCase
+Function Deployer2.step3_presaleFinalize() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4919-4937) is not in mixedCase
+Function Deployer2.step4_setupLiquidityReward(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4939-4965) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#219)" inContext (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#209-222)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable UniswapV2OracleLibrary.currentCumulativePrices(address).price0Cumulative (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1957) is too similar to UniswapV2OracleLibrary.currentCumulativePrices(address).price1Cumulative (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1957)
+Variable HunnyOracle.price0Average (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2010) is too similar to HunnyOracle.price1Average (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2011)
+Variable HunnyOracle._update().price0Cumulative (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2053) is too similar to HunnyOracle._update().price1Cumulative (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2053)
+Variable HunnyOracle.price0CumulativeLast (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2007) is too similar to HunnyOracle.price1CumulativeLast (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2008)
+Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2415) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2416)
+Variable PancakeSwap.generateFlipToken().amountADesired (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2716) is too similar to PancakeSwap.generateFlipToken().amountBDesired (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2717)
+Variable HunnyMinter.PERFORMANCE_FEE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2854) is too similar to IHunnyMinter.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2743)
+Variable HunnyMinter.WITHDRAWAL_FEE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2851) is too similar to IHunnyMinter.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2743)
+Variable HunnyMinter.PERFORMANCE_FEE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2854) is too similar to HunnyMinter.mintFor(address,uint256,uint256,address,uint256)._performanceFee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2965)
+Variable HunnyMinter.WITHDRAWAL_FEE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2851) is too similar to HunnyMinter.mintFor(address,uint256,uint256,address,uint256)._withdrawalFee (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2965)
+Variable StrategyHelperV1.tvl(address,uint256).price_scope_0 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3272) is too similar to StrategyHelperV1.tvl(address,uint256).price_scope_1 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3277)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+HunnyToken.slitherConstructorConstantVariables() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1022-1323) uses literals with too many digits:
+	- BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1024)
+Babylonian.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1569-1611) uses literals with too many digits:
+	- xx >= 0x100000000000000000000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1575)
+Babylonian.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1569-1611) uses literals with too many digits:
+	- xx >= 0x10000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1579)
+Babylonian.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1569-1611) uses literals with too many digits:
+	- xx >= 0x100000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1583)
+BitMath.mostSignificantBit(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1622-1654) uses literals with too many digits:
+	- x >= 0x100000000000000000000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1625)
+BitMath.mostSignificantBit(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1622-1654) uses literals with too many digits:
+	- x >= 0x10000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1629)
+BitMath.mostSignificantBit(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1622-1654) uses literals with too many digits:
+	- x >= 0x100000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1633)
+FixedPoint.slitherConstructorConstantVariables() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1713-1850) uses literals with too many digits:
+	- Q112 = 0x10000000000000000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1727)
+FixedPoint.slitherConstructorConstantVariables() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1713-1850) uses literals with too many digits:
+	- Q224 = 0x100000000000000000000000000000000000000000000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1728)
+HunnyOracle.slitherConstructorConstantVariables() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1994-2085) uses literals with too many digits:
+	- BOOTSTRAP_HUNNY_PRICE = 250000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1998)
+HomoraMath.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3039-3082) uses literals with too many digits:
+	- xx >= 0x100000000000000000000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3044)
+HomoraMath.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3039-3082) uses literals with too many digits:
+	- xx >= 0x10000000000000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3049)
+HomoraMath.sqrt(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3039-3082) uses literals with too many digits:
+	- xx >= 0x100000000 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3053)
+HunnyPool.slitherConstructorConstantVariables() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3655-3971) uses literals with too many digits:
+	- deadAddress = 0x000000000000000000000000000000000000dEaD (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3679)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+HunnyMinter.WBNB (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2848) is never used in HunnyMinter (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2842-3012)
+StrategyHelperV1.BUSD (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3167) is never used in StrategyHelperV1 (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3163-3325)
+HunnyBNBPool.CAKE (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4018) is never used in HunnyBNBPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4013-4187)
+HunnyBNBPool.WBNB (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4019) is never used in HunnyBNBPool (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4013-4187)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+CakeVault.poolId (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4239) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#278-281)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#287-289)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2163-2165)
+	- BEP20Virtual.decimals() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#748-750)
+symbol() should be declared external:
+	- BEP20.symbol() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2170-2172)
+	- BEP20Virtual.symbol() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#755-757)
+transfer(address,uint256) should be declared external:
+	- BEP20.transfer(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2196-2199)
+	- BEP20Virtual.transfer(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#781-784)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2204-2206)
+	- BEP20Virtual.allowance(address,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#789-791)
+approve(address,uint256) should be declared external:
+	- BEP20.approve(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2215-2218)
+	- BEP20Virtual.approve(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#800-803)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20.transferFrom(address,address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2232-2244)
+	- BEP20Virtual.transferFrom(address,address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#817-829)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20Virtual.increaseAllowance(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#843-846)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20Virtual.decreaseAllowance(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#862-869)
+mint(uint256) should be declared external:
+	- BEP20Virtual.mint(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#879-882)
+isExcludedFromAntiWhale(address) should be declared external:
+	- HunnyToken.isExcludedFromAntiWhale(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1066-1068)
+updateMaxTransferAmountRate(uint16) should be declared external:
+	- HunnyToken.updateMaxTransferAmountRate(uint16) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1070-1074)
+setExcludedFromAntiWhale(address,bool) should be declared external:
+	- HunnyToken.setExcludedFromAntiWhale(address,bool) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1076-1078)
+transferOperator(address) should be declared external:
+	- HunnyToken.transferOperator(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1080-1085)
+mint(address,uint256) should be declared external:
+	- HunnyToken.mint(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1088-1091)
+isWhitelist(address) should be declared external:
+	- Whitelist.isWhitelist(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1485-1487)
+disableWhitelist(bool) should be declared external:
+	- Whitelist.disableWhitelist(bool) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#1495-1502)
+update() should be declared external:
+	- HunnyOracle.update() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2037-2050)
+capture() should be declared external:
+	- HunnyOracle.capture() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2077-2084)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20.increaseAllowance(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2258-2261)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20.decreaseAllowance(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2277-2284)
+mint(uint256) should be declared external:
+	- BEP20.mint(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2294-2297)
+performanceFee(uint256) should be declared external:
+	- HunnyMinter.performanceFee(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#2961-2963)
+apy(address,uint256) should be declared external:
+	- StrategyHelperV1.apy(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3249-3253)
+tvlInBNB(address,uint256) should be declared external:
+	- StrategyHelperV1.tvlInBNB(address,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3281-3303)
+setOracle(address) should be declared external:
+	- StrategyHelperV1.setOracle(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3318-3320)
+setTokenFeed(address,address) should be declared external:
+	- StrategyHelperV1.setTokenFeed(address,address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#3322-3324)
+setFlipToken(address) should be declared external:
+	- HunnyBNBPool.setFlipToken(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4037-4040)
+sharesOf(address) should be declared external:
+	- HunnyBNBPool.sharesOf(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4067-4069)
+priceShare() should be declared external:
+	- HunnyBNBPool.priceShare() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4125-4127)
+priceShare() should be declared external:
+	- CakeVault.priceShare() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4333-4336)
+harvest() should be declared external:
+	- CakeFlipVault.harvest() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4652-4655)
+notifyRewardAmount(uint256) should be declared external:
+	- CakeFlipVault.notifyRewardAmount(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4726-4728)
+transferContractOwner(address) should be declared external:
+	- Deployer1.transferContractOwner(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4856-4864)
+step1_presaleInitialize() should be declared external:
+	- Deployer2.step1_presaleInitialize() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4882-4905)
+step2_1_presaleDistributeTokens(uint256,uint256) should be declared external:
+	- Deployer2.step2_1_presaleDistributeTokens(uint256,uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4907-4911)
+step2_2_presaleDistributeTokensWhiteList() should be declared external:
+	- Deployer2.step2_2_presaleDistributeTokensWhiteList() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4913-4917)
+step3_presaleFinalize() should be declared external:
+	- Deployer2.step3_presaleFinalize() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4919-4937)
+step4_setupLiquidityReward(uint256) should be declared external:
+	- Deployer2.step4_setupLiquidityReward(uint256) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4939-4965)
+transferContractOwner(address) should be declared external:
+	- Deployer2.transferContractOwner(address) (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4967-4976)
+emergencyTransfer() should be declared external:
+	- Deployer2.emergencyTransfer() (../../sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol#4980-4983)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x109ea28dbdea5e6ec126fbc8c33845dfe812a300.sol analyzed (48 contracts with 78 detectors), 330 result(s) found

@@ -1,0 +1,855 @@
+{
+    "errors": [
+        "EXIT_CODE_91"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "init",
+            "impact": "High",
+            "line": 1415,
+            "line_end": 1465,
+            "message": "DVM.init(address,address,address,uint256,address,uint256,uint256,bool) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1415-1465) uses a weak PRNG: \"_BLOCK_TIMESTAMP_LAST_ = uint32(block.timestamp % 2 ** 32) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1440)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_twapUpdate",
+            "impact": "High",
+            "line": 932,
+            "line_end": 939,
+            "message": "DVMVault._twapUpdate() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#932-939) uses a weak PRNG: \"blockTimestamp = uint32(block.timestamp % 2 ** 32) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#933)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_SolveQuadraticFunctionForTrade",
+            "impact": "Medium",
+            "line": 473,
+            "line_end": 551,
+            "message": "DODOMath._SolveQuadraticFunctionForTrade(uint256,uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#473-551) performs a multiplication on the result of a division:\n\t-temp = delta.mul(V1).div(V0).mul(i).div(V0) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#503)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_SolveQuadraticFunctionForTrade",
+            "impact": "Medium",
+            "line": 473,
+            "line_end": 551,
+            "message": "DODOMath._SolveQuadraticFunctionForTrade(uint256,uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#473-551) performs a multiplication on the result of a division:\n\t-part2 = k.mul(V0).div(V1).mul(V0).add(i.mul(delta)) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#515)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_SolveQuadraticFunctionForTrade",
+            "impact": "Medium",
+            "line": 473,
+            "line_end": 551,
+            "message": "DODOMath._SolveQuadraticFunctionForTrade(uint256,uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#473-551) performs a multiplication on the result of a division:\n\t-bAbs = bAbs.div(DecimalMath.ONE) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#526)\n\t-squareRoot = bAbs.mul(bAbs).add(squareRoot).sqrt() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#534)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_SolveQuadraticFunctionForTarget",
+            "impact": "Medium",
+            "line": 417,
+            "line_end": 446,
+            "message": "DODOMath._SolveQuadraticFunctionForTarget(uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#417-446) performs a multiplication on the result of a division:\n\t-sqrt = ki.div(V1).mul(delta).add(DecimalMath.ONE2).sqrt() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#440)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_SolveQuadraticFunctionForTrade",
+            "impact": "Medium",
+            "line": 473,
+            "line_end": 551,
+            "message": "DODOMath._SolveQuadraticFunctionForTrade(uint256,uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#473-551) performs a multiplication on the result of a division:\n\t-temp = (idelta * V1).div(V0.mul(V0)) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#501)\n\t-V1.mul(temp).div(temp.add(DecimalMath.ONE)) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#505)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "buyShares",
+            "impact": "Medium",
+            "line": 1323,
+            "line_end": 1360,
+            "message": "DVMFunding.buyShares(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1323-1360) uses a dangerous strict equality:\n\t- totalSupply == 0 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1343)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "buyShares",
+            "impact": "Medium",
+            "line": 1323,
+            "line_end": 1360,
+            "message": "DVMFunding.buyShares(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1323-1360) uses a dangerous strict equality:\n\t- baseReserve > 0 && quoteReserve == 0 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1347)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellQuote",
+            "impact": "Medium",
+            "line": 1193,
+            "line_end": 1215,
+            "message": "Reentrancy in DVMTrader.sellQuote(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1193-1215):\n\tExternal calls:\n\t- _transferBaseOut(to,receiveBaseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1203)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferBaseOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1204)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tState variables written after the call(s):\n\t- _setReserve(_BASE_TOKEN_.balanceOf(address(this)),quoteBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1205)\n\t\t- _BASE_RESERVE_ = uint112(baseReserve) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#945)\n\t- _setReserve(_BASE_TOKEN_.balanceOf(address(this)),quoteBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1205)\n\t\t- _QUOTE_RESERVE_ = uint112(quoteReserve) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#946)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "flashLoan",
+            "impact": "Medium",
+            "line": 1217,
+            "line_end": 1275,
+            "message": "Reentrancy in DVMTrader.flashLoan(uint256,uint256,address,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1217-1275):\n\tExternal calls:\n\t- _transferBaseOut(assetTo,baseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1223)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(assetTo,quoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1224)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- IDODOCallee(assetTo).DVMFlashLoanCall(msg.sender,baseAmount,quoteAmount,data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1227)\n\t- _transferBaseOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1244)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(_MAINTAINER_,mtFee_scope_0) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1261)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tState variables written after the call(s):\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1272)\n\t\t- _BASE_RESERVE_ = uint112(baseBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#956)\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1272)\n\t\t- _QUOTE_RESERVE_ = uint112(quoteBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#959)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellBase",
+            "impact": "Medium",
+            "line": 1169,
+            "line_end": 1191,
+            "message": "Reentrancy in DVMTrader.sellBase(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1169-1191):\n\tExternal calls:\n\t- _transferQuoteOut(to,receiveQuoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1179)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1180)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tState variables written after the call(s):\n\t- _setReserve(baseBalance,_QUOTE_TOKEN_.balanceOf(address(this))) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1181)\n\t\t- _BASE_RESERVE_ = uint112(baseReserve) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#945)\n\t- _setReserve(baseBalance,_QUOTE_TOKEN_.balanceOf(address(this))) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1181)\n\t\t- _QUOTE_RESERVE_ = uint112(quoteReserve) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#946)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Medium",
+            "line": 1258,
+            "message": "DVMTrader.flashLoan(uint256,uint256,address,bytes).mtFee_scope_0 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1258) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Low",
+            "line": 44,
+            "message": "InitializableOwnable.initOwner(address).newOwner (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#44) lacks a zero-check on :\n\t\t- _OWNER_ = newOwner (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#46)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Low",
+            "line": 77,
+            "message": "FeeRateModel.setFeeProxy(address)._feeRateImpl (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#77) lacks a zero-check on :\n\t\t- feeRateImpl = _feeRateImpl (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#78)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Low",
+            "line": 49,
+            "message": "InitializableOwnable.transferOwnership(address).newOwner (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#49) lacks a zero-check on :\n\t\t- _NEW_OWNER_ = newOwner (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#51)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Low",
+            "line": 1416,
+            "message": "DVM.init(address,address,address,uint256,address,uint256,uint256,bool).maintainer (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1416) lacks a zero-check on :\n\t\t- _MAINTAINER_ = maintainer (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1437)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "flashLoan",
+            "impact": "Low",
+            "line": 1241,
+            "message": "Variable 'DVMTrader.flashLoan(uint256,uint256,address,bytes).mtFee (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1241)' in DVMTrader.flashLoan(uint256,uint256,address,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1217-1275) potentially used before declaration: (receiveQuoteAmount,mtFee) = querySellBase(tx.origin,baseInput) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1258)\n",
+            "name": "variable-scope"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellBase",
+            "impact": "Low",
+            "line": 1169,
+            "line_end": 1191,
+            "message": "Reentrancy in DVMTrader.sellBase(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1169-1191):\n\tExternal calls:\n\t- _transferQuoteOut(to,receiveQuoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1179)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1180)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tState variables written after the call(s):\n\t- _setReserve(baseBalance,_QUOTE_TOKEN_.balanceOf(address(this))) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1181)\n\t\t- _BASE_PRICE_CUMULATIVE_LAST_ += getMidPrice() * timeElapsed (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#936)\n\t- _setReserve(baseBalance,_QUOTE_TOKEN_.balanceOf(address(this))) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1181)\n\t\t- _BLOCK_TIMESTAMP_LAST_ = blockTimestamp (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#938)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellQuote",
+            "impact": "Low",
+            "line": 1193,
+            "line_end": 1215,
+            "message": "Reentrancy in DVMTrader.sellQuote(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1193-1215):\n\tExternal calls:\n\t- _transferBaseOut(to,receiveBaseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1203)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferBaseOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1204)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tState variables written after the call(s):\n\t- _setReserve(_BASE_TOKEN_.balanceOf(address(this)),quoteBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1205)\n\t\t- _BASE_PRICE_CUMULATIVE_LAST_ += getMidPrice() * timeElapsed (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#936)\n\t- _setReserve(_BASE_TOKEN_.balanceOf(address(this)),quoteBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1205)\n\t\t- _BLOCK_TIMESTAMP_LAST_ = blockTimestamp (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#938)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "flashLoan",
+            "impact": "Low",
+            "line": 1217,
+            "line_end": 1275,
+            "message": "Reentrancy in DVMTrader.flashLoan(uint256,uint256,address,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1217-1275):\n\tExternal calls:\n\t- _transferBaseOut(assetTo,baseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1223)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(assetTo,quoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1224)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- IDODOCallee(assetTo).DVMFlashLoanCall(msg.sender,baseAmount,quoteAmount,data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1227)\n\t- _transferBaseOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1244)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(_MAINTAINER_,mtFee_scope_0) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1261)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tState variables written after the call(s):\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1272)\n\t\t- _BASE_PRICE_CUMULATIVE_LAST_ += getMidPrice() * timeElapsed (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#936)\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1272)\n\t\t- _BLOCK_TIMESTAMP_LAST_ = blockTimestamp (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#938)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellShares",
+            "impact": "Low",
+            "line": 1363,
+            "line_end": 1401,
+            "message": "Reentrancy in DVMFunding.sellShares(uint256,address,uint256,uint256,bytes,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1363-1401):\n\tExternal calls:\n\t- _transferBaseOut(to,baseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1386)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(to,quoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1387)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tState variables written after the call(s):\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1388)\n\t\t- _BASE_PRICE_CUMULATIVE_LAST_ += getMidPrice() * timeElapsed (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#936)\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1388)\n\t\t- _BASE_RESERVE_ = uint112(baseBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#956)\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1388)\n\t\t- _BLOCK_TIMESTAMP_LAST_ = blockTimestamp (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#938)\n\t- _sync() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1388)\n\t\t- _QUOTE_RESERVE_ = uint112(quoteBalance) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#959)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "flashLoan",
+            "impact": "Low",
+            "line": 1217,
+            "line_end": 1275,
+            "message": "Reentrancy in DVMTrader.flashLoan(uint256,uint256,address,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1217-1275):\n\tExternal calls:\n\t- _transferBaseOut(assetTo,baseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1223)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(assetTo,quoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1224)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- IDODOCallee(assetTo).DVMFlashLoanCall(msg.sender,baseAmount,quoteAmount,data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1227)\n\t- _transferBaseOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1244)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tEvent emitted after the call(s):\n\t- DODOSwap(address(_QUOTE_TOKEN_),address(_BASE_TOKEN_),quoteInput,receiveBaseAmount,msg.sender,assetTo) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1245-1252)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellQuote",
+            "impact": "Low",
+            "line": 1193,
+            "line_end": 1215,
+            "message": "Reentrancy in DVMTrader.sellQuote(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1193-1215):\n\tExternal calls:\n\t- _transferBaseOut(to,receiveBaseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1203)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferBaseOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1204)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tEvent emitted after the call(s):\n\t- DODOSwap(address(_QUOTE_TOKEN_),address(_BASE_TOKEN_),quoteInput,receiveBaseAmount,msg.sender,to) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1207-1214)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "flashLoan",
+            "impact": "Low",
+            "line": 1217,
+            "line_end": 1275,
+            "message": "Reentrancy in DVMTrader.flashLoan(uint256,uint256,address,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1217-1275):\n\tExternal calls:\n\t- _transferBaseOut(assetTo,baseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1223)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(assetTo,quoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1224)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- IDODOCallee(assetTo).DVMFlashLoanCall(msg.sender,baseAmount,quoteAmount,data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1227)\n\t- _transferBaseOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1244)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(_MAINTAINER_,mtFee_scope_0) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1261)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tEvent emitted after the call(s):\n\t- DODOFlashLoan(msg.sender,assetTo,baseAmount,quoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1274)\n\t- DODOSwap(address(_BASE_TOKEN_),address(_QUOTE_TOKEN_),baseInput,receiveQuoteAmount,msg.sender,assetTo) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1262-1269)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellBase",
+            "impact": "Low",
+            "line": 1169,
+            "line_end": 1191,
+            "message": "Reentrancy in DVMTrader.sellBase(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1169-1191):\n\tExternal calls:\n\t- _transferQuoteOut(to,receiveQuoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1179)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(_MAINTAINER_,mtFee) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1180)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\tEvent emitted after the call(s):\n\t- DODOSwap(address(_BASE_TOKEN_),address(_QUOTE_TOKEN_),baseInput,receiveQuoteAmount,msg.sender,to) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1183-1190)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellShares",
+            "impact": "Low",
+            "line": 1363,
+            "line_end": 1401,
+            "message": "Reentrancy in DVMFunding.sellShares(uint256,address,uint256,uint256,bytes,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1363-1401):\n\tExternal calls:\n\t- _transferBaseOut(to,baseAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1386)\n\t\t- _BASE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#974)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- _transferQuoteOut(to,quoteAmount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1387)\n\t\t- _QUOTE_TOKEN_.safeTransfer(to,amount) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#980)\n\t\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n\t- IDODOCallee(to).DVMSellShareCall(msg.sender,shareAmount,baseAmount,quoteAmount,data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1391-1397)\n\tEvent emitted after the call(s):\n\t- SellShares(msg.sender,to,shareAmount,_SHARES_[msg.sender]) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1400)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 1075,
+            "line_end": 1100,
+            "message": "DVMVault.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1075-1100) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,DODO_DVM_LP: EXPIRED) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1084)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_twapUpdate",
+            "impact": "Low",
+            "line": 932,
+            "line_end": 939,
+            "message": "DVMVault._twapUpdate() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#932-939) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed > 0 && _BASE_RESERVE_ != 0 && _QUOTE_RESERVE_ != 0 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#935)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "sellShares",
+            "impact": "Low",
+            "line": 1363,
+            "line_end": 1401,
+            "message": "DVMFunding.sellShares(uint256,address,uint256,uint256,bytes,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1363-1401) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,TIME_EXPIRED) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1371)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "init",
+            "impact": "Informational",
+            "line": 1415,
+            "line_end": 1465,
+            "message": "DVM.init(address,address,address,uint256,address,uint256,uint256,bool) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1415-1465) uses assembly\n\t- INLINE ASM (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1451-1453)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 296,
+            "line_end": 310,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#296-310) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 284,
+            "line_end": 294,
+            "message": "SafeERC20.safeTransferFrom(IERC20,address,address,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#284-294) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "mulCeil",
+            "impact": "Informational",
+            "line": 237,
+            "line_end": 239,
+            "message": "DecimalMath.mulCeil(uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#237-239) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "reciprocalCeil",
+            "impact": "Informational",
+            "line": 253,
+            "line_end": 255,
+            "message": "DecimalMath.reciprocalCeil(uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#253-255) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 10,
+            "message": "Pragma version^0.6.9 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#10) is known to contain severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_callOptionalReturn",
+            "impact": "Informational",
+            "line": 318,
+            "line_end": 337,
+            "message": "Low level call in SafeERC20._callOptionalReturn(IERC20,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#318-337):\n\t- (success,returndata) = address(token).call(data) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#329)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "IFeeRateModel",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 74,
+            "line_end": 86,
+            "message": "FeeRateModel (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#74-86) should inherit from IFeeRateModel (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#70-72)\n",
+            "name": "missing-inheritance"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "DVMSellShareCall",
+            "impact": "Informational",
+            "line": 1106,
+            "line_end": 1112,
+            "message": "Function IDODOCallee.DVMSellShareCall(address,uint256,uint256,uint256,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1106-1112) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 834,
+            "message": "Variable DVMStorage.DOMAIN_SEPARATOR (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#834) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 475,
+            "message": "Parameter DODOMath._SolveQuadraticFunctionForTrade(uint256,uint256,uint256,uint256,uint256).V1 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#475) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 814,
+            "message": "Variable DVMStorage._QUOTE_TOKEN_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#814) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 20,
+            "message": "Variable InitializableOwnable._OWNER_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#20) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 841,
+            "message": "Variable DVMStorage._LP_FEE_RATE_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#841) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 21,
+            "message": "Variable InitializableOwnable._NEW_OWNER_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#21) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 807,
+            "message": "Variable DVMStorage._IS_OPEN_TWAP_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#807) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 816,
+            "message": "Variable DVMStorage._BASE_RESERVE_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#816) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "CPClaimBidCall",
+            "impact": "Informational",
+            "line": 1134,
+            "line_end": 1139,
+            "message": "Function IDODOCallee.CPClaimBidCall(address,uint256,uint256,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1134-1139) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 77,
+            "message": "Parameter FeeRateModel.setFeeProxy(address)._feeRateImpl (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#77) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 843,
+            "message": "Variable DVMStorage._K_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#843) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 22,
+            "message": "Variable InitializableOwnable._INITIALIZED_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#22) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_SolveQuadraticFunctionForTarget",
+            "impact": "Informational",
+            "line": 417,
+            "line_end": 446,
+            "message": "Function DODOMath._SolveQuadraticFunctionForTarget(uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#417-446) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_RAboveSellBaseToken",
+            "impact": "Informational",
+            "line": 734,
+            "line_end": 749,
+            "message": "Function PMMPricing._RAboveSellBaseToken(PMMPricing.PMMState,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#734-749) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "DPPFlashLoanCall",
+            "impact": "Informational",
+            "line": 1121,
+            "line_end": 1126,
+            "message": "Function IDODOCallee.DPPFlashLoanCall(address,uint256,uint256,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1121-1126) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 389,
+            "message": "Parameter DODOMath._GeneralIntegrate(uint256,uint256,uint256,uint256,uint256).V0 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#389) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 813,
+            "message": "Variable DVMStorage._BASE_TOKEN_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#813) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_SolveQuadraticFunctionForTrade",
+            "impact": "Informational",
+            "line": 473,
+            "line_end": 551,
+            "message": "Function DODOMath._SolveQuadraticFunctionForTrade(uint256,uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#473-551) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 418,
+            "message": "Parameter DODOMath._SolveQuadraticFunctionForTarget(uint256,uint256,uint256,uint256).V1 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#418) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 474,
+            "message": "Parameter DODOMath._SolveQuadraticFunctionForTrade(uint256,uint256,uint256,uint256,uint256).V0 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#474) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 829,
+            "message": "Variable DVMStorage._SHARES_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#829) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 818,
+            "message": "Variable DVMStorage._BLOCK_TIMESTAMP_LAST_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#818) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "CPCancelCall",
+            "impact": "Informational",
+            "line": 1128,
+            "line_end": 1132,
+            "message": "Function IDODOCallee.CPCancelCall(address,uint256,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1128-1132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 830,
+            "message": "Variable DVMStorage._ALLOWED_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#830) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_RBelowSellQuoteToken",
+            "impact": "Informational",
+            "line": 698,
+            "line_end": 713,
+            "message": "Function PMMPricing._RBelowSellQuoteToken(PMMPricing.PMMState,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#698-713) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_ROneSellBaseToken",
+            "impact": "Informational",
+            "line": 660,
+            "line_end": 677,
+            "message": "Function PMMPricing._ROneSellBaseToken(PMMPricing.PMMState,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#660-677) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 811,
+            "message": "Variable DVMStorage._MAINTAINER_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#811) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 352,
+            "message": "Variable ReentrancyGuard._ENTERED_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#352) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "DVMFlashLoanCall",
+            "impact": "Informational",
+            "line": 1114,
+            "line_end": 1119,
+            "message": "Function IDODOCallee.DVMFlashLoanCall(address,uint256,uint256,bytes) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1114-1119) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 820,
+            "message": "Variable DVMStorage._BASE_PRICE_CUMULATIVE_LAST_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#820) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 842,
+            "message": "Variable DVMStorage._MT_FEE_RATE_MODEL_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#842) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 817,
+            "message": "Variable DVMStorage._QUOTE_RESERVE_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#817) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 390,
+            "message": "Parameter DODOMath._GeneralIntegrate(uint256,uint256,uint256,uint256,uint256).V1 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#390) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_RBelowSellBaseToken",
+            "impact": "Informational",
+            "line": 715,
+            "line_end": 730,
+            "message": "Function PMMPricing._RBelowSellBaseToken(PMMPricing.PMMState,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#715-730) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_GeneralIntegrate",
+            "impact": "Informational",
+            "line": 388,
+            "line_end": 403,
+            "message": "Function DODOMath._GeneralIntegrate(uint256,uint256,uint256,uint256,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#388-403) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_RAboveSellQuoteToken",
+            "impact": "Informational",
+            "line": 751,
+            "line_end": 766,
+            "message": "Function PMMPricing._RAboveSellQuoteToken(PMMPricing.PMMState,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#751-766) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "_ROneSellQuoteToken",
+            "impact": "Informational",
+            "line": 679,
+            "line_end": 694,
+            "message": "Function PMMPricing._ROneSellQuoteToken(PMMPricing.PMMState,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#679-694) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 1467,
+            "message": "Parameter DVM.addressToShortString(address)._addr (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1467) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 391,
+            "message": "Parameter DODOMath._GeneralIntegrate(uint256,uint256,uint256,uint256,uint256).V2 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#391) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 844,
+            "message": "Variable DVMStorage._I_ (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#844) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "DecimalMath",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 230,
+            "message": "DecimalMath.ONE (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#230) is never used in DecimalMath (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#227-256)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "DecimalMath",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "impact": "Informational",
+            "line": 231,
+            "message": "DecimalMath.ONE2 (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#231) is never used in DecimalMath (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#227-256)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 1055,
+            "line_end": 1057,
+            "message": "allowance(address,address) should be declared external:\n\t- DVMVault.allowance(address,address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1055-1057)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "setFeeProxy",
+            "impact": "Optimization",
+            "line": 77,
+            "line_end": 79,
+            "message": "setFeeProxy(address) should be declared external:\n\t- FeeRateModel.setFeeProxy(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#77-79)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "initOwner",
+            "impact": "Optimization",
+            "line": 44,
+            "line_end": 47,
+            "message": "initOwner(address) should be declared external:\n\t- InitializableOwnable.initOwner(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#44-47)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "getBaseInput",
+            "impact": "Optimization",
+            "line": 922,
+            "line_end": 924,
+            "message": "getBaseInput() should be declared external:\n\t- DVMVault.getBaseInput() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#922-924)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 1015,
+            "line_end": 1028,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- DVMVault.transferFrom(address,address,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1015-1028)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 991,
+            "line_end": 998,
+            "message": "transfer(address,uint256) should be declared external:\n\t- DVMVault.transfer(address,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#991-998)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 1035,
+            "line_end": 1038,
+            "message": "approve(address,uint256) should be declared external:\n\t- DVMVault.approve(address,uint256) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#1035-1038)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "claimOwnership",
+            "impact": "Optimization",
+            "line": 54,
+            "line_end": 59,
+            "message": "claimOwnership() should be declared external:\n\t- InitializableOwnable.claimOwnership() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#54-59)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "getQuoteInput",
+            "impact": "Optimization",
+            "line": 926,
+            "line_end": 928,
+            "message": "getQuoteInput() should be declared external:\n\t- DVMVault.getQuoteInput() (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#926-928)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 49,
+            "line_end": 52,
+            "message": "transferOwnership(address) should be declared external:\n\t- InitializableOwnable.transferOwnership(address) (../..0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445.sol#49-52)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

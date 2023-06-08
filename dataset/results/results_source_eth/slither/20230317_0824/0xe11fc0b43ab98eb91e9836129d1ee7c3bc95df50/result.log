@@ -1,0 +1,77 @@
+[92m
+BoringOwnable.transferOwnership(address,bool,bool).newOwner (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#261) lacks a zero-check on :
+		- pendingOwner = newOwner (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#271)
+SushiMaker.constructor(address,address,address,address)._bar (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#327) lacks a zero-check on :
+		- bar = _bar (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#329)
+SushiMaker.constructor(address,address,address,address)._sushi (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#327) lacks a zero-check on :
+		- sushi = _sushi (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#330)
+SushiMaker.constructor(address,address,address,address)._weth (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#327) lacks a zero-check on :
+		- weth = _weth (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#331)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+SushiMaker._convert(address,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#386-400) has external calls inside a loop: pair = IUniswapV2Pair(factory.getPair(token0,token1)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#389)
+SushiMaker._convert(address,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#386-400) has external calls inside a loop: IERC20(address(pair)).safeTransfer(address(pair),pair.balanceOf(address(this))) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#393)
+SushiMaker._convert(address,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#386-400) has external calls inside a loop: (amount0,amount1) = pair.burn(address(this)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#395)
+SushiMaker._convert(address,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#386-400) has external calls inside a loop: token0 != pair.token0() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#396)
+SushiMaker._swap(address,address,uint256,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#454-475) has external calls inside a loop: pair = IUniswapV2Pair(factory.getPair(fromToken,toToken)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#457)
+SushiMaker._swap(address,address,uint256,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#454-475) has external calls inside a loop: (reserve0,reserve1) = pair.getReserves() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#462)
+SushiMaker._swap(address,address,uint256,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#454-475) has external calls inside a loop: fromToken == pair.token0() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#464)
+SushiMaker._swap(address,address,uint256,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#454-475) has external calls inside a loop: pair.swap(0,amountOut,to,new bytes(0)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#467)
+SushiMaker._swap(address,address,uint256,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#454-475) has external calls inside a loop: pair.swap(amountOut,0,to,new bytes(0)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#472)
+BoringERC20.safeTransfer(IERC20,address,uint256) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#197-200) has external calls inside a loop: (success,data) = address(token).call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#198)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in SushiMaker._convert(address,address) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#386-400):
+	External calls:
+	- IERC20(address(pair)).safeTransfer(address(pair),pair.balanceOf(address(this))) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#393)
+	- (amount0,amount1) = pair.burn(address(this)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#395)
+	- LogConvert(msg.sender,token0,token1,amount0,amount1,_convertStep(token0,token1,amount0,amount1)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#399)
+		- (success,data) = address(token).call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#198)
+		- IERC20(sushi).safeTransfer(bar,amount) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#410)
+		- IERC20(fromToken).safeTransfer(address(pair),amountIn) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#466)
+		- pair.swap(0,amountOut,to,new bytes(0)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#467)
+		- IERC20(fromToken).safeTransfer(address(pair),amountIn) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#471)
+		- pair.swap(amountOut,0,to,new bytes(0)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#472)
+		- IERC20(sushi).safeTransfer(bar,amount0) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#420)
+		- IERC20(sushi).safeTransfer(bar,amount1) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#423)
+	Event emitted after the call(s):
+	- LogConvert(msg.sender,token0,token1,amount0,amount1,_convertStep(token0,token1,amount0,amount1)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#399)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+BoringERC20.safeName(IERC20) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#187-190) is never used and should be removed
+BoringERC20.safeSymbol(IERC20) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#182-185) is never used and should be removed
+BoringERC20.safeTransferFrom(IERC20,address,uint256) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#202-205) is never used and should be removed
+BoringMath.sub(uint256,uint256) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#211) is never used and should be removed
+BoringMath.to128(uint256) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#213-216) is never used and should be removed
+BoringMath128.add(uint128,uint128) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#220) is never used and should be removed
+BoringMath128.sub(uint128,uint128) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#221) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in BoringERC20.safeSymbol(IERC20) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#182-185):
+	- (success,data) = address(token).staticcall(abi.encodeWithSelector(0x95d89b41)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#183)
+Low level call in BoringERC20.safeName(IERC20) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#187-190):
+	- (success,data) = address(token).staticcall(abi.encodeWithSelector(0x06fdde03)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#188)
+Low level call in BoringERC20.safeDecimals(IERC20) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#192-195):
+	- (success,data) = address(token).staticcall(abi.encodeWithSelector(0x313ce567)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#193)
+Low level call in BoringERC20.safeTransfer(IERC20,address,uint256) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#197-200):
+	- (success,data) = address(token).call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#198)
+Low level call in BoringERC20.safeTransferFrom(IERC20,address,uint256) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#202-205):
+	- (success,data) = address(token).call(abi.encodeWithSelector(0x23b872dd,from,address(this),amount)) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#203)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function IUniswapV2Pair.DOMAIN_SEPARATOR() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#41) is not in mixedCase
+Function IUniswapV2Pair.PERMIT_TYPEHASH() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#42) is not in mixedCase
+Function IUniswapV2Pair.MINIMUM_LIQUIDITY() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#59) is not in mixedCase
+Function IUniswapV2ERC20.DOMAIN_SEPARATOR() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#94) is not in mixedCase
+Function IUniswapV2ERC20.PERMIT_TYPEHASH() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#95) is not in mixedCase
+Variable SushiMaker._bridges (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#319) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+safeDecimals(IERC20) should be declared external:
+	- BoringERC20.safeDecimals(IERC20) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#192-195)
+transferOwnership(address,bool,bool) should be declared external:
+	- BoringOwnable.transferOwnership(address,bool,bool) (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#261-273)
+claimOwnership() should be declared external:
+	- BoringOwnable.claimOwnership() (../../sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol#277-287)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xe11fc0b43ab98eb91e9836129d1ee7c3bc95df50.sol analyzed (10 contracts with 78 detectors), 36 result(s) found

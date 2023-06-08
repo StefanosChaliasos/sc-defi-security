@@ -1,0 +1,1094 @@
+{
+    "errors": [
+        "EXIT_CODE_111"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "DInterest",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "High",
+            "line": 1847,
+            "line_end": 2612,
+            "message": "DInterest (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612) contract sets array length with a user-controlled value:\n\t- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DInterest",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "High",
+            "line": 1847,
+            "line_end": 2612,
+            "message": "DInterest (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612) contract sets array length with a user-controlled value:\n\t- fundingList.push(Funding(latestFundedDepositID,deposits.length,unfundedUserDepositAmount,incomeIndex)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2091-2098)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DInterest",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "High",
+            "line": 1847,
+            "line_end": 2612,
+            "message": "DInterest (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612) contract sets array length with a user-controlled value:\n\t- fundingList.push(Funding(latestFundedDepositID,toDepositID,totalDepositToFund,incomeIndex)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2166-2173)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundAll",
+            "impact": "Medium",
+            "line": 2079,
+            "line_end": 2105,
+            "message": "Reentrancy in DInterest.fundAll() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105):\n\tExternal calls:\n\t- (isNegative,deficit) = surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2081)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t- incomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2089)\n\tState variables written after the call(s):\n\t- latestFundedDepositID = deposits.length (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2101)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Medium",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "Reentrancy in DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462):\n\tExternal calls:\n\t- interestAmount = calculateInterestAmount(amount,depositPeriod) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2417)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t\t- (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)\n\t- mintMPHAmount = mphMinter.mintDepositorReward(msg.sender,interestAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2424-2427)\n\t- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)\n\tState variables written after the call(s):\n\t- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Medium",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "Reentrancy in DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462):\n\tExternal calls:\n\t- interestAmount = calculateInterestAmount(amount,depositPeriod) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2417)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t\t- (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)\n\tState variables written after the call(s):\n\t- totalInterestOwed = totalInterestOwed.add(interestAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2421)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundMultiple",
+            "impact": "Medium",
+            "line": 2107,
+            "line_end": 2182,
+            "message": "Reentrancy in DInterest.fundMultiple(uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182):\n\tExternal calls:\n\t- (isNegative,surplus) = surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t- incomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2164)\n\tState variables written after the call(s):\n\t- latestFundedDepositID = toDepositID (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2176)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Medium",
+            "line": 2511,
+            "message": "DInterest._withdraw(uint256,uint256,bool).feeAmount (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2511) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "mintFunderReward",
+            "impact": "Medium",
+            "line": 1752,
+            "line_end": 1768,
+            "message": "MPHMinter.mintFunderReward(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1752-1768) ignores return value by mph.ownerMint(devWallet,mintAmount.decmul(devRewardMultiplier)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1766)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "mintDepositorReward",
+            "impact": "Medium",
+            "line": 1736,
+            "line_end": 1750,
+            "message": "MPHMinter.mintDepositorReward(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1736-1750) ignores return value by mph.ownerMint(devWallet,mintAmount.decmul(devRewardMultiplier)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1748)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "mintDepositorReward",
+            "impact": "Medium",
+            "line": 1736,
+            "line_end": 1750,
+            "message": "MPHMinter.mintDepositorReward(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1736-1750) ignores return value by mph.ownerMint(to,mintAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1747)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "takeBackDepositorReward",
+            "impact": "Medium",
+            "line": 1770,
+            "line_end": 1787,
+            "message": "MPHMinter.takeBackDepositorReward(address,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1770-1787) ignores return value by mph.ownerTransfer(from,govTreasury,takeBackAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1785)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "mintFunderReward",
+            "impact": "Medium",
+            "line": 1752,
+            "line_end": 1768,
+            "message": "MPHMinter.mintFunderReward(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1752-1768) ignores return value by mph.ownerMint(to,mintAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1765)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 1619,
+            "message": "ERC20Detailed.constructor(string,string,uint8).symbol (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1619) shadows:\n\t- ERC20Detailed.symbol() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1636-1638) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1560,
+            "message": "NFT.constructor(string,string).name (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1560) shadows:\n\t- ERC721Metadata.name() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1469-1471) (function)\n\t- IERC721Metadata.name() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1425) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "surplus",
+            "impact": "Low",
+            "line": 2117,
+            "message": "DInterest.fundMultiple(uint256).surplus (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117) shadows:\n\t- DInterest.surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2206-2218) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "decimals",
+            "impact": "Low",
+            "line": 1619,
+            "message": "ERC20Detailed.constructor(string,string,uint8).decimals (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1619) shadows:\n\t- ERC20Detailed.decimals() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1652-1654) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 1457,
+            "message": "ERC721Metadata.constructor(string,string).symbol (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1457) shadows:\n\t- ERC721Metadata.symbol() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1477-1479) (function)\n\t- IERC721Metadata.symbol() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1426) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 1560,
+            "message": "NFT.constructor(string,string).symbol (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1560) shadows:\n\t- ERC721Metadata.symbol() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1477-1479) (function)\n\t- IERC721Metadata.symbol() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1426) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "baseURI",
+            "impact": "Low",
+            "line": 1523,
+            "message": "ERC721Metadata._setBaseURI(string).baseURI (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1523) shadows:\n\t- ERC721Metadata.baseURI() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1534-1536) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1457,
+            "message": "ERC721Metadata.constructor(string,string).name (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1457) shadows:\n\t- ERC721Metadata.name() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1469-1471) (function)\n\t- IERC721Metadata.name() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1425) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1619,
+            "message": "ERC20Detailed.constructor(string,string,uint8).name (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1619) shadows:\n\t- ERC20Detailed.name() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1628-1630) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Low",
+            "line": 1727,
+            "message": "MPHMinter.constructor(address,address,address,uint256)._devWallet (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1727) lacks a zero-check on :\n\t\t- devWallet = _devWallet (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1732)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Low",
+            "line": 1726,
+            "message": "MPHMinter.constructor(address,address,address,uint256)._govTreasury (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1726) lacks a zero-check on :\n\t\t- govTreasury = _govTreasury (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1731)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "surplusOfDeposit",
+            "impact": "Low",
+            "line": 2220,
+            "line_end": 2240,
+            "message": "DInterest.surplusOfDeposit(uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2220-2240) has external calls inside a loop: currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2225)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: stablecoin.safeTransfer(feeModel.beneficiary(),feeAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2579)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: feeAmount = feeModel.getFee(depositEntry.interestOwed) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2518)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "calculateInterestAmount",
+            "impact": "Low",
+            "line": 2188,
+            "line_end": 2204,
+            "message": "DInterest.calculateInterestAmount(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2188-2204) has external calls inside a loop: interestModel.calculateInterestAmount(depositAmount,depositPeriodInSeconds,moneyMarketInterestRatePerSecond,surplusIsNegative,surplusAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2196-2203)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "surplus",
+            "impact": "Low",
+            "line": 2206,
+            "line_end": 2218,
+            "message": "DInterest.surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2206-2218) has external calls inside a loop: totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: withdrawAmount = moneyMarket.withdraw(withdrawAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2521)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "callOptionalReturn",
+            "impact": "Low",
+            "line": 767,
+            "line_end": 786,
+            "message": "SafeERC20.callOptionalReturn(IERC20,bytes) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#767-786) has external calls inside a loop: (success,returndata) = address(token).call(data) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2534)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: stablecoin.safeTransfer(fundingNFT.ownerOf(fundingID),transferToFunderAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2559-2562)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: depositNFT.mint(msg.sender,id) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2451)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: mintMPHAmount = mphMinter.mintDepositorReward(msg.sender,interestAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2424-2427)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Low",
+            "line": 751,
+            "line_end": 754,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#751-754) has external calls inside a loop: newAllowance = token.allowance(address(this),spender).add(value) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#752)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: moneyMarket.deposit(amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2448)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has external calls inside a loop: deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: require(bool,string)(depositNFT.ownerOf(depositID) == msg.sender,DInterest: Sender doesn't own depositNFT) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2490-2493)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: depositNFT.burn(depositID) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2509)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "calculateInterestAmount",
+            "impact": "Low",
+            "line": 2188,
+            "line_end": 2204,
+            "message": "DInterest.calculateInterestAmount(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2188-2204) has external calls inside a loop: (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has external calls inside a loop: transferToFunderAmount = moneyMarket.withdraw(transferToFunderAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2556-2558)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundMultiple",
+            "impact": "Low",
+            "line": 2107,
+            "line_end": 2182,
+            "message": "Reentrancy in DInterest.fundMultiple(uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182):\n\tExternal calls:\n\t- (isNegative,surplus) = surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t- incomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2164)\n\tState variables written after the call(s):\n\t- fundingList.push(Funding(latestFundedDepositID,toDepositID,totalDepositToFund,incomeIndex)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2166-2173)\n\t- unfundedUserDepositAmount = unfundedUserDepositAmount.sub(totalDepositToFund) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2177-2179)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "Reentrancy in DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589):\n\tExternal calls:\n\t- takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)\n\tState variables written after the call(s):\n\t- totalDeposit = totalDeposit.sub(depositEntry.amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2503)\n\t- totalInterestOwed = totalInterestOwed.sub(depositEntry.interestOwed) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2506)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundAll",
+            "impact": "Low",
+            "line": 2079,
+            "line_end": 2105,
+            "message": "Reentrancy in DInterest.fundAll() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105):\n\tExternal calls:\n\t- (isNegative,deficit) = surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2081)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t- incomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2089)\n\tState variables written after the call(s):\n\t- fundingList.push(Funding(latestFundedDepositID,deposits.length,unfundedUserDepositAmount,incomeIndex)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2091-2098)\n\t- unfundedUserDepositAmount = 0 (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2102)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "Reentrancy in DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589):\n\tExternal calls:\n\t- takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)\n\t- depositNFT.burn(depositID) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2509)\n\t- withdrawAmount = moneyMarket.withdraw(withdrawAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2521)\n\t- (depositIsNegative,depositSurplus) = surplusOfDeposit(depositID) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2523-2525)\n\t\t- currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2225)\n\tState variables written after the call(s):\n\t- unfundedUserDepositAmount = unfundedUserDepositAmount.sub(depositEntry.amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2566-2568)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundAll",
+            "impact": "Low",
+            "line": 2079,
+            "line_end": 2105,
+            "message": "Reentrancy in DInterest.fundAll() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105):\n\tExternal calls:\n\t- (isNegative,deficit) = surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2081)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t- incomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2089)\n\t- _fund(deficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2104)\n\t\t- stablecoin.safeTransferFrom(msg.sender,address(this),totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2593)\n\t\t- stablecoin.safeIncreaseAllowance(address(moneyMarket),totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2596)\n\t\t- moneyMarket.deposit(totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2597)\n\t\t- (success,returndata) = address(token).call(data) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)\n\t\t- fundingNFT.mint(msg.sender,fundingList.length) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2600)\n\t\t- mintMPHAmount = mphMinter.mintFunderReward(msg.sender,totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2603-2606)\n\tEvent emitted after the call(s):\n\t- EFund(msg.sender,fundingID,totalDeficit,mintMPHAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2610)\n\t\t- _fund(deficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2104)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "Reentrancy in DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462):\n\tExternal calls:\n\t- interestAmount = calculateInterestAmount(amount,depositPeriod) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2417)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t\t- (moneyMarketInterestRatePerSecond) = interestOracle.updateAndQuery() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2192-2193)\n\t- mintMPHAmount = mphMinter.mintDepositorReward(msg.sender,interestAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2424-2427)\n\t- deposits.push(Deposit(amount,maturationTimestamp,interestAmount,moneyMarket.incomeIndex(),true,false,0,mintMPHAmount)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2430-2441)\n\t- stablecoin.safeTransferFrom(msg.sender,address(this),amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2444)\n\t- stablecoin.safeIncreaseAllowance(address(moneyMarket),amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2447)\n\t- moneyMarket.deposit(amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2448)\n\t- depositNFT.mint(msg.sender,id) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2451)\n\tEvent emitted after the call(s):\n\t- EDeposit(msg.sender,id,amount,maturationTimestamp,interestAmount,mintMPHAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2454-2461)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_fund",
+            "impact": "Low",
+            "line": 2591,
+            "line_end": 2611,
+            "message": "Reentrancy in DInterest._fund(uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2591-2611):\n\tExternal calls:\n\t- stablecoin.safeTransferFrom(msg.sender,address(this),totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2593)\n\t- stablecoin.safeIncreaseAllowance(address(moneyMarket),totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2596)\n\t- moneyMarket.deposit(totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2597)\n\t- fundingNFT.mint(msg.sender,fundingList.length) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2600)\n\t- mintMPHAmount = mphMinter.mintFunderReward(msg.sender,totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2603-2606)\n\tEvent emitted after the call(s):\n\t- EFund(msg.sender,fundingID,totalDeficit,mintMPHAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2610)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "setRewards",
+            "impact": "Low",
+            "line": 2295,
+            "line_end": 2299,
+            "message": "Reentrancy in DInterest.setRewards(address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2295-2299):\n\tExternal calls:\n\t- moneyMarket.setRewards(newValue) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2297)\n\tEvent emitted after the call(s):\n\t- ESetParamAddress(msg.sender,moneyMarket.rewards,newValue) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2298)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundMultiple",
+            "impact": "Low",
+            "line": 2107,
+            "line_end": 2182,
+            "message": "Reentrancy in DInterest.fundMultiple(uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182):\n\tExternal calls:\n\t- (isNegative,surplus) = surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2117)\n\t\t- totalValue = moneyMarket.totalValue() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2207)\n\t- incomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2164)\n\t- _fund(totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2181)\n\t\t- stablecoin.safeTransferFrom(msg.sender,address(this),totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2593)\n\t\t- stablecoin.safeIncreaseAllowance(address(moneyMarket),totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2596)\n\t\t- moneyMarket.deposit(totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2597)\n\t\t- (success,returndata) = address(token).call(data) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)\n\t\t- fundingNFT.mint(msg.sender,fundingList.length) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2600)\n\t\t- mintMPHAmount = mphMinter.mintFunderReward(msg.sender,totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2603-2606)\n\tEvent emitted after the call(s):\n\t- EFund(msg.sender,fundingID,totalDeficit,mintMPHAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2610)\n\t\t- _fund(totalDeficit) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2181)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "Reentrancy in DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589):\n\tExternal calls:\n\t- takeBackMPHAmount = mphMinter.takeBackDepositorReward(msg.sender,depositEntry.mintMPHAmount,early) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2496-2500)\n\t- depositNFT.burn(depositID) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2509)\n\t- withdrawAmount = moneyMarket.withdraw(withdrawAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2521)\n\t- (depositIsNegative,depositSurplus) = surplusOfDeposit(depositID) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2523-2525)\n\t\t- currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2225)\n\t- currentMoneyMarketIncomeIndex = moneyMarket.incomeIndex() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2534)\n\t- transferToFunderAmount = moneyMarket.withdraw(transferToFunderAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2556-2558)\n\t- stablecoin.safeTransfer(fundingNFT.ownerOf(fundingID),transferToFunderAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2559-2562)\n\t- stablecoin.safeTransfer(msg.sender,withdrawAmount.sub(feeAmount)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2576)\n\t- stablecoin.safeTransfer(feeModel.beneficiary(),feeAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2579)\n\tEvent emitted after the call(s):\n\t- EWithdraw(msg.sender,depositID,fundingID,early,takeBackMPHAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2582-2588)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundMultiple",
+            "impact": "Low",
+            "line": 2107,
+            "line_end": 2182,
+            "message": "DInterest.fundMultiple(uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2107-2182) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(toDepositID > latestFundedDepositID,DInterest: Deposits already funded) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2108-2111)\n\t- require(bool,string)(toDepositID <= deposits.length,DInterest: Invalid toDepositID) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2112-2115)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now < depositEntry.maturationTimestamp,DInterest: Deposit mature, use withdraw() instead) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2477-2480)\n\t- require(bool,string)(now >= depositEntry.maturationTimestamp,DInterest: Deposit not mature) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2483-2486)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "surplus",
+            "impact": "Low",
+            "line": 2206,
+            "line_end": 2218,
+            "message": "DInterest.surplus() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2206-2218) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- totalValue >= totalOwed (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2209)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(depositPeriod >= MinDepositPeriod && depositPeriod <= MaxDepositPeriod,DInterest: Deposit period out of range) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2403-2407)\n\t- require(bool,string)(interestAmount > 0,DInterest: interestAmount == 0) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2418)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "fundAll",
+            "impact": "Low",
+            "line": 2079,
+            "line_end": 2105,
+            "message": "DInterest.fundAll() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2079-2105) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(! depositIsFunded(deposits.length),DInterest: All deposits funded) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2083-2086)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "depositIsFunded",
+            "impact": "Low",
+            "line": 2242,
+            "line_end": 2244,
+            "message": "DInterest.depositIsFunded(uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2242-2244) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- (id <= latestFundedDepositID) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2243)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_checkOnERC721Received",
+            "impact": "Informational",
+            "line": 1375,
+            "line_end": 1403,
+            "message": "ERC721._checkOnERC721Received(address,address,uint256,bytes) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1375-1403) uses assembly\n\t- INLINE ASM (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1392-1395)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 174,
+            "line_end": 183,
+            "message": "Address.isContract(address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#174-183) uses assembly\n\t- INLINE ASM (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#181)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Informational",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has costly operations inside a loop:\n\t- totalDeposit = totalDeposit.add(amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2410)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Informational",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has costly operations inside a loop:\n\t- unfundedUserDepositAmount = unfundedUserDepositAmount.sub(depositEntry.amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2566-2568)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Informational",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has costly operations inside a loop:\n\t- totalInterestOwed = totalInterestOwed.add(interestAmount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2421)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Informational",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has costly operations inside a loop:\n\t- totalInterestOwed = totalInterestOwed.sub(depositEntry.interestOwed) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2506)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_deposit",
+            "impact": "Informational",
+            "line": 2391,
+            "line_end": 2462,
+            "message": "DInterest._deposit(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2391-2462) has costly operations inside a loop:\n\t- unfundedUserDepositAmount = unfundedUserDepositAmount.add(amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2414)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_withdraw",
+            "impact": "Informational",
+            "line": 2464,
+            "line_end": 2589,
+            "message": "DInterest._withdraw(uint256,uint256,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2464-2589) has costly operations inside a loop:\n\t- totalDeposit = totalDeposit.sub(depositEntry.amount) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#2503)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 213,
+            "line_end": 219,
+            "message": "Address.sendValue(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#213-219) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_burnFrom",
+            "impact": "Informational",
+            "line": 707,
+            "line_end": 710,
+            "message": "ERC20._burnFrom(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#707-710) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "decdiv",
+            "impact": "Informational",
+            "line": 474,
+            "line_end": 476,
+            "message": "DecMath.decdiv(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#474-476) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 740,
+            "line_end": 749,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#740-749) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 672,
+            "line_end": 678,
+            "message": "ERC20._burn(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#672-678) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 372,
+            "line_end": 375,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#372-375) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 399,
+            "line_end": 402,
+            "message": "Context._msgData() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#399-402) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "toPayable",
+            "impact": "Informational",
+            "line": 191,
+            "line_end": 193,
+            "message": "Address.toPayable(address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#191-193) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 355,
+            "line_end": 357,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#355-357) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 756,
+            "line_end": 759,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#756-759) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "_checkOnERC721Received",
+            "impact": "Informational",
+            "line": 1375,
+            "line_end": 1403,
+            "message": "Low level call in ERC721._checkOnERC721Received(address,address,uint256,bytes) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1375-1403):\n\t- (success,returndata) = to.call(abi.encodeWithSelector(IERC721Receiver(to).onERC721Received.selector,_msgSender(),from,tokenId,_data)) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1382-1388)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "callOptionalReturn",
+            "impact": "Informational",
+            "line": 767,
+            "line_end": 786,
+            "message": "Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#767-786):\n\t- (success,returndata) = address(token).call(data) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#779)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 213,
+            "line_end": 219,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#213-219):\n\t- (success) = recipient.call.value(amount)() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#217)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1225,
+            "message": "Parameter ERC721.safeTransferFrom(address,address,uint256,bytes)._data (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1225) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1888,
+            "message": "Variable DInterest.MaxDepositAmount (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1888) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1886,
+            "message": "Variable DInterest.MaxDepositPeriod (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1886) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1887,
+            "message": "Variable DInterest.MinDepositAmount (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1887) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1885,
+            "message": "Variable DInterest.MinDepositPeriod (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1885) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1558,
+            "message": "Variable NFT._contractURI (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1558) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 400,
+            "message": "Redundant expression \"this (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#400)\" inContext (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#389-403)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "DInterest",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1854,
+            "message": "DInterest.PRECISION (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1854) is never used in DInterest (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "DInterest",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "impact": "Informational",
+            "line": 1855,
+            "message": "DInterest.ONE (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1855) is never used in DInterest (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1847-2612)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 1652,
+            "line_end": 1654,
+            "message": "decimals() should be declared external:\n\t- ERC20Detailed.decimals() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1652-1654)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 1636,
+            "line_end": 1638,
+            "message": "symbol() should be declared external:\n\t- ERC20Detailed.symbol() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1636-1638)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 1628,
+            "line_end": 1630,
+            "message": "name() should be declared external:\n\t- ERC20Detailed.name() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1628-1630)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 579,
+            "line_end": 583,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#579-583)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 901,
+            "line_end": 904,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#901-904)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "safeTransferFrom",
+            "impact": "Optimization",
+            "line": 1209,
+            "line_end": 1211,
+            "message": "safeTransferFrom(address,address,uint256) should be declared external:\n\t- ERC721.safeTransferFrom(address,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1209-1211)\n\t- IERC721.safeTransferFrom(address,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#970)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "onERC721Received",
+            "impact": "Optimization",
+            "line": 1012,
+            "line_end": 1013,
+            "message": "onERC721Received(address,address,uint256,bytes) should be declared external:\n\t- IERC721Receiver.onERC721Received(address,address,uint256,bytes) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1012-1013)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "setApprovalForAll",
+            "impact": "Optimization",
+            "line": 1166,
+            "line_end": 1171,
+            "message": "setApprovalForAll(address,bool) should be declared external:\n\t- ERC721.setApprovalForAll(address,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1166-1171)\n\t- IERC721.setApprovalForAll(address,bool) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#983)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 616,
+            "line_end": 619,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#616-619)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 1136,
+            "line_end": 1146,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC721.approve(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1136-1146)\n\t- IERC721.approve(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#980)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "ownerTransfer",
+            "impact": "Optimization",
+            "line": 1671,
+            "line_end": 1678,
+            "message": "ownerTransfer(address,address,uint256) should be declared external:\n\t- MPHToken.ownerTransfer(address,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1671-1678)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 531,
+            "line_end": 533,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#531-533)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 543,
+            "line_end": 546,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#543-546)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 875,
+            "line_end": 877,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#875-877)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "ownerMint",
+            "impact": "Optimization",
+            "line": 1662,
+            "line_end": 1669,
+            "message": "ownerMint(address,uint256) should be declared external:\n\t- MPHToken.ownerMint(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1662-1669)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 597,
+            "line_end": 600,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#597-600)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 1110,
+            "line_end": 1114,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC721.balanceOf(address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1110-1114)\n\t- IERC721.balanceOf(address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#951)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 910,
+            "line_end": 912,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#910-912)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 524,
+            "line_end": 526,
+            "message": "totalSupply() should be declared external:\n\t- ERC20.totalSupply() (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#524-526)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 562,
+            "line_end": 565,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#562-565)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 1191,
+            "line_end": 1196,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC721.transferFrom(address,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#1191-1196)\n\t- IERC721.transferFrom(address,address,uint256) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#979)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 551,
+            "line_end": 553,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x25a5feb5ac6533fe3c4e8e8e2a55f9e1f1f8e5f0.sol#551-553)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

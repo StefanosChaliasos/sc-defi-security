@@ -1,0 +1,624 @@
+{
+    "errors": [
+        "EXIT_CODE_68"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "safeMEOWTransfer",
+            "impact": "High",
+            "line": 701,
+            "line_end": 708,
+            "message": "UniCatFarm.safeMEOWTransfer(address,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701-708) ignores return value by MEOW.transfer(_to,_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "safeMEOWTransfer",
+            "impact": "High",
+            "line": 701,
+            "line_end": 708,
+            "message": "UniCatFarm.safeMEOWTransfer(address,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701-708) ignores return value by MEOW.transfer(_to,MEOWBal) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "pendingMEOW",
+            "impact": "Medium",
+            "line": 618,
+            "line_end": 629,
+            "message": "UniCatFarm.pendingMEOW(uint256,address) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#618-629) performs a multiplication on the result of a division:\n\t-MEOWReward = multiplier.mul(MEOWPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#625)\n\t-accMEOWPerShare = accMEOWPerShare.add(MEOWReward.mul(1e12).div(lpSupply)) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#626)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 640,
+            "line_end": 657,
+            "message": "UniCatFarm.updatePool(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) performs a multiplication on the result of a division:\n\t-MEOWReward = multiplier.mul(MEOWPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#651)\n\t-pool.accMEOWPerShare = pool.accMEOWPerShare.add(MEOWReward.mul(1e12).div(lpSupply)) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#655)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 640,
+            "line_end": 657,
+            "message": "UniCatFarm.updatePool(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) uses a dangerous strict equality:\n\t- lpSupply == 0 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#646)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "updateAllocPoint",
+            "impact": "Medium",
+            "line": 582,
+            "line_end": 588,
+            "message": "Reentrancy in UniCatFarm.updateAllocPoint(uint256,uint256,bool) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582-588):\n\tExternal calls:\n\t- massUpdatePools() (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#584)\n\t\t- MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n\tState variables written after the call(s):\n\t- poolInfo[_pid].allocPoint = _allocPoint (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#587)\n\t- totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#586)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 677,
+            "line_end": 688,
+            "message": "Reentrancy in UniCatFarm.withdraw(uint256,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677-688):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#681)\n\t\t- MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n\t- safeMEOWTransfer(msg.sender,pending) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#683)\n\t\t- MEOW.transfer(_to,MEOWBal) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)\n\t\t- MEOW.transfer(_to,_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.sub(_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#684)\n\t- user.rewardDebt = user.amount.mul(pool.accMEOWPerShare).div(1e12) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#685)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 662,
+            "line_end": 674,
+            "message": "Reentrancy in UniCatFarm.deposit(uint256,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662-674):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#665)\n\t\t- MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n\t- safeMEOWTransfer(msg.sender,pending) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#668)\n\t\t- MEOW.transfer(_to,MEOWBal) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)\n\t\t- MEOW.transfer(_to,_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)\n\t- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#670)\n\tState variables written after the call(s):\n\t- user.amount = user.amount.add(_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#671)\n\t- user.rewardDebt = user.amount.mul(pool.accMEOWPerShare).div(1e12) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#672)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "add",
+            "impact": "Medium",
+            "line": 567,
+            "line_end": 579,
+            "message": "Reentrancy in UniCatFarm.add(uint256,IERC20,bool) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567-579):\n\tExternal calls:\n\t- massUpdatePools() (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#569)\n\t\t- MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n\tState variables written after the call(s):\n\t- poolInfo.push(PoolInfo(_lpToken,_allocPoint,lastRewardBlock,0)) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#573-578)\n\t- totalAllocPoint = totalAllocPoint.add(_allocPoint) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#572)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 640,
+            "line_end": 657,
+            "message": "Reentrancy in UniCatFarm.updatePool(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657):\n\tExternal calls:\n\t- MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n\tState variables written after the call(s):\n\t- pool.accMEOWPerShare = pool.accMEOWPerShare.add(MEOWReward.mul(1e12).div(lpSupply)) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#655)\n\t- pool.lastRewardBlock = block.number (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#656)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "devFee",
+            "impact": "Medium",
+            "line": 718,
+            "line_end": 723,
+            "message": "Reentrancy in UniCatFarm.devFee() (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#718-723):\n\tExternal calls:\n\t- MEOW.mint(devaddr,MEOW.totalSupply().div(200)) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#721)\n\tState variables written after the call(s):\n\t- devFeeDelivered = true (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#722)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Medium",
+            "line": 691,
+            "line_end": 698,
+            "message": "Reentrancy in UniCatFarm.emergencyWithdraw(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691-698):\n\tExternal calls:\n\t- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#694)\n\tState variables written after the call(s):\n\t- user.amount = 0 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#696)\n\t- user.rewardDebt = 0 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#697)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Low",
+            "line": 591,
+            "message": "UniCatFarm.setGovernance(address,bytes)._governance (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591) lacks a zero-check on :\n\t\t- governance = _governance (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#592)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Low",
+            "line": 541,
+            "message": "UniCatFarm.constructor(UniCat,address,uint256,uint256,uint256,uint256)._devaddr (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#541) lacks a zero-check on :\n\t\t- devaddr = _devaddr (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#548)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Low",
+            "line": 711,
+            "message": "UniCatFarm.dev(address)._devaddr (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#711) lacks a zero-check on :\n\t\t- devaddr = _devaddr (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#713)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 640,
+            "line_end": 657,
+            "message": "UniCatFarm.updatePool(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) has external calls inside a loop: lpSupply = pool.lpToken.balanceOf(address(this)) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#645)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 640,
+            "line_end": 657,
+            "message": "UniCatFarm.updatePool(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640-657) has external calls inside a loop: MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 677,
+            "line_end": 688,
+            "message": "Reentrancy in UniCatFarm.withdraw(uint256,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677-688):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#681)\n\t\t- MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n\t- safeMEOWTransfer(msg.sender,pending) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#683)\n\t\t- MEOW.transfer(_to,MEOWBal) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)\n\t\t- MEOW.transfer(_to,_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)\n\t- pool.lpToken.safeTransfer(address(msg.sender),_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#686)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_pid,_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#687)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Low",
+            "line": 691,
+            "line_end": 698,
+            "message": "Reentrancy in UniCatFarm.emergencyWithdraw(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691-698):\n\tExternal calls:\n\t- pool.lpToken.safeTransfer(address(msg.sender),user.amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#694)\n\tEvent emitted after the call(s):\n\t- EmergencyWithdraw(msg.sender,_pid,user.amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#695)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 662,
+            "line_end": 674,
+            "message": "Reentrancy in UniCatFarm.deposit(uint256,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662-674):\n\tExternal calls:\n\t- updatePool(_pid) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#665)\n\t\t- MEOW.mint(address(this),MEOWReward) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#654)\n\t- safeMEOWTransfer(msg.sender,pending) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#668)\n\t\t- MEOW.transfer(_to,MEOWBal) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#704)\n\t\t- MEOW.transfer(_to,_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#706)\n\t- pool.lpToken.safeTransferFrom(address(msg.sender),address(this),_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#670)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_pid,_amount) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#673)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "devFee",
+            "impact": "Low",
+            "line": 718,
+            "line_end": 723,
+            "message": "UniCatFarm.devFee() (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#718-723) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= devFeeUnlockTime,devFee: wait until unlock time) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#719)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 293,
+            "line_end": 314,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#293-314) uses assembly\n\t- INLINE ASM (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#306-309)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 250,
+            "line_end": 259,
+            "message": "Address.isContract(address) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#250-259) uses assembly\n\t- INLINE ASM (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#257)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 279,
+            "line_end": 281,
+            "message": "Address.functionCall(address,bytes) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#279-281) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 364,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#364) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 227,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#227) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 97,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#97) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 466,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#466) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 319,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#319) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 385,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#385) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 454,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#454) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Pragma version^0.7.1 (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#61) allows old versions\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "setGovernance",
+            "impact": "Informational",
+            "line": 591,
+            "line_end": 596,
+            "message": "Low level call in UniCatFarm.setGovernance(address,bytes) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591-596):\n\t- (success,returndata) = governance.call(_setupData) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#593)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 293,
+            "line_end": 314,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#293-314):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#297)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 582,
+            "message": "Parameter UniCatFarm.updateAllocPoint(uint256,uint256,bool)._allocPoint (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 618,
+            "message": "Parameter UniCatFarm.pendingMEOW(uint256,address)._user (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#618) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 701,
+            "message": "Parameter UniCatFarm.safeMEOWTransfer(address,uint256)._amount (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 582,
+            "message": "Parameter UniCatFarm.updateAllocPoint(uint256,uint256,bool)._withUpdate (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 512,
+            "message": "Variable UniCatFarm.MEOWPerBlock (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#512) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 591,
+            "message": "Parameter UniCatFarm.setGovernance(address,bytes)._governance (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 567,
+            "message": "Parameter UniCatFarm.add(uint256,IERC20,bool)._allocPoint (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 618,
+            "message": "Parameter UniCatFarm.pendingMEOW(uint256,address)._pid (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#618) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 701,
+            "message": "Parameter UniCatFarm.safeMEOWTransfer(address,uint256)._to (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#701) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 677,
+            "message": "Parameter UniCatFarm.withdraw(uint256,uint256)._amount (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 591,
+            "message": "Parameter UniCatFarm.setGovernance(address,bytes)._setupData (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 662,
+            "message": "Parameter UniCatFarm.deposit(uint256,uint256)._pid (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 599,
+            "message": "Parameter UniCatFarm.getMultiplier(uint256,uint256)._from (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#599) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 711,
+            "message": "Parameter UniCatFarm.dev(address)._devaddr (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#711) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 599,
+            "message": "Parameter UniCatFarm.getMultiplier(uint256,uint256)._to (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#599) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 662,
+            "message": "Parameter UniCatFarm.deposit(uint256,uint256)._amount (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 691,
+            "message": "Parameter UniCatFarm.emergencyWithdraw(uint256)._pid (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 506,
+            "message": "Variable UniCatFarm.MEOW (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#506) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 582,
+            "message": "Parameter UniCatFarm.updateAllocPoint(uint256,uint256,bool)._pid (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 567,
+            "message": "Parameter UniCatFarm.add(uint256,IERC20,bool)._lpToken (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 640,
+            "message": "Parameter UniCatFarm.updatePool(uint256)._pid (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#640) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 677,
+            "message": "Parameter UniCatFarm.withdraw(uint256,uint256)._pid (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Informational",
+            "line": 567,
+            "message": "Parameter UniCatFarm.add(uint256,IERC20,bool)._withUpdate (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "impact": "Optimization",
+            "line": 531,
+            "message": "UniCatFarm.devFeeUnlockTime (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#531) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "deposit",
+            "impact": "Optimization",
+            "line": 662,
+            "line_end": 674,
+            "message": "deposit(uint256,uint256) should be declared external:\n\t- UniCatFarm.deposit(uint256,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#662-674)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "withdraw",
+            "impact": "Optimization",
+            "line": 677,
+            "line_end": 688,
+            "message": "withdraw(uint256,uint256) should be declared external:\n\t- UniCatFarm.withdraw(uint256,uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#677-688)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "emergencyWithdraw",
+            "impact": "Optimization",
+            "line": 691,
+            "line_end": 698,
+            "message": "emergencyWithdraw(uint256) should be declared external:\n\t- UniCatFarm.emergencyWithdraw(uint256) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#691-698)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 435,
+            "line_end": 438,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#435-438)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "updateAllocPoint",
+            "impact": "Optimization",
+            "line": 582,
+            "line_end": 588,
+            "message": "updateAllocPoint(uint256,uint256,bool) should be declared external:\n\t- UniCatFarm.updateAllocPoint(uint256,uint256,bool) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#582-588)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "setGovernance",
+            "impact": "Optimization",
+            "line": 591,
+            "line_end": 596,
+            "message": "setGovernance(address,bytes) should be declared external:\n\t- UniCatFarm.setGovernance(address,bytes) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#591-596)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "devFee",
+            "impact": "Optimization",
+            "line": 718,
+            "line_end": 723,
+            "message": "devFee() should be declared external:\n\t- UniCatFarm.devFee() (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#718-723)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 444,
+            "line_end": 448,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#444-448)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "dev",
+            "impact": "Optimization",
+            "line": 711,
+            "line_end": 714,
+            "message": "dev(address) should be declared external:\n\t- UniCatFarm.dev(address) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#711-714)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol",
+            "function": "add",
+            "impact": "Optimization",
+            "line": 567,
+            "line_end": 579,
+            "message": "add(uint256,IERC20,bool) should be declared external:\n\t- UniCatFarm.add(uint256,IERC20,bool) (../..0xb246bcd5baac8e342941d0f803d528b6668e42cd.sol#567-579)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

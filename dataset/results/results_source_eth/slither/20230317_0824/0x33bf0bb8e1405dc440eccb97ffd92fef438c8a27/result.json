@@ -1,0 +1,657 @@
+{
+    "errors": [
+        "EXIT_CODE_67"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "liquidate",
+            "impact": "High",
+            "line": 1382,
+            "line_end": 1401,
+            "message": "Reentrancy in HomoraBank.liquidate(uint256,address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1382-1401):\n\tExternal calls:\n\t- (amountPaid,share) = repayInternal(positionId,debtToken,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1391)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#758)\n\t\t- IERC20(token).safeTransferFrom(msg.sender,address(this),amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1570)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\t\t- require(bool,string)(cToken.repayBorrow(amountCall) == 0,bad repay) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1559)\n\t- poke(debtToken) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1386)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tExternal calls sending eth:\n\t- (amountPaid,share) = repayInternal(positionId,debtToken,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1391)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\tState variables written after the call(s):\n\t- pos.collateralSize = pos.collateralSize.sub(bounty) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1398)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "repayInternal",
+            "impact": "High",
+            "line": 1462,
+            "line_end": 1487,
+            "message": "Reentrancy in HomoraBank.repayInternal(uint256,address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1462-1487):\n\tExternal calls:\n\t- paid = doRepay(token,doERC20TransferIn(token,amountCall)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1477)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#758)\n\t\t- IERC20(token).safeTransferFrom(msg.sender,address(this),amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1570)\n\t\t- require(bool,string)(cToken.repayBorrow(amountCall) == 0,bad repay) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1559)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\tExternal calls sending eth:\n\t- paid = doRepay(token,doERC20TransferIn(token,amountCall)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1477)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\tState variables written after the call(s):\n\t- bank.totalShare = totalShare.sub(lessShare) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1480)\n\t- pos.debtShareOf[token] = newShare (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1482)\n\t- pos.debtMap &= ~ (1 << uint256(bank.index)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1484)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "borrowBalanceStored",
+            "impact": "Medium",
+            "line": 1208,
+            "line_end": 1217,
+            "message": "HomoraBank.borrowBalanceStored(uint256,address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1208-1217) uses a dangerous strict equality:\n\t- share == 0 || totalDebt == 0 (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1212)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "doRepay",
+            "impact": "Medium",
+            "line": 1555,
+            "line_end": 1563,
+            "message": "HomoraBank.doRepay(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1555-1563) uses a dangerous strict equality:\n\t- require(bool,string)(cToken.repayBorrow(amountCall) == 0,bad repay) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1559)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "doRepay",
+            "impact": "Medium",
+            "line": 1555,
+            "line_end": 1563,
+            "message": "Reentrancy in HomoraBank.doRepay(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1555-1563):\n\tExternal calls:\n\t- require(bool,string)(cToken.repayBorrow(amountCall) == 0,bad repay) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1559)\n\tState variables written after the call(s):\n\t- bank.totalDebt = newDebt (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1561)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "accrue",
+            "impact": "Medium",
+            "line": 1161,
+            "line_end": 1177,
+            "message": "Reentrancy in HomoraBank.accrue(address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1161-1177):\n\tExternal calls:\n\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tState variables written after the call(s):\n\t- bank.totalDebt = debt (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1168)\n\t- bank.pendingReserve = bank.pendingReserve.add(fee) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1169)\n\t- bank.totalDebt = debt (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1175)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "borrow",
+            "impact": "Medium",
+            "line": 1433,
+            "line_end": 1448,
+            "message": "Reentrancy in HomoraBank.borrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433-1448):\n\tExternal calls:\n\t- poke(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tState variables written after the call(s):\n\t- bank.totalShare = bank.totalShare.add(share) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1440)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "borrow",
+            "impact": "Medium",
+            "line": 1433,
+            "line_end": 1448,
+            "message": "Reentrancy in HomoraBank.borrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433-1448):\n\tExternal calls:\n\t- IERC20(token).safeTransfer(msg.sender,doBorrow(token,amount)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1446)\n\t\t- require(bool,string)(ICErc20(bank.cToken).borrow(amountCall) == 0,bad borrow) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1545)\n\t- poke(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tState variables written after the call(s):\n\t- IERC20(token).safeTransfer(msg.sender,doBorrow(token,amount)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1446)\n\t\t- bank.totalDebt = bank.totalDebt.add(amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1547)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "resolveReserve",
+            "impact": "Medium",
+            "line": 1189,
+            "line_end": 1195,
+            "message": "Reentrancy in HomoraBank.resolveReserve(address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1189-1195):\n\tExternal calls:\n\t- poke(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1189)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tState variables written after the call(s):\n\t- bank.pendingReserve = 0 (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1193)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "addBank",
+            "impact": "Medium",
+            "line": 1338,
+            "line_end": 1351,
+            "message": "Reentrancy in HomoraBank.addBank(address,address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1338-1351):\n\tExternal calls:\n\t- IERC20(token).safeApprove(cToken,0) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1347)\n\t- IERC20(token).safeApprove(cToken,uint256(- 1)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1348)\n\tState variables written after the call(s):\n\t- allBanks.push(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1349)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "doBorrow",
+            "impact": "Medium",
+            "line": 1542,
+            "line_end": 1549,
+            "message": "Reentrancy in HomoraBank.doBorrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1542-1549):\n\tExternal calls:\n\t- require(bool,string)(ICErc20(bank.cToken).borrow(amountCall) == 0,bad borrow) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1545)\n\tState variables written after the call(s):\n\t- bank.totalDebt = bank.totalDebt.add(amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1547)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "putCollateral",
+            "impact": "Medium",
+            "line": 1501,
+            "line_end": 1516,
+            "message": "Reentrancy in HomoraBank.putCollateral(address,uint256,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1501-1516):\n\tExternal calls:\n\t- amount = doERC1155TransferIn(collToken,collId,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1513)\n\t\t- IERC1155(token).safeTransferFrom(msg.sender,address(this),id,amountCall,) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1585)\n\tState variables written after the call(s):\n\t- pos.collateralSize = pos.collateralSize.add(amount) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1514)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "resolveReserve",
+            "impact": "Medium",
+            "line": 1189,
+            "line_end": 1195,
+            "message": "Reentrancy in HomoraBank.resolveReserve(address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1189-1195):\n\tExternal calls:\n\t- bank.reserve = bank.reserve.add(doBorrow(token,pendingReserve)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1194)\n\t\t- require(bool,string)(ICErc20(bank.cToken).borrow(amountCall) == 0,bad borrow) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1545)\n\t- poke(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1189)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tState variables written after the call(s):\n\t- bank.reserve = bank.reserve.add(doBorrow(token,pendingReserve)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1194)\n\t\t- bank.totalDebt = bank.totalDebt.add(amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1547)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "execute",
+            "impact": "Low",
+            "line": 1407,
+            "line_end": 1428,
+            "message": "HomoraBank.execute(uint256,address,bytes) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1407-1428) should emit an event for: \n\t- SPELL = spell (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1420) \n\t- SPELL = _NO_ADDRESS (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1426) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "acceptGovernor",
+            "impact": "Low",
+            "line": 931,
+            "line_end": 935,
+            "message": "Governable.acceptGovernor() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#931-935) should emit an event for: \n\t- governor = msg.sender (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#934) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "execute",
+            "impact": "Low",
+            "line": 1407,
+            "line_end": 1428,
+            "message": "HomoraBank.execute(uint256,address,bytes) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1407-1428) should emit an event for: \n\t- POSITION_ID = positionId (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1419) \n\t- POSITION_ID = _NO_ID (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1425) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Low",
+            "line": 1045,
+            "message": "HomoraCaster.cast(address,bytes).target (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1045) lacks a zero-check on :\n\t\t- (ok,returndata) = target.call{value: msg.value}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1046)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Low",
+            "line": 926,
+            "message": "Governable.setPendingGovernor(address)._pendingGovernor (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#926) lacks a zero-check on :\n\t\t- pendingGovernor = _pendingGovernor (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#927)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Low",
+            "line": 1409,
+            "message": "HomoraBank.execute(uint256,address,bytes).spell (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1409) lacks a zero-check on :\n\t\t- SPELL = spell (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1420)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "doBorrow",
+            "impact": "Low",
+            "line": 1542,
+            "line_end": 1549,
+            "message": "HomoraBank.doBorrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1542-1549) has external calls inside a loop: balanceBefore = IERC20(token).balanceOf(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1544)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "getBorrowETHValue",
+            "impact": "Low",
+            "line": 1315,
+            "line_end": 1333,
+            "message": "HomoraBank.getBorrowETHValue(uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1315-1333) has external calls inside a loop: value = value.add(oracle.asETHBorrow(token,debt,owner)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1327)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "doBorrow",
+            "impact": "Low",
+            "line": 1542,
+            "line_end": 1549,
+            "message": "HomoraBank.doBorrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1542-1549) has external calls inside a loop: require(bool,string)(ICErc20(bank.cToken).borrow(amountCall) == 0,bad borrow) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1545)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "doBorrow",
+            "impact": "Low",
+            "line": 1542,
+            "line_end": 1549,
+            "message": "HomoraBank.doBorrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1542-1549) has external calls inside a loop: balanceAfter = IERC20(token).balanceOf(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1546)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "accrue",
+            "impact": "Low",
+            "line": 1161,
+            "line_end": 1177,
+            "message": "HomoraBank.accrue(address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1161-1177) has external calls inside a loop: debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "borrow",
+            "impact": "Low",
+            "line": 1433,
+            "line_end": 1448,
+            "message": "Reentrancy in HomoraBank.borrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433-1448):\n\tExternal calls:\n\t- poke(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tState variables written after the call(s):\n\t- pos.debtShareOf[token] = newShare (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1442)\n\t- pos.debtMap |= (1 << uint256(bank.index)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1444)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "execute",
+            "impact": "Low",
+            "line": 1407,
+            "line_end": 1428,
+            "message": "Reentrancy in HomoraBank.execute(uint256,address,bytes) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1407-1428):\n\tExternal calls:\n\t- HomoraCaster(caster).cast{value: msg.value}(spell,data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1421)\n\tState variables written after the call(s):\n\t- POSITION_ID = _NO_ID (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1425)\n\t- SPELL = _NO_ADDRESS (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1426)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "addBank",
+            "impact": "Low",
+            "line": 1338,
+            "line_end": 1351,
+            "message": "Reentrancy in HomoraBank.addBank(address,address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1338-1351):\n\tExternal calls:\n\t- IERC20(token).safeApprove(cToken,0) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1347)\n\t- IERC20(token).safeApprove(cToken,uint256(- 1)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1348)\n\tEvent emitted after the call(s):\n\t- AddBank(token,cToken) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1350)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "borrow",
+            "impact": "Low",
+            "line": 1433,
+            "line_end": 1448,
+            "message": "Reentrancy in HomoraBank.borrow(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433-1448):\n\tExternal calls:\n\t- IERC20(token).safeTransfer(msg.sender,doBorrow(token,amount)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1446)\n\t\t- require(bool,string)(ICErc20(bank.cToken).borrow(amountCall) == 0,bad borrow) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1545)\n\t- poke(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1433)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tEvent emitted after the call(s):\n\t- Borrow(POSITION_ID,msg.sender,token,amount,share) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1447)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "withdrawReserve",
+            "impact": "Low",
+            "line": 1370,
+            "line_end": 1376,
+            "message": "Reentrancy in HomoraBank.withdrawReserve(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1370-1376):\n\tExternal calls:\n\t- IERC20(token).safeTransfer(msg.sender,amount) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1374)\n\tEvent emitted after the call(s):\n\t- WithdrawReserve(msg.sender,token,amount) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1375)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "liquidate",
+            "impact": "Low",
+            "line": 1382,
+            "line_end": 1401,
+            "message": "Reentrancy in HomoraBank.liquidate(uint256,address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1382-1401):\n\tExternal calls:\n\t- (amountPaid,share) = repayInternal(positionId,debtToken,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1391)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#758)\n\t\t- IERC20(token).safeTransferFrom(msg.sender,address(this),amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1570)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\t\t- require(bool,string)(cToken.repayBorrow(amountCall) == 0,bad repay) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1559)\n\t- IERC1155(pos.collToken).safeTransferFrom(address(this),msg.sender,pos.collId,bounty,) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1399)\n\t- poke(debtToken) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1386)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tExternal calls sending eth:\n\t- (amountPaid,share) = repayInternal(positionId,debtToken,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1391)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\tEvent emitted after the call(s):\n\t- Liquidate(positionId,msg.sender,debtToken,amountPaid,share,bounty) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1400)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "repay",
+            "impact": "Low",
+            "line": 1453,
+            "line_end": 1456,
+            "message": "Reentrancy in HomoraBank.repay(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1453-1456):\n\tExternal calls:\n\t- (amount,share) = repayInternal(POSITION_ID,token,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1454)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#758)\n\t\t- IERC20(token).safeTransferFrom(msg.sender,address(this),amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1570)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\t\t- require(bool,string)(cToken.repayBorrow(amountCall) == 0,bad repay) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1559)\n\t- poke(token) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1453)\n\t\t- debt = ICErc20(bank.cToken).borrowBalanceCurrent(address(this)) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1165)\n\tExternal calls sending eth:\n\t- (amount,share) = repayInternal(POSITION_ID,token,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1454)\n\t\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n\tEvent emitted after the call(s):\n\t- Repay(POSITION_ID,msg.sender,token,amount,share) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1455)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "takeCollateral",
+            "impact": "Low",
+            "line": 1522,
+            "line_end": 1536,
+            "message": "Reentrancy in HomoraBank.takeCollateral(address,uint256,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1522-1536):\n\tExternal calls:\n\t- IERC1155(collToken).safeTransferFrom(address(this),msg.sender,collId,amount,) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1534)\n\tEvent emitted after the call(s):\n\t- TakeCollateral(POSITION_ID,msg.sender,collToken,collId,amount) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1535)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "putCollateral",
+            "impact": "Low",
+            "line": 1501,
+            "line_end": 1516,
+            "message": "Reentrancy in HomoraBank.putCollateral(address,uint256,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1501-1516):\n\tExternal calls:\n\t- amount = doERC1155TransferIn(collToken,collId,amountCall) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1513)\n\t\t- IERC1155(token).safeTransferFrom(msg.sender,address(this),id,amountCall,) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1585)\n\tEvent emitted after the call(s):\n\t- PutCollateral(POSITION_ID,msg.sender,collToken,collId,amount) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1515)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 580,
+            "line_end": 589,
+            "message": "Address.isContract(address) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#580-589) uses assembly\n\t- INLINE ASM (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#587)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 673,
+            "line_end": 694,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#673-694) uses assembly\n\t- INLINE ASM (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#686-689)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "_isConstructor",
+            "impact": "Informational",
+            "line": 131,
+            "line_end": 142,
+            "message": "Initializable._isConstructor() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#131-142) uses assembly\n\t- INLINE ASM (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#140)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "cast",
+            "impact": "Informational",
+            "line": 1045,
+            "line_end": 1059,
+            "message": "HomoraCaster.cast(address,bytes) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1045-1059) uses assembly\n\t- INLINE ASM (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1051-1054)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "lock",
+            "impact": "Informational",
+            "line": 1111,
+            "line_end": 1116,
+            "message": "HomoraBank.lock() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1111-1116) has costly operations inside a loop:\n\t- _GENERAL_LOCK = _ENTERED (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1113)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "lock",
+            "impact": "Informational",
+            "line": 1111,
+            "line_end": 1116,
+            "message": "HomoraBank.lock() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1111-1116) has costly operations inside a loop:\n\t- _GENERAL_LOCK = _NOT_ENTERED (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1115)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 607,
+            "line_end": 613,
+            "message": "Address.sendValue(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#607-613) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 658,
+            "line_end": 660,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#658-660) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 882,
+            "line_end": 884,
+            "message": "Math.max(uint256,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#882-884) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "average",
+            "impact": "Informational",
+            "line": 897,
+            "line_end": 900,
+            "message": "Math.average(uint256,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#897-900) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 737,
+            "line_end": 740,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#737-740) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 298,
+            "line_end": 301,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#298-301) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 668,
+            "line_end": 671,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#668-671) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 282,
+            "line_end": 284,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#282-284) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 742,
+            "line_end": 745,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#742-745) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 633,
+            "line_end": 635,
+            "message": "Address.functionCall(address,bytes) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#633-635) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 607,
+            "line_end": 613,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#607-613):\n\t- (success) = recipient.call{value: amount}() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#611)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 673,
+            "line_end": 694,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#673-694):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#677)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "cast",
+            "impact": "Informational",
+            "line": 1045,
+            "line_end": 1059,
+            "message": "Low level call in HomoraCaster.cast(address,bytes) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1045-1059):\n\t- (ok,returndata) = target.call{value: msg.value}(data) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1046)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "__Governable__init",
+            "impact": "Informational",
+            "line": 919,
+            "line_end": 922,
+            "message": "Function Governable.__Governable__init() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#919-922) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "EXECUTOR",
+            "impact": "Informational",
+            "line": 479,
+            "message": "Function IBank.EXECUTOR() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#479) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1093,
+            "message": "Variable HomoraBank.SPELL (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1093) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1091,
+            "message": "Variable HomoraBank._IN_EXEC_LOCK (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1091) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 926,
+            "message": "Parameter Governable.setPendingGovernor(address)._pendingGovernor (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#926) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "SPELL",
+            "impact": "Informational",
+            "line": 476,
+            "message": "Function IBank.SPELL() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#476) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1362,
+            "message": "Parameter HomoraBank.setFeeBps(uint256)._feeBps (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1362) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "POSITION_ID",
+            "impact": "Informational",
+            "line": 473,
+            "message": "Function IBank.POSITION_ID() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#473) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1090,
+            "message": "Variable HomoraBank._GENERAL_LOCK (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1090) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1092,
+            "message": "Variable HomoraBank.POSITION_ID (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1092) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "EXECUTOR",
+            "impact": "Informational",
+            "line": 1153,
+            "line_end": 1157,
+            "message": "Function HomoraBank.EXECUTOR() (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1153-1157) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1355,
+            "message": "Parameter HomoraBank.setOracle(IOracle)._oracle (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1355) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1137,
+            "message": "Parameter HomoraBank.initialize(IOracle,uint256)._feeBps (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1137) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "impact": "Informational",
+            "line": 1137,
+            "message": "Parameter HomoraBank.initialize(IOracle,uint256)._oracle (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#1137) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol",
+            "function": "supportsInterface",
+            "impact": "Optimization",
+            "line": 979,
+            "line_end": 981,
+            "message": "supportsInterface(bytes4) should be declared external:\n\t- ERC165.supportsInterface(bytes4) (../..0x33bf0bb8e1405dc440eccb97ffd92fef438c8a27.sol#979-981)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

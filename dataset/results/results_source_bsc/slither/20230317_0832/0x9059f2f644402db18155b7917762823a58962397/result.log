@@ -1,0 +1,360 @@
+Compilation warnings/errors on /sb/0x9059f2f644402db18155b7917762823a58962397.sol:
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x9059f2f644402db18155b7917762823a58962397.sol:1703:1:
+     |
+1703 | contract MerlinStrategyAlpacaBNB is BaseMerlinStrategy {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+BaseMerlinStrategy.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1342) shadows:
+	- WhitelistUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#837)
+	- PausableUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#793)
+	- OwnableUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#617)
+	- ContextUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#539)
+	- ReentrancyGuardUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#906)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variable-shadowing[0m
+[91m
+BaseMerlinStrategy._swap(address,address,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1382-1389) ignores return value by IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1386)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+BaseMerlinStrategy.balanceOf(address) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1411-1417) uses a dangerous strict equality:
+	- totalShares == 0 (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1413)
+BaseMerlinStrategy.balanceOf(address) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1411-1417) uses a dangerous strict equality:
+	- sharesOf(account) == 0 (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1414)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[92m
+SwapUtils.updateSafeSwapThreshold(uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#994-996) should emit an event for: 
+	- safeSwapThreshold = threshold (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#995) 
+BaseMerlinStrategy.updateThresholds(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1362-1367) should emit an event for: 
+	- rewardTokenSwapThreshold = _rewardTokenSwapThreshold (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1364) 
+	- stakingTokenReinvestThreshold = _stakingTokenReinvestThreshold (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1365) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+SwapUtils.initialize(address,address,address)._FACTORY (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#974) lacks a zero-check on :
+		- FACTORY = _FACTORY (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#979)
+SwapUtils.initialize(address,address,address)._ROUTER (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#975) lacks a zero-check on :
+		- PCS_LIKE_ROUTER = _ROUTER (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#980)
+SwapUtils.initialize(address,address,address)._WRAPPED_NATIVE_TOKEN (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#976) lacks a zero-check on :
+		- WRAPPED_NATIVE_TOKEN = _WRAPPED_NATIVE_TOKEN (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#981)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in MerlinStrategyAlpacaBNB.deposit(uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1782-1784):
+	External calls:
+	- _deposit(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1783)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1881)
+		- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1385)
+		- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1794)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1386)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+		- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1799)
+	- transferTokenToVault(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1782)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1741)
+		- IERC20Upgradeable(WRAPPED_NATIVE_TOKEN).safeTransferFrom(msg.sender,address(this),value) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1743)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	External calls sending eth:
+	- _deposit(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1783)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- transferTokenToVault(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1782)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1741)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	State variables written after the call(s):
+	- _deposit(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1783)
+		- _depositedAt[msg.sender] = block.timestamp (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1510)
+Reentrancy in MerlinStrategyAlpacaBNB.emergencyExit() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1946-1952):
+	External calls:
+	- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).withdrawAll(address(this),ALPACA_FAIR_LAUNCH_POOL_ID) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1948)
+	- IAlpacaVault(ALPACA_VAULT).withdraw(IERC20Upgradeable(ALPACA_VAULT).balanceOf(address(this))) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1949)
+	State variables written after the call(s):
+	- IS_EMERGENCY_MODE = true (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1950)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in BaseMerlinStrategy._getRewards() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1565-1605):
+	External calls:
+	- earnedWantTokenAmount = earnedWantTokenAmount.sub(_addProfitReward(msg.sender,earnedWantTokenAmount,false)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1591)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+		- merlinMinter.mintFor(STAKING_TOKEN,amount,0,msg.sender,depositTimestamp) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1620)
+		- merlinMinter.mintFor(STAKING_TOKEN,0,amount,msg.sender,depositTimestamp) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1620)
+	External calls sending eth:
+	- earnedWantTokenAmount = earnedWantTokenAmount.sub(_addProfitReward(msg.sender,earnedWantTokenAmount,false)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1591)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	Event emitted after the call(s):
+	- GetReward(msg.sender,earnedWantTokenAmount,shareRemoved) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1600)
+Reentrancy in MerlinStrategyAlpacaBNB._harvest() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1869-1876):
+	External calls:
+	- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).harvest(ALPACA_FAIR_LAUNCH_POOL_ID) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1873)
+	- _tryReinvest() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1875)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1881)
+		- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1385)
+		- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1794)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1386)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+		- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1799)
+	External calls sending eth:
+	- _tryReinvest() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1875)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	Event emitted after the call(s):
+	- Reinvest(msg.sender,stakingTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1902)
+		- _tryReinvest() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1875)
+Reentrancy in MerlinStrategyAlpacaBNB._tryReinvest() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1878-1904):
+	External calls:
+	- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1881)
+	- stakingTokenAmount = _swap(UNDERLYING_REWARD_TOKEN,WRAPPED_NATIVE_TOKEN,rewardTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1891)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1385)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1386)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- _depositUnderlying(stakingTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1900)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1794)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+		- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1799)
+	External calls sending eth:
+	- stakingTokenAmount = _swap(UNDERLYING_REWARD_TOKEN,WRAPPED_NATIVE_TOKEN,rewardTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1891)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- _depositUnderlying(stakingTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1900)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	Event emitted after the call(s):
+	- Reinvest(msg.sender,stakingTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1902)
+Reentrancy in BaseMerlinStrategy._withdraw(uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1517-1563):
+	External calls:
+	- withdrawnWantTokenAmount = withdrawnWantTokenAmount.sub(_addProfitReward(msg.sender,withdrawnWantTokenAmount,true)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1556)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+		- merlinMinter.mintFor(STAKING_TOKEN,amount,0,msg.sender,depositTimestamp) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1620)
+		- merlinMinter.mintFor(STAKING_TOKEN,0,amount,msg.sender,depositTimestamp) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1620)
+	External calls sending eth:
+	- withdrawnWantTokenAmount = withdrawnWantTokenAmount.sub(_addProfitReward(msg.sender,withdrawnWantTokenAmount,true)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1556)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,wantTokenAmount,withdrawnWantTokenAmount,shareRemoved) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1562)
+Reentrancy in MerlinStrategyAlpacaBNB.deposit(uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1782-1784):
+	External calls:
+	- _deposit(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1783)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IAlpacaToken(UNDERLYING_REWARD_TOKEN).unlock() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1881)
+		- tokenReceived = SwapUtils(SWAP_UTILS).swap(tokenA,tokenB,amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1385)
+		- IAlpacaVault(ALPACA_VAULT).deposit(wBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1794)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- IERC20Upgradeable(tokenB).transferFrom(SWAP_UTILS,address(this),tokenReceived) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1386)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+		- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).deposit(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,ibBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1799)
+	- transferTokenToVault(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1782)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1741)
+		- IERC20Upgradeable(WRAPPED_NATIVE_TOKEN).safeTransferFrom(msg.sender,address(this),value) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1743)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	External calls sending eth:
+	- _deposit(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1783)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- transferTokenToVault(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1782)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: msg.value}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1741)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	Event emitted after the call(s):
+	- Deposit(msg.sender,wantTokenAmount,wantTokenAdded,sharesAdded) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1514)
+		- _deposit(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1783)
+	- Reinvest(msg.sender,stakingTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1902)
+		- _deposit(wantTokenAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1783)
+Reentrancy in BaseMerlinStrategy.withdrawAll() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1441-1472):
+	External calls:
+	- approveToken(STAKING_TOKEN,address(merlinMinter),withdrawalFee.add(performanceFee)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1462)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- merlinMinter.mintFor(STAKING_TOKEN,withdrawalFee,performanceFee,msg.sender,depositTimestamp) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1463)
+	External calls sending eth:
+	- approveToken(STAKING_TOKEN,address(merlinMinter),withdrawalFee.add(performanceFee)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1462)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,profit,performanceFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1465)
+	- WithdrawAll(msg.sender,amount,shares) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1471)
+Reentrancy in MerlinStrategyAlpacaBNB.withdrawAll() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1822-1859):
+	External calls:
+	- amount = _withdrawUnderlying(amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1837)
+		- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).withdraw(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,masterChefShares) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1810)
+		- IAlpacaVault(ALPACA_VAULT).withdraw(ibBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1815)
+	- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1842)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1843)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1847)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- merlinMinter.mintFor(WRAPPED_NATIVE_TOKEN,withdrawalFee1,performanceFee1,msg.sender,depositTimestamp) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1848)
+	External calls sending eth:
+	- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1842)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1843)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1847)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,profit,performanceFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1850)
+Reentrancy in MerlinStrategyAlpacaBNB.withdrawAll() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1822-1859):
+	External calls:
+	- amount = _withdrawUnderlying(amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1837)
+		- IAlpacaFairLaunch(ALPACA_FAIR_LAUNCH).withdraw(address(this),ALPACA_FAIR_LAUNCH_POOL_ID,masterChefShares) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1810)
+		- IAlpacaVault(ALPACA_VAULT).withdraw(ibBNBAmount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1815)
+	- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1842)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1843)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1847)
+		- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#744)
+		- IERC20Upgradeable(token).safeApprove(to,0) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1376)
+		- IERC20Upgradeable(token).safeApprove(to,uint256(~ 0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1377)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- merlinMinter.mintFor(WRAPPED_NATIVE_TOKEN,withdrawalFee1,performanceFee1,msg.sender,depositTimestamp) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1848)
+	- _sendToken(msg.sender,amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1855)
+		- SafeToken.safeTransferETH(receiver,amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1866)
+		- (success) = to.call{value: value}(new bytes(0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1698)
+	External calls sending eth:
+	- withdrawalFee1 = _swapRewardTokenToWBNB(withdrawalFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1842)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- performanceFee1 = _swapRewardTokenToWBNB(performanceFee) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1843)
+		- IWETH(WRAPPED_NATIVE_TOKEN).deposit{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1936)
+	- approveToken(WRAPPED_NATIVE_TOKEN,address(merlinMinter),withdrawalFee1.add(performanceFee1)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1847)
+		- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+	- _sendToken(msg.sender,amount) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1855)
+		- (success) = to.call{value: value}(new bytes(0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1698)
+	Event emitted after the call(s):
+	- WithdrawAll(msg.sender,amount,shares) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1857)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+AddressUpgradeable.isContract(address) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#26-35) uses assembly
+	- INLINE ASM (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#33)
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#147-164) uses assembly
+	- INLINE ASM (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#156-159)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+BaseMerlinStrategy.nonEmergency() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1663-1666) compares to a boolean constant:
+	-require(bool,string)(IS_EMERGENCY_MODE == false,MerlinStrategy: emergency mode.) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1664)
+BaseMerlinStrategy.onlyEmergency() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1668-1671) compares to a boolean constant:
+	-require(bool,string)(IS_EMERGENCY_MODE == true,MerlinStrategy: not emergency mode.) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1669)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality[0m
+[92m
+AddressUpgradeable.functionCall(address,bytes) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#79-81) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#104-106) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#129-131) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#139-145) is never used and should be removed
+AddressUpgradeable.sendValue(address,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#53-59) is never used and should be removed
+BaseMerlinStrategy._addProfitReward(address,uint256,bool) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1607-1626) is never used and should be removed
+ContextUpgradeable.__Context_init() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#525-527) is never used and should be removed
+ContextUpgradeable._msgData() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#535-538) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#645-648) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#630-632) is never used and should be removed
+MathUpgradeable.average(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#941-944) is never used and should be removed
+MathUpgradeable.max(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#926-928) is never used and should be removed
+MathUpgradeable.min(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#933-935) is never used and should be removed
+SafeERC20Upgradeable.safeDecreaseAllowance(IERC20Upgradeable,address,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#728-731) is never used and should be removed
+SafeERC20Upgradeable.safeIncreaseAllowance(IERC20Upgradeable,address,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#723-726) is never used and should be removed
+SafeERC20Upgradeable.safeTransfer(IERC20Upgradeable,address,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#697-699) is never used and should be removed
+SafeMathUpgradeable.div(uint256,uint256,string) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#355-358) is never used and should be removed
+SafeMathUpgradeable.mod(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#317-320) is never used and should be removed
+SafeMathUpgradeable.mod(uint256,uint256,string) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#375-378) is never used and should be removed
+SafeMathUpgradeable.sub(uint256,uint256,string) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#335-338) is never used and should be removed
+SafeMathUpgradeable.tryAdd(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#189-193) is never used and should be removed
+SafeMathUpgradeable.tryDiv(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#225-228) is never used and should be removed
+SafeMathUpgradeable.tryMod(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#235-238) is never used and should be removed
+SafeMathUpgradeable.tryMul(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#210-218) is never used and should be removed
+SafeMathUpgradeable.trySub(uint256,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#200-203) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in AddressUpgradeable.sendValue(address,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#53-59):
+	- (success) = recipient.call{value: amount}() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#57)
+Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#114-121):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#119)
+Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#139-145):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#143)
+Low level call in SafeToken.safeTransferETH(address,uint256) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1696-1700):
+	- (success) = to.call{value: value}(new bytes(0)) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1698)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function ContextUpgradeable.__Context_init() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#525-527) is not in mixedCase
+Function ContextUpgradeable.__Context_init_unchained() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#529-530) is not in mixedCase
+Variable ContextUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#539) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#570-573) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init_unchained() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#575-579) is not in mixedCase
+Variable OwnableUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#617) is not in mixedCase
+Function IMerlinMinter.WITHDRAWAL_FEE_FREE_PERIOD() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#661) is not in mixedCase
+Function IMerlinMinter.WITHDRAWAL_FEE() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#662) is not in mixedCase
+Function PausableUpgradeable.__PausableUpgradeable_init() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#776-779) is not in mixedCase
+Parameter PausableUpgradeable.setPaused(bool)._paused (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#781) is not in mixedCase
+Variable PausableUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#793) is not in mixedCase
+Function WhitelistUpgradeable.__WhitelistUpgradeable_init() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#814-816) is not in mixedCase
+Parameter WhitelistUpgradeable.isWhitelist(address)._address (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#818) is not in mixedCase
+Parameter WhitelistUpgradeable.setWhitelist(address,bool)._address (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#822) is not in mixedCase
+Parameter WhitelistUpgradeable.setWhitelist(address,bool)._on (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#822) is not in mixedCase
+Variable WhitelistUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#837) is not in mixedCase
+Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#878-880) is not in mixedCase
+Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#882-884) is not in mixedCase
+Variable ReentrancyGuardUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#906) is not in mixedCase
+Parameter SwapUtils.initialize(address,address,address)._FACTORY (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#974) is not in mixedCase
+Parameter SwapUtils.initialize(address,address,address)._ROUTER (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#975) is not in mixedCase
+Parameter SwapUtils.initialize(address,address,address)._WRAPPED_NATIVE_TOKEN (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#976) is not in mixedCase
+Parameter SwapUtils.tokenPriceInBNB(address,uint256)._token (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#998) is not in mixedCase
+Parameter SwapUtils.checkNeedSwap(address,uint256)._token (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1012) is not in mixedCase
+Variable SwapUtils.WRAPPED_NATIVE_TOKEN (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#970) is not in mixedCase
+Variable SwapUtils.FACTORY (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#991) is not in mixedCase
+Variable SwapUtils.PCS_LIKE_ROUTER (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1032) is not in mixedCase
+Function IMerlinStrategy._underlyingShareAmount() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1158) is not in mixedCase
+Function IMerlinStrategy.STAKING_TOKEN() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1160) is not in mixedCase
+Function IMerlinStrategyWithEmergency.IS_EMERGENCY_MODE() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1164) is not in mixedCase
+Function BaseMerlinStrategy.__Base_init(address) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1344-1356) is not in mixedCase
+Parameter BaseMerlinStrategy.__Base_init(address)._SWAP_UTILS (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1345) is not in mixedCase
+Parameter BaseMerlinStrategy.updateThresholds(uint256,uint256)._rewardTokenSwapThreshold (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1362) is not in mixedCase
+Parameter BaseMerlinStrategy.updateThresholds(uint256,uint256)._stakingTokenReinvestThreshold (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1362) is not in mixedCase
+Function BaseMerlinStrategy._underlyingWantTokenAmount() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1632) is not in mixedCase
+Parameter BaseMerlinStrategy.setMinter(address)._minter (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1645) is not in mixedCase
+Variable BaseMerlinStrategy.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1342) is not in mixedCase
+Variable BaseMerlinStrategy.SWAP_UTILS (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1329) is not in mixedCase
+Variable BaseMerlinStrategy.STAKING_TOKEN (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1338) is not in mixedCase
+Variable BaseMerlinStrategy._depositedAt (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1340) is not in mixedCase
+Variable BaseMerlinStrategy.IS_EMERGENCY_MODE (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1661) is not in mixedCase
+Parameter MerlinStrategyAlpacaBNB.initialize(address)._SWAP_UTILS (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1725) is not in mixedCase
+Function MerlinStrategyAlpacaBNB._underlyingShareAmount() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1756-1761) is not in mixedCase
+Function MerlinStrategyAlpacaBNB.__underlyingWantTokenPerShares() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1763-1772) is not in mixedCase
+Function MerlinStrategyAlpacaBNB._underlyingWantTokenAmount() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1774-1776) is not in mixedCase
+Variable MerlinStrategyAlpacaBNB.UNDERLYING_REWARD_TOKEN (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1718) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#536)" inContextUpgradeable (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#524-540)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+OwnableUpgradeable.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#617) is never used in SwapUtils (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#965-1070)
+BaseMerlinStrategy.__gap (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1342) is never used in MerlinStrategyAlpacaBNB (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1703-1971)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+BaseMerlinStrategy.STAKING_TOKEN (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1338) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+renounceOwnership() should be declared external:
+	- OwnableUpgradeable.renounceOwnership() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#603-606)
+transferOwnership(address) should be declared external:
+	- OwnableUpgradeable.transferOwnership(address) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#612-616)
+isWhitelist(address) should be declared external:
+	- WhitelistUpgradeable.isWhitelist(address) (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#818-820)
+totalBalance() should be declared external:
+	- BaseMerlinStrategy.totalBalance() (../../sb/0x9059f2f644402db18155b7917762823a58962397.sol#1407-1409)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x9059f2f644402db18155b7917762823a58962397.sol analyzed (31 contracts with 78 detectors), 106 result(s) found

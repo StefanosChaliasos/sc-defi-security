@@ -1,0 +1,665 @@
+{
+    "errors": [
+        "EXIT_CODE_67"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "rewardPerToken",
+            "impact": "Medium",
+            "line": 690,
+            "line_end": 702,
+            "message": "YFVStake.rewardPerToken() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#690-702) uses a dangerous strict equality:\n\t- totalSupply() == 0 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#691)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "claimVETHReward",
+            "impact": "Medium",
+            "line": 728,
+            "line_end": 735,
+            "message": "YFVStake.claimVETHReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#728-735) uses a dangerous strict equality:\n\t- require(bool,string)(rewardRate == 0,vETH could be claimed only after the pool ends.) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#729)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "notifyRewardAmount",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 854,
+            "message": "Reentrancy in YFVStake.notifyRewardAmount(uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#834-854):\n\tExternal calls:\n\t- yfv.mint(address(this),reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#849)\n\t- vUSD.mint(address(this),reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#850)\n\t- vETH.mint(address(this),reward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#851)\n\tState variables written after the call(s):\n\t- totalAccumulatedReward = totalAccumulatedReward.add(reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#852)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeReward",
+            "impact": "Medium",
+            "line": 755,
+            "line_end": 761,
+            "message": "Reentrancy in YFVStake.stakeReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):\n\tExternal calls:\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t\t- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)\n\t- super.tokenStake(reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- super.tokenStake(reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)\n\t\t- _balances[msg.sender] = _balances[msg.sender].add(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#612)\n\t- super.tokenStake(reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#611)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "getReward",
+            "impact": "Medium",
+            "line": 779,
+            "line_end": 807,
+            "message": "Reentrancy in YFVStake.getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):\n\tExternal calls:\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- rewards[msg.sender] = 0 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#783)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 767,
+            "line_end": 772,
+            "message": "Reentrancy in YFVStake.withdraw(uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767-772):\n\tExternal calls:\n\t- super.tokenWithdraw(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)\n\t\t- yfv.safeTransfer(msg.sender,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- super.tokenWithdraw(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)\n\t\t- _balances[msg.sender] = _balances[msg.sender].sub(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#624)\n\t- super.tokenWithdraw(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)\n\t\t- _totalSupply = _totalSupply.sub(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#623)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeReward",
+            "impact": "Medium",
+            "line": 755,
+            "line_end": 761,
+            "message": "Reentrancy in YFVStake.stakeReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):\n\tExternal calls:\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t\t- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- currentEpoch ++ (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#823)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- currentEpochReward = EPOCH_REWARD (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#812)\n\t\t- currentEpochReward = TOTAL_REWARD.sub(totalAccumulatedReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#815)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- lastUpdateTime = lastTimeRewardApplicable() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#678)\n\t\t- lastUpdateTime = block.timestamp (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#827)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- periodFinish = block.timestamp.add(DURATION) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#828)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- rewardPerTokenStored = rewardPerToken() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#677)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- rewardRate = currentEpochReward.div(DURATION) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#826)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- rewards[msg.sender] = 0 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#783)\n\t\t- rewards[account] = earned(account) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#680)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- totalAccumulatedReward = totalAccumulatedReward.add(currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#822)\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- userRewardPerTokenPaid[account] = rewardPerTokenStored (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#681)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeOnBehalf",
+            "impact": "Medium",
+            "line": 748,
+            "line_end": 753,
+            "message": "Reentrancy in YFVStake.stakeOnBehalf(address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753):\n\tExternal calls:\n\t- super.tokenStakeOnBehalf(stakeFor,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#619)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- super.tokenStakeOnBehalf(stakeFor,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)\n\t\t- _balances[stakeFor] = _balances[stakeFor].add(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#618)\n\t- super.tokenStakeOnBehalf(stakeFor,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#617)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stake",
+            "impact": "Medium",
+            "line": 737,
+            "line_end": 746,
+            "message": "Reentrancy in YFVStake.stake(uint256,address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746):\n\tExternal calls:\n\t- super.tokenStake(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- super.tokenStake(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)\n\t\t- _balances[msg.sender] = _balances[msg.sender].add(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#612)\n\t- super.tokenStake(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#611)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "checkNextEpoch",
+            "impact": "Medium",
+            "line": 809,
+            "line_end": 832,
+            "message": "Reentrancy in YFVStake.checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#809-832):\n\tExternal calls:\n\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- periodFinish = block.timestamp.add(DURATION) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#828)\n\t- totalAccumulatedReward = totalAccumulatedReward.add(currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#822)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "exit",
+            "impact": "Medium",
+            "line": 774,
+            "line_end": 777,
+            "message": "Reentrancy in YFVStake.exit() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#774-777):\n\tExternal calls:\n\t- withdraw(balanceOf(msg.sender)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#775)\n\t\t- yfv.safeTransfer(msg.sender,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t\t- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)\n\tState variables written after the call(s):\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- currentEpoch ++ (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#823)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- currentEpochReward = EPOCH_REWARD (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#812)\n\t\t- currentEpochReward = TOTAL_REWARD.sub(totalAccumulatedReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#815)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- lastUpdateTime = lastTimeRewardApplicable() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#678)\n\t\t- lastUpdateTime = block.timestamp (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#827)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- periodFinish = block.timestamp.add(DURATION) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#828)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- rewardPerTokenStored = rewardPerToken() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#677)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- rewardRate = currentEpochReward.div(DURATION) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#826)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- rewards[msg.sender] = 0 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#783)\n\t\t- rewards[account] = earned(account) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#680)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- totalAccumulatedReward = totalAccumulatedReward.add(currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#822)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- userRewardPerTokenPaid[account] = rewardPerTokenStored (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#681)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Low",
+            "line": 578,
+            "message": "IRewardDistributionRecipient.setRewardReferral(address)._rewardReferral (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#578) lacks a zero-check on :\n\t\t- rewardReferral = _rewardReferral (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#579)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Low",
+            "line": 582,
+            "message": "IRewardDistributionRecipient.setRewardVote(address)._rewardVote (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#582) lacks a zero-check on :\n\t\t- rewardVote = _rewardVote (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#583)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeOnBehalf",
+            "impact": "Low",
+            "line": 748,
+            "line_end": 753,
+            "message": "Reentrancy in YFVStake.stakeOnBehalf(address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753):\n\tExternal calls:\n\t- super.tokenStakeOnBehalf(stakeFor,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#619)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- lastStakeTimes[stakeFor] = block.timestamp (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#751)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "checkNextEpoch",
+            "impact": "Low",
+            "line": 809,
+            "line_end": 832,
+            "message": "Reentrancy in YFVStake.checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#809-832):\n\tExternal calls:\n\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- currentEpoch ++ (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#823)\n\t- lastUpdateTime = block.timestamp (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#827)\n\t- rewardRate = currentEpochReward.div(DURATION) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#826)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeReward",
+            "impact": "Low",
+            "line": 755,
+            "line_end": 761,
+            "message": "Reentrancy in YFVStake.stakeReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):\n\tExternal calls:\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t\t- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)\n\t- super.tokenStake(reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- lastStakeTimes[msg.sender] = block.timestamp (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#759)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 737,
+            "line_end": 746,
+            "message": "Reentrancy in YFVStake.stake(uint256,address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746):\n\tExternal calls:\n\t- super.tokenStake(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- lastStakeTimes[msg.sender] = block.timestamp (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#741)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 779,
+            "line_end": 807,
+            "message": "Reentrancy in YFVStake.getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):\n\tExternal calls:\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tState variables written after the call(s):\n\t- accumulatedStakingPower[msg.sender] = accumulatedStakingPower[msg.sender].add(rewards[msg.sender]) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#782)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeReward",
+            "impact": "Low",
+            "line": 755,
+            "line_end": 761,
+            "message": "Reentrancy in YFVStake.stakeReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):\n\tExternal calls:\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t\t- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)\n\t- super.tokenStake(reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- Staked(msg.sender,reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#760)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 779,
+            "line_end": 807,
+            "message": "Reentrancy in YFVStake.getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):\n\tExternal calls:\n\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- RewardPaid(msg.sender,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#797)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeOnBehalf",
+            "impact": "Low",
+            "line": 748,
+            "line_end": 753,
+            "message": "Reentrancy in YFVStake.stakeOnBehalf(address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753):\n\tExternal calls:\n\t- super.tokenStakeOnBehalf(stakeFor,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#619)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- Staked(stakeFor,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#752)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 779,
+            "line_end": 807,
+            "message": "Reentrancy in YFVStake.getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):\n\tExternal calls:\n\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- Burned(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#800)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "checkNextEpoch",
+            "impact": "Low",
+            "line": 809,
+            "line_end": 832,
+            "message": "Reentrancy in YFVStake.checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#809-832):\n\tExternal calls:\n\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- RewardAdded(currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#829)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 767,
+            "line_end": 772,
+            "message": "Reentrancy in YFVStake.withdraw(uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767-772):\n\tExternal calls:\n\t- super.tokenWithdraw(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)\n\t\t- yfv.safeTransfer(msg.sender,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- Withdrawn(msg.sender,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#771)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeReward",
+            "impact": "Low",
+            "line": 755,
+            "line_end": 761,
+            "message": "Reentrancy in YFVStake.stakeReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):\n\tExternal calls:\n\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t\t- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- Burned(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#800)\n\t\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t- RewardAdded(currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#829)\n\t\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t- RewardPaid(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#789)\n\t\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n\t- RewardPaid(msg.sender,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#797)\n\t\t- reward = getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 737,
+            "line_end": 746,
+            "message": "Reentrancy in YFVStake.stake(uint256,address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746):\n\tExternal calls:\n\t- super.tokenStake(amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)\n\t\t- yfv.safeTransferFrom(msg.sender,address(this),amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- Staked(msg.sender,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#742)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "exit",
+            "impact": "Low",
+            "line": 774,
+            "line_end": 777,
+            "message": "Reentrancy in YFVStake.exit() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#774-777):\n\tExternal calls:\n\t- withdraw(balanceOf(msg.sender)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#775)\n\t\t- yfv.safeTransfer(msg.sender,amount) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n\t\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\t\t- yfv.safeTransfer(referrer,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)\n\t\t- yfv.burn(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)\n\t\t- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)\n\tEvent emitted after the call(s):\n\t- Burned(commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#800)\n\t\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t- RewardAdded(currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#829)\n\t\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t- RewardPaid(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#789)\n\t\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n\t- RewardPaid(msg.sender,commission) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#797)\n\t\t- getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 779,
+            "line_end": 807,
+            "message": "Reentrancy in YFVStake.getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):\n\tExternal calls:\n\t- yfv.safeTransfer(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)\n\t- checkNextEpoch() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)\n\t\t- yfv.mint(address(this),currentEpochReward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)\n\t\t- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)\n\t\t- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)\n\tEvent emitted after the call(s):\n\t- RewardPaid(msg.sender,actualPaid) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#789)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "notifyRewardAmount",
+            "impact": "Low",
+            "line": 834,
+            "line_end": 854,
+            "message": "Reentrancy in YFVStake.notifyRewardAmount(uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#834-854):\n\tExternal calls:\n\t- yfv.mint(address(this),reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#849)\n\t- vUSD.mint(address(this),reward.div(vUSD_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#850)\n\t- vETH.mint(address(this),reward.div(vETH_REWARD_FRACTION_RATE)) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#851)\n\tEvent emitted after the call(s):\n\t- RewardAdded(reward) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#853)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "earned",
+            "impact": "Low",
+            "line": 704,
+            "line_end": 714,
+            "message": "YFVStake.earned(address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#704-714) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- poolBalance < totalSupply() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#710)\n\t- calculatedEarned.add(totalSupply()) > poolBalance (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#712)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "rewardPerToken",
+            "impact": "Low",
+            "line": 690,
+            "line_end": 702,
+            "message": "YFVStake.rewardPerToken() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#690-702) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- totalSupply() == 0 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#691)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "claimVETHReward",
+            "impact": "Low",
+            "line": 728,
+            "line_end": 735,
+            "message": "YFVStake.claimVETHReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#728-735) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(rewardRate == 0,vETH could be claimed only after the pool ends.) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#729)\n\t- require(bool,string)(claimAmount > 0,You have no vETH to claim) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#731)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "notifyRewardAmount",
+            "impact": "Low",
+            "line": 834,
+            "line_end": 854,
+            "message": "YFVStake.notifyRewardAmount(uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#834-854) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(periodFinish == 0,Only can call once to start staking) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#835)\n\t- block.timestamp < starttime (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#841)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 767,
+            "line_end": 772,
+            "message": "YFVStake.withdraw(uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767-772) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(amount > 0,Cannot withdraw 0) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#768)\n\t- require(bool,string)(block.timestamp >= unfrozenStakeTime(msg.sender),Coin is still frozen) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#769)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 779,
+            "line_end": 807,
+            "message": "YFVStake.getReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- reward > 1 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#781)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeReward",
+            "impact": "Low",
+            "line": 755,
+            "line_end": 761,
+            "message": "YFVStake.stakeReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(reward > 0,Earned too little) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#757)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 438,
+            "line_end": 451,
+            "message": "Address.isContract(address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#438-451) uses assembly\n\t- INLINE ASM (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#449)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 481,
+            "line_end": 487,
+            "message": "Address.sendValue(address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#481-487) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "max",
+            "impact": "Informational",
+            "line": 47,
+            "line_end": 49,
+            "message": "Math.max(uint256,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#47-49) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "average",
+            "impact": "Informational",
+            "line": 62,
+            "line_end": 65,
+            "message": "Math.average(uint256,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#62-65) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 529,
+            "line_end": 532,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#529-532) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 518,
+            "line_end": 527,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#518-527) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 221,
+            "line_end": 224,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#221-224) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 251,
+            "line_end": 255,
+            "message": "Context._msgData() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#251-255) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "toPayable",
+            "impact": "Informational",
+            "line": 459,
+            "line_end": 461,
+            "message": "Address.toPayable(address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#459-461) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 204,
+            "line_end": 206,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#204-206) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 534,
+            "line_end": 537,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#534-537) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 481,
+            "line_end": 487,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#481-487):\n\t- (success) = recipient.call.value(amount)() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#485)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "callOptionalReturn",
+            "impact": "Informational",
+            "line": 545,
+            "line_end": 564,
+            "message": "Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#545-564):\n\t- (success,returndata) = address(token).call(data) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Informational",
+            "line": 642,
+            "message": "Variable YFVStake.vUSD_REWARD_FRACTION_RATE (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#642) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Informational",
+            "line": 582,
+            "message": "Parameter IRewardDistributionRecipient.setRewardVote(address)._rewardVote (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#582) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Informational",
+            "line": 578,
+            "message": "Parameter IRewardDistributionRecipient.setRewardReferral(address)._rewardReferral (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#578) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Informational",
+            "line": 643,
+            "message": "Variable YFVStake.vETH_REWARD_FRACTION_RATE (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#643) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Informational",
+            "line": 252,
+            "message": "Redundant expression \"this (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#252)\" inContext (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#241-256)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "slitherConstructorVariables",
+            "impact": "Informational",
+            "line": 638,
+            "line_end": 856,
+            "message": "YFVStake.slitherConstructorVariables() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#638-856) uses literals with too many digits:\n\t- vETH_REWARD_FRACTION_RATE = 21000000000000 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#643)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "slitherConstructorVariables",
+            "impact": "Informational",
+            "line": 638,
+            "line_end": 856,
+            "message": "YFVStake.slitherConstructorVariables() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#638-856) uses literals with too many digits:\n\t- vUSD_REWARD_FRACTION_RATE = 21000000000 (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#642)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Optimization",
+            "line": 643,
+            "message": "YFVStake.vETH_REWARD_FRACTION_RATE (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#643) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Optimization",
+            "line": 657,
+            "message": "YFVStake.starttime (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#657) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "impact": "Optimization",
+            "line": 642,
+            "message": "YFVStake.vUSD_REWARD_FRACTION_RATE (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#642) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 313,
+            "line_end": 316,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#313-316)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "vUSDBalance",
+            "impact": "Optimization",
+            "line": 720,
+            "line_end": 722,
+            "message": "vUSDBalance(address) should be declared external:\n\t- YFVStake.vUSDBalance(address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#720-722)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 287,
+            "line_end": 289,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#287-289)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 322,
+            "line_end": 324,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#322-324)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeOnBehalf",
+            "impact": "Optimization",
+            "line": 748,
+            "line_end": 753,
+            "message": "stakeOnBehalf(address,uint256) should be declared external:\n\t- YFVStake.stakeOnBehalf(address,uint256) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stake",
+            "impact": "Optimization",
+            "line": 737,
+            "line_end": 746,
+            "message": "stake(uint256,address) should be declared external:\n\t- YFVStake.stake(uint256,address) (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "claimVETHReward",
+            "impact": "Optimization",
+            "line": 728,
+            "line_end": 735,
+            "message": "claimVETHReward() should be declared external:\n\t- YFVStake.claimVETHReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#728-735)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol",
+            "function": "stakeReward",
+            "impact": "Optimization",
+            "line": 755,
+            "line_end": 761,
+            "message": "stakeReward() should be declared external:\n\t- YFVStake.stakeReward() (../..0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

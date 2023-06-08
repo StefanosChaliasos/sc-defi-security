@@ -1,0 +1,768 @@
+{
+    "errors": [
+        "EXIT_CODE_77"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getYD",
+            "impact": "Medium",
+            "line": 1750,
+            "line_end": 1785,
+            "message": "SwapUtils.getYD(uint256,uint8,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1750-1785) performs a multiplication on the result of a division:\n\t-c = c.mul(d).div(xp[i].mul(numTokens)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1766)\n\t-c = c.mul(d).mul(A_PRECISION).div(nA.mul(numTokens)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1772)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getY",
+            "impact": "Medium",
+            "line": 1933,
+            "line_end": 1985,
+            "message": "SwapUtils.getY(SwapUtils.Swap,uint8,uint8,uint256,uint256[]) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1933-1985) performs a multiplication on the result of a division:\n\t-c = c.mul(d).div(_x.mul(numTokens)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1966)\n\t-c = c.mul(d).mul(A_PRECISION).div(nA.mul(numTokens)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1971)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getD",
+            "impact": "Medium",
+            "line": 1795,
+            "line_end": 1836,
+            "message": "SwapUtils.getD(uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1795-1836) performs a multiplication on the result of a division:\n\t-dP = dP.mul(d).div(xp[j].mul(numTokens)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1816)\n\t-d = nA.mul(s).div(A_PRECISION).add(dP.mul(numTokens)).mul(d).div(nA.sub(A_PRECISION).mul(d).div(A_PRECISION).add(numTokens.add(1).mul(dP))) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1822-1826)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "_calculateRemoveLiquidity",
+            "impact": "Medium",
+            "line": 2058,
+            "line_end": 2081,
+            "message": "SwapUtils._calculateRemoveLiquidity(SwapUtils.Swap,address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2058-2081) performs a multiplication on the result of a division:\n\t-feeAdjustedAmount = amount.mul(FEE_DENOMINATOR.sub(calculateCurrentWithdrawFee(self,account))).div(FEE_DENOMINATOR) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2066-2071)\n\t-amounts[i] = self.balances[i].mul(feeAdjustedAmount).div(totalSupply) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2076-2078)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "calculateTokenAmount",
+            "impact": "Medium",
+            "line": 2126,
+            "line_end": 2159,
+            "message": "SwapUtils.calculateTokenAmount(SwapUtils.Swap,address,uint256[],bool) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2126-2159) performs a multiplication on the result of a division:\n\t-d0.sub(d1).mul(totalSupply).div(d0).mul(FEE_DENOMINATOR).div(FEE_DENOMINATOR.sub(calculateCurrentWithdrawFee(self,account))) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2152-2157)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "_xp",
+            "impact": "Medium",
+            "line": 1860,
+            "line_end": 1874,
+            "message": "SwapUtils._xp(uint256[],uint256[]) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1860-1874) uses a dangerous strict equality:\n\t- require(bool,string)(numTokens == precisionMultipliers.length,Balances must match multipliers) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1865-1868)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getD",
+            "impact": "Medium",
+            "line": 1795,
+            "line_end": 1836,
+            "message": "SwapUtils.getD(uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1795-1836) uses a dangerous strict equality:\n\t- s == 0 (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1805)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Medium",
+            "line": 1760,
+            "message": "SwapUtils.getYD(uint256,uint8,uint256[],uint256).s (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1760) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "addLiquidity",
+            "impact": "Low",
+            "line": 2283,
+            "line_end": 2376,
+            "message": "SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376) has external calls inside a loop: beforeBalance = self.pooledTokens[i].balanceOf(address(this)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2313-2314)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "withdrawAdminFees",
+            "impact": "Low",
+            "line": 2604,
+            "line_end": 2613,
+            "message": "SwapUtils.withdrawAdminFees(SwapUtils.Swap,address) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2604-2613) has external calls inside a loop: balance = token.balanceOf(address(this)).sub(self.balances[i]) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2607-2608)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "addLiquidity",
+            "impact": "Low",
+            "line": 2283,
+            "line_end": 2376,
+            "message": "SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376) has external calls inside a loop: amounts[i] = self.pooledTokens[i].balanceOf(address(this)).sub(beforeBalance) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2322-2324)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "removeLiquidityOneToken",
+            "impact": "Low",
+            "line": 2471,
+            "line_end": 2513,
+            "message": "Reentrancy in SwapUtils.removeLiquidityOneToken(SwapUtils.Swap,address,uint256,uint8,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2471-2513):\n\tExternal calls:\n\t- self.lpToken.burnFrom(msg.sender,tokenAmount) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2501)\n\t- self.pooledTokens[tokenIndex].safeTransfer(to,dy) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2502)\n\tEvent emitted after the call(s):\n\t- RemoveLiquidityOne(msg.sender,tokenAmount,totalSupply,tokenIndex,dy) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2504-2510)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "addLiquidity",
+            "impact": "Low",
+            "line": 2283,
+            "line_end": 2376,
+            "message": "Reentrancy in SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376):\n\tExternal calls:\n\t- self.lpToken.mint(to,toMint) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2365)\n\tEvent emitted after the call(s):\n\t- AddLiquidity(msg.sender,amounts,fees,v.d1,totalSupply.add(toMint)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2367-2373)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "removeLiquidity",
+            "impact": "Low",
+            "line": 2434,
+            "line_end": 2460,
+            "message": "Reentrancy in SwapUtils.removeLiquidity(SwapUtils.Swap,address,uint256,uint256[]) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2434-2460):\n\tExternal calls:\n\t- self.lpToken.burnFrom(msg.sender,amount) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2455)\n\tEvent emitted after the call(s):\n\t- RemoveLiquidity(msg.sender,amounts,self.lpToken.totalSupply()) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2457)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 2203,
+            "line_end": 2250,
+            "message": "Reentrancy in SwapUtils.swap(SwapUtils.Swap,address,uint8,uint8,uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2203-2250):\n\tExternal calls:\n\t- self.pooledTokens[tokenIndexFrom].safeTransferFrom(msg.sender,address(this),dx) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2219-2223)\n\t- self.pooledTokens[tokenIndexTo].safeTransfer(to,dy) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2237)\n\tEvent emitted after the call(s):\n\t- TokenSwap(msg.sender,transferredDx,dy,tokenIndexFrom,tokenIndexTo) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2239-2245)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "removeLiquidityImbalance",
+            "impact": "Low",
+            "line": 2526,
+            "line_end": 2597,
+            "message": "Reentrancy in SwapUtils.removeLiquidityImbalance(SwapUtils.Swap,address,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2526-2597):\n\tExternal calls:\n\t- self.lpToken.burnFrom(msg.sender,tokenAmount) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2582)\n\tEvent emitted after the call(s):\n\t- RemoveLiquidityImbalance(msg.sender,amounts,fees,v.d1,tokenSupply.sub(tokenAmount)) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2588-2594)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getD",
+            "impact": "Low",
+            "line": 1795,
+            "line_end": 1836,
+            "message": "SwapUtils.getD(uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1795-1836) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- i < numTokens (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1802)\n\t- s == 0 (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1805)\n\t- j < numTokens (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1815)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getYD",
+            "impact": "Low",
+            "line": 1750,
+            "line_end": 1785,
+            "message": "SwapUtils.getYD(uint256,uint8,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1750-1785) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(tokenIndex < numTokens,Token not found) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1757)\n\t- i < numTokens (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1763)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "calculateCurrentWithdrawFee",
+            "impact": "Low",
+            "line": 2089,
+            "line_end": 2106,
+            "message": "SwapUtils.calculateCurrentWithdrawFee(SwapUtils.Swap,address) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2089-2106) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- endTime > block.timestamp (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2095)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "_getAPrecise",
+            "impact": "Low",
+            "line": 1598,
+            "line_end": 1621,
+            "message": "SwapUtils._getAPrecise(SwapUtils.Swap) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1598-1621) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp < t1 (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1602)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "rampA",
+            "impact": "Low",
+            "line": 2663,
+            "line_end": 2707,
+            "message": "SwapUtils.rampA(SwapUtils.Swap,uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2663-2707) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= self.initialATime.add(86400),Wait 1 day before starting ramp) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2668-2671)\n\t- require(bool,string)(futureTime_ >= block.timestamp.add(MIN_RAMP_TIME),Insufficient ramp time) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2672-2675)\n\t- futureAPrecise < initialAPrecise (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2684)\n\t- require(bool,string)(futureAPrecise.mul(MAX_A_CHANGE) >= initialAPrecise,futureA_ is too small) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2685-2688)\n\t- require(bool,string)(futureAPrecise <= initialAPrecise.mul(MAX_A_CHANGE),futureA_ is too large) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2690-2693)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "removeLiquidityImbalance",
+            "impact": "Low",
+            "line": 2526,
+            "line_end": 2597,
+            "message": "SwapUtils.removeLiquidityImbalance(SwapUtils.Swap,address,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2526-2597) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(tokenAmount != 0,Burnt amount cannot be zero) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2575)\n\t- require(bool,string)(tokenAmount <= maxBurnAmount,tokenAmount > maxBurnAmount) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2580)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "addLiquidity",
+            "impact": "Low",
+            "line": 2283,
+            "line_end": 2376,
+            "message": "SwapUtils.addLiquidity(SwapUtils.Swap,address,uint256[],uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2283-2376) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(v.d1 > v.d0,D should increase) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2333)\n\t- require(bool,string)(toMint >= minToMint,Couldn't mint min requested) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2362)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "calculateWithdrawOneTokenDY",
+            "impact": "Low",
+            "line": 1681,
+            "line_end": 1730,
+            "message": "SwapUtils.calculateWithdrawOneTokenDY(SwapUtils.Swap,uint8,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1681-1730) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(tokenAmount <= xp[tokenIndex],Withdraw exceeds available) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1700)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "stopRampA",
+            "impact": "Low",
+            "line": 2714,
+            "line_end": 2724,
+            "message": "SwapUtils.stopRampA(SwapUtils.Swap) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2714-2724) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(self.futureATime > block.timestamp,Ramp is already stopped) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2715)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "_xp",
+            "impact": "Low",
+            "line": 1860,
+            "line_end": 1874,
+            "message": "SwapUtils._xp(uint256[],uint256[]) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1860-1874) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(numTokens == precisionMultipliers.length,Balances must match multipliers) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1865-1868)\n\t- i < numTokens (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1870)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "_calculateSwap",
+            "impact": "Low",
+            "line": 2019,
+            "line_end": 2038,
+            "message": "SwapUtils._calculateSwap(SwapUtils.Swap,uint8,uint8,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2019-2038) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(tokenIndexFrom < xp.length && tokenIndexTo < xp.length,Token index out of range) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2026-2029)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "removeLiquidityOneToken",
+            "impact": "Low",
+            "line": 2471,
+            "line_end": 2513,
+            "message": "SwapUtils.removeLiquidityOneToken(SwapUtils.Swap,address,uint256,uint8,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2471-2513) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(dy >= minAmount,dy < minAmount) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2496)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 1007,
+            "line_end": 1016,
+            "message": "Address.isContract(address) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1007-1016) uses assembly\n\t- INLINE ASM (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1014)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 1152,
+            "line_end": 1169,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1152-1169) uses assembly\n\t- INLINE ASM (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1161-1164)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "tryDiv",
+            "impact": "Informational",
+            "line": 60,
+            "line_end": 63,
+            "message": "SafeMath.tryDiv(uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#60-63) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 1034,
+            "line_end": 1040,
+            "message": "Address.sendValue(address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1034-1040) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 1085,
+            "line_end": 1087,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1085-1087) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "tryMod",
+            "impact": "Informational",
+            "line": 70,
+            "line_end": 73,
+            "message": "SafeMath.tryMod(uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#70-73) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 1144,
+            "line_end": 1150,
+            "message": "Address.functionDelegateCall(address,bytes,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1144-1150) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 1134,
+            "line_end": 1136,
+            "message": "Address.functionDelegateCall(address,bytes) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1134-1136) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 1212,
+            "line_end": 1215,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1212-1215) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 1201,
+            "line_end": 1210,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1201-1210) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "tryAdd",
+            "impact": "Informational",
+            "line": 24,
+            "line_end": 28,
+            "message": "SafeMath.tryAdd(uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#24-28) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 213,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#210-213) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "div",
+            "impact": "Informational",
+            "line": 190,
+            "line_end": 193,
+            "message": "SafeMath.div(uint256,uint256,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#190-193) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 311,
+            "line_end": 314,
+            "message": "Context._msgData() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#311-314) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 1110,
+            "line_end": 1112,
+            "message": "Address.functionStaticCall(address,bytes) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1110-1112) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 152,
+            "line_end": 155,
+            "message": "SafeMath.mod(uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#152-155) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "tryMul",
+            "impact": "Informational",
+            "line": 45,
+            "line_end": 53,
+            "message": "SafeMath.tryMul(uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#45-53) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "trySub",
+            "impact": "Informational",
+            "line": 35,
+            "line_end": 38,
+            "message": "SafeMath.trySub(uint256,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#35-38) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 1217,
+            "line_end": 1220,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1217-1220) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 1120,
+            "line_end": 1126,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1120-1126) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 1060,
+            "line_end": 1062,
+            "message": "Address.functionCall(address,bytes) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1060-1062) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 1034,
+            "line_end": 1040,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1034-1040):\n\t- (success) = recipient.call{value: amount}() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1038)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 1095,
+            "line_end": 1102,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1095-1102):\n\t- (success,returndata) = target.call{value: value}(data) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1100)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 1144,
+            "line_end": 1150,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1144-1150):\n\t- (success,returndata) = target.delegatecall(data) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1148)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 1120,
+            "line_end": 1126,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1120-1126):\n\t- (success,returndata) = target.staticcall(data) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1124)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Informational",
+            "line": 2835,
+            "message": "Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._withdrawFee (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2835) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Informational",
+            "line": 2833,
+            "message": "Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._fee (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2833) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Informational",
+            "line": 2834,
+            "message": "Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._adminFee (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2834) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Informational",
+            "line": 2832,
+            "message": "Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._a (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2832) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Informational",
+            "line": 2828,
+            "message": "Parameter Swap.initialize(IERC20[],uint8[],string,string,uint256,uint256,uint256,uint256)._pooledTokens (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2828) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Informational",
+            "line": 312,
+            "message": "Redundant expression \"this (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#312)\" inContext (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#306-315)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "Swap",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Informational",
+            "line": 2756,
+            "message": "Swap.initialized (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2756) is never used in Swap (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2745-3288)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "impact": "Optimization",
+            "line": 2756,
+            "message": "Swap.initialized (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2756) should be constant\n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getLPToken",
+            "impact": "Optimization",
+            "line": 2933,
+            "line_end": 2935,
+            "message": "getLPToken() should be declared external:\n\t- Swap.getLPToken() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2933-2935)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 486,
+            "line_end": 490,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#486-490)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "burnFrom",
+            "impact": "Optimization",
+            "line": 1352,
+            "line_end": 1357,
+            "message": "burnFrom(address,uint256) should be declared external:\n\t- ERC20Burnable.burnFrom(address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1352-1357)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 840,
+            "line_end": 843,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#840-843)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 423,
+            "line_end": 425,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#423-425)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 523,
+            "line_end": 526,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#523-526)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 406,
+            "line_end": 408,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#406-408)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 437,
+            "line_end": 439,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#437-439)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 449,
+            "line_end": 452,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#449-452)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 504,
+            "line_end": 507,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#504-507)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "getTokenIndex",
+            "impact": "Optimization",
+            "line": 2953,
+            "line_end": 2960,
+            "message": "getTokenIndex(address) should be declared external:\n\t- Swap.getTokenIndex(address) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#2953-2960)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 849,
+            "line_end": 853,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#849-853)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 398,
+            "line_end": 400,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#398-400)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "totalSupply",
+            "impact": "Optimization",
+            "line": 430,
+            "line_end": 432,
+            "message": "totalSupply() should be declared external:\n\t- ERC20.totalSupply() (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#430-432)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 468,
+            "line_end": 471,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#468-471)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol",
+            "function": "burn",
+            "impact": "Optimization",
+            "line": 1337,
+            "line_end": 1339,
+            "message": "burn(uint256) should be declared external:\n\t- ERC20Burnable.burn(uint256) (../..0xb89e9365cb5bacfcf4a4b0386dfad45c3b4d3258.sol#1337-1339)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

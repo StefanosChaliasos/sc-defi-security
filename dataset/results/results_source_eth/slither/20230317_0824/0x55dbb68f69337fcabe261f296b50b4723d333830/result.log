@@ -1,0 +1,413 @@
+Compilation warnings/errors on /sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol:
+/sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol:812:1: Warning: Experimental features are turned on. Do not use experimental features on live deployments.
+pragma experimental ABIEncoderV2;
+^-------------------------------^
+/sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol:3123:43: Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    function callFunction(address sender, Account.Info memory accountInfo, bytes memory data) public {
+                                          ^-----------------------------^
+/sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol:3125:13: Warning: Unused local variable.
+            address payable actualSender,
+            ^--------------------------^
+
+[91m
+TradeAccounting._swapEtherToToken(address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1469-1478) sends eth to arbitrary user
+	Dangerous calls:
+	- kyberNetworkProxy.swapEtherToToken.value(_amount)(ERC20(_toToken),_minKyberRate) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1474-1477)
+xSNXAdmin._swapEtherToToken(address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2818-2828) sends eth to arbitrary user
+	Dangerous calls:
+	- (success) = address(tradeAccounting).call.value(_amount)() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2824)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+ERC20.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#604) shadows:
+	- Initializable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#316)
+Ownable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1148) shadows:
+	- Initializable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#316)
+ERC20Detailed.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1215) shadows:
+	- Initializable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#316)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variable-shadowing[0m
+[91m
+TradeAccounting.swapTokenToToken(address,uint256,address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1370-1399) ignores return value by IERC20(toToken).transfer(xSNXAdminInstance,IERC20(toToken).balanceOf(address(this))) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1395-1398)
+TradeAccounting.swapEtherToToken(address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1457-1467) ignores return value by IERC20(toToken).transfer(xSNXAdminInstance,IERC20(toToken).balanceOf(address(this))) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1463-1466)
+xSNXAdmin.claim(uint256,uint256[],uint256[],bool) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2741-2776) ignores return value by IERC20(susdAddress).transfer(xsnxTokenAddress,getSusdBalance().div(feeDivisor)) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2765-2768)
+xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2784-2799) ignores return value by IERC20(_fromToken).transfer(address(tradeAccounting),_amount) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2791)
+xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2801-2816) ignores return value by IERC20(_fromToken).transfer(address(tradeAccounting),_amount) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2808)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+TradeAccounting.getWeiPerOneSnxOnRedeem() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1635-1647) performs a multiplication on the result of a division:
+	-weiPerOneSnx = snxUsdPrice.mul(DEC_18).div(ethUsdPrice).mul(SLIPPAGE_RATE).div(PERCENT) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1642-1646)
+TradeAccounting.calculateTokensToMintWithSnx(uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1715-1737) performs a multiplication on the result of a division:
+	-proxyEthContribution = weiPerOneSnx.mul(snxAddedToBalance).div(DEC_18) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1726-1728)
+	-proxyEthContribution.mul(DEC_18).div(pricePerToken) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1736)
+TradeAccounting.calculateSetQuantity(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1805-1825) performs a multiplication on the result of a division:
+	-rebalancingSetQuantity = baseSetIssuable.mul(rebalancingSetNaturalUnit).div(unitShares).mul(99).div(100).div(rebalancingSetNaturalUnit).mul(rebalancingSetNaturalUnit) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1818-1824)
+TradeAccounting.calculateSetRedemptionQuantity(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1843-1870) performs a multiplication on the result of a division:
+	-setAssetCollateralToSell = expectedSetAssetRate.mul(totalSusdToBurn).div(DEC_18).mul(103).div(PERCENT) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1856-1860)
+TradeAccounting.calculateSetRedemptionQuantity(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1843-1870) performs a multiplication on the result of a division:
+	-setAssetCollateralToSell = expectedSetAssetRate.mul(totalSusdToBurn).div(DEC_18).mul(103).div(PERCENT) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1856-1860)
+	-setAssetCollateralToSell = setAssetCollateralToSell.mul(decimals).div(DEC_18) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1863-1865)
+TradeAccounting.calculateEthValueOfOneSetUnit() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1875-1901) performs a multiplication on the result of a division:
+	-baseSetRequired = DEC_18.mul(unitShares).div(rebalancingSetNaturalUnit) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1882-1884)
+	-componentRequired = baseSetRequired.mul(unitsOfUnderlying).div(baseSetNaturalUnit) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1888-1890)
+TradeAccounting.calculateEthValueOfOneSetUnit() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1875-1901) performs a multiplication on the result of a division:
+	-componentRequired = baseSetRequired.mul(unitsOfUnderlying).div(baseSetNaturalUnit) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1888-1890)
+	-componentRequired = componentRequired.mul(DEC_18).div(decimals) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1894)
+TradeAccounting.calculateEthValueOfOneSetUnit() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1875-1901) performs a multiplication on the result of a division:
+	-componentRequired = componentRequired.mul(DEC_18).div(decimals) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1894)
+	-ethValue = componentRequired.mul(synthUsd).div(ethUsd) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1900)
+TradeAccounting.getSetHoldingsValueInWei() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1906-1921) performs a multiplication on the result of a division:
+	-setCollateralTokens = setCollateralTokens.mul(DEC_18).div(decimals) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1919)
+	-setValInWei = setCollateralTokens.mul(synthUsd).div(ethUsd) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1920)
+TradeAccounting.calculateAssetChangesForRebalanceToSnx() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2199-2215) performs a multiplication on the result of a division:
+	-setToSell = setToSell.div(naturalUnit).mul(naturalUnit) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2214)
+TradeAccounting.calculateHedgeAssetsValueInUsd() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2250-2270) performs a multiplication on the result of a division:
+	-setCollateralTokens = setCollateralTokens.mul(DEC_18).div(decimals) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2258)
+	-setValueUsd = setCollateralTokens.mul(synthUsd).div(DEC_18) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2263)
+TradeAccounting.getEthAllocationOnHedge(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2337-2362) performs a multiplication on the result of a division:
+	-ethBalInUsd = getEthBalance().mul(ethUsd).div(DEC_18) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2347)
+	-ethBalInUsd.mul(ETH_TARGET) >= hedgeAssets.add(susdBal) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2350)
+TradeAccounting.calculateSetToSellForRebalanceSetToEth() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2367-2387) performs a multiplication on the result of a division:
+	-setQuantityToSell = setQuantityToSell.div(naturalUnit).mul(naturalUnit) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2386)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+TradeAccounting.calculateSusdToBurnToEclipseEscrowed(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2117-2126) uses a dangerous strict equality:
+	- escrowedSnxValue == 0 (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2123)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+TradeAccounting._swapTokenToToken(address,uint256,address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1401-1413) ignores return value by kyberNetworkProxy.swapTokenToToken(ERC20(_fromToken),_amount,ERC20(_toToken),_minKyberRate) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1407-1412)
+TradeAccounting._swapTokenToEther(address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1440-1450) ignores return value by kyberNetworkProxy.swapTokenToEther(ERC20(_fromToken),_amount,_minKyberRate) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1445-1449)
+TradeAccounting._swapEtherToToken(address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1469-1478) ignores return value by kyberNetworkProxy.swapEtherToToken.value(_amount)(ERC20(_toToken),_minKyberRate) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1474-1477)
+TradeAccounting.approveKyber(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2425-2427) ignores return value by IERC20(tokenAddress).approve(address(kyberNetworkProxy),MAX_UINT) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2426)
+TradeAccounting.approveCurve(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2430-2432) ignores return value by IERC20(tokenAddress).approve(address(curveFi),MAX_UINT) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2431)
+xSNXAdmin.claim(uint256,uint256[],uint256[],bool) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2741-2776) ignores return value by IFeePool(addressResolver.getAddress(feePoolName)).claimFees() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2761)
+xSNXAdmin.approveSetTransferProxy(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3071-3073) ignores return value by IERC20(tokenAddress).approve(setTransferProxy,MAX_UINT) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3072)
+xSNXAdmin.approveUsdc() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3113-3117) ignores return value by USDC.approve(soloMargin,uint256(- 1)) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3116)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+ERC20Detailed.initialize(string,string,uint8).name (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1178) shadows:
+	- ERC20Detailed.name() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1187-1189) (function)
+ERC20Detailed.initialize(string,string,uint8).symbol (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1178) shadows:
+	- ERC20Detailed.symbol() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1195-1197) (function)
+ERC20Detailed.initialize(string,string,uint8).decimals (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1178) shadows:
+	- ERC20Detailed.decimals() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1211-1213) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+TradeAccounting.setAdminInstanceAddress(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2393-2400) should emit an event for: 
+	- xSNXAdminInstance = _xSNXAdminInstance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2398) 
+xSNXAdmin.setNewXsnxTokenAddress(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2991-2995) should emit an event for: 
+	- xsnxTokenAddress = _newXsnxTokenAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2994) 
+xSNXAdmin.setManagerAddress(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3056-3058) should emit an event for: 
+	- manager = _manager (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3057) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+Ownable.initialize(address).sender (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1092) lacks a zero-check on :
+		- _owner = sender (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1093)
+TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._setAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1331) lacks a zero-check on :
+		- setAddress = _setAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1343)
+TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1334) lacks a zero-check on :
+		- susdAddress = _susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1346)
+TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._usdcAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1335) lacks a zero-check on :
+		- usdcAddress = _usdcAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1347)
+TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._addressValidator (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1336) lacks a zero-check on :
+		- addressValidator = _addressValidator (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1348)
+TradeAccounting.setAdminInstanceAddress(address)._xSNXAdminInstance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2393) lacks a zero-check on :
+		- xSNXAdminInstance = _xSNXAdminInstance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2398)
+TradeAccounting.setCurve(address,int128,int128).curvePoolAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2403) lacks a zero-check on :
+		- nextCurveAddress = curvePoolAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2410)
+		- nextCurveAddress = curvePoolAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2414)
+xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._setAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2651) lacks a zero-check on :
+		- setAddress = _setAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2663)
+xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._snxAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2652) lacks a zero-check on :
+		- snxAddress = _snxAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2664)
+xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2653) lacks a zero-check on :
+		- susdAddress = _susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2665)
+xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._setTransferProxy (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2654) lacks a zero-check on :
+		- setTransferProxy = _setTransferProxy (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2666)
+xSNXAdmin.setNewXsnxTokenAddress(address)._newXsnxTokenAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2991) lacks a zero-check on :
+		- xsnxTokenAddress = _newXsnxTokenAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2994)
+xSNXAdmin.setManagerAddress(address)._manager (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3056) lacks a zero-check on :
+		- manager = _manager (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3057)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2869-2889):
+	External calls:
+	- _unwindStakedPosition(totalSusdToBurn,activeAsset,minKyberRates,minCurveReturns,snxToSell) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2881-2887)
+		- IERC20(_fromToken).transfer(address(tradeAccounting),_amount) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2808)
+		- rebalancingModule.redeemRebalancingSet(setAddress,_redemptionQuantity,false) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3033-3037)
+		- ISynthetix(addressResolver.getAddress(synthetixName)).burnSynths(_amount) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2779-2781)
+		- IERC20(_fromToken).transfer(address(tradeAccounting),_amount) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2791)
+		- tradeAccounting.swapTokenToToken(_fromToken,_amount,_toToken,_minKyberRate,_minCurveReturn) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2809-2815)
+		- tradeAccounting.swapTokenToEther(_fromToken,_amount,_minKyberRate,_minCurveReturn) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2792-2797)
+	Event emitted after the call(s):
+	- RebalanceToHedge(block.timestamp,snxToSell) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2888)
+Reentrancy in xSNXAdmin.rebalanceTowardsSnx(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2839-2858):
+	External calls:
+	- _redeemRebalancingSet(setToSell) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2847)
+		- rebalancingModule.redeemRebalancingSet(setAddress,_redemptionQuantity,false) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3033-3037)
+	- _swapTokenToToken(activeAsset,getActiveSetAssetBalance(),snxAddress,minRate,0) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2849-2855)
+		- IERC20(_fromToken).transfer(address(tradeAccounting),_amount) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2808)
+		- tradeAccounting.swapTokenToToken(_fromToken,_amount,_toToken,_minKyberRate,_minCurveReturn) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2809-2815)
+	Event emitted after the call(s):
+	- RebalanceToSnx(block.timestamp,setToSell) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2857)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+TradeAccounting.getSnxPrice() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2015-2022) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(time.add(RATE_STALE_TIME_NEW) > block.timestamp,Rate stale) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2020)
+TradeAccounting.getSynthPrice(bytes32) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2024-2033) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(time.add(RATE_STALE_TIME_NEW) > block.timestamp,Rate stale) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2030)
+xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2956-2978) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(lastClaimedTimestamp.add(LIQUIDATION_WAIT_PERIOD) < block.timestamp,Liquidation not available) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2962-2965)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Initializable.isConstructor() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#303-313) uses assembly
+	- INLINE ASM (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#311)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Context._msgData() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#369-372) is never used and should be removed
+ERC20._burn(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#564-570) is never used and should be removed
+ERC20._burnFrom(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#599-602) is never used and should be removed
+ERC20._mint(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#545-551) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#211-213) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#228-231) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.5.15 (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Low level call in TradeAccounting.swapTokenToEther(address,uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1420-1438):
+	- (success) = msg.sender.call.value(ethBal)() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1436)
+Low level call in xSNXAdmin.sendEthOnRedemption(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2677-2680):
+	- (success) = xsnxTokenAddress.call.value(valueToSend)() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2678)
+Low level call in xSNXAdmin._swapEtherToToken(address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2818-2828):
+	- (success) = address(tradeAccounting).call.value(_amount)() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2824)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Variable Initializable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#316) is not in mixedCase
+Variable ERC20.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#604) is not in mixedCase
+Parameter ICurveFi.exchange(int128,int128,uint256,uint256).min_dy (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#627) is not in mixedCase
+Function ICurveFi.exchange_underlying(int128,int128,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#629-634) is not in mixedCase
+Parameter ICurveFi.exchange_underlying(int128,int128,uint256,uint256).min_dy (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#633) is not in mixedCase
+Function ICurveFi.get_dx_underlying(int128,int128,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#635-639) is not in mixedCase
+Function ICurveFi.get_dy_underlying(int128,int128,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#640-644) is not in mixedCase
+Function ICurveFi.get_dx(int128,int128,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#645-649) is not in mixedCase
+Function ICurveFi.get_dy(int128,int128,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#650-654) is not in mixedCase
+Function ICurveFi.get_virtual_price() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#655) is not in mixedCase
+Function IFeePool.FEE_ADDRESS() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1029) is not in mixedCase
+Variable Ownable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1148) is not in mixedCase
+Variable ERC20Detailed.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1215) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._setAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1331) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._kyberProxyAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1332) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._addressResolver (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1333) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1334) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._usdcAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1335) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._addressValidator (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1336) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._synthSymbols (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1337) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._setComponentAddresses (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1338) is not in mixedCase
+Parameter TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._ownerAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1339) is not in mixedCase
+Parameter TradeAccounting.setAdminInstanceAddress(address)._xSNXAdminInstance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2393) is not in mixedCase
+Parameter TradeAccounting.setCurve(address,int128,int128)._usdcIndex (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2404) is not in mixedCase
+Parameter TradeAccounting.setCurve(address,int128,int128)._susdIndex (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2405) is not in mixedCase
+Parameter TradeAccounting.confirmCurveAddress(address)._nextCurveAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2434) is not in mixedCase
+Constant TradeAccounting.snx (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1314) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant TradeAccounting.susd (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1315) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant TradeAccounting.seth (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1316) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant TradeAccounting.rewardEscrowName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1322) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant TradeAccounting.exchangeRatesName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1323) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant TradeAccounting.synthetixName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1324) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant TradeAccounting.systemSettingsName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1325) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant TradeAccounting.rewardEscrowV2Name (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1326) is not in UPPER_CASE_WITH_UNDERSCORES
+Contract xSNXAdmin (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2612-3152) is not in CapWords
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._tradeAccountingAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2650) is not in mixedCase
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._setAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2651) is not in mixedCase
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._snxAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2652) is not in mixedCase
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2653) is not in mixedCase
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._setTransferProxy (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2654) is not in mixedCase
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._addressResolver (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2655) is not in mixedCase
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._rebalancingModule (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2656) is not in mixedCase
+Parameter xSNXAdmin.initialize(address,address,address,address,address,address,address,address)._ownerAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2657) is not in mixedCase
+Parameter xSNXAdmin.setNewXsnxTokenAddress(address)._newXsnxTokenAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2991) is not in mixedCase
+Parameter xSNXAdmin.setManagerAddress(address)._manager (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3056) is not in mixedCase
+Constant xSNXAdmin.susd (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2626) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant xSNXAdmin.feePoolName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2628) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant xSNXAdmin.synthetixName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2629) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant xSNXAdmin.rewardEscrowName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2630) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant xSNXAdmin.rewardEscrowV2Name (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2645) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#370)" inContext (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#359-373)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1334) is too similar to TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address)._usdcAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1335)
+Variable TradeAccounting.calculateHedgeAssetsValueInUsd().ethValueUsd (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2267) is too similar to TradeAccounting.calculateHedgeAssetsValueInUsd().setValueUsd (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2263)
+Variable TradeAccounting.susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1309) is too similar to TradeAccounting.usdcAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1310)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2806) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2936)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2806) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2872)
+Variable xSNXAdmin._issueMaxSet(uint256,uint256,address,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3005) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2936)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2806) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2698)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2806) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2744)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2717) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2936)
+Variable xSNXAdmin._issueMaxSet(uint256,uint256,address,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3005) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2744)
+Variable xSNXAdmin._issueMaxSet(uint256,uint256,address,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3005) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2698)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2717) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2744)
+Variable xSNXAdmin._issueMaxSet(uint256,uint256,address,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3005) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2872)
+Variable xSNXAdmin._swapEtherToToken(address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2821) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2935)
+Variable xSNXAdmin._swapEtherToToken(address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2821) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2743)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2805) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2871)
+Variable xSNXAdmin._swapEtherToToken(address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2821) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2871)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2805) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2697)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2716) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2935)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2716) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2743)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2805) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2743)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2805) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2935)
+Variable xSNXAdmin._issueMaxSet(uint256,uint256,address,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3005) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2959)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2788) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2872)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2788) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2959)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2788) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2698)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2788) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2936)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2717) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2872)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2788) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2744)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2806) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2959)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2717) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2698)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minCurveReturn (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2717) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minCurveReturns (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2959)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2716) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2958)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2787) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2871)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2716) is too similar to xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2871)
+Variable xSNXAdmin._swapEtherToToken(address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2821) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2958)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2787) is too similar to xSNXAdmin.unwindStakedPosition(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2935)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2787) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2697)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2787) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2958)
+Variable xSNXAdmin._allocateToEth(uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2716) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2697)
+Variable xSNXAdmin._swapEtherToToken(address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2821) is too similar to xSNXAdmin.hedge(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2697)
+Variable xSNXAdmin._swapTokenToToken(address,uint256,address,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2805) is too similar to xSNXAdmin.liquidationUnwind(uint256,uint256[],uint256[],uint256).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2958)
+Variable xSNXAdmin._swapTokenToEther(address,uint256,uint256,uint256)._minKyberRate (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2787) is too similar to xSNXAdmin.claim(uint256,uint256[],uint256[],bool).minKyberRates (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2743)
+Variable xSNXAdmin.repayDebtWithEth(uint256,uint256).susdBalance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3101) is too similar to xSNXAdmin.callFunction(address,Account.Info,bytes).usdcBalance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3146)
+Variable xSNXAdmin.susdAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2617) is too similar to xSNXAdmin.callFunction(address,Account.Info,bytes).usdcAddress (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3133)
+Variable xSNXAdmin.callFunction(address,Account.Info,bytes).susdBalance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3137) is too similar to xSNXAdmin.callFunction(address,Account.Info,bytes).usdcBalance (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3146)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+ERC20Detailed (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1168-1216) does not implement functions:
+	- IERC20.allowance(address,address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#34)
+	- IERC20.approve(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#50)
+	- IERC20.balanceOf(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#16)
+	- IERC20.totalSupply() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#11)
+	- IERC20.transfer(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#25)
+	- IERC20.transferFrom(address,address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#61)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unimplemented-functions[0m
+[92m
+ERC20.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#604) is never used in ERC20 (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#404-605)
+ERC20Detailed.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1215) is never used in ERC20Detailed (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1168-1216)
+Ownable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1148) is never used in TradeAccounting (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1284-2441)
+TradeAccounting.RATE_STALE_TIME (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1293) is never used in TradeAccounting (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1284-2441)
+TradeAccounting.synthetixState (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1301) is never used in TradeAccounting (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1284-2441)
+TradeAccounting.rewardEscrowName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1322) is never used in TradeAccounting (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1284-2441)
+Ownable.______gap (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1148) is never used in xSNXAdmin (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2612-3152)
+xSNXAdmin.ETH_ADDRESS (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2615-2616) is never used in xSNXAdmin (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2612-3152)
+xSNXAdmin.susd (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2626) is never used in xSNXAdmin (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2612-3152)
+xSNXAdmin.rewardEscrowName (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2630) is never used in xSNXAdmin (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2612-3152)
+xSNXAdmin.synthetix (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2635) is never used in xSNXAdmin (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2612-3152)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#416-418)
+balanceOf(address) should be declared external:
+	- ERC20.balanceOf(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#423-425)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#435-438)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#443-445)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#454-457)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#471-475)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#489-492)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#508-511)
+swapTokenToToken(ERC20,uint256,ERC20,uint256) should be declared external:
+	- IKyberNetworkProxy.swapTokenToToken(ERC20,uint256,ERC20,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#612)
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1100-1102)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1126-1129)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1135-1137)
+initialize(string,string,uint8) should be declared external:
+	- ERC20Detailed.initialize(string,string,uint8) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1178-1182)
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1187-1189)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1195-1197)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1211-1213)
+initialize(address,address,address,address,address,address,bytes32[2],address[2],address) should be declared external:
+	- TradeAccounting.initialize(address,address,address,address,address,address,bytes32[2],address[2],address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1330-1351)
+swapTokenToToken(address,uint256,address,uint256,uint256) should be declared external:
+	- TradeAccounting.swapTokenToToken(address,uint256,address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1370-1399)
+swapTokenToEther(address,uint256,uint256,uint256) should be declared external:
+	- TradeAccounting.swapTokenToEther(address,uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1420-1438)
+swapEtherToToken(address,uint256,uint256) should be declared external:
+	- TradeAccounting.swapEtherToToken(address,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1457-1467)
+calculateRedemptionValue(uint256,uint256) should be declared external:
+	- TradeAccounting.calculateRedemptionValue(uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1512-1526)
+getMintWithEthUtils(uint256) should be declared external:
+	- TradeAccounting.getMintWithEthUtils(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1534-1550)
+calculateTokensToMintWithEth(uint256,uint256,uint256,uint256) should be declared external:
+	- TradeAccounting.calculateTokensToMintWithEth(uint256,uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1689-1707)
+calculateTokensToMintWithSnx(uint256,uint256,uint256) should be declared external:
+	- TradeAccounting.calculateTokensToMintWithSnx(uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1715-1737)
+calculateSetIssuanceQuantity() should be declared external:
+	- TradeAccounting.calculateSetIssuanceQuantity() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1830-1837)
+calculateSetRedemptionQuantity(uint256) should be declared external:
+	- TradeAccounting.calculateSetRedemptionQuantity(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1843-1870)
+getSusdBalance() should be declared external:
+	- TradeAccounting.getSusdBalance() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#1986-1988)
+calculateSusdToBurnToFixRatioExternal() should be declared external:
+	- TradeAccounting.calculateSusdToBurnToFixRatioExternal() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2096-2110)
+calculateSusdToBurnForRedemption(uint256,uint256,uint256,uint256) should be declared external:
+	- TradeAccounting.calculateSusdToBurnForRedemption(uint256,uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2135-2153)
+getRebalanceTowardsSnxUtils() should be declared external:
+	- TradeAccounting.getRebalanceTowardsSnxUtils() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2220-2227)
+isRebalanceTowardsSnxRequired() should be declared external:
+	- TradeAccounting.isRebalanceTowardsSnxRequired() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2275-2289)
+isRebalanceTowardsHedgeRequired() should be declared external:
+	- TradeAccounting.isRebalanceTowardsHedgeRequired() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2294-2308)
+getRebalanceTowardsHedgeUtils() should be declared external:
+	- TradeAccounting.getRebalanceTowardsHedgeUtils() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2314-2329)
+getEthAllocationOnHedge(uint256) should be declared external:
+	- TradeAccounting.getEthAllocationOnHedge(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2337-2362)
+calculateSetToSellForRebalanceSetToEth() should be declared external:
+	- TradeAccounting.calculateSetToSellForRebalanceSetToEth() (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2367-2387)
+setAdminInstanceAddress(address) should be declared external:
+	- TradeAccounting.setAdminInstanceAddress(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2393-2400)
+setCurve(address,int128,int128) should be declared external:
+	- TradeAccounting.setCurve(address,int128,int128) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2402-2418)
+approveKyber(address) should be declared external:
+	- TradeAccounting.approveKyber(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2425-2427)
+approveCurve(address) should be declared external:
+	- TradeAccounting.approveCurve(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2430-2432)
+confirmCurveAddress(address) should be declared external:
+	- TradeAccounting.confirmCurveAddress(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2434-2438)
+initialize(address,address,address,address,address,address,address,address) should be declared external:
+	- xSNXAdmin.initialize(address,address,address,address,address,address,address,address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2649-2671)
+sendEthOnRedemption(uint256) should be declared external:
+	- xSNXAdmin.sendEthOnRedemption(uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2677-2680)
+rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256) should be declared external:
+	- xSNXAdmin.rebalanceTowardsHedge(uint256,uint256[],uint256[],uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2869-2889)
+vest(uint256[]) should be declared external:
+	- xSNXAdmin.vest(uint256[]) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#2984-2989)
+setManagerAddress(address) should be declared external:
+	- xSNXAdmin.setManagerAddress(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3056-3058)
+approveSetTransferProxy(address) should be declared external:
+	- xSNXAdmin.approveSetTransferProxy(address) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3071-3073)
+swapSnxForEth(uint256,uint256,uint256) should be declared external:
+	- xSNXAdmin.swapSnxForEth(uint256,uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3078-3084)
+swapEthForSnx(uint256,uint256) should be declared external:
+	- xSNXAdmin.swapEthForSnx(uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3089-3094)
+repayDebtWithEth(uint256,uint256) should be declared external:
+	- xSNXAdmin.repayDebtWithEth(uint256,uint256) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3099-3103)
+callFunction(address,Account.Info,bytes) should be declared external:
+	- xSNXAdmin.callFunction(address,Account.Info,bytes) (../../sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol#3123-3149)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x55dbb68f69337fcabe261f296b50b4723d333830.sol analyzed (31 contracts with 78 detectors), 226 result(s) found

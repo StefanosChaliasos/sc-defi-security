@@ -1,0 +1,475 @@
+[93m
+YFVStake.claimVETHReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#728-735) uses a dangerous strict equality:
+	- require(bool,string)(rewardRate == 0,vETH could be claimed only after the pool ends.) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#729)
+YFVStake.rewardPerToken() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#690-702) uses a dangerous strict equality:
+	- totalSupply() == 0 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#691)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities[0m
+[93m
+Reentrancy in YFVStake.checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#809-832):
+	External calls:
+	- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+	- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+	- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- periodFinish = block.timestamp.add(DURATION) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#828)
+	- totalAccumulatedReward = totalAccumulatedReward.add(currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#822)
+Reentrancy in YFVStake.exit() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#774-777):
+	External calls:
+	- withdraw(balanceOf(msg.sender)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#775)
+		- yfv.safeTransfer(msg.sender,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+		- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+		- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+		- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)
+	State variables written after the call(s):
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- currentEpoch ++ (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#823)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- currentEpochReward = EPOCH_REWARD (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#812)
+		- currentEpochReward = TOTAL_REWARD.sub(totalAccumulatedReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#815)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#678)
+		- lastUpdateTime = block.timestamp (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#827)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- periodFinish = block.timestamp.add(DURATION) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#828)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#677)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- rewardRate = currentEpochReward.div(DURATION) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#826)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- rewards[msg.sender] = 0 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#783)
+		- rewards[account] = earned(account) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#680)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- totalAccumulatedReward = totalAccumulatedReward.add(currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#822)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#681)
+Reentrancy in YFVStake.getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):
+	External calls:
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- rewards[msg.sender] = 0 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#783)
+Reentrancy in YFVStake.notifyRewardAmount(uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#834-854):
+	External calls:
+	- yfv.mint(address(this),reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#849)
+	- vUSD.mint(address(this),reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#850)
+	- vETH.mint(address(this),reward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#851)
+	State variables written after the call(s):
+	- totalAccumulatedReward = totalAccumulatedReward.add(reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#852)
+Reentrancy in YFVStake.stake(uint256,address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746):
+	External calls:
+	- super.tokenStake(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- super.tokenStake(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)
+		- _balances[msg.sender] = _balances[msg.sender].add(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#612)
+	- super.tokenStake(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#611)
+Reentrancy in YFVStake.stakeOnBehalf(address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753):
+	External calls:
+	- super.tokenStakeOnBehalf(stakeFor,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#619)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- super.tokenStakeOnBehalf(stakeFor,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)
+		- _balances[stakeFor] = _balances[stakeFor].add(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#618)
+	- super.tokenStakeOnBehalf(stakeFor,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#617)
+Reentrancy in YFVStake.stakeReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):
+	External calls:
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+		- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+		- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+		- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- currentEpoch ++ (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#823)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- currentEpochReward = EPOCH_REWARD (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#812)
+		- currentEpochReward = TOTAL_REWARD.sub(totalAccumulatedReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#815)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- lastUpdateTime = lastTimeRewardApplicable() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#678)
+		- lastUpdateTime = block.timestamp (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#827)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- periodFinish = block.timestamp.add(DURATION) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#828)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- rewardPerTokenStored = rewardPerToken() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#677)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- rewardRate = currentEpochReward.div(DURATION) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#826)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- rewards[msg.sender] = 0 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#783)
+		- rewards[account] = earned(account) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#680)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- totalAccumulatedReward = totalAccumulatedReward.add(currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#822)
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- userRewardPerTokenPaid[account] = rewardPerTokenStored (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#681)
+Reentrancy in YFVStake.stakeReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):
+	External calls:
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+		- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+		- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+		- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)
+	- super.tokenStake(reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- super.tokenStake(reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)
+		- _balances[msg.sender] = _balances[msg.sender].add(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#612)
+	- super.tokenStake(reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#611)
+Reentrancy in YFVStake.withdraw(uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767-772):
+	External calls:
+	- super.tokenWithdraw(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)
+		- yfv.safeTransfer(msg.sender,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- super.tokenWithdraw(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)
+		- _balances[msg.sender] = _balances[msg.sender].sub(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#624)
+	- super.tokenWithdraw(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)
+		- _totalSupply = _totalSupply.sub(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#623)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+IRewardDistributionRecipient.setRewardReferral(address)._rewardReferral (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#578) lacks a zero-check on :
+		- rewardReferral = _rewardReferral (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#579)
+IRewardDistributionRecipient.setRewardVote(address)._rewardVote (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#582) lacks a zero-check on :
+		- rewardVote = _rewardVote (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#583)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in YFVStake.checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#809-832):
+	External calls:
+	- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+	- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+	- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- currentEpoch ++ (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#823)
+	- lastUpdateTime = block.timestamp (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#827)
+	- rewardRate = currentEpochReward.div(DURATION) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#826)
+Reentrancy in YFVStake.getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):
+	External calls:
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- accumulatedStakingPower[msg.sender] = accumulatedStakingPower[msg.sender].add(rewards[msg.sender]) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#782)
+Reentrancy in YFVStake.stake(uint256,address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746):
+	External calls:
+	- super.tokenStake(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- lastStakeTimes[msg.sender] = block.timestamp (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#741)
+Reentrancy in YFVStake.stakeOnBehalf(address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753):
+	External calls:
+	- super.tokenStakeOnBehalf(stakeFor,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#619)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- lastStakeTimes[stakeFor] = block.timestamp (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#751)
+Reentrancy in YFVStake.stakeReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):
+	External calls:
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+		- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+		- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+		- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)
+	- super.tokenStake(reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	State variables written after the call(s):
+	- lastStakeTimes[msg.sender] = block.timestamp (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#759)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in YFVStake.checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#809-832):
+	External calls:
+	- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+	- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+	- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- RewardAdded(currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#829)
+Reentrancy in YFVStake.exit() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#774-777):
+	External calls:
+	- withdraw(balanceOf(msg.sender)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#775)
+		- yfv.safeTransfer(msg.sender,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+		- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+		- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+		- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)
+	Event emitted after the call(s):
+	- Burned(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#800)
+		- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+	- RewardAdded(currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#829)
+		- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+	- RewardPaid(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#789)
+		- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+	- RewardPaid(msg.sender,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#797)
+		- getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#776)
+Reentrancy in YFVStake.getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):
+	External calls:
+	- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#789)
+Reentrancy in YFVStake.getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):
+	External calls:
+	- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+	- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- RewardPaid(msg.sender,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#797)
+Reentrancy in YFVStake.getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807):
+	External calls:
+	- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+	- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- Burned(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#800)
+Reentrancy in YFVStake.notifyRewardAmount(uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#834-854):
+	External calls:
+	- yfv.mint(address(this),reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#849)
+	- vUSD.mint(address(this),reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#850)
+	- vETH.mint(address(this),reward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#851)
+	Event emitted after the call(s):
+	- RewardAdded(reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#853)
+Reentrancy in YFVStake.stake(uint256,address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746):
+	External calls:
+	- super.tokenStake(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#740)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- Staked(msg.sender,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#742)
+Reentrancy in YFVStake.stakeOnBehalf(address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753):
+	External calls:
+	- super.tokenStakeOnBehalf(stakeFor,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#750)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#619)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- Staked(stakeFor,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#752)
+Reentrancy in YFVStake.stakeReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):
+	External calls:
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+		- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+		- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+		- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- Burned(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#800)
+		- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+	- RewardAdded(currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#829)
+		- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+	- RewardPaid(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#789)
+		- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+	- RewardPaid(msg.sender,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#797)
+		- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+Reentrancy in YFVStake.stakeReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761):
+	External calls:
+	- reward = getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#756)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+		- yfv.safeTransfer(msg.sender,actualPaid) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#788)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+		- yfv.safeTransfer(referrer,commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#796)
+		- yfv.burn(commission) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#799)
+		- vUSD.safeTransfer(msg.sender,reward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#803)
+	- super.tokenStake(reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#758)
+		- yfv.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#613)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- Staked(msg.sender,reward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#760)
+Reentrancy in YFVStake.withdraw(uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767-772):
+	External calls:
+	- super.tokenWithdraw(amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#770)
+		- yfv.safeTransfer(msg.sender,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#625)
+		- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+	- checkNextEpoch() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767)
+		- yfv.mint(address(this),currentEpochReward) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#819)
+		- vUSD.mint(address(this),currentEpochReward.div(vUSD_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#820)
+		- vETH.mint(address(this),currentEpochReward.div(vETH_REWARD_FRACTION_RATE)) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#821)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,amount) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#771)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+YFVStake.rewardPerToken() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#690-702) uses timestamp for comparisons
+	Dangerous comparisons:
+	- totalSupply() == 0 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#691)
+YFVStake.earned(address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#704-714) uses timestamp for comparisons
+	Dangerous comparisons:
+	- poolBalance < totalSupply() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#710)
+	- calculatedEarned.add(totalSupply()) > poolBalance (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#712)
+YFVStake.claimVETHReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#728-735) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(rewardRate == 0,vETH could be claimed only after the pool ends.) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#729)
+	- require(bool,string)(claimAmount > 0,You have no vETH to claim) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#731)
+YFVStake.stakeReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(reward > 0,Earned too little) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#757)
+YFVStake.withdraw(uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#767-772) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(amount > 0,Cannot withdraw 0) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#768)
+	- require(bool,string)(block.timestamp >= unfrozenStakeTime(msg.sender),Coin is still frozen) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#769)
+YFVStake.getReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#779-807) uses timestamp for comparisons
+	Dangerous comparisons:
+	- reward > 1 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#781)
+YFVStake.notifyRewardAmount(uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#834-854) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(periodFinish == 0,Only can call once to start staking) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#835)
+	- block.timestamp < starttime (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#841)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+Address.isContract(address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#438-451) uses assembly
+	- INLINE ASM (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#449)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.sendValue(address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#481-487) is never used and should be removed
+Address.toPayable(address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#459-461) is never used and should be removed
+Context._msgData() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#251-255) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#62-65) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#47-49) is never used and should be removed
+SafeERC20.safeApprove(IERC20,address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#518-527) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#534-537) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#529-532) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#204-206) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#221-224) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#481-487):
+	- (success) = recipient.call.value(amount)() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#485)
+Low level call in SafeERC20.callOptionalReturn(IERC20,bytes) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#545-564):
+	- (success,returndata) = address(token).call(data) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#557)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Parameter IRewardDistributionRecipient.setRewardReferral(address)._rewardReferral (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#578) is not in mixedCase
+Parameter IRewardDistributionRecipient.setRewardVote(address)._rewardVote (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#582) is not in mixedCase
+Variable YFVStake.vUSD_REWARD_FRACTION_RATE (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#642) is not in mixedCase
+Variable YFVStake.vETH_REWARD_FRACTION_RATE (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#643) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#252)" inContext (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#241-256)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+YFVStake.slitherConstructorVariables() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#638-856) uses literals with too many digits:
+	- vUSD_REWARD_FRACTION_RATE = 21000000000 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#642)
+YFVStake.slitherConstructorVariables() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#638-856) uses literals with too many digits:
+	- vETH_REWARD_FRACTION_RATE = 21000000000000 (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#643)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+YFVStake.starttime (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#657) should be constant
+YFVStake.vETH_REWARD_FRACTION_RATE (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#643) should be constant
+YFVStake.vUSD_REWARD_FRACTION_RATE (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#642) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#287-289)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#313-316)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#322-324)
+vUSDBalance(address) should be declared external:
+	- YFVStake.vUSDBalance(address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#720-722)
+claimVETHReward() should be declared external:
+	- YFVStake.claimVETHReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#728-735)
+stake(uint256,address) should be declared external:
+	- YFVStake.stake(uint256,address) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#737-746)
+stakeOnBehalf(address,uint256) should be declared external:
+	- YFVStake.stakeOnBehalf(address,uint256) (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#748-753)
+stakeReward() should be declared external:
+	- YFVStake.stakeReward() (../../sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol#755-761)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x0e6ffd4daeca13a8158146516f847d2f44ad4a30.sol analyzed (12 contracts with 78 detectors), 67 result(s) found

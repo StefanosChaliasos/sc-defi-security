@@ -1,0 +1,318 @@
+Compilation warnings/errors on /sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol:
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    --> /sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol:1108:24:
+     |
+1108 |     function _transfer(address sender, address recipient, uint256 amount) internal override {
+     |                        ^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    --> /sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol:1108:40:
+     |
+1108 |     function _transfer(address sender, address recipient, uint256 amount) internal override {
+     |                                        ^^^^^^^^^^^^^^^^^
+
+Warning: Unused function parameter. Remove or comment out the variable name to silence this warning.
+    --> /sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol:1108:59:
+     |
+1108 |     function _transfer(address sender, address recipient, uint256 amount) internal override {
+     |                                                           ^^^^^^^^^^^^^^
+
+
+[91m
+ElevenNeverSellVault.recoverDummy() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#956-960) ignores return value by IERC20(dummyAddress).transfer(msg.sender,IERC20(dummyAddress).balanceOf(address(this))) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#959)
+ElevenNeverSellVault.chargeFees() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#995-1002) ignores return value by IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+ElevenNeverSellVault.addLiquidity() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1004-1008) ignores return value by IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+ElevenNeverSellVault.safeTokenTransfer(address,address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060-1067) ignores return value by IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+ElevenNeverSellVault.safeTokenTransfer(address,address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060-1067) ignores return value by IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+ElevenNeverSellVault.pendingNerve(address) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1026-1031) performs a multiplication on the result of a division:
+	-harvested11nrvPerShare_ = harvested11nrvPerShare.add(IMasterMind(mastermind).pendingNerve(nrvPid,address(this)).mul(1e18).div(pps).mul(1e12).div(totalSupply())) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1028)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Reentrancy in ElevenNeverSellVault.claimRewards() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1079-1082):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1080)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	State variables written after the call(s):
+	- updateDebt(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1081)
+		- harvested11nrvPerUser[_add] = balanceOf(_add).mul(harvested11nrvPerShare).div(1e12) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1086)
+	- updateDebt(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1081)
+		- harvestedElePerUser[_add] = balanceOf(_add).mul(harvestedElePerShare).div(1e12) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1085)
+Reentrancy in ElevenNeverSellVault.deposit(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)
+	State variables written after the call(s):
+	- _mint(msg.sender,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1096)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#637)
+	- _mint(msg.sender,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1096)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#636)
+Reentrancy in ElevenNeverSellVault.deposit(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)
+	- IMasterMind(mastermind).deposit(nrvPid,IERC20(token).balanceOf(address(this))) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1097)
+	State variables written after the call(s):
+	- updateDebt(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1099)
+		- harvested11nrvPerUser[_add] = balanceOf(_add).mul(harvested11nrvPerShare).div(1e12) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1086)
+	- updateDebt(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1099)
+		- harvestedElePerUser[_add] = balanceOf(_add).mul(harvestedElePerShare).div(1e12) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1085)
+Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	State variables written after the call(s):
+	- _burn(msg.sender,_shares) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1119)
+		- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#657)
+	- _burn(msg.sender,_shares) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1119)
+		- _totalSupply = _totalSupply.sub(amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#658)
+Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	- IMasterMind(mastermind).withdraw(nrvPid,(_shares.sub(avai))) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1121)
+	- token.safeTransfer(msg.sender,_shares) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1122)
+	State variables written after the call(s):
+	- updateDebt(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1124)
+		- harvested11nrvPerUser[_add] = balanceOf(_add).mul(harvested11nrvPerShare).div(1e12) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1086)
+	- updateDebt(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1124)
+		- harvestedElePerUser[_add] = balanceOf(_add).mul(harvestedElePerShare).div(1e12) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1085)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[92m
+ERC20.constructor(string,string).name (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#459) shadows:
+	- ERC20.name() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#468-470) (function)
+ERC20.constructor(string,string).symbol (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#459) shadows:
+	- ERC20.symbol() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#476-478) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+ElevenNeverSellVault.setDummyToken(address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943-948) should emit an event for: 
+	- elePid = _pid (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#945) 
+ElevenNeverSellVault.changeBpsFee(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#970-973) should emit an event for: 
+	- bpsFee = _fee (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#972) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic[0m
+[92m
+ElevenNeverSellVault.setDummyToken(address,uint256)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943) lacks a zero-check on :
+		- dummyAddress = _add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#944)
+ElevenNeverSellVault.setBuybackStrat(address)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#962) lacks a zero-check on :
+		- buybackstrat = _add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#963)
+ElevenNeverSellVault.setConvertStrat(address)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#966) lacks a zero-check on :
+		- convertTo11nrvStrat = _add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#967)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+Reentrancy in ElevenNeverSellVault.update11Nrv() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1017-1024):
+	External calls:
+	- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+	- chargeFees() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1019)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	- addLiquidity() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1021)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+	State variables written after the call(s):
+	- harvested11nrvPerShare = harvested11nrvPerShare.add(nrv11Aftr.sub(nrv11Bfr).mul(1e12).div(totalSupply())) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1023)
+Reentrancy in ElevenNeverSellVault.updateEle() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1010-1015):
+	External calls:
+	- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+	State variables written after the call(s):
+	- harvestedElePerShare = harvestedElePerShare.add(eleAftr.sub(eleBfr).mul(1e12).div(totalSupply())) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1014)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in ElevenNeverSellVault.deposit(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)
+	Event emitted after the call(s):
+	- Transfer(address(0),account,amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#638)
+		- _mint(msg.sender,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1096)
+Reentrancy in ElevenNeverSellVault.deposit(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	- token.safeTransferFrom(msg.sender,address(this),_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)
+	- IMasterMind(mastermind).deposit(nrvPid,IERC20(token).balanceOf(address(this))) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1097)
+	Event emitted after the call(s):
+	- Deposited(msg.sender,_amount,block.number) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1098)
+Reentrancy in ElevenNeverSellVault.emergencyBurn() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1127-1133):
+	External calls:
+	- IMasterMind(mastermind).withdraw(nrvPid,(balan.sub(avai))) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1130)
+	- token.safeTransfer(msg.sender,balan) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1131)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,balan,block.number) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1132)
+Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	Event emitted after the call(s):
+	- Transfer(account,address(0),amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#659)
+		- _burn(msg.sender,_shares) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1119)
+Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):
+	External calls:
+	- claim(msg.sender) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)
+		- IMasterMind(mastermind).deposit(nrvPid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)
+		- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)
+		- IMasterMind(elechef).deposit(elePid,0) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)
+		- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)
+		- IERC20(_token).transfer(_to,sushiBal) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)
+		- IERC20(_token).transfer(_to,_amount) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)
+		- IERC20(nrv).transfer(buybackstrat,toSell) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)
+		- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)
+	- IMasterMind(mastermind).withdraw(nrvPid,(_shares.sub(avai))) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1121)
+	- token.safeTransfer(msg.sender,_shares) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1122)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,_shares,block.number) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1123)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#288-297) uses assembly
+	- INLINE ASM (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#295)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#381-402) uses assembly
+	- INLINE ASM (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#394-397)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#341-343) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#366-368) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#376-379) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#315-321) is never used and should be removed
+Context._msgData() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#22-25) is never used and should be removed
+ERC20._setupDecimals(uint8) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#690-692) is never used and should be removed
+ERC20._transfer(address,address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#611-620) is never used and should be removed
+SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#761-764) is never used and should be removed
+SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#756-759) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#242-244) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#258-261) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#315-321):
+	- (success) = recipient.call{value: amount}() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#319)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#381-402):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#385)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+ElevenNeverSellVault (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#896-1135) should inherit from Pps (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#879-881)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance[0m
+[92m
+Parameter ElevenNeverSellVault.setHarvestor(address,bool)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#939) is not in mixedCase
+Parameter ElevenNeverSellVault.setHarvestor(address,bool)._bool (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#939) is not in mixedCase
+Parameter ElevenNeverSellVault.setDummyToken(address,uint256)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943) is not in mixedCase
+Parameter ElevenNeverSellVault.setDummyToken(address,uint256)._pid (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943) is not in mixedCase
+Parameter ElevenNeverSellVault.setBuybackStrat(address)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#962) is not in mixedCase
+Parameter ElevenNeverSellVault.setConvertStrat(address)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#966) is not in mixedCase
+Parameter ElevenNeverSellVault.changeBpsFee(uint256)._fee (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#970) is not in mixedCase
+Parameter ElevenNeverSellVault.pendingNerve(address)._user (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1026) is not in mixedCase
+Parameter ElevenNeverSellVault.pendingEleven(address)._user (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1033) is not in mixedCase
+Parameter ElevenNeverSellVault.safeTokenTransfer(address,address,uint256)._token (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060) is not in mixedCase
+Parameter ElevenNeverSellVault.safeTokenTransfer(address,address,uint256)._to (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060) is not in mixedCase
+Parameter ElevenNeverSellVault.safeTokenTransfer(address,address,uint256)._amount (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060) is not in mixedCase
+Parameter ElevenNeverSellVault.claim(address)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1069) is not in mixedCase
+Parameter ElevenNeverSellVault.updateDebt(address)._add (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1084) is not in mixedCase
+Parameter ElevenNeverSellVault.deposit(uint256)._amount (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093) is not in mixedCase
+Parameter ElevenNeverSellVault.withdraw(uint256)._shares (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117) is not in mixedCase
+Constant ElevenNeverSellVault.mastermind (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#913) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ElevenNeverSellVault.elechef (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#914) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ElevenNeverSellVault.nrv (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#915) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ElevenNeverSellVault.xnrv (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#916) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ElevenNeverSellVault.nrv11 (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#917) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ElevenNeverSellVault.ele (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#918) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ElevenNeverSellVault.nrvPid (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#919) is not in UPPER_CASE_WITH_UNDERSCORES
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#23)" inContext (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#17-26)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+name() should be declared external:
+	- ERC20.name() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#468-470)
+symbol() should be declared external:
+	- ERC20.symbol() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#476-478)
+decimals() should be declared external:
+	- ERC20.decimals() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#493-495)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#519-522)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#527-529)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#538-541)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#555-559)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#573-576)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#592-595)
+owner() should be declared external:
+	- Ownable.owner() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#817-819)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#836-839)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#845-849)
+balance() should be declared external:
+	- ElevenNeverSellVault.balance() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#975-977)
+pendingNerve(address) should be declared external:
+	- ElevenNeverSellVault.pendingNerve(address) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1026-1031)
+pendingEleven(address) should be declared external:
+	- ElevenNeverSellVault.pendingEleven(address) (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1033-1037)
+getPricePerFullShare() should be declared external:
+	- ElevenNeverSellVault.getPricePerFullShare() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1048-1050)
+claimRewards() should be declared external:
+	- ElevenNeverSellVault.claimRewards() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1079-1082)
+emergencyBurn() should be declared external:
+	- ElevenNeverSellVault.emergencyBurn() (../../sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1127-1133)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol analyzed (13 contracts with 78 detectors), 83 result(s) found

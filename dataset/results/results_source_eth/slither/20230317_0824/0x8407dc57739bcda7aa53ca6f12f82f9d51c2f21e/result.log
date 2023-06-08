@@ -1,0 +1,287 @@
+[91m
+MainchainGatewayManager._withdrawETHFor(address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1205-1214) sends eth to arbitrary user
+	Dangerous calls:
+	- _user.toPayable().transfer(_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+Validator (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#488-589) contract sets array length with a user-controlled value:
+	- validators.push(_validator) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#542)
+MainchainGatewayManager (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#850-1234) contract sets array length with a user-controlled value:
+	- deposits.push(_entry) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#array-length-assignment[0m
+[93m
+Validator._removeValidator(uint256,address)._index (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#554) is a local variable never initialized
+MainchainValidator.addValidators(address[])._i (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#613) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[92m
+MainchainGatewayManager.depositBulkFor(address,address[],uint256[]) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#932-955) has external calls inside a loop: (_standard) = registry.getMappedToken(_token,true) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#945)
+MainchainGatewayManager.depositERC20For(address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911-921) has external calls inside a loop: require(bool,string)(IERC20(_token).transferFrom(msg.sender,address(this),_amount),MainchainGatewayManager: ERC-20 token transfer failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#916-919)
+MainchainGatewayManager.onlyMappedToken(address,uint32) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#855-861) has external calls inside a loop: require(bool,string)(registry.isTokenMapped(_token,_standard,true),MainchainGatewayManager: Token is not mapped) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#856-859)
+MainchainGatewayManager._createDepositEntry(address,address,uint32,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1151-1183) has external calls inside a loop: (_sidechainToken,_tokenStandard) = registry.getMappedToken(_token,true) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1161)
+MainchainGatewayManager.depositERC721For(address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923-930) has external calls inside a loop: IERC721(_token).transferFrom(msg.sender,address(this),_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#928)
+MainchainGatewayManager.verifySignatures(bytes32,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1124-1149) has external calls inside a loop: _validator.isValidator(_signer) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1140)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in MainchainGatewayManager.depositERC20For(address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911-921):
+	External calls:
+	- require(bool,string)(IERC20(_token).transferFrom(msg.sender,address(this),_amount),MainchainGatewayManager: ERC-20 token transfer failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#916-919)
+	State variables written after the call(s):
+	- _createDepositEntry(_user,_token,20,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#920)
+		- _depositId = depositCount ++ (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)
+	- _createDepositEntry(_user,_token,20,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#920)
+		- deposits.push(_entry) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)
+Reentrancy in MainchainGatewayManager.depositERC721For(address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923-930):
+	External calls:
+	- IERC721(_token).transferFrom(msg.sender,address(this),_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#928)
+	State variables written after the call(s):
+	- _createDepositEntry(_user,_token,721,_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#929)
+		- _depositId = depositCount ++ (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)
+	- _createDepositEntry(_user,_token,721,_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#929)
+		- deposits.push(_entry) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)
+Reentrancy in MainchainGatewayManager.depositEthFor(address) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#900-909):
+	External calls:
+	- WETH(_weth).deposit.value(msg.value)() (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#907)
+	State variables written after the call(s):
+	- _createDepositEntry(_owner,_weth,20,msg.value) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#908)
+		- _depositId = depositCount ++ (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)
+	- _createDepositEntry(_owner,_weth,20,msg.value) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#908)
+		- deposits.push(_entry) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1172)
+Reentrancy in MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1024-1068):
+	External calls:
+	- _withdrawETHFor(_user,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)
+		- WETH(_weth).withdraw(_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1212)
+	- require(bool,string)(IERC20Mintable(_token).mint(address(this),_amount.sub(_gatewayBalance)),MainchainGatewayManager: Minting ERC20 token to gateway failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1053-1056)
+	- require(bool,string)(IERC20(_token).transfer(_user,_amount),Transfer failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1059)
+	External calls sending eth:
+	- _withdrawETHFor(_user,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)
+		- _user.toPayable().transfer(_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)
+	State variables written after the call(s):
+	- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)
+		- withdrawals[_withdrawalId] = _entry (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1200)
+Reentrancy in MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1088-1119):
+	External calls:
+	- ! _tryERC721TransferFrom(_token,address(this),_user,_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1111)
+		- (success) = _token.call(abi.encodeWithSelector(IERC721(_token).transferFrom.selector,_from,_to,_tokenId)) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1226-1230)
+	- require(bool,string)(IERC721Mintable(_token).mint(_user,_tokenId),MainchainGatewayManager: Minting ERC721 token to gateway failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1112-1115)
+	State variables written after the call(s):
+	- _insertWithdrawalEntry(_withdrawalId,_user,_token,_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1118)
+		- withdrawals[_withdrawalId] = _entry (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1200)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in MainchainGatewayManager.depositERC20For(address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911-921):
+	External calls:
+	- require(bool,string)(IERC20(_token).transferFrom(msg.sender,address(this),_amount),MainchainGatewayManager: ERC-20 token transfer failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#916-919)
+	Event emitted after the call(s):
+	- TokenDeposited(_depositId,_owner,_token,_sidechainToken,_standard,_number) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1175-1182)
+		- _createDepositEntry(_user,_token,20,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#920)
+Reentrancy in MainchainGatewayManager.depositERC721For(address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923-930):
+	External calls:
+	- IERC721(_token).transferFrom(msg.sender,address(this),_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#928)
+	Event emitted after the call(s):
+	- TokenDeposited(_depositId,_owner,_token,_sidechainToken,_standard,_number) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1175-1182)
+		- _createDepositEntry(_user,_token,721,_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#929)
+Reentrancy in MainchainGatewayManager.depositEthFor(address) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#900-909):
+	External calls:
+	- WETH(_weth).deposit.value(msg.value)() (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#907)
+	Event emitted after the call(s):
+	- TokenDeposited(_depositId,_owner,_token,_sidechainToken,_standard,_number) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1175-1182)
+		- _createDepositEntry(_owner,_weth,20,msg.value) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#908)
+Reentrancy in MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1024-1068):
+	External calls:
+	- _withdrawETHFor(_user,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)
+		- WETH(_weth).withdraw(_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1212)
+	- require(bool,string)(IERC20Mintable(_token).mint(address(this),_amount.sub(_gatewayBalance)),MainchainGatewayManager: Minting ERC20 token to gateway failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1053-1056)
+	- require(bool,string)(IERC20(_token).transfer(_user,_amount),Transfer failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1059)
+	External calls sending eth:
+	- _withdrawETHFor(_user,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)
+		- _user.toPayable().transfer(_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)
+	Event emitted after the call(s):
+	- TokenWithdrew(_withdrawalId,_owner,_token,_number) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1202)
+		- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)
+Reentrancy in MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1088-1119):
+	External calls:
+	- ! _tryERC721TransferFrom(_token,address(this),_user,_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1111)
+		- (success) = _token.call(abi.encodeWithSelector(IERC721(_token).transferFrom.selector,_from,_to,_tokenId)) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1226-1230)
+	- require(bool,string)(IERC721Mintable(_token).mint(_user,_tokenId),MainchainGatewayManager: Minting ERC721 token to gateway failed) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1112-1115)
+	Event emitted after the call(s):
+	- TokenWithdrew(_withdrawalId,_owner,_token,_number) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1202)
+		- _insertWithdrawalEntry(_withdrawalId,_user,_token,_tokenId) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1118)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+ECVerify.recover(bytes32,bytes,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19-47) uses assembly
+	- INLINE ASM (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#28-32)
+AddressUtils.isContract(address) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#178-183) uses assembly
+	- INLINE ASM (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#181)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+HasMinters.removeMinters(address[]) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#319-344) has costly operations inside a loop:
+	- delete minters[minters.length - 1] (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#338)
+MainchainValidator.addValidators(address[]) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#612-616) has costly operations inside a loop:
+	- _addValidator(nonce ++,_validators[_i]) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#614)
+MainchainGatewayManager._createDepositEntry(address,address,uint32,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1151-1183) has costly operations inside a loop:
+	- _depositId = depositCount ++ (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1173)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+AddressUtils.isContract(address) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#178-183) is never used and should be removed
+ECVerify.ecverify(bytes32,bytes,address) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49-51) is never used and should be removed
+ECVerify.recover(bytes32,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#14-16) is never used and should be removed
+SafeMath.addU8(uint8,uint8) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#101-104) is never used and should be removed
+SafeMath.ceilingDiv(uint256,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#92-94) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#86-90) is never used and should be removed
+SafeMath.subU64(uint64,uint64) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#96-99) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in MainchainGatewayManager._tryERC721TransferFrom(address,address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1217-1232):
+	- (success) = _token.call(abi.encodeWithSelector(IERC721(_token).transferFrom.selector,_from,_to,_tokenId)) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1226-1230)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+ERC20Mintable (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#358-369) should inherit from IERC20Mintable (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#130-132)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance[0m
+[92m
+Parameter ECVerify.recover(bytes32,bytes)._hash (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#14) is not in mixedCase
+Parameter ECVerify.recover(bytes32,bytes)._signature (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#14) is not in mixedCase
+Parameter ECVerify.recover(bytes32,bytes,uint256)._hash (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19) is not in mixedCase
+Parameter ECVerify.recover(bytes32,bytes,uint256)._signature (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19) is not in mixedCase
+Parameter ECVerify.recover(bytes32,bytes,uint256)._index (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#19) is not in mixedCase
+Parameter ECVerify.ecverify(bytes32,bytes,address)._hash (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49) is not in mixedCase
+Parameter ECVerify.ecverify(bytes32,bytes,address)._signature (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49) is not in mixedCase
+Parameter ECVerify.ecverify(bytes32,bytes,address)._signer (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#49) is not in mixedCase
+Parameter AddressUtils.toPayable(address)._address (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#174) is not in mixedCase
+Parameter ERC20.approve(address,uint256)._spender (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#200) is not in mixedCase
+Parameter ERC20.approve(address,uint256)._value (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#200) is not in mixedCase
+Parameter ERC20.transfer(address,uint256)._to (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#206) is not in mixedCase
+Parameter ERC20.transfer(address,uint256)._value (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#206) is not in mixedCase
+Parameter ERC20.transferFrom(address,address,uint256)._from (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214) is not in mixedCase
+Parameter ERC20.transferFrom(address,address,uint256)._to (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214) is not in mixedCase
+Parameter ERC20.transferFrom(address,address,uint256)._value (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214) is not in mixedCase
+Parameter HasAdmin.changeAdmin(address)._newAdmin (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#275) is not in mixedCase
+Parameter HasMinters.addMinters(address[])._addedMinters (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#305) is not in mixedCase
+Parameter HasMinters.removeMinters(address[])._removedMinters (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#319) is not in mixedCase
+Parameter HasMinters.isMinter(address)._addr (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#346) is not in mixedCase
+Parameter ERC20Mintable.mint(address,uint256)._to (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#359) is not in mixedCase
+Parameter ERC20Mintable.mint(address,uint256)._value (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#359) is not in mixedCase
+Parameter WETH.withdraw(uint256)._wad (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#403) is not in mixedCase
+Variable ProxyStorage._proxyTo (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#423) is not in mixedCase
+Parameter Validator.isValidator(address)._addr (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#513) is not in mixedCase
+Parameter Validator.checkThreshold(uint256)._voteCount (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#529) is not in mixedCase
+Parameter MainchainValidator.addValidators(address[])._validators (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#612) is not in mixedCase
+Parameter MainchainValidator.removeValidator(address)._validator (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#618) is not in mixedCase
+Parameter MainchainValidator.updateQuorum(uint256,uint256)._numerator (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#622) is not in mixedCase
+Parameter MainchainValidator.updateQuorum(uint256,uint256)._denominator (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#622) is not in mixedCase
+Parameter Registry.getContract(string)._name (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#662) is not in mixedCase
+Parameter Registry.isTokenMapped(address,uint32,bool)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#672) is not in mixedCase
+Parameter Registry.isTokenMapped(address,uint32,bool)._standard (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#672) is not in mixedCase
+Parameter Registry.isTokenMapped(address,uint32,bool)._isMainchain (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#672) is not in mixedCase
+Parameter Registry.updateContract(string,address)._name (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#684) is not in mixedCase
+Parameter Registry.updateContract(string,address)._newAddress (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#684) is not in mixedCase
+Parameter Registry.mapToken(address,address,uint32)._mainchainToken (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#694) is not in mixedCase
+Parameter Registry.mapToken(address,address,uint32)._sidechainToken (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#694) is not in mixedCase
+Parameter Registry.mapToken(address,address,uint32)._standard (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#694) is not in mixedCase
+Parameter Registry.clearMapToken(address,address)._mainchainToken (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#714) is not in mixedCase
+Parameter Registry.clearMapToken(address,address)._sidechainToken (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#714) is not in mixedCase
+Parameter Registry.getMappedToken(address,bool)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#726) is not in mixedCase
+Parameter Registry.getMappedToken(address,bool)._isMainchain (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#727) is not in mixedCase
+Parameter Registry.getCode(string)._name (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#743) is not in mixedCase
+Parameter MainchainGatewayStorage.updateRegistry(address)._registry (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#827) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC20(address,uint256)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#884) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC20(address,uint256)._amount (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#884) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC721(address,uint256)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#892) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC721(address,uint256)._tokenId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#892) is not in mixedCase
+Parameter MainchainGatewayManager.depositEthFor(address)._owner (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#900) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC20For(address,address,uint256)._user (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC20For(address,address,uint256)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC20For(address,address,uint256)._amount (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#911) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC721For(address,address,uint256)._user (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC721For(address,address,uint256)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923) is not in mixedCase
+Parameter MainchainGatewayManager.depositERC721For(address,address,uint256)._tokenId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#923) is not in mixedCase
+Parameter MainchainGatewayManager.depositBulkFor(address,address[],uint256[])._user (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#933) is not in mixedCase
+Parameter MainchainGatewayManager.depositBulkFor(address,address[],uint256[])._tokens (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#934) is not in mixedCase
+Parameter MainchainGatewayManager.depositBulkFor(address,address[],uint256[])._tokenNumbers (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#935) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._withdrawalId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#958) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#959) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._amount (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#960) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes)._signatures (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#961) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._withdrawalId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#976) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._user (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#977) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#978) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._amount (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#979) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawTokenFor(uint256,address,address,uint256,bytes)._signatures (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#980) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._withdrawalId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1007) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1008) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._amount (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1009) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes)._signatures (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1010) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._withdrawalId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1025) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._user (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1026) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1027) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._amount (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1028) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes)._signatures (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1029) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._withdrawalId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1071) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1072) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._tokenId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1073) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes)._signatures (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1074) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._withdrawalId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1089) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._user (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1090) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._token (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1091) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._tokenId (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1092) is not in mixedCase
+Parameter MainchainGatewayManager.withdrawERC721For(uint256,address,address,uint256,bytes)._signatures (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1093) is not in mixedCase
+Parameter MainchainGatewayManager.verifySignatures(bytes32,bytes)._hash (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1125) is not in mixedCase
+Parameter MainchainGatewayManager.verifySignatures(bytes32,bytes)._signatures (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1126) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Reentrancy in WETH.withdraw(uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#403-411):
+	External calls:
+	- msg.sender.transfer(_wad) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#408)
+	Event emitted after the call(s):
+	- Withdrawal(msg.sender,_wad) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#410)
+Reentrancy in MainchainGatewayManager.withdrawERC20For(uint256,address,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1024-1068):
+	External calls:
+	- _withdrawETHFor(_user,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1048)
+		- _user.toPayable().transfer(_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1213)
+	State variables written after the call(s):
+	- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)
+		- withdrawals[_withdrawalId] = _entry (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1200)
+	Event emitted after the call(s):
+	- TokenWithdrew(_withdrawalId,_owner,_token,_number) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1202)
+		- _insertWithdrawalEntry(_withdrawalId,_user,_token,_amount) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1062-1067)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4[0m
+[92m
+ProxyStorage._proxyTo (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#423) is never used in MainchainGatewayManager (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#850-1234)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+ProxyStorage._proxyTo (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#423) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#200-204)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#206-212)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#214-221)
+addMinters(address[]) should be declared external:
+	- HasMinters.addMinters(address[]) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#305-317)
+removeMinters(address[]) should be declared external:
+	- HasMinters.removeMinters(address[]) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#319-344)
+isMinter(address) should be declared external:
+	- HasMinters.isMinter(address) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#346-348)
+mint(address,uint256) should be declared external:
+	- ERC20Mintable.mint(address,uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#359-361)
+pause() should be declared external:
+	- Pausable.pause() (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#448-451)
+unpause() should be declared external:
+	- Pausable.unpause() (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#453-456)
+getValidators() should be declared external:
+	- IValidator.getValidators() (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#476)
+	- Validator.getValidators() (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#521-527)
+checkThreshold(uint256) should be declared external:
+	- IValidator.checkThreshold(uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#478)
+	- Validator.checkThreshold(uint256) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#529-535)
+depositBulkFor(address,address[],uint256[]) should be declared external:
+	- MainchainGatewayManager.depositBulkFor(address,address[],uint256[]) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#932-955)
+withdrawToken(uint256,address,uint256,bytes) should be declared external:
+	- MainchainGatewayManager.withdrawToken(uint256,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#957-973)
+withdrawERC20(uint256,address,uint256,bytes) should be declared external:
+	- MainchainGatewayManager.withdrawERC20(uint256,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1006-1022)
+withdrawERC721(uint256,address,uint256,bytes) should be declared external:
+	- MainchainGatewayManager.withdrawERC721(uint256,address,uint256,bytes) (../../sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol#1070-1086)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x8407dc57739bcda7aa53ca6f12f82f9d51c2f21e.sol analyzed (22 contracts with 78 detectors), 142 result(s) found

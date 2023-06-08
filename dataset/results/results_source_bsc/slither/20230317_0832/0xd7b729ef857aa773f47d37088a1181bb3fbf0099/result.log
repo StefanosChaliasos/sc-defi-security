@@ -1,0 +1,157 @@
+[91m
+BogDistributive._stake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#557-571) ignores return value by _pair.transferFrom(account,address(this),amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#558)
+BogDistributive._unstake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592) ignores return value by _pair.transfer(account,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+Burnable._txBurn(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#718-725) performs a multiplication on the result of a division:
+	-toBurn = txAmount.mul(_burnRate).div(1000) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#719)
+	-_distribute(account,toBurn.mul(_distributeRatio - 1).div(_distributeRatio)) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#721)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[92m
+Ownable.transferOwnership(address).adr (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#218) lacks a zero-check on :
+		- _owner = adr (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#219)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+[92m
+BogdabotController.bogdabotTxHook(address,address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#302-310) has external calls inside a loop: IBogdabot(_bogdabots[i]).txHook(msg.sender,sender,receiver,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#308)
+BogDistributive._unstake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592) has external calls inside a loop: _pair.transfer(account,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in BogDistributive._stake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#557-571):
+	External calls:
+	- _pair.transferFrom(account,address(this),amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#558)
+	State variables written after the call(s):
+	- _realise(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#561)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#537)
+	- updateHoldersStaked(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#568)
+		- _holders.push(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#376)
+	- updateHoldersStaked(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#568)
+		- _holdersCount ++ (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#377)
+	- updateHoldersStaked(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#568)
+		- _holdings[account].holding = true (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#374)
+		- _holdings[account].adrIndex = _holders.length (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#375)
+	- _realise(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#561)
+		- _stakes[account].realised = _stakes[account].realised.add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#538)
+		- _stakes[account].excludedAmt = _totalFees (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#541)
+	- _stakes[account].LP = _stakes[account].LP.add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#564)
+	- _totalLP = _totalLP.add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#565)
+	- _realise(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#561)
+		- _totalRealised = _totalRealised.add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#539)
+Reentrancy in BogDistributive._unstake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592):
+	External calls:
+	- _pair.transfer(account,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)
+	State variables written after the call(s):
+	- updateHoldersUnstaked(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#589)
+		- _holders[i] = _holders[_holders.length - 1] (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#390)
+		- _holders.pop() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#391)
+	- updateHoldersUnstaked(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#589)
+		- _holdersCount -- (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#396)
+	- updateHoldersUnstaked(account) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#589)
+		- _holdings[account].holding = false (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#384)
+		- _holdings[_holders[i]].adrIndex = i (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#394)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in BogDistributive._stake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#557-571):
+	External calls:
+	- _pair.transferFrom(account,address(this),amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#558)
+	Event emitted after the call(s):
+	- Staked(account,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#570)
+Reentrancy in BOG20._transferFrom(address,address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#816-848):
+	External calls:
+	- bogdabotTxHook(sender,recipient,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#844)
+		- IBogdabot(_bogdabots[i]).txHook(msg.sender,sender,receiver,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#308)
+	Event emitted after the call(s):
+	- Transfer(sender,recipient,sendAmt) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#846)
+Reentrancy in BogDistributive._unstake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592):
+	External calls:
+	- _pair.transfer(account,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#586)
+	Event emitted after the call(s):
+	- Unstaked(account,amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#591)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+BogdabotController.isContract(address) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#316-324) uses assembly
+	- INLINE ASM (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#320-322)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+BOG20.checkTxAmount(uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#799-802) has costly operations inside a loop:
+	- _firstTx = true (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#800)
+BOG20.checkTxAmount(uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#799-802) has costly operations inside a loop:
+	- _firstTx = false (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#800)
+BogDistributive._realise(address) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#534-542) has costly operations inside a loop:
+	- _totalRealised = _totalRealised.add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#539)
+BogDistributive._distribute(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#608-611) has costly operations inside a loop:
+	- _totalFees = _totalFees.add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#609)
+Burnable._burn(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#738-746) has costly operations inside a loop:
+	- _totalSupply = _totalSupply.sub(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#741)
+Burnable._burn(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#738-746) has costly operations inside a loop:
+	- _totalBurnt = _totalBurnt.add(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#742)
+TracksHolders.removeHolder(address) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#383-397) has costly operations inside a loop:
+	- _holders.pop() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#391)
+TracksHolders.removeHolder(address) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#383-397) has costly operations inside a loop:
+	- _holdersCount -- (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#396)
+TracksHolders.addHolder(address) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#373-378) has costly operations inside a loop:
+	- _holdersCount ++ (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#377)
+BogDistributive._unstake(address,uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#576-592) has costly operations inside a loop:
+	- _totalLP = _totalLP.sub(amount) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#583)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+Variable BEP20._balances (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#131) is not in mixedCase
+Variable BEP20._allowances (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#132) is not in mixedCase
+Variable BEP20._totalSupply (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#134) is not in mixedCase
+Variable BEP20._name (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#136) is not in mixedCase
+Variable BEP20._symbol (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#137) is not in mixedCase
+Variable BEP20._decimals (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#138) is not in mixedCase
+Variable Ownable._owner (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#192) is not in mixedCase
+Variable BogdabotController._botsInfo (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#247) is not in mixedCase
+Variable BogdabotController._bogdabots (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#248) is not in mixedCase
+Variable BogdabotController._bogdabotsCount (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#249) is not in mixedCase
+Variable TracksHolders._holdings (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#345) is not in mixedCase
+Variable TracksHolders._holders (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#346) is not in mixedCase
+Variable TracksHolders._holdersCount (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#347) is not in mixedCase
+Variable BogDistributive._pair (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#433) is not in mixedCase
+Variable BogDistributive._pairInitialized (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#434) is not in mixedCase
+Variable BogDistributive._stakes (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#445) is not in mixedCase
+Variable BogDistributive._totalLP (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#447) is not in mixedCase
+Variable BogDistributive._totalFees (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#448) is not in mixedCase
+Variable BogDistributive._totalRealised (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#449) is not in mixedCase
+Variable Burnable._burnRate (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#674) is not in mixedCase
+Variable Burnable._distributeRatio (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#675) is not in mixedCase
+Variable Burnable._totalBurnt (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#676) is not in mixedCase
+Variable BOG20._maxTxPercent (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#761) is not in mixedCase
+Variable BOG20._firstTx (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#762) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+BoggedFinance.constructor() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#900-903) uses literals with too many digits:
+	- BOG20(2500000) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#900)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits[0m
+[92m
+BEP20._decimals (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#138) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+totalSupply() should be declared external:
+	- BEP20.totalSupply() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#140-142)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#148-150)
+name() should be declared external:
+	- BEP20.name() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#152-154)
+symbol() should be declared external:
+	- BEP20.symbol() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#156-158)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#160-162)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#211-213)
+getBots() should be declared external:
+	- BogdabotController.getBots() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#254-256)
+getHolders() should be declared external:
+	- TracksHolders.getHolders() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#352-354)
+getHoldersCount() should be declared external:
+	- TracksHolders.getHoldersCount() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#359-361)
+realise() should be declared external:
+	- BogDistributive.realise() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#527-529)
+getBurnRate() should be declared external:
+	- Burnable.getBurnRate() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#688-690)
+getDistributionRatio() should be declared external:
+	- Burnable.getDistributionRatio() (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#695-697)
+burn(uint256) should be declared external:
+	- Burnable.burn(uint256) (../../sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol#730-733)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0xd7b729ef857aa773f47d37088a1181bb3fbf0099.sol analyzed (14 contracts with 78 detectors), 61 result(s) found

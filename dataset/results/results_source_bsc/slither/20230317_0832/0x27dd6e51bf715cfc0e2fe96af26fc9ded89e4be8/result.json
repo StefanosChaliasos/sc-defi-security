@@ -1,0 +1,789 @@
+{
+    "errors": [
+        "EXIT_CODE_83"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "recoverDummy",
+            "impact": "High",
+            "line": 956,
+            "line_end": 960,
+            "message": "ElevenNeverSellVault.recoverDummy() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#956-960) ignores return value by IERC20(dummyAddress).transfer(msg.sender,IERC20(dummyAddress).balanceOf(address(this))) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#959)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "addLiquidity",
+            "impact": "High",
+            "line": 1004,
+            "line_end": 1008,
+            "message": "ElevenNeverSellVault.addLiquidity() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1004-1008) ignores return value by IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "safeTokenTransfer",
+            "impact": "High",
+            "line": 1060,
+            "line_end": 1067,
+            "message": "ElevenNeverSellVault.safeTokenTransfer(address,address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060-1067) ignores return value by IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "safeTokenTransfer",
+            "impact": "High",
+            "line": 1060,
+            "line_end": 1067,
+            "message": "ElevenNeverSellVault.safeTokenTransfer(address,address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060-1067) ignores return value by IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "chargeFees",
+            "impact": "High",
+            "line": 995,
+            "line_end": 1002,
+            "message": "ElevenNeverSellVault.chargeFees() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#995-1002) ignores return value by IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "pendingNerve",
+            "impact": "Medium",
+            "line": 1026,
+            "line_end": 1031,
+            "message": "ElevenNeverSellVault.pendingNerve(address) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1026-1031) performs a multiplication on the result of a division:\n\t-harvested11nrvPerShare_ = harvested11nrvPerShare.add(IMasterMind(mastermind).pendingNerve(nrvPid,address(this)).mul(1e18).div(pps).mul(1e12).div(totalSupply())) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1028)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1093,
+            "line_end": 1100,
+            "message": "Reentrancy in ElevenNeverSellVault.deposit(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\t- token.safeTransferFrom(msg.sender,address(this),_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1096)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#637)\n\t- _mint(msg.sender,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1096)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#636)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1093,
+            "line_end": 1100,
+            "message": "Reentrancy in ElevenNeverSellVault.deposit(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\t- token.safeTransferFrom(msg.sender,address(this),_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)\n\t- IMasterMind(mastermind).deposit(nrvPid,IERC20(token).balanceOf(address(this))) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1097)\n\tState variables written after the call(s):\n\t- updateDebt(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1099)\n\t\t- harvested11nrvPerUser[_add] = balanceOf(_add).mul(harvested11nrvPerShare).div(1e12) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1086)\n\t- updateDebt(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1099)\n\t\t- harvestedElePerUser[_add] = balanceOf(_add).mul(harvestedElePerShare).div(1e12) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1085)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "claimRewards",
+            "impact": "Medium",
+            "line": 1079,
+            "line_end": 1082,
+            "message": "Reentrancy in ElevenNeverSellVault.claimRewards() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1079-1082):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1080)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\tState variables written after the call(s):\n\t- updateDebt(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1081)\n\t\t- harvested11nrvPerUser[_add] = balanceOf(_add).mul(harvested11nrvPerShare).div(1e12) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1086)\n\t- updateDebt(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1081)\n\t\t- harvestedElePerUser[_add] = balanceOf(_add).mul(harvestedElePerShare).div(1e12) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1085)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1117,
+            "line_end": 1125,
+            "message": "Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\t- IMasterMind(mastermind).withdraw(nrvPid,(_shares.sub(avai))) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1121)\n\t- token.safeTransfer(msg.sender,_shares) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1122)\n\tState variables written after the call(s):\n\t- updateDebt(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1124)\n\t\t- harvested11nrvPerUser[_add] = balanceOf(_add).mul(harvested11nrvPerShare).div(1e12) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1086)\n\t- updateDebt(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1124)\n\t\t- harvestedElePerUser[_add] = balanceOf(_add).mul(harvestedElePerShare).div(1e12) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1085)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1117,
+            "line_end": 1125,
+            "message": "Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,_shares) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1119)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#657)\n\t- _burn(msg.sender,_shares) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1119)\n\t\t- _totalSupply = _totalSupply.sub(amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#658)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 459,
+            "message": "ERC20.constructor(string,string).name (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#459) shadows:\n\t- ERC20.name() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#468-470) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 459,
+            "message": "ERC20.constructor(string,string).symbol (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#459) shadows:\n\t- ERC20.symbol() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#476-478) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "setDummyToken",
+            "impact": "Low",
+            "line": 943,
+            "line_end": 948,
+            "message": "ElevenNeverSellVault.setDummyToken(address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943-948) should emit an event for: \n\t- elePid = _pid (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#945) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "changeBpsFee",
+            "impact": "Low",
+            "line": 970,
+            "line_end": 973,
+            "message": "ElevenNeverSellVault.changeBpsFee(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#970-973) should emit an event for: \n\t- bpsFee = _fee (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#972) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Low",
+            "line": 962,
+            "message": "ElevenNeverSellVault.setBuybackStrat(address)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#962) lacks a zero-check on :\n\t\t- buybackstrat = _add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#963)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Low",
+            "line": 943,
+            "message": "ElevenNeverSellVault.setDummyToken(address,uint256)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943) lacks a zero-check on :\n\t\t- dummyAddress = _add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#944)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Low",
+            "line": 966,
+            "message": "ElevenNeverSellVault.setConvertStrat(address)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#966) lacks a zero-check on :\n\t\t- convertTo11nrvStrat = _add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#967)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "update11Nrv",
+            "impact": "Low",
+            "line": 1017,
+            "line_end": 1024,
+            "message": "Reentrancy in ElevenNeverSellVault.update11Nrv() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1017-1024):\n\tExternal calls:\n\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t- chargeFees() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1019)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\t- addLiquidity() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1021)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\tState variables written after the call(s):\n\t- harvested11nrvPerShare = harvested11nrvPerShare.add(nrv11Aftr.sub(nrv11Bfr).mul(1e12).div(totalSupply())) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1023)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "updateEle",
+            "impact": "Low",
+            "line": 1010,
+            "line_end": 1015,
+            "message": "Reentrancy in ElevenNeverSellVault.updateEle() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1010-1015):\n\tExternal calls:\n\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\tState variables written after the call(s):\n\t- harvestedElePerShare = harvestedElePerShare.add(eleAftr.sub(eleBfr).mul(1e12).div(totalSupply())) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1014)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1117,
+            "line_end": 1125,
+            "message": "Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\t- IMasterMind(mastermind).withdraw(nrvPid,(_shares.sub(avai))) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1121)\n\t- token.safeTransfer(msg.sender,_shares) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1122)\n\tEvent emitted after the call(s):\n\t- Withdrawn(msg.sender,_shares,block.number) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1123)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "emergencyBurn",
+            "impact": "Low",
+            "line": 1127,
+            "line_end": 1133,
+            "message": "Reentrancy in ElevenNeverSellVault.emergencyBurn() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1127-1133):\n\tExternal calls:\n\t- IMasterMind(mastermind).withdraw(nrvPid,(balan.sub(avai))) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1130)\n\t- token.safeTransfer(msg.sender,balan) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1131)\n\tEvent emitted after the call(s):\n\t- Withdrawn(msg.sender,balan,block.number) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1132)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1093,
+            "line_end": 1100,
+            "message": "Reentrancy in ElevenNeverSellVault.deposit(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\t- token.safeTransferFrom(msg.sender,address(this),_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)\n\t- IMasterMind(mastermind).deposit(nrvPid,IERC20(token).balanceOf(address(this))) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1097)\n\tEvent emitted after the call(s):\n\t- Deposited(msg.sender,_amount,block.number) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1098)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1117,
+            "line_end": 1125,
+            "message": "Reentrancy in ElevenNeverSellVault.withdraw(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117-1125):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1118)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\tEvent emitted after the call(s):\n\t- Transfer(account,address(0),amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#659)\n\t\t- _burn(msg.sender,_shares) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1119)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1093,
+            "line_end": 1100,
+            "message": "Reentrancy in ElevenNeverSellVault.deposit(uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093-1100):\n\tExternal calls:\n\t- claim(msg.sender) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1094)\n\t\t- IMasterMind(mastermind).deposit(nrvPid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1018)\n\t\t- IERC20(nrv).transfer(convertTo11nrvStrat,toStake) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1006)\n\t\t- IMasterMind(elechef).deposit(elePid,0) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1012)\n\t\t- ConvertTo11NrvStrat(convertTo11nrvStrat).convert(nrv) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1007)\n\t\t- IERC20(_token).transfer(_to,sushiBal) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1063)\n\t\t- IERC20(_token).transfer(_to,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1065)\n\t\t- IERC20(nrv).transfer(buybackstrat,toSell) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1000)\n\t\t- Buybackstrat(buybackstrat).chargeFees(nrv,receiveFee) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1001)\n\t- token.safeTransferFrom(msg.sender,address(this),_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1095)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#638)\n\t\t- _mint(msg.sender,_amount) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1096)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 381,
+            "line_end": 402,
+            "message": "Address._functionCallWithValue(address,bytes,uint256,string) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#381-402) uses assembly\n\t- INLINE ASM (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#394-397)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 288,
+            "line_end": 297,
+            "message": "Address.isContract(address) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#288-297) uses assembly\n\t- INLINE ASM (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#295)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 315,
+            "line_end": 321,
+            "message": "Address.sendValue(address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#315-321) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 366,
+            "line_end": 368,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#366-368) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "safeIncreaseAllowance",
+            "impact": "Informational",
+            "line": 756,
+            "line_end": 759,
+            "message": "SafeERC20.safeIncreaseAllowance(IERC20,address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#756-759) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 258,
+            "line_end": 261,
+            "message": "SafeMath.mod(uint256,uint256,string) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#258-261) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 376,
+            "line_end": 379,
+            "message": "Address.functionCallWithValue(address,bytes,uint256,string) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#376-379) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 690,
+            "line_end": 692,
+            "message": "ERC20._setupDecimals(uint8) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#690-692) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 22,
+            "line_end": 25,
+            "message": "Context._msgData() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#22-25) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "mod",
+            "impact": "Informational",
+            "line": 242,
+            "line_end": 244,
+            "message": "SafeMath.mod(uint256,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#242-244) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "_transfer",
+            "impact": "Informational",
+            "line": 611,
+            "line_end": 620,
+            "message": "ERC20._transfer(address,address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#611-620) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "safeDecreaseAllowance",
+            "impact": "Informational",
+            "line": 761,
+            "line_end": 764,
+            "message": "SafeERC20.safeDecreaseAllowance(IERC20,address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#761-764) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 341,
+            "line_end": 343,
+            "message": "Address.functionCall(address,bytes) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#341-343) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 381,
+            "line_end": 402,
+            "message": "Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#381-402):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#385)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 315,
+            "line_end": 321,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#315-321):\n\t- (success) = recipient.call{value: amount}() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#319)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pps",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 896,
+            "line_end": 1135,
+            "message": "ElevenNeverSellVault (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#896-1135) should inherit from Pps (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#879-881)\n",
+            "name": "missing-inheritance"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1026,
+            "message": "Parameter ElevenNeverSellVault.pendingNerve(address)._user (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1026) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 970,
+            "message": "Parameter ElevenNeverSellVault.changeBpsFee(uint256)._fee (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 966,
+            "message": "Parameter ElevenNeverSellVault.setConvertStrat(address)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#966) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 939,
+            "message": "Parameter ElevenNeverSellVault.setHarvestor(address,bool)._bool (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#939) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1060,
+            "message": "Parameter ElevenNeverSellVault.safeTokenTransfer(address,address,uint256)._to (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 939,
+            "message": "Parameter ElevenNeverSellVault.setHarvestor(address,bool)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#939) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1117,
+            "message": "Parameter ElevenNeverSellVault.withdraw(uint256)._shares (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1117) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 917,
+            "message": "Constant ElevenNeverSellVault.nrv11 (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#917) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1060,
+            "message": "Parameter ElevenNeverSellVault.safeTokenTransfer(address,address,uint256)._amount (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1060,
+            "message": "Parameter ElevenNeverSellVault.safeTokenTransfer(address,address,uint256)._token (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1060) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 916,
+            "message": "Constant ElevenNeverSellVault.xnrv (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#916) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1069,
+            "message": "Parameter ElevenNeverSellVault.claim(address)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1069) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1084,
+            "message": "Parameter ElevenNeverSellVault.updateDebt(address)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1084) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 943,
+            "message": "Parameter ElevenNeverSellVault.setDummyToken(address,uint256)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 913,
+            "message": "Constant ElevenNeverSellVault.mastermind (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#913) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 962,
+            "message": "Parameter ElevenNeverSellVault.setBuybackStrat(address)._add (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#962) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 918,
+            "message": "Constant ElevenNeverSellVault.ele (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#918) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1033,
+            "message": "Parameter ElevenNeverSellVault.pendingEleven(address)._user (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1033) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 943,
+            "message": "Parameter ElevenNeverSellVault.setDummyToken(address,uint256)._pid (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#943) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 919,
+            "message": "Constant ElevenNeverSellVault.nrvPid (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#919) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 915,
+            "message": "Constant ElevenNeverSellVault.nrv (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#915) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 914,
+            "message": "Constant ElevenNeverSellVault.elechef (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#914) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 1093,
+            "message": "Parameter ElevenNeverSellVault.deposit(uint256)._amount (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1093) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "impact": "Informational",
+            "line": 23,
+            "message": "Redundant expression \"this (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#23)\" inContext (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#17-26)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "balance",
+            "impact": "Optimization",
+            "line": 975,
+            "line_end": 977,
+            "message": "balance() should be declared external:\n\t- ElevenNeverSellVault.balance() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#975-977)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "pendingEleven",
+            "impact": "Optimization",
+            "line": 1033,
+            "line_end": 1037,
+            "message": "pendingEleven(address) should be declared external:\n\t- ElevenNeverSellVault.pendingEleven(address) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1033-1037)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 555,
+            "line_end": 559,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#555-559)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 836,
+            "line_end": 839,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#836-839)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 493,
+            "line_end": 495,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#493-495)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 592,
+            "line_end": 595,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#592-595)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 476,
+            "line_end": 478,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#476-478)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 519,
+            "line_end": 522,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#519-522)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 817,
+            "line_end": 819,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#817-819)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 573,
+            "line_end": 576,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#573-576)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "emergencyBurn",
+            "impact": "Optimization",
+            "line": 1127,
+            "line_end": 1133,
+            "message": "emergencyBurn() should be declared external:\n\t- ElevenNeverSellVault.emergencyBurn() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1127-1133)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 845,
+            "line_end": 849,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#845-849)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 468,
+            "line_end": 470,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#468-470)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "getPricePerFullShare",
+            "impact": "Optimization",
+            "line": 1048,
+            "line_end": 1050,
+            "message": "getPricePerFullShare() should be declared external:\n\t- ElevenNeverSellVault.getPricePerFullShare() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1048-1050)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "pendingNerve",
+            "impact": "Optimization",
+            "line": 1026,
+            "line_end": 1031,
+            "message": "pendingNerve(address) should be declared external:\n\t- ElevenNeverSellVault.pendingNerve(address) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1026-1031)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 538,
+            "line_end": 541,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#538-541)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "claimRewards",
+            "impact": "Optimization",
+            "line": 1079,
+            "line_end": 1082,
+            "message": "claimRewards() should be declared external:\n\t- ElevenNeverSellVault.claimRewards() (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#1079-1082)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 527,
+            "line_end": 529,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x27dd6e51bf715cfc0e2fe96af26fc9ded89e4be8.sol#527-529)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

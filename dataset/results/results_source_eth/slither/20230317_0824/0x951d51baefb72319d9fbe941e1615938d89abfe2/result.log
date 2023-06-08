@@ -1,0 +1,483 @@
+Compilation warnings/errors on /sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol:
+/sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol:1462:38: Warning: Result of exponentiation has type uint64 and thus might overflow. Silence this warning by converting the literal to the expected type.
+        return oTokensToExercise.mul(10**underlyingPerOTokenExp);
+                                     ^------------------------^
+/sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol:2039:65: Warning: Result of exponentiation has type uint32 and thus might overflow. Silence this warning by converting the literal to the expected type.
+            amtCollateralToPay = amtCollateralToPayInEthNum.mul(10**exp).div(
+                                                                ^-----^
+/sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol:2044:66: Warning: Result of exponentiation has type uint32 and thus might overflow. Silence this warning by converting the literal to the expected type.
+            amtCollateralToPay = (amtCollateralToPayInEthNum.div(10**exp)).div(
+                                                                 ^-----^
+
+[91m
+OptionsContract.transferCollateral(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) sends eth to arbitrary user
+	Dangerous calls:
+	- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+OptionsContract.transferUnderlying(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071-2077) sends eth to arbitrary user
+	Dangerous calls:
+	- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+[91m
+OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899) use msg.value in a loop: require(bool,string)(msg.value == amtUnderlyingToPay,Incorrect msg.value) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1875)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#msgvalue-inside-a-loop[0m
+[91m
+OptionsExchange.sellOTokens(address,address,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#698-723) ignores return value by oToken.transferFrom(msg.sender,address(this),oTokensToSell) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#707)
+OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#835-904) ignores return value by paymentToken.transferFrom(msg.sender,address(this),paymentTokensToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#853-857)
+OptionsContract.transferCollateral(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) ignores return value by collateral.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)
+OptionsContract.transferUnderlying(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071-2077) ignores return value by underlying.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2075)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer[0m
+[93m
+OptionsContract.isSafe(uint256,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1923-1956) performs a multiplication on the result of a division:
+	-rightSideVal = (collateralAmt.mul(collateralToEthPrice)).div(strikeToEthPrice) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1939-1941)
+	-stillSafe = leftSideVal <= rightSideVal.mul(10 ** exp) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1952)
+OptionsContract.calculateOTokens(uint256,OptionsContract.Number) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1980-2009) performs a multiplication on the result of a division:
+	-numeratorVal = (collateralAmt.mul(collateralToEthPrice)).div(strikeToEthPrice) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1992-1994)
+	-numOptions = numeratorVal.mul(10 ** exp).div(denomVal) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2005)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply[0m
+[93m
+Reentrancy in OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):
+	External calls:
+	- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)
+	State variables written after the call(s):
+	- _burn(msg.sender,oTokensToExercise) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1887)
+		- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#463)
+Reentrancy in oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304):
+	External calls:
+	- addERC20Collateral(msg.sender,amtCollateral) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2295)
+		- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	State variables written after the call(s):
+	- issueOTokens(amtToCreate,address(this)) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)
+		- vault.oTokensIssued = newOTokensBalance (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1559)
+Reentrancy in oToken.addERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2253-2260):
+	External calls:
+	- addERC20Collateral(msg.sender,amtCollateral) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2258)
+		- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	State variables written after the call(s):
+	- issueOTokens(amtToCreate,receiver) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)
+		- vault.oTokensIssued = newOTokensBalance (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1559)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1[0m
+[93m
+OptionsContract.setDetails(string,string) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350-1361) contains a tautology or contradiction:
+	- require(bool,string)(decimals >= 0,1 oToken cannot protect less than the smallest unit of the asset) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1357-1360)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#tautology-or-contradiction[0m
+[93m
+OptionsContract.getVaultOwners().owners (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1292) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#801-833) ignores return value by oToken.approve(address(exchange),_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#812)
+OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#801-833) ignores return value by oToken.approve(address(exchange),_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#822)
+OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#835-904) ignores return value by paymentToken.approve(address(exchange),LARGE_APPROVAL_NUMBER) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#860)
+oToken.createAndSellETHCollateralOption(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2189-2202) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2195)
+oToken.addAndSellETHCollateralOption(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2209-2222) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2215)
+oToken.createAndSellERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2268-2282) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2275)
+oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304) ignores return value by this.approve(address(optionsExchange),amtToCreate) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2297)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+ERC20Detailed.constructor(string,string,uint8).name (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#950) shadows:
+	- ERC20Detailed.name() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#959-961) (function)
+ERC20Detailed.constructor(string,string,uint8).symbol (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#950) shadows:
+	- ERC20Detailed.symbol() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#967-969) (function)
+ERC20Detailed.constructor(string,string,uint8).decimals (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#950) shadows:
+	- ERC20Detailed.decimals() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#983-985) (function)
+OptionsContract.hasVault(address).owner (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1380) shadows:
+	- Ownable.owner() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1017-1019) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+OptionsContract.getPrice(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2083-2091) has external calls inside a loop: COMPOUND_ORACLE.getPrice(asset) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2089)
+OptionsContract.transferCollateral(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) has external calls inside a loop: _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+OptionsContract.transferCollateral(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058-2064) has external calls inside a loop: collateral.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)
+OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899) has external calls inside a loop: require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop[0m
+[92m
+Reentrancy in OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):
+	External calls:
+	- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)
+	State variables written after the call(s):
+	- _burn(msg.sender,oTokensToExercise) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1887)
+		- _totalSupply = _totalSupply.sub(amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#464)
+Reentrancy in oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304):
+	External calls:
+	- addERC20Collateral(msg.sender,amtCollateral) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2295)
+		- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	State variables written after the call(s):
+	- issueOTokens(amtToCreate,address(this)) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#445)
+	- issueOTokens(amtToCreate,address(this)) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#444)
+Reentrancy in OptionsContract.addERC20Collateral(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1436-1449):
+	External calls:
+	- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	State variables written after the call(s):
+	- _addCollateral(vaultOwner,amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1448)
+		- vault.collateral = vault.collateral.add(amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1912)
+Reentrancy in oToken.addERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2253-2260):
+	External calls:
+	- addERC20Collateral(msg.sender,amtCollateral) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2258)
+		- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	State variables written after the call(s):
+	- issueOTokens(amtToCreate,receiver) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)
+		- _balances[account] = _balances[account].add(amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#445)
+	- issueOTokens(amtToCreate,receiver) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)
+		- _totalSupply = _totalSupply.add(amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#444)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):
+	External calls:
+	- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)
+	Event emitted after the call(s):
+	- Transfer(account,address(0),amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#465)
+		- _burn(msg.sender,oTokensToExercise) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1887)
+Reentrancy in OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):
+	External calls:
+	- require(bool,string)(underlying.transferFrom(msg.sender,address(this),amtUnderlyingToPay),Could not transfer in tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1877-1884)
+	- transferCollateral(msg.sender,amtCollateralToPay) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1890)
+		- collateral.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)
+	External calls sending eth:
+	- transferCollateral(msg.sender,amtCollateralToPay) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1890)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- Exercise(amtUnderlyingToPay,amtCollateralToPay,msg.sender,vaultToExerciseFrom) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1892-1897)
+Reentrancy in oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304):
+	External calls:
+	- addERC20Collateral(msg.sender,amtCollateral) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2295)
+		- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	Event emitted after the call(s):
+	- IssuedOTokens(receiver,oTokensToIssue,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1562)
+		- issueOTokens(amtToCreate,address(this)) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)
+	- Transfer(address(0),account,amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#446)
+		- issueOTokens(amtToCreate,address(this)) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2296)
+Reentrancy in OptionsContract.addERC20Collateral(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1436-1449):
+	External calls:
+	- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	Event emitted after the call(s):
+	- ERC20CollateralAdded(vaultOwner,amt,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1447)
+Reentrancy in oToken.addERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2253-2260):
+	External calls:
+	- addERC20Collateral(msg.sender,amtCollateral) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2258)
+		- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amt),Could not transfer in collateral tokens) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1441-1444)
+	Event emitted after the call(s):
+	- IssuedOTokens(receiver,oTokensToIssue,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1562)
+		- issueOTokens(amtToCreate,receiver) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)
+	- Transfer(address(0),account,amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#446)
+		- issueOTokens(amtToCreate,receiver) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2259)
+Reentrancy in OptionsContract.liquidate(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1705-1758):
+	External calls:
+	- transferCollateral(msg.sender,amtCollateralToPay) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1755)
+		- collateral.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)
+	External calls sending eth:
+	- transferCollateral(msg.sender,amtCollateralToPay) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1755)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- Liquidate(amtCollateralToPay,vaultOwner,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1757)
+Reentrancy in OptionsContract.redeemVaultBalance() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1644-1667):
+	External calls:
+	- transferCollateral(msg.sender,collateralToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1659)
+		- collateral.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)
+	- transferUnderlying(msg.sender,underlyingToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1660)
+		- underlying.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2075)
+	External calls sending eth:
+	- transferCollateral(msg.sender,collateralToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1659)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	- transferUnderlying(msg.sender,underlyingToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1660)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)
+	Event emitted after the call(s):
+	- RedeemVaultBalance(collateralToTransfer,underlyingToTransfer,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1662-1666)
+Reentrancy in OptionsContract.removeCollateral(uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1614-1637):
+	External calls:
+	- transferCollateral(msg.sender,amtToRemove) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1634)
+		- collateral.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)
+	External calls sending eth:
+	- transferCollateral(msg.sender,amtToRemove) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1634)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- RemoveCollateral(amtToRemove,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1636)
+Reentrancy in OptionsContract.removeUnderlying() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1521-1533):
+	External calls:
+	- transferUnderlying(msg.sender,underlyingToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1530)
+		- underlying.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2075)
+	External calls sending eth:
+	- transferUnderlying(msg.sender,underlyingToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1530)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)
+	Event emitted after the call(s):
+	- RemoveUnderlying(underlyingToTransfer,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1531)
+Reentrancy in OptionsExchange.sellOTokens(address,address,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#698-723):
+	External calls:
+	- oToken.transferFrom(msg.sender,address(this),oTokensToSell) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#707)
+	- payoutTokensReceived = uniswapSellOToken(oToken,payoutToken,oTokensToSell,receiver) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#708-713)
+		- oToken.approve(address(exchange),_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#812)
+		- exchange.tokenToEthTransferInput(_amt,1,LARGE_BLOCK_SIZE,_transferTo) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#813-819)
+		- oToken.approve(address(exchange),_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#822)
+		- exchange.tokenToTokenTransferInput(_amt,1,1,LARGE_BLOCK_SIZE,_transferTo,address(payoutToken)) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#823-831)
+	Event emitted after the call(s):
+	- SellOTokens(msg.sender,receiver,oTokenAddress,payoutTokenAddress,oTokensToSell,payoutTokensReceived) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#715-722)
+Reentrancy in OptionsContract.transferFee(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367-1373):
+	External calls:
+	- transferCollateral(_address,fees) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1370)
+		- collateral.transfer(_addr,_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2062)
+	External calls sending eth:
+	- transferCollateral(_address,fees) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1370)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- TransferFee(_address,fees) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1372)
+Reentrancy in OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#835-904):
+	External calls:
+	- paymentToken.transferFrom(msg.sender,address(this),paymentTokensToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#853-857)
+	- paymentToken.approve(address(exchange),LARGE_APPROVAL_NUMBER) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#860)
+	Event emitted after the call(s):
+	- BuyOTokens(msg.sender,_transferTo,address(oToken),address(paymentToken),_amt,paymentTokensToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#862-869)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+OptionsContract.constructor(IERC20,int32,IERC20,int32,int32,uint256,int32,IERC20,uint256,OptionsExchange,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1180-1230) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp < _expiry,Can't deploy an expired contract) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1194)
+OptionsContract.isExerciseWindow() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1468-1471) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ((block.timestamp >= expiry.sub(windowSize)) && (block.timestamp < expiry)) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1469-1470)
+OptionsContract.hasExpired() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1476-1478) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (block.timestamp >= expiry) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1477)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp[0m
+[92m
+OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899) has costly operations inside a loop:
+	- totalFee = totalFee.add(amtFee) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1860)
+ERC20._burn(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#460-466) has costly operations inside a loop:
+	- _totalSupply = _totalSupply.sub(amount) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#464)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop[0m
+[92m
+Context._msgData() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#25-28) is never used and should be removed
+ERC20._burnFrom(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#495-498) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#246-248) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#263-266) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#3) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#33) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#112) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#271) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#503) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#529) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#582) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#615) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#656) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#934) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#990) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1068) allows old versions
+Pragma version^0.5.10 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2096) allows old versions
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+[92m
+Parameter UniswapExchangeInterface.addLiquidity(uint256,uint256,uint256).min_liquidity (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#539) is not in mixedCase
+Parameter UniswapExchangeInterface.addLiquidity(uint256,uint256,uint256).max_tokens (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#539) is not in mixedCase
+Parameter UniswapExchangeInterface.removeLiquidity(uint256,uint256,uint256,uint256).min_eth (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#540) is not in mixedCase
+Parameter UniswapExchangeInterface.removeLiquidity(uint256,uint256,uint256,uint256).min_tokens (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#540) is not in mixedCase
+Parameter UniswapExchangeInterface.getEthToTokenInputPrice(uint256).eth_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#542) is not in mixedCase
+Parameter UniswapExchangeInterface.getEthToTokenOutputPrice(uint256).tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#543) is not in mixedCase
+Parameter UniswapExchangeInterface.getTokenToEthInputPrice(uint256).tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#544) is not in mixedCase
+Parameter UniswapExchangeInterface.getTokenToEthOutputPrice(uint256).eth_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#545) is not in mixedCase
+Parameter UniswapExchangeInterface.ethToTokenSwapInput(uint256,uint256).min_tokens (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#547) is not in mixedCase
+Parameter UniswapExchangeInterface.ethToTokenTransferInput(uint256,uint256,address).min_tokens (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#548) is not in mixedCase
+Parameter UniswapExchangeInterface.ethToTokenSwapOutput(uint256,uint256).tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#549) is not in mixedCase
+Parameter UniswapExchangeInterface.ethToTokenTransferOutput(uint256,uint256,address).tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#550) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthSwapInput(uint256,uint256,uint256).tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#552) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthSwapInput(uint256,uint256,uint256).min_eth (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#552) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthTransferInput(uint256,uint256,uint256,address).tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#553) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthTransferInput(uint256,uint256,uint256,address).min_eth (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#553) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthSwapOutput(uint256,uint256,uint256).eth_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#554) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthSwapOutput(uint256,uint256,uint256).max_tokens (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#554) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthTransferOutput(uint256,uint256,uint256,address).eth_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#555) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToEthTransferOutput(uint256,uint256,uint256,address).max_tokens (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#555) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).min_tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).min_eth_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapInput(uint256,uint256,uint256,uint256,address).token_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#557) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).min_tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).min_eth_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferInput(uint256,uint256,uint256,uint256,address,address).token_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#558) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).max_tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).max_eth_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenSwapOutput(uint256,uint256,uint256,uint256,address).token_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#559) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).max_tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).max_eth_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToTokenTransferOutput(uint256,uint256,uint256,uint256,address,address).token_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#560) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).min_tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).min_eth_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapInput(uint256,uint256,uint256,uint256,address).exchange_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#562) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).min_tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).min_eth_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferInput(uint256,uint256,uint256,uint256,address,address).exchange_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#563) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).max_tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).max_eth_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeSwapOutput(uint256,uint256,uint256,uint256,address).exchange_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#564) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).tokens_bought (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).max_tokens_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).max_eth_sold (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase
+Parameter UniswapExchangeInterface.tokenToExchangeTransferOutput(uint256,uint256,uint256,uint256,address,address).exchange_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#565) is not in mixedCase
+Parameter UniswapExchangeInterface.setup(address).token_addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#577) is not in mixedCase
+Parameter OptionsUtils.getExchange(address)._token (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#633) is not in mixedCase
+Parameter OptionsUtils.isETH(IERC20)._ierc20 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#649) is not in mixedCase
+Variable OptionsUtils.UNISWAP_FACTORY (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#623) is not in mixedCase
+Variable OptionsUtils.COMPOUND_ORACLE (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#625) is not in mixedCase
+Parameter OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address)._amt (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#804) is not in mixedCase
+Parameter OptionsExchange.uniswapSellOToken(IERC20,IERC20,uint256,address)._transferTo (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#805) is not in mixedCase
+Parameter OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address)._amt (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#838) is not in mixedCase
+Parameter OptionsExchange.uniswapBuyOToken(IERC20,IERC20,uint256,address)._transferTo (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#839) is not in mixedCase
+Parameter OptionsExchange.getExchange(address)._token (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#906) is not in mixedCase
+Parameter OptionsExchange.isETH(IERC20)._ierc20 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#922) is not in mixedCase
+Variable OptionsExchange.UNISWAP_FACTORY (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#667) is not in mixedCase
+Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._liquidationIncentive (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1312) is not in mixedCase
+Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._liquidationFactor (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1313) is not in mixedCase
+Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._transactionFee (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1314) is not in mixedCase
+Parameter OptionsContract.updateParameters(uint256,uint256,uint256,uint256)._minCollateralizationRatio (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1315) is not in mixedCase
+Parameter OptionsContract.setDetails(string,string)._name (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350) is not in mixedCase
+Parameter OptionsContract.setDetails(string,string)._symbol (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350) is not in mixedCase
+Parameter OptionsContract.transferFee(address)._address (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367) is not in mixedCase
+Parameter OptionsContract.isETH(IERC20)._ierc20 (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1588) is not in mixedCase
+Parameter OptionsContract.calculateCollateralToPay(uint256,OptionsContract.Number)._oTokens (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2021) is not in mixedCase
+Parameter OptionsContract.transferCollateral(address,uint256)._addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058) is not in mixedCase
+Parameter OptionsContract.transferCollateral(address,uint256)._amt (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2058) is not in mixedCase
+Parameter OptionsContract.transferUnderlying(address,uint256)._addr (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071) is not in mixedCase
+Parameter OptionsContract.transferUnderlying(address,uint256)._amt (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2071) is not in mixedCase
+Variable OptionsContract.COMPOUND_ORACLE (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1155) is not in mixedCase
+Contract oToken (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2104-2306) is not in CapWords
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#26)" inContext (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#15-29)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Reentrancy in OptionsContract._exercise(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1816-1899):
+	External calls:
+	- transferCollateral(msg.sender,amtCollateralToPay) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1890)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- Exercise(amtUnderlyingToPay,amtCollateralToPay,msg.sender,vaultToExerciseFrom) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1892-1897)
+Reentrancy in OptionsContract.liquidate(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1705-1758):
+	External calls:
+	- transferCollateral(msg.sender,amtCollateralToPay) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1755)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- Liquidate(amtCollateralToPay,vaultOwner,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1757)
+Reentrancy in OptionsContract.redeemVaultBalance() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1644-1667):
+	External calls:
+	- transferCollateral(msg.sender,collateralToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1659)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	- transferUnderlying(msg.sender,underlyingToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1660)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)
+	Event emitted after the call(s):
+	- RedeemVaultBalance(collateralToTransfer,underlyingToTransfer,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1662-1666)
+Reentrancy in OptionsContract.removeCollateral(uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1614-1637):
+	External calls:
+	- transferCollateral(msg.sender,amtToRemove) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1634)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- RemoveCollateral(amtToRemove,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1636)
+Reentrancy in OptionsContract.removeUnderlying() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1521-1533):
+	External calls:
+	- transferUnderlying(msg.sender,underlyingToTransfer) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1530)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2073)
+	Event emitted after the call(s):
+	- RemoveUnderlying(underlyingToTransfer,msg.sender) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1531)
+Reentrancy in OptionsContract.transferFee(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367-1373):
+	External calls:
+	- transferCollateral(_address,fees) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1370)
+		- _addr.transfer(_amt) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2060)
+	Event emitted after the call(s):
+	- TransferFee(_address,fees) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1372)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4[0m
+[92m
+Variable OptionsUtils.COMPOUND_ORACLE (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#625) is too similar to OptionsUtils.constructor(address,address)._compoundOracle (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#627)
+Variable OptionsUtils.UNISWAP_FACTORY (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#623) is too similar to OptionsUtils.constructor(address,address)._uniswapFactory (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#627)
+Variable OptionsExchange.UNISWAP_FACTORY (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#667) is too similar to OptionsExchange.constructor(address)._uniswapFactory (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#669)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+CompoundOracleInterface (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#506-525) does not implement functions:
+	- CompoundOracleInterface.getPrice(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#519)
+	- CompoundOracleInterface.getUnderlyingPrice(ERC20) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#520)
+ERC20Detailed (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#940-986) does not implement functions:
+	- IERC20.allowance(address,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#66)
+	- IERC20.approve(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#82)
+	- IERC20.balanceOf(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#48)
+	- IERC20.totalSupply() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#43)
+	- IERC20.transfer(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#57)
+	- IERC20.transferFrom(address,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#93)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unimplemented-functions[0m
+[92m
+UniswapExchangeInterface.decimals (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#569) should be constant
+UniswapExchangeInterface.name (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#567) should be constant
+UniswapExchangeInterface.symbol (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#568) should be constant
+UniswapFactoryInterface.exchangeTemplate (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#588) should be constant
+UniswapFactoryInterface.tokenCount (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#589) should be constant
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+[92m
+totalSupply() should be declared external:
+	- ERC20.totalSupply() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#312-314)
+transfer(address,uint256) should be declared external:
+	- ERC20.transfer(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#331-334)
+allowance(address,address) should be declared external:
+	- ERC20.allowance(address,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#339-341)
+approve(address,uint256) should be declared external:
+	- ERC20.approve(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#350-353)
+transferFrom(address,address,uint256) should be declared external:
+	- ERC20.transferFrom(address,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#367-371)
+increaseAllowance(address,uint256) should be declared external:
+	- ERC20.increaseAllowance(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#385-388)
+decreaseAllowance(address,uint256) should be declared external:
+	- ERC20.decreaseAllowance(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#404-407)
+getPrice(address) should be declared external:
+	- CompoundOracleInterface.getPrice(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#519)
+getUnderlyingPrice(ERC20) should be declared external:
+	- CompoundOracleInterface.getUnderlyingPrice(ERC20) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#520)
+getExchange(address) should be declared external:
+	- OptionsUtils.getExchange(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#633-647)
+isETH(IERC20) should be declared external:
+	- OptionsUtils.isETH(IERC20) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#649-651)
+sellOTokens(address,address,address,uint256) should be declared external:
+	- OptionsExchange.sellOTokens(address,address,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#698-723)
+buyOTokens(address,address,address,uint256) should be declared external:
+	- OptionsExchange.buyOTokens(address,address,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#732-741)
+premiumReceived(address,address,uint256) should be declared external:
+	- OptionsExchange.premiumReceived(address,address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#750-770)
+name() should be declared external:
+	- ERC20Detailed.name() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#959-961)
+symbol() should be declared external:
+	- ERC20Detailed.symbol() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#967-969)
+decimals() should be declared external:
+	- ERC20Detailed.decimals() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#983-985)
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1043-1046)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1052-1054)
+getVaultOwners() should be declared external:
+	- OptionsContract.getVaultOwners() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1291-1302)
+updateParameters(uint256,uint256,uint256,uint256) should be declared external:
+	- OptionsContract.updateParameters(uint256,uint256,uint256,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1311-1343)
+setDetails(string,string) should be declared external:
+	- OptionsContract.setDetails(string,string) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1350-1361)
+transferFee(address) should be declared external:
+	- OptionsContract.transferFee(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1367-1373)
+removeUnderlying() should be declared external:
+	- OptionsContract.removeUnderlying() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1521-1533)
+getVault(address) should be declared external:
+	- OptionsContract.getVault(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1570-1582)
+burnOTokens(uint256) should be declared external:
+	- OptionsContract.burnOTokens(uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1598-1607)
+removeCollateral(uint256) should be declared external:
+	- OptionsContract.removeCollateral(uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1614-1637)
+redeemVaultBalance() should be declared external:
+	- OptionsContract.redeemVaultBalance() (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1644-1667)
+maxOTokensLiquidatable(address) should be declared external:
+	- OptionsContract.maxOTokensLiquidatable(address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1673-1694)
+liquidate(address,uint256) should be declared external:
+	- OptionsContract.liquidate(address,uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1705-1758)
+maxOTokensIssuable(uint256) should be declared external:
+	- OptionsContract.maxOTokensIssuable(uint256) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#1962-1969)
+addAndSellETHCollateralOption(uint256,address) should be declared external:
+	- oToken.addAndSellETHCollateralOption(uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2209-2222)
+addAndSellERC20CollateralOption(uint256,uint256,address) should be declared external:
+	- oToken.addAndSellERC20CollateralOption(uint256,uint256,address) (../../sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol#2290-2304)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x951d51baefb72319d9fbe941e1615938d89abfe2.sol analyzed (13 contracts with 78 detectors), 196 result(s) found

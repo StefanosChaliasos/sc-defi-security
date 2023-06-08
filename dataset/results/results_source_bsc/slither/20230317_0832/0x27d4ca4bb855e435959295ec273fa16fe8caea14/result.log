@@ -1,0 +1,719 @@
+Compilation warnings/errors on /sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol:
+Warning: This declaration shadows an existing declaration.
+    --> /sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol:2430:13:
+     |
+2430 |             uint performanceFee = _minter.performanceFee(amount);
+     |             ^^^^^^^^^^^^^^^^^^^
+Note: The shadowed declaration is here:
+    --> /sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol:2427:9:
+     |
+2427 |         uint performanceFee = canMint() ? _minter.performanceFee(amount) : 0;
+     |         ^^^^^^^^^^^^^^^^^^^
+
+Warning: Unused local variable.
+    --> /sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol:2427:9:
+     |
+2427 |         uint performanceFee = canMint() ? _minter.performanceFee(amount) : 0;
+     |         ^^^^^^^^^^^^^^^^^^^
+
+Warning: Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+    --> /sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol:2328:1:
+     |
+2328 | contract VaultStrategyAlpacaRabbit is VaultController, ReentrancyGuardUpgradeable {
+     | ^ (Relevant source part starts here and spans across multiple lines).
+
+
+[91m
+Reentrancy in VaultStrategyAlpacaRabbit.switchStrategy(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2562-2574):
+	External calls:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2564)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2565)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- (withdrawAmount) = _withdrawStakingToken(poolBalance) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2568)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2564)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2565)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- (withdrawAmount) = _withdrawStakingToken(poolBalance) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2568)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	State variables written after the call(s):
+	- currentStrategy = VaultStrategyAlpacaRabbit.STRATEGY(strategy) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2570)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities[0m
+[93m
+VaultStrategyAlpacaRabbit.balance().ibAmount_scope_0 (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2398) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables[0m
+[93m
+VaultStrategyAlpacaRabbit.withdraw(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2474-2497) ignores return value by _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2486)
+VaultStrategyAlpacaRabbit.withdraw(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2474-2497) ignores return value by _stakingToken.approve(address(_minter),withdrawalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2487)
+VaultStrategyAlpacaRabbit.withdrawAll() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2499-2530) ignores return value by _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2517)
+VaultStrategyAlpacaRabbit.withdrawAll() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2499-2530) ignores return value by _stakingToken.approve(address(_minter),totalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2518)
+VaultStrategyAlpacaRabbit.getReward() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2532-2555) ignores return value by _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2544)
+VaultStrategyAlpacaRabbit.getReward() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2532-2555) ignores return value by _stakingToken.approve(address(_minter),performanceFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2545)
+VaultStrategyAlpacaRabbit._depositStakingToken(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2578-2608) ignores return value by IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+VaultStrategyAlpacaRabbit._depositStakingToken(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2578-2608) ignores return value by IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+VaultStrategyAlpacaRabbit._harvest(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2650-2669) ignores return value by PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+[92m
+BEP20.constructor(string,string).name (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1150) shadows:
+	- BEP20.name() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1166-1168) (function)
+	- IBEP20.name() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#30) (function)
+BEP20.constructor(string,string).symbol (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1150) shadows:
+	- BEP20.symbol() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1180-1182) (function)
+	- IBEP20.symbol() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#25) (function)
+BEP20.allowance(address,address).owner (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1214) shadows:
+	- Ownable.owner() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1055-1057) (function)
+BEP20._approve(address,address,uint256).owner (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1386) shadows:
+	- Ownable.owner() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1055-1057) (function)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing[0m
+[92m
+VaultController.setKeeper(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2230-2233) should emit an event for: 
+	- keeper = _keeper (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2232) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control[0m
+[92m
+Variable 'VaultStrategyAlpacaRabbit.balance().ibAmount (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2395)' in VaultStrategyAlpacaRabbit.balance() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2393-2401) potentially used before declaration: (ibAmount) = RABBIT_FAIR_LAUNCH.userInfo(_getStakePid(),address(this)) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2398)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#pre-declaration-usage-of-local-variables[0m
+[92m
+Reentrancy in VaultStrategyAlpacaRabbit.deposit(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2449-2472):
+	External calls:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2452)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2453)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2452)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2453)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	State variables written after the call(s):
+	- _depositedAt[msg.sender] = block.timestamp (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2466)
+	- _principal[msg.sender] = _principal[msg.sender].add(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2465)
+	- _shares[msg.sender] = _shares[msg.sender].add(shares) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2464)
+	- totalShares = totalShares.add(shares) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2463)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2[0m
+[92m
+Reentrancy in VaultStrategyAlpacaRabbit.deposit(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2449-2472):
+	External calls:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2452)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2453)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2452)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2453)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Harvested(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2654)
+		- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2453)
+Reentrancy in VaultStrategyAlpacaRabbit.deposit(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2449-2472):
+	External calls:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2452)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2453)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.safeTransferFrom(msg.sender,address(this),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2468)
+	- _depositStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2470)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2452)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2453)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _depositStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2470)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Deposited(msg.sender,amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2471)
+Reentrancy in VaultStrategyAlpacaRabbit.getReward() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2532-2555):
+	External calls:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2540)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2544)
+	- _stakingToken.approve(address(_minter),performanceFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2545)
+	- _minter.mintFor(address(_stakingToken),0,performanceFee,msg.sender,_depositedAt[msg.sender]) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2546)
+	- _stakingToken.safeTransfer(msg.sender,withdrawAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2550)
+	External calls sending eth:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2540)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,withdrawAmount,performanceFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2552)
+Reentrancy in VaultStrategyAlpacaRabbit.getReward() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2532-2555):
+	External calls:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2540)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2544)
+	- _stakingToken.approve(address(_minter),performanceFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2545)
+	- _minter.mintFor(address(_stakingToken),0,performanceFee,msg.sender,_depositedAt[msg.sender]) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2546)
+	- _stakingToken.safeTransfer(msg.sender,withdrawAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2550)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2554)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2540)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2554)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Harvested(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2654)
+		- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2554)
+Reentrancy in VaultStrategyAlpacaRabbit.harvest() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2557-2560):
+	External calls:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2558)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2559)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2558)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2559)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Harvested(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2654)
+		- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2559)
+Reentrancy in VaultController.recoverToken(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2252-2257):
+	External calls:
+	- IBEP20(_token).safeTransfer(owner(),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2254)
+	Event emitted after the call(s):
+	- Recovered(_token,amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2256)
+Reentrancy in VaultStrategyAlpacaRabbit.switchStrategy(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2562-2574):
+	External calls:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2564)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2565)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- rewardAmount = _depositStakingToken(0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2564)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2565)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Harvested(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2654)
+		- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2565)
+Reentrancy in VaultStrategyAlpacaRabbit.withdraw(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2474-2497):
+	External calls:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2482)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2486)
+	- _stakingToken.approve(address(_minter),withdrawalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2487)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee,0,msg.sender,_depositedAt[msg.sender]) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2488)
+	- _stakingToken.safeTransfer(msg.sender,withdrawAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2492)
+	External calls sending eth:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2482)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,withdrawAmount,withdrawalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2494)
+Reentrancy in VaultStrategyAlpacaRabbit.withdraw(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2474-2497):
+	External calls:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2482)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2486)
+	- _stakingToken.approve(address(_minter),withdrawalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2487)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee,0,msg.sender,_depositedAt[msg.sender]) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2488)
+	- _stakingToken.safeTransfer(msg.sender,withdrawAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2492)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2496)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- (withdrawAmount,rewardAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2482)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2496)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Harvested(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2654)
+		- _harvest(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2496)
+Reentrancy in VaultStrategyAlpacaRabbit.withdrawAll() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2499-2530):
+	External calls:
+	- (withdrawAmount,alpacaAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2509)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2517)
+	- _stakingToken.approve(address(_minter),totalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2518)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee,performanceFee,msg.sender,depositTimestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2519)
+	External calls sending eth:
+	- (withdrawAmount,alpacaAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2509)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- ProfitPaid(msg.sender,profit,performanceFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2521)
+Reentrancy in VaultStrategyAlpacaRabbit.withdrawAll() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2499-2530):
+	External calls:
+	- (withdrawAmount,alpacaAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2509)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2517)
+	- _stakingToken.approve(address(_minter),totalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2518)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee,performanceFee,msg.sender,depositTimestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2519)
+	- _stakingToken.safeTransfer(msg.sender,withdrawAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2526)
+	External calls sending eth:
+	- (withdrawAmount,alpacaAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2509)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Withdrawn(msg.sender,withdrawAmount,withdrawalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2527)
+Reentrancy in VaultStrategyAlpacaRabbit.withdrawAll() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2499-2530):
+	External calls:
+	- (withdrawAmount,alpacaAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2509)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- fairLaunch.withdraw(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2627)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- ALPACA_IB.withdraw(ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2633)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.withdraw(address(_stakingToken),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2635)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	- _stakingToken.approve(address(_minter),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2517)
+	- _stakingToken.approve(address(_minter),totalFee) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2518)
+	- _minter.mintFor(address(_stakingToken),withdrawalFee,performanceFee,msg.sender,depositTimestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2519)
+	- _stakingToken.safeTransfer(msg.sender,withdrawAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2526)
+	- _harvest(alpacaAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2529)
+		- returndata = address(token).functionCall(data,SafeBEP20: low-level call failed) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#553)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2661)
+		- rewardToken.safeApprove(address(PANCAKE_ROUTER),rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2662)
+		- _stakingToken.safeApprove(address(ALPACA_IB),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2589)
+		- PANCAKE_ROUTER.swapExactTokensForTokens(rewardAmount,0,path,address(this),block.timestamp) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2664)
+		- _stakingToken.safeApprove(address(ALPACA_IB),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2590)
+		- ALPACA_IB.deposit(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2591)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2593)
+		- _stakingToken.safeApprove(address(RABBIT_BANK),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2594)
+		- RABBIT_BANK.deposit(address(_stakingToken),amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2595)
+		- IBEP20(bearingToken).approve(address(fairLaunch),0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2600)
+		- IBEP20(bearingToken).approve(address(fairLaunch),ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2601)
+		- fairLaunch.deposit(address(this),pid,ibAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2602)
+		- fairLaunch.deposit(address(this),pid,0) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2604)
+	External calls sending eth:
+	- (withdrawAmount,alpacaAmount) = _withdrawStakingToken(amount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2509)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	- _harvest(alpacaAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2529)
+		- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+	Event emitted after the call(s):
+	- Harvested(rewardAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2654)
+		- _harvest(alpacaAmount) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2529)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+[92m
+Address.isContract(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#325-336) uses assembly
+	- INLINE ASM (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#332-334)
+Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#433-459) uses assembly
+	- INLINE ASM (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#451-454)
+AddressUpgradeable.isContract(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#623-632) uses assembly
+	- INLINE ASM (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#630)
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#744-761) uses assembly
+	- INLINE ASM (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#753-756)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+[92m
+Address.functionCall(address,bytes) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#380-382) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#409-415) is never used and should be removed
+Address.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#423-431) is never used and should be removed
+Address.sendValue(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#354-360) is never used and should be removed
+AddressUpgradeable._verifyCallResult(bool,bytes,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#744-761) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#676-678) is never used and should be removed
+AddressUpgradeable.functionCall(address,bytes,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#686-688) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#701-703) is never used and should be removed
+AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#711-718) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#726-728) is never used and should be removed
+AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#736-742) is never used and should be removed
+AddressUpgradeable.sendValue(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#650-656) is never used and should be removed
+BEP20._burn(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1364-1370) is never used and should be removed
+BEP20._burnFrom(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1403-1410) is never used and should be removed
+Context._msgData() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1014-1017) is never used and should be removed
+ContextUpgradeable.__Context_init() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1889-1891) is never used and should be removed
+ContextUpgradeable._msgData() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1899-1902) is never used and should be removed
+Math.average(uint256,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#590-593) is never used and should be removed
+Math.max(uint256,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#575-577) is never used and should be removed
+SafeBEP20.safeDecreaseAllowance(IBEP20,address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#530-540) is never used and should be removed
+SafeBEP20.safeIncreaseAllowance(IBEP20,address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#521-528) is never used and should be removed
+SafeMath.min(uint256,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#279-281) is never used and should be removed
+SafeMath.mod(uint256,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#254-256) is never used and should be removed
+SafeMath.mod(uint256,uint256,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#270-277) is never used and should be removed
+SafeMath.sqrt(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#284-295) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code[0m
+[92m
+Low level call in Address.sendValue(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#354-360):
+	- (success) = recipient.call{value: amount}() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#358)
+Low level call in Address._functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#433-459):
+	- (success,returndata) = target.call{value: weiValue}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#442)
+Low level call in AddressUpgradeable.sendValue(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#650-656):
+	- (success) = recipient.call{value: amount}() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#654)
+Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#711-718):
+	- (success,returndata) = target.call{value: value}(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#716)
+Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#736-742):
+	- (success,returndata) = target.staticcall(data) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#740)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+[92m
+Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#862-864) is not in mixedCase
+Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#866-868) is not in mixedCase
+Variable ReentrancyGuardUpgradeable.__gap (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#890) is not in mixedCase
+Function IHunnyMinter.WITHDRAWAL_FEE_FREE_PERIOD() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#930) is not in mixedCase
+Function IHunnyMinter.WITHDRAWAL_FEE() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#931) is not in mixedCase
+Function IPancakeRouter01.WETH() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1420) is not in mixedCase
+Function IPancakePair.DOMAIN_SEPARATOR() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1581) is not in mixedCase
+Function IPancakePair.PERMIT_TYPEHASH() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1582) is not in mixedCase
+Function IPancakePair.MINIMUM_LIQUIDITY() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1599) is not in mixedCase
+Function IHunnyMinterV2.WITHDRAWAL_FEE_FREE_PERIOD() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1803) is not in mixedCase
+Function IHunnyMinterV2.WITHDRAWAL_FEE() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1804) is not in mixedCase
+Function ContextUpgradeable.__Context_init() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1889-1891) is not in mixedCase
+Function ContextUpgradeable.__Context_init_unchained() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1893-1894) is not in mixedCase
+Variable ContextUpgradeable.__gap (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1903) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1934-1937) is not in mixedCase
+Function OwnableUpgradeable.__Ownable_init_unchained() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1939-1943) is not in mixedCase
+Variable OwnableUpgradeable.__gap (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1981) is not in mixedCase
+Function PausableUpgradeable.__PausableUpgradeable_init() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2036-2039) is not in mixedCase
+Parameter PausableUpgradeable.setPaused(bool)._paused (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2041) is not in mixedCase
+Variable PausableUpgradeable.__gap (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2053) is not in mixedCase
+Function WhitelistUpgradeable.__WhitelistUpgradeable_init() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2101-2103) is not in mixedCase
+Parameter WhitelistUpgradeable.isWhitelist(address)._address (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2105) is not in mixedCase
+Parameter WhitelistUpgradeable.setWhitelist(address,bool)._address (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2109) is not in mixedCase
+Parameter WhitelistUpgradeable.setWhitelist(address,bool)._on (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2109) is not in mixedCase
+Variable WhitelistUpgradeable.__gap (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2124) is not in mixedCase
+Function VaultController.__VaultController_init(IBEP20) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2202-2208) is not in mixedCase
+Parameter VaultController.setKeeper(address)._keeper (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2230) is not in mixedCase
+Parameter VaultController.recoverToken(address,uint256)._token (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2252) is not in mixedCase
+Variable VaultController.__gap (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2186) is not in mixedCase
+Variable VaultController._stakingToken (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2180) is not in mixedCase
+Variable VaultController._minter (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2181) is not in mixedCase
+Variable VaultController._hunnyChef (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2182) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions[0m
+[92m
+Redundant expression "this (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1015)" inContext (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1005-1018)
+Redundant expression "this (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1900)" inContextUpgradeable (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1888-1904)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#redundant-statements[0m
+[92m
+Variable IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1425) is too similar to IPancakeRouter01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1426)
+Variable VaultStrategyAlpacaRabbit.STAKING_TOKEN (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2339) is too similar to VaultController._stakingToken (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2180)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-are-too-similar[0m
+[92m
+ReentrancyGuardUpgradeable.__gap (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#890) is never used in VaultStrategyAlpacaRabbit (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2328-2716)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable[0m
+[92m
+renounceOwnership() should be declared external:
+	- Ownable.renounceOwnership() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1074-1077)
+transferOwnership(address) should be declared external:
+	- Ownable.transferOwnership(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1083-1085)
+name() should be declared external:
+	- BEP20.name() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1166-1168)
+decimals() should be declared external:
+	- BEP20.decimals() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1173-1175)
+symbol() should be declared external:
+	- BEP20.symbol() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1180-1182)
+totalSupply() should be declared external:
+	- BEP20.totalSupply() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1187-1189)
+balanceOf(address) should be declared external:
+	- BEP20.balanceOf(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1194-1196)
+transfer(address,uint256) should be declared external:
+	- BEP20.transfer(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1206-1209)
+allowance(address,address) should be declared external:
+	- BEP20.allowance(address,address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1214-1216)
+approve(address,uint256) should be declared external:
+	- BEP20.approve(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1225-1228)
+transferFrom(address,address,uint256) should be declared external:
+	- BEP20.transferFrom(address,address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1242-1254)
+increaseAllowance(address,uint256) should be declared external:
+	- BEP20.increaseAllowance(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1268-1271)
+decreaseAllowance(address,uint256) should be declared external:
+	- BEP20.decreaseAllowance(address,uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1287-1294)
+mint(uint256) should be declared external:
+	- BEP20.mint(uint256) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1304-1307)
+renounceOwnership() should be declared external:
+	- OwnableUpgradeable.renounceOwnership() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1967-1970)
+transferOwnership(address) should be declared external:
+	- OwnableUpgradeable.transferOwnership(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#1976-1980)
+isWhitelist(address) should be declared external:
+	- WhitelistUpgradeable.isWhitelist(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2105-2107)
+setHunnyChef(IHunnyChef) should be declared external:
+	- VaultController.setHunnyChef(IHunnyChef) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2245-2248)
+totalSupply() should be declared external:
+	- VaultStrategyAlpacaRabbit.totalSupply() (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2389-2391)
+profitOf(address) should be declared external:
+	- VaultStrategyAlpacaRabbit.profitOf(address) (../../sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol#2425-2438)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external[0m
+/sb/0x27d4ca4bb855e435959295ec273fa16fe8caea14.sol analyzed (32 contracts with 78 detectors), 121 result(s) found

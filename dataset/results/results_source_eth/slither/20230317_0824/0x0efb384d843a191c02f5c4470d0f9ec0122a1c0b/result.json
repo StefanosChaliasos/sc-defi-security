@@ -1,0 +1,1897 @@
+{
+    "errors": [
+        "EXIT_CODE_211"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "withdraw",
+            "impact": "High",
+            "line": 2768,
+            "line_end": 2777,
+            "message": "GEtherBridge.withdraw(address,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2768-2777) sends eth to arbitrary user\n\tDangerous calls:\n\t- _from.transfer(_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2776)\n",
+            "name": "arbitrary-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "currentBlockTimestamp",
+            "impact": "High",
+            "line": 1228,
+            "line_end": 1230,
+            "message": "UniswapV2OracleLibrary.currentBlockTimestamp() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1228-1230) uses a weak PRNG: \"uint32(block.timestamp % 2 ** 32) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1229)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "_calcFees",
+            "impact": "Medium",
+            "line": 2641,
+            "line_end": 2661,
+            "message": "GLPMiningToken._calcFees() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2641-2661) performs a multiplication on the result of a division:\n\t-_profitCost = _positive.sub(_negative).div(_oldTotalSupply) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2655)\n\t-_feeCost = _profitCost.mul(performanceFee).div(1e18) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2656)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "rebase",
+            "impact": "Medium",
+            "line": 784,
+            "line_end": 809,
+            "message": "GElasticTokenManager.rebase(GElasticTokenManager.Self,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#784-809) performs a multiplication on the result of a division:\n\t-_mintPercent = _delta.mul(_self.rebaseTreasuryMintPercent).div(1e18) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#803)\n\t-_mintAmount = _totalSupply.mul(_mintPercent).div(1e18) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#805)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-l /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#841)\n\t-l * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#852)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#850)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#847)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#849)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "rebase",
+            "impact": "Medium",
+            "line": 784,
+            "line_end": 809,
+            "message": "GElasticTokenManager.rebase(GElasticTokenManager.Self,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#784-809) performs a multiplication on the result of a division:\n\t-_delta = _deviation.div(_self.rebaseDampeningFactor) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#799)\n\t-_mintPercent = _delta.mul(_self.rebaseTreasuryMintPercent).div(1e18) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#803)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#846)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#848)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#851)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#844)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 834,
+            "line_end": 853,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#834-853) performs a multiplication on the result of a division:\n\t-d /= pow2 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#840)\n\t-r *= 2 - d * r (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#845)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "depositToken",
+            "impact": "Medium",
+            "line": 2554,
+            "line_end": 2562,
+            "message": "Reentrancy in GLPMiningToken.depositToken(address,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2554-2562):\n\tExternal calls:\n\t- Transfers._pullFunds(_token,_from,_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2558)\n\t- _cost = UniswapV2LiquidityPoolAbstraction._joinPool(reserveToken,_token,_amount,_minCost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2559)\n\tState variables written after the call(s):\n\t- _mint(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2561)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1899)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "gulpRewards",
+            "impact": "Medium",
+            "line": 2573,
+            "line_end": 2578,
+            "message": "Reentrancy in GLPMiningToken.gulpRewards(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2573-2578):\n\tExternal calls:\n\t- UniswapV2LiquidityPoolAbstraction._joinPool(reserveToken,rewardsToken,lastUnlockedReward,_minCost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2576)\n\tState variables written after the call(s):\n\t- lastUnlockedReward = 0 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2577)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "withdrawToken",
+            "impact": "Medium",
+            "line": 2564,
+            "line_end": 2571,
+            "message": "Reentrancy in GLPMiningToken.withdrawToken(address,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2564-2571):\n\tExternal calls:\n\t- _amount = UniswapV2LiquidityPoolAbstraction._exitPool(reserveToken,_token,_cost,_minAmount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2568)\n\t- Transfers._pushFunds(_token,_from,_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2569)\n\tState variables written after the call(s):\n\t- _burn(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2570)\n\t\t- _totalSupply = _totalSupply.sub(amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1921)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 2538,
+            "line_end": 2544,
+            "message": "Reentrancy in GLPMiningToken.deposit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2538-2544):\n\tExternal calls:\n\t- Transfers._pullFunds(reserveToken,_from,_cost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2542)\n\tState variables written after the call(s):\n\t- _mint(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2543)\n\t\t- _totalSupply = _totalSupply.add(amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1899)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 2546,
+            "line_end": 2552,
+            "message": "Reentrancy in GLPMiningToken.withdraw(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2546-2552):\n\tExternal calls:\n\t- Transfers._pushFunds(reserveToken,_from,_cost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2550)\n\tState variables written after the call(s):\n\t- _burn(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2551)\n\t\t- _totalSupply = _totalSupply.sub(amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1921)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "gulpRewards",
+            "impact": "Medium",
+            "line": 2573,
+            "line_end": 2578,
+            "message": "GLPMiningToken.gulpRewards(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2573-2578) ignores return value by UniswapV2LiquidityPoolAbstraction._joinPool(reserveToken,rewardsToken,lastUnlockedReward,_minCost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2576)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Low",
+            "line": 2481,
+            "message": "GLPMiningToken.constructor(string,string,uint8,address,address)._symbol (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2481) shadows:\n\t- ERC20._symbol (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1709) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Low",
+            "line": 2481,
+            "message": "GLPMiningToken.constructor(string,string,uint8,address,address)._name (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2481) shadows:\n\t- ERC20._name (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1708) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Low",
+            "line": 2481,
+            "message": "GLPMiningToken.constructor(string,string,uint8,address,address)._decimals (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2481) shadows:\n\t- ERC20._decimals (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1710) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Low",
+            "line": 2770,
+            "message": "GEtherBridge.withdraw(address,uint256,uint256)._from (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2770) lacks a zero-check on :\n\t\t- _from.transfer(_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2776)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Low",
+            "line": 2484,
+            "message": "GLPMiningToken.constructor(string,string,uint8,address,address)._treasury (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2484) lacks a zero-check on :\n\t\t- treasury = _treasury (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2491)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "depositToken",
+            "impact": "Low",
+            "line": 2554,
+            "line_end": 2562,
+            "message": "Reentrancy in GLPMiningToken.depositToken(address,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2554-2562):\n\tExternal calls:\n\t- Transfers._pullFunds(_token,_from,_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2558)\n\t- _cost = UniswapV2LiquidityPoolAbstraction._joinPool(reserveToken,_token,_amount,_minCost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2559)\n\tState variables written after the call(s):\n\t- _mint(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2561)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1900)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 2538,
+            "line_end": 2544,
+            "message": "Reentrancy in GLPMiningToken.deposit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2538-2544):\n\tExternal calls:\n\t- Transfers._pullFunds(reserveToken,_from,_cost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2542)\n\tState variables written after the call(s):\n\t- _mint(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2543)\n\t\t- _balances[account] = _balances[account].add(amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1900)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "withdrawToken",
+            "impact": "Low",
+            "line": 2564,
+            "line_end": 2571,
+            "message": "Reentrancy in GLPMiningToken.withdrawToken(address,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2564-2571):\n\tExternal calls:\n\t- _amount = UniswapV2LiquidityPoolAbstraction._exitPool(reserveToken,_token,_cost,_minAmount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2568)\n\t- Transfers._pushFunds(_token,_from,_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2569)\n\tState variables written after the call(s):\n\t- _burn(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2570)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1920)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 2546,
+            "line_end": 2552,
+            "message": "Reentrancy in GLPMiningToken.withdraw(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2546-2552):\n\tExternal calls:\n\t- Transfers._pushFunds(reserveToken,_from,_cost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2550)\n\tState variables written after the call(s):\n\t- _burn(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2551)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1920)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 2538,
+            "line_end": 2544,
+            "message": "Reentrancy in GLPMiningToken.deposit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2538-2544):\n\tExternal calls:\n\t- Transfers._pullFunds(reserveToken,_from,_cost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2542)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1901)\n\t\t- _mint(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2543)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "withdrawToken",
+            "impact": "Low",
+            "line": 2564,
+            "line_end": 2571,
+            "message": "Reentrancy in GLPMiningToken.withdrawToken(address,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2564-2571):\n\tExternal calls:\n\t- _amount = UniswapV2LiquidityPoolAbstraction._exitPool(reserveToken,_token,_cost,_minAmount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2568)\n\t- Transfers._pushFunds(_token,_from,_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2569)\n\tEvent emitted after the call(s):\n\t- Transfer(account,address(0),amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1922)\n\t\t- _burn(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2570)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "depositToken",
+            "impact": "Low",
+            "line": 2554,
+            "line_end": 2562,
+            "message": "Reentrancy in GLPMiningToken.depositToken(address,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2554-2562):\n\tExternal calls:\n\t- Transfers._pullFunds(_token,_from,_amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2558)\n\t- _cost = UniswapV2LiquidityPoolAbstraction._joinPool(reserveToken,_token,_amount,_minCost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2559)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1901)\n\t\t- _mint(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2561)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 2546,
+            "line_end": 2552,
+            "message": "Reentrancy in GLPMiningToken.withdraw(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2546-2552):\n\tExternal calls:\n\t- Transfers._pushFunds(reserveToken,_from,_cost) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2550)\n\tEvent emitted after the call(s):\n\t- Transfer(account,address(0),amount) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1922)\n\t\t- _burn(_from,_shares) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2551)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "activateRebase",
+            "impact": "Low",
+            "line": 739,
+            "line_end": 744,
+            "message": "GElasticTokenManager.activateRebase(GElasticTokenManager.Self) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#739-744) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(! _self.rebaseActive,already active) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#741)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "currentCumulativePrices",
+            "impact": "Low",
+            "line": 1233,
+            "line_end": 1251,
+            "message": "UniswapV2OracleLibrary.currentCumulativePrices(address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1233-1251) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- blockTimestampLast != blockTimestamp (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1242)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "rebase",
+            "impact": "Low",
+            "line": 784,
+            "line_end": 809,
+            "message": "GElasticTokenManager.rebase(GElasticTokenManager.Self,uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#784-809) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(_self._rebaseAvailable(),not available) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#786)\n\t- _deviation < _self.rebaseMinimumDeviation (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#794)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "_rebaseAvailable",
+            "impact": "Low",
+            "line": 811,
+            "line_end": 817,
+            "message": "GElasticTokenManager._rebaseAvailable(GElasticTokenManager.Self) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#811-817) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now < _self.lastRebaseTime.add(_self.rebaseMinimumInterval) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#814)\n\t- _self.rebaseWindowOffset <= _offset && _offset < _self.rebaseWindowOffset.add(_self.rebaseWindowLength) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#816)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "_externalCall",
+            "impact": "Informational",
+            "line": 627,
+            "line_end": 632,
+            "message": "Executor._externalCall(address,bytes) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#627-632) uses assembly\n\t- INLINE ASM (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#629-631)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 2163,
+            "line_end": 2180,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2163-2180) uses assembly\n\t- INLINE ASM (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2172-2175)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 2042,
+            "line_end": 2051,
+            "message": "Address.isContract(address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2042-2051) uses assembly\n\t- INLINE ASM (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2049)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 1151,
+            "line_end": 1159,
+            "message": "FixedPoint.sqrt(FixedPoint.uq112x112) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1151-1159) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "muluq",
+            "impact": "Informational",
+            "line": 1079,
+            "line_end": 1104,
+            "message": "FixedPoint.muluq(FixedPoint.uq112x112,FixedPoint.uq112x112) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1079-1104) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 2069,
+            "line_end": 2075,
+            "message": "Address.sendValue(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2069-2075) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 2120,
+            "line_end": 2122,
+            "message": "Address.functionCallWithValue(address,bytes,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2120-2122) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "decode",
+            "impact": "Informational",
+            "line": 1052,
+            "line_end": 1054,
+            "message": "FixedPoint.decode(FixedPoint.uq112x112) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1052-1054) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "leastSignificantBit",
+            "impact": "Informational",
+            "line": 972,
+            "line_end": 1012,
+            "message": "BitMath.leastSignificantBit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#972-1012) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 2219,
+            "line_end": 2228,
+            "message": "SafeERC20.safeApprove(IERC20,address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2219-2228) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "encode144",
+            "impact": "Informational",
+            "line": 1047,
+            "line_end": 1049,
+            "message": "FixedPoint.encode144(uint144) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1047-1049) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "encode",
+            "impact": "Informational",
+            "line": 1042,
+            "line_end": 1044,
+            "message": "FixedPoint.encode(uint112) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1042-1044) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "_max",
+            "impact": "Informational",
+            "line": 1422,
+            "line_end": 1425,
+            "message": "Math._max(uint256,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1422-1425) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 23,
+            "line_end": 26,
+            "message": "Context._msgData() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#23-26) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 2145,
+            "line_end": 2147,
+            "message": "Address.functionStaticCall(address,bytes) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2145-2147) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "reciprocal",
+            "impact": "Informational",
+            "line": 1143,
+            "line_end": 1147,
+            "message": "FixedPoint.reciprocal(FixedPoint.uq112x112) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1143-1147) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "muli",
+            "impact": "Informational",
+            "line": 1071,
+            "line_end": 1075,
+            "message": "FixedPoint.muli(FixedPoint.uq112x112,int256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1071-1075) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 530,
+            "line_end": 538,
+            "message": "ElasticERC20._burn(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#530-538) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "divuq",
+            "impact": "Informational",
+            "line": 1107,
+            "line_end": 1121,
+            "message": "FixedPoint.divuq(FixedPoint.uq112x112,FixedPoint.uq112x112) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1107-1121) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 935,
+            "line_end": 967,
+            "message": "BitMath.mostSignificantBit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#935-967) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 2155,
+            "line_end": 2161,
+            "message": "Address.functionStaticCall(address,bytes,string) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2155-2161) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "functionCall",
+            "impact": "Informational",
+            "line": 2095,
+            "line_end": 2097,
+            "message": "Address.functionCall(address,bytes) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2095-2097) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 2130,
+            "line_end": 2137,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2130-2137):\n\t- (success,returndata) = target.call{value: value}(data) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2135)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 2155,
+            "line_end": 2161,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2155-2161):\n\t- (success,returndata) = target.staticcall(data) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2159)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 2069,
+            "line_end": 2075,
+            "message": "Low level call in Address.sendValue(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2069-2075):\n\t- (success) = recipient.call{value: amount}() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2073)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 746,
+            "message": "Parameter GElasticTokenManager.setTreasury(GElasticTokenManager.Self,address)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#746) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 606,
+            "message": "Parameter Executor.addTarget(Executor.Target[],address,bytes)._data (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#606) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 618,
+            "message": "Parameter Executor.executeAll(Executor.Target[])._targets (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#618) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1327,
+            "message": "Parameter GPriceOracle.init(GPriceOracle.Self)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1327) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2554,
+            "message": "Parameter GLPMiningToken.depositToken(address,uint256,uint256)._token (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2554) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 474,
+            "message": "Parameter ElasticERC20.increaseAllowance(address,uint256)._spender (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#474) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 611,
+            "message": "Parameter Executor.removeTarget(Executor.Target[],uint256)._index (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 784,
+            "message": "Parameter GElasticTokenManager.rebase(GElasticTokenManager.Self,uint256,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#784) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1355,
+            "message": "Parameter GPriceOracle.changeMinimumInterval(GPriceOracle.Self,uint256)._minimumInterval (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1355) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1611,
+            "message": "Parameter GElasticToken.addPostRebaseTarget(address,bytes)._to (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2554,
+            "message": "Parameter GLPMiningToken.depositToken(address,uint256,uint256)._amount (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2554) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 480,
+            "message": "Parameter ElasticERC20.decreaseAllowance(address,uint256)._subtractedValue (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#480) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1334,
+            "message": "Parameter GPriceOracle.active(GPriceOracle.Self)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1334) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1559,
+            "message": "Parameter GElasticToken.activateOracle(address)._pair (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1559) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2510,
+            "message": "Parameter GLPMiningToken.calcSharesFromTokenAmount(address,uint256)._amount (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2510) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 606,
+            "message": "Parameter Executor.addTarget(Executor.Target[],address,bytes)._to (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#606) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1368,
+            "message": "Parameter GPriceOracle.consultCurrentPrice(GPriceOracle.Self,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1368) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 486,
+            "message": "Parameter ElasticERC20.transfer(address,uint256)._amount (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#486) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2590,
+            "message": "Parameter GLPMiningToken.setTreasury(address)._newTreasury (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2590) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 764,
+            "message": "Parameter GElasticTokenManager.setRebaseTreasuryMintPercent(GElasticTokenManager.Self,uint256)._rebaseTreasuryMintPercent (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#764) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "stkGRO_rAAVE",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2819,
+            "line_end": 2825,
+            "message": "Contract stkGRO_rAAVE (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2819-2825) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2500,
+            "message": "Parameter GLPMiningToken.calcSharesFromCost(uint256)._cost (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2500) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 764,
+            "message": "Parameter GElasticTokenManager.setRebaseTreasuryMintPercent(GElasticTokenManager.Self,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#764) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 784,
+            "message": "Parameter GElasticTokenManager.rebase(GElasticTokenManager.Self,uint256,uint256)._totalSupply (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#784) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2856,
+            "message": "Parameter GTokenRegistry.registerNewToken(address,address)._growthToken (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2856) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 784,
+            "message": "Parameter GElasticTokenManager.rebase(GElasticTokenManager.Self,uint256,uint256)._exchangeRate (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#784) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 752,
+            "message": "Parameter GElasticTokenManager.setRebaseMinimumDeviation(GElasticTokenManager.Self,uint256)._rebaseMinimumDeviation (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#752) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2538,
+            "message": "Parameter GLPMiningToken.deposit(uint256)._cost (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2538) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2756,
+            "message": "Parameter GEtherBridge.deposit(address,uint256)._minShares (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2756) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 770,
+            "message": "Parameter GElasticTokenManager.setRebaseTimingParameters(GElasticTokenManager.Self,uint256,uint256,uint256)._rebaseWindowLength (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#770) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Parameter GElasticTokenManager.init(GElasticTokenManager.Self,address)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#722) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2546,
+            "message": "Parameter GLPMiningToken.withdraw(uint256)._shares (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2546) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1580,
+            "message": "Parameter GElasticToken.setRebaseMinimumDeviation(uint256)._newRebaseMinimumDeviation (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1580) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "$",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2334,
+            "line_end": 2343,
+            "message": "Contract $ (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2334-2343) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 770,
+            "message": "Parameter GElasticTokenManager.setRebaseTimingParameters(GElasticTokenManager.Self,uint256,uint256,uint256)._rebaseMinimumInterval (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#770) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2564,
+            "message": "Parameter GLPMiningToken.withdrawToken(address,uint256,uint256)._minAmount (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2564) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 611,
+            "message": "Parameter Executor.removeTarget(Executor.Target[],uint256)._targets (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1339,
+            "message": "Parameter GPriceOracle.activate(GPriceOracle.Self,address,bool)._use0 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1339) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 480,
+            "message": "Parameter ElasticERC20.decreaseAllowance(address,uint256)._spender (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#480) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 1182,
+            "message": "Function IUniswapV2Pair.PERMIT_TYPEHASH() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 492,
+            "message": "Parameter ElasticERC20.transferFrom(address,address,uint256)._recipient (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#492) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1601,
+            "message": "Parameter GElasticToken.setRebaseTimingParameters(uint256,uint256,uint256)._newRebaseWindowOffset (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1601) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1601,
+            "message": "Parameter GElasticToken.setRebaseTimingParameters(uint256,uint256,uint256)._newRebaseMinimumInterval (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1601) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 770,
+            "message": "Parameter GElasticTokenManager.setRebaseTimingParameters(GElasticTokenManager.Self,uint256,uint256,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#770) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1026,
+            "line_end": 1028,
+            "message": "Struct FixedPoint.uq112x112 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1026-1028) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 1199,
+            "message": "Function IUniswapV2Pair.MINIMUM_LIQUIDITY() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1199) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1621,
+            "message": "Parameter GElasticToken.addBalancerPostRebaseTarget(address)._pool (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1621) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2516,
+            "message": "Parameter GLPMiningToken.calcTokenAmountFromShares(address,uint256)._token (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2516) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1339,
+            "message": "Parameter GPriceOracle.activate(GPriceOracle.Self,address,bool)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1339) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 486,
+            "message": "Parameter ElasticERC20.transfer(address,uint256)._recipient (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#486) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1361,
+            "message": "Parameter GPriceOracle.consultLastPrice(GPriceOracle.Self,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1361) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 463,
+            "message": "Parameter ElasticERC20.allowance(address,address)._spender (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#463) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2598,
+            "message": "Parameter GLPMiningToken.setPerformanceFee(uint256)._newPerformanceFee (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2598) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1355,
+            "message": "Parameter GPriceOracle.changeMinimumInterval(GPriceOracle.Self,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1355) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 468,
+            "message": "Parameter ElasticERC20.approve(address,uint256)._spender (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#468) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1376,
+            "message": "Parameter GPriceOracle.updatePrice(GPriceOracle.Self)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1376) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 1181,
+            "message": "Function IUniswapV2Pair.DOMAIN_SEPARATOR() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1181) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 468,
+            "message": "Parameter ElasticERC20.approve(address,uint256)._amount (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#468) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2564,
+            "message": "Parameter GLPMiningToken.withdrawToken(address,uint256,uint256)._token (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2564) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1339,
+            "message": "Parameter GPriceOracle.activate(GPriceOracle.Self,address,bool)._pair (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1339) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 739,
+            "message": "Parameter GElasticTokenManager.activateRebase(GElasticTokenManager.Self)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#739) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 492,
+            "message": "Parameter ElasticERC20.transferFrom(address,address,uint256)._sender (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#492) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1368,
+            "message": "Parameter GPriceOracle.consultCurrentPrice(GPriceOracle.Self,uint256)._amountIn (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1368) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 492,
+            "message": "Parameter ElasticERC20.transferFrom(address,address,uint256)._amount (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#492) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2768,
+            "message": "Parameter GEtherBridge.withdraw(address,uint256,uint256)._shares (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2768) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 746,
+            "message": "Parameter GElasticTokenManager.setTreasury(GElasticTokenManager.Self,address)._treasury (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#746) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1594,
+            "message": "Parameter GElasticToken.setRebaseTreasuryMintPercent(uint256)._newRebaseTreasuryMintPercent (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1594) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "stkETH_rAAVE",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2831,
+            "line_end": 2837,
+            "message": "Contract stkETH_rAAVE (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2831-2837) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1601,
+            "message": "Parameter GElasticToken.setRebaseTimingParameters(uint256,uint256,uint256)._newRebaseWindowLength (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1601) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 752,
+            "message": "Parameter GElasticTokenManager.setRebaseMinimumDeviation(GElasticTokenManager.Self,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#752) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2856,
+            "message": "Parameter GTokenRegistry.registerNewToken(address,address)._oldGrowthToken (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2856) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 474,
+            "message": "Parameter ElasticERC20.increaseAllowance(address,uint256)._addedValue (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#474) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1587,
+            "message": "Parameter GElasticToken.setRebaseDampeningFactor(uint256)._newRebaseDampeningFactor (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1587) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2340,
+            "message": "Constant $.UniswapV2_FACTORY (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2340) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2505,
+            "message": "Parameter GLPMiningToken.calcCostFromShares(uint256)._shares (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2505) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "rAAVE",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2795,
+            "line_end": 2801,
+            "message": "Contract rAAVE (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2795-2801) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2554,
+            "message": "Parameter GLPMiningToken.depositToken(address,uint256,uint256)._minShares (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2554) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 779,
+            "message": "Parameter GElasticTokenManager.rebaseAvailable(GElasticTokenManager.Self)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#779) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1611,
+            "message": "Parameter GElasticToken.addPostRebaseTarget(address,bytes)._data (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1611) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 458,
+            "message": "Parameter ElasticERC20.balanceOf(address)._account (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#458) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 758,
+            "message": "Parameter GElasticTokenManager.setRebaseDampeningFactor(GElasticTokenManager.Self,uint256)._self (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#758) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "stkAAVE_rAAVE",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2807,
+            "line_end": 2813,
+            "message": "Contract stkAAVE_rAAVE (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2807-2813) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "WETH",
+            "impact": "Informational",
+            "line": 1285,
+            "message": "Function Router01.WETH() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1285) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2342,
+            "message": "Constant $.UniswapV2_ROUTER02 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2342) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2768,
+            "message": "Parameter GEtherBridge.withdraw(address,uint256,uint256)._stakeToken (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2768) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1616,
+            "message": "Parameter GElasticToken.removePostRebaseTarget(uint256)._index (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1616) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1626,
+            "message": "Parameter GElasticToken.addUniswapV2PostRebaseTarget(address)._pair (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1626) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2606,
+            "message": "Parameter GLPMiningToken.setRewardRatePerWeek(uint256)._newRewardRatePerWeek (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2606) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 553,
+            "message": "Parameter ElasticERC20.unscaledBalanceOf(address)._account (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#553) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 606,
+            "message": "Parameter Executor.addTarget(Executor.Target[],address,bytes)._targets (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#606) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2564,
+            "message": "Parameter GLPMiningToken.withdrawToken(address,uint256,uint256)._shares (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2564) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2510,
+            "message": "Parameter GLPMiningToken.calcSharesFromTokenAmount(address,uint256)._token (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2510) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2516,
+            "message": "Parameter GLPMiningToken.calcTokenAmountFromShares(address,uint256)._shares (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2516) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1032,
+            "line_end": 1034,
+            "message": "Struct FixedPoint.uq144x112 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1032-1034) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2756,
+            "message": "Parameter GEtherBridge.deposit(address,uint256)._stakeToken (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2756) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1573,
+            "message": "Parameter GElasticToken.setTreasury(address)._newTreasury (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1573) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1361,
+            "message": "Parameter GPriceOracle.consultLastPrice(GPriceOracle.Self,uint256)._amountIn (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1361) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 770,
+            "message": "Parameter GElasticTokenManager.setRebaseTimingParameters(GElasticTokenManager.Self,uint256,uint256,uint256)._rebaseWindowOffset (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#770) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2573,
+            "message": "Parameter GLPMiningToken.gulpRewards(uint256)._minCost (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2573) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 2768,
+            "message": "Parameter GEtherBridge.withdraw(address,uint256,uint256)._minAmount (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2768) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 463,
+            "message": "Parameter ElasticERC20.allowance(address,address)._owner (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#463) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 758,
+            "message": "Parameter GElasticTokenManager.setRebaseDampeningFactor(GElasticTokenManager.Self,uint256)._rebaseDampeningFactor (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#758) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Parameter GElasticTokenManager.init(GElasticTokenManager.Self,address)._treasury (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#722) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 24,
+            "message": "Redundant expression \"this (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#24)\" inContext (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#18-27)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1390,
+            "message": "Variable GPriceOracle._estimatePrice(GPriceOracle.Self,bool)._price0Cumulative (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1390) is too similar to GPriceOracle._estimatePrice(GPriceOracle.Self,bool)._price1Cumulative (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1391)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1287,
+            "message": "Variable Router01.removeLiquidity(address,address,uint256,uint256,uint256,address,uint256)._amountAMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1287) is too similar to Router01.removeLiquidity(address,address,uint256,uint256,uint256,address,uint256)._amountBMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1287)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1286,
+            "message": "Variable Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)._amountAMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1286) is too similar to Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)._amountBMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1286)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1276,
+            "message": "Variable Pair.price0CumulativeLast()._price0CumulativeLast (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1276) is too similar to Pair.price1CumulativeLast()._price1CumulativeLast (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1277)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 568,
+            "message": "Variable ElasticERC20._calcMaxScalingFactor(uint256)._unscaledTotalSupply (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#568) is too similar to ElasticERC20.unscaledTotalSupply_ (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#423)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 573,
+            "message": "Variable ElasticERC20._scale(uint256,uint256)._scalingFactor (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#573) is too similar to ElasticERC20.scalingFactor_ (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#429)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1235,
+            "message": "Variable UniswapV2OracleLibrary.currentCumulativePrices(address).price0Cumulative (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1235) is too similar to UniswapV2OracleLibrary.currentCumulativePrices(address).price1Cumulative (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1235)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1287,
+            "message": "Variable Router01.removeLiquidity(address,address,uint256,uint256,uint256,address,uint256)._amountAMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1287) is too similar to Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)._amountBMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1286)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 558,
+            "message": "Variable ElasticERC20.scalingFactor()._scalingFactor (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#558) is too similar to ElasticERC20.scalingFactor_ (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#429)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1286,
+            "message": "Variable Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)._amountAMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1286) is too similar to Router01.removeLiquidity(address,address,uint256,uint256,uint256,address,uint256)._amountBMin (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1287)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 583,
+            "message": "Variable ElasticERC20._setScalingFactor(uint256)._scalingFactor (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#583) is too similar to ElasticERC20.scalingFactor_ (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#429)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 578,
+            "message": "Variable ElasticERC20._unscale(uint256,uint256)._scalingFactor (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#578) is too similar to ElasticERC20.scalingFactor_ (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#429)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "impact": "Informational",
+            "line": 1286,
+            "message": "Variable Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)._amountADesired (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1286) is too similar to Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)._amountBDesired (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1286)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 935,
+            "line_end": 967,
+            "message": "BitMath.mostSignificantBit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#935-967) uses literals with too many digits:\n\t- x >= 0x100000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#946)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 883,
+            "line_end": 925,
+            "message": "Babylonian.sqrt(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#883-925) uses literals with too many digits:\n\t- xx >= 0x100000000000000000000000000000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#889)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 1023,
+            "line_end": 1160,
+            "message": "FixedPoint.slitherConstructorConstantVariables() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1023-1160) uses literals with too many digits:\n\t- Q224 = 0x100000000000000000000000000000000000000000000000000000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1038)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 1023,
+            "line_end": 1160,
+            "message": "FixedPoint.slitherConstructorConstantVariables() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1023-1160) uses literals with too many digits:\n\t- Q112 = 0x10000000000000000000000000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1037)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 935,
+            "line_end": 967,
+            "message": "BitMath.mostSignificantBit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#935-967) uses literals with too many digits:\n\t- x >= 0x100000000000000000000000000000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#938)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 935,
+            "line_end": 967,
+            "message": "BitMath.mostSignificantBit(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#935-967) uses literals with too many digits:\n\t- x >= 0x10000000000000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#942)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 883,
+            "line_end": 925,
+            "message": "Babylonian.sqrt(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#883-925) uses literals with too many digits:\n\t- xx >= 0x10000000000000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#893)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 883,
+            "line_end": 925,
+            "message": "Babylonian.sqrt(uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#883-925) uses literals with too many digits:\n\t- xx >= 0x100000000 (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#897)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "approve",
+            "impact": "Optimization",
+            "line": 1800,
+            "line_end": 1803,
+            "message": "approve(address,uint256) should be declared external:\n\t- ERC20.approve(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1800-1803)\n\t- ElasticERC20.approve(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#468-472)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 474,
+            "line_end": 478,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ElasticERC20.increaseAllowance(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#474-478)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "balanceOf",
+            "impact": "Optimization",
+            "line": 1769,
+            "line_end": 1771,
+            "message": "balanceOf(address) should be declared external:\n\t- ERC20.balanceOf(address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1769-1771)\n\t- ElasticERC20.balanceOf(address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#458-461)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "registerNewToken",
+            "impact": "Optimization",
+            "line": 2856,
+            "line_end": 2859,
+            "message": "registerNewToken(address,address) should be declared external:\n\t- GTokenRegistry.registerNewToken(address,address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#2856-2859)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "unscaledTotalSupply",
+            "impact": "Optimization",
+            "line": 548,
+            "line_end": 551,
+            "message": "unscaledTotalSupply() should be declared external:\n\t- ElasticERC20.unscaledTotalSupply() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#548-551)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "renounceOwnership",
+            "impact": "Optimization",
+            "line": 82,
+            "line_end": 85,
+            "message": "renounceOwnership() should be declared external:\n\t- Ownable.renounceOwnership() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#82-85)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 480,
+            "line_end": 484,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ElasticERC20.decreaseAllowance(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#480-484)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "active",
+            "impact": "Optimization",
+            "line": 1334,
+            "line_end": 1337,
+            "message": "active(GPriceOracle.Self) should be declared external:\n\t- GPriceOracle.active(GPriceOracle.Self) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1334-1337)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "consultLastPrice",
+            "impact": "Optimization",
+            "line": 1361,
+            "line_end": 1366,
+            "message": "consultLastPrice(GPriceOracle.Self,uint256) should be declared external:\n\t- GPriceOracle.consultLastPrice(GPriceOracle.Self,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1361-1366)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "decimals",
+            "impact": "Optimization",
+            "line": 1755,
+            "line_end": 1757,
+            "message": "decimals() should be declared external:\n\t- ERC20.decimals() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1755-1757)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "decreaseAllowance",
+            "impact": "Optimization",
+            "line": 1855,
+            "line_end": 1858,
+            "message": "decreaseAllowance(address,uint256) should be declared external:\n\t- ERC20.decreaseAllowance(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1855-1858)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 438,
+            "line_end": 441,
+            "message": "name() should be declared external:\n\t- ElasticERC20.name() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#438-441)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 1738,
+            "line_end": 1740,
+            "message": "symbol() should be declared external:\n\t- ERC20.symbol() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1738-1740)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "transferFrom",
+            "impact": "Optimization",
+            "line": 1818,
+            "line_end": 1822,
+            "message": "transferFrom(address,address,uint256) should be declared external:\n\t- ERC20.transferFrom(address,address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1818-1822)\n\t- ElasticERC20.transferFrom(address,address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#492-497)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "owner",
+            "impact": "Optimization",
+            "line": 63,
+            "line_end": 65,
+            "message": "owner() should be declared external:\n\t- Ownable.owner() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#63-65)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "increaseAllowance",
+            "impact": "Optimization",
+            "line": 1836,
+            "line_end": 1839,
+            "message": "increaseAllowance(address,uint256) should be declared external:\n\t- ERC20.increaseAllowance(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1836-1839)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 1781,
+            "line_end": 1784,
+            "message": "transfer(address,uint256) should be declared external:\n\t- ERC20.transfer(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1781-1784)\n\t- ElasticERC20.transfer(address,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#486-490)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "allowance",
+            "impact": "Optimization",
+            "line": 1789,
+            "line_end": 1791,
+            "message": "allowance(address,address) should be declared external:\n\t- ERC20.allowance(address,address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1789-1791)\n\t- ElasticERC20.allowance(address,address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#463-466)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "unscaledBalanceOf",
+            "impact": "Optimization",
+            "line": 553,
+            "line_end": 556,
+            "message": "unscaledBalanceOf(address) should be declared external:\n\t- ElasticERC20.unscaledBalanceOf(address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#553-556)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "transferOwnership",
+            "impact": "Optimization",
+            "line": 91,
+            "line_end": 95,
+            "message": "transferOwnership(address) should be declared external:\n\t- Ownable.transferOwnership(address) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#91-95)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "symbol",
+            "impact": "Optimization",
+            "line": 443,
+            "line_end": 446,
+            "message": "symbol() should be declared external:\n\t- ElasticERC20.symbol() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#443-446)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "name",
+            "impact": "Optimization",
+            "line": 1730,
+            "line_end": 1732,
+            "message": "name() should be declared external:\n\t- ERC20.name() (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1730-1732)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "rebaseAvailable",
+            "impact": "Optimization",
+            "line": 779,
+            "line_end": 782,
+            "message": "rebaseAvailable(GElasticTokenManager.Self) should be declared external:\n\t- GElasticTokenManager.rebaseAvailable(GElasticTokenManager.Self) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#779-782)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol",
+            "function": "consultCurrentPrice",
+            "impact": "Optimization",
+            "line": 1368,
+            "line_end": 1374,
+            "message": "consultCurrentPrice(GPriceOracle.Self,uint256) should be declared external:\n\t- GPriceOracle.consultCurrentPrice(GPriceOracle.Self,uint256) (../..0x0efb384d843a191c02f5c4470d0f9ec0122a1c0b.sol#1368-1374)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

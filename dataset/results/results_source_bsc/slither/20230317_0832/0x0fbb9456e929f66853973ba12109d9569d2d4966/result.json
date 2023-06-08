@@ -1,0 +1,245 @@
+{
+    "errors": [
+        "EXIT_CODE_25"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "_update",
+            "impact": "High",
+            "line": 345,
+            "line_end": 358,
+            "message": "UraniumPair._update(uint256,uint256,uint112,uint112) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#345-358) uses a weak PRNG: \"blockTimestamp = uint32(block.timestamp % 2 ** 32) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#347)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "mint",
+            "impact": "Medium",
+            "line": 382,
+            "line_end": 403,
+            "message": "UraniumPair.mint(address) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#382-403) uses a dangerous strict equality:\n\t- _totalSupply == 0 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#391)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "_safeTransfer",
+            "impact": "Medium",
+            "line": 316,
+            "line_end": 319,
+            "message": "UraniumPair._safeTransfer(address,address,uint256) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#316-319) uses a dangerous strict equality:\n\t- require(bool,string)(success && (data.length == 0 || abi.decode(data,(bool))),UraniumSwap: TRANSFER_FAILED) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#318)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 431,
+            "line_end": 459,
+            "message": "Reentrancy in UraniumPair.swap(uint256,uint256,address,bytes) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#431-459):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#442)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#443)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- IUraniumCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#444)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#457)\n\t\t- blockTimestampLast = blockTimestamp (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#356)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#457)\n\t\t- reserve0 = uint112(balance0) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#354)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#457)\n\t\t- reserve1 = uint112(balance1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#355)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 406,
+            "line_end": 428,
+            "message": "Reentrancy in UraniumPair.burn(address) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#406-428):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#420)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- _safeTransfer(_token1,to,amount1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#421)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#425)\n\t\t- blockTimestampLast = blockTimestamp (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#356)\n\t- kLast = uint256(reserve0).mul(reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#426)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#425)\n\t\t- reserve0 = uint112(balance0) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#354)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#425)\n\t\t- reserve1 = uint112(balance1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#355)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "impact": "Low",
+            "line": 338,
+            "message": "UraniumPair.initialize(address,address)._token1 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#338) lacks a zero-check on :\n\t\t- token1 = _token1 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#341)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "impact": "Low",
+            "line": 338,
+            "message": "UraniumPair.initialize(address,address)._token0 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#338) lacks a zero-check on :\n\t\t- token0 = _token0 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#340)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 431,
+            "line_end": 459,
+            "message": "Reentrancy in UraniumPair.swap(uint256,uint256,address,bytes) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#431-459):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#442)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#443)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- IUraniumCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#444)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#457)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#351)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#457)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#352)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 406,
+            "line_end": 428,
+            "message": "Reentrancy in UraniumPair.burn(address) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#406-428):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#420)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- _safeTransfer(_token1,to,amount1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#421)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\tState variables written after the call(s):\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#425)\n\t\t- price0CumulativeLast += uint256(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#351)\n\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#425)\n\t\t- price1CumulativeLast += uint256(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#352)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 431,
+            "line_end": 459,
+            "message": "Reentrancy in UraniumPair.swap(uint256,uint256,address,bytes) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#431-459):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0Out) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#442)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- _safeTransfer(_token1,to,amount1Out) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#443)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- IUraniumCallee(to).pancakeCall(msg.sender,amount0Out,amount1Out,data) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#444)\n\tEvent emitted after the call(s):\n\t- Swap(msg.sender,amount0In,amount1In,amount0Out,amount1Out,to) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#458)\n\t- Sync(reserve0,reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#357)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#457)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 406,
+            "line_end": 428,
+            "message": "Reentrancy in UraniumPair.burn(address) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#406-428):\n\tExternal calls:\n\t- _safeTransfer(_token0,to,amount0) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#420)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\t- _safeTransfer(_token1,to,amount1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#421)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,amount0,amount1,to) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#427)\n\t- Sync(reserve0,reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#357)\n\t\t- _update(balance0,balance1,_reserve0,_reserve1) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#425)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 262,
+            "line_end": 274,
+            "message": "UraniumERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#262-274) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,UraniumSwap: EXPIRED) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#263)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "_update",
+            "impact": "Low",
+            "line": 345,
+            "line_end": 358,
+            "message": "UraniumPair._update(uint256,uint256,uint112,uint112) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#345-358) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#349)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 205,
+            "line_end": 219,
+            "message": "UraniumERC20.constructor() (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#205-219) uses assembly\n\t- INLINE ASM (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#207-209)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "_safeTransfer",
+            "impact": "Informational",
+            "line": 316,
+            "line_end": 319,
+            "message": "Low level call in UraniumPair._safeTransfer(address,address,uint256) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#316-319):\n\t- (success,data) = token.call(abi.encodeWithSelector(SELECTOR,to,value)) (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#317)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 36,
+            "message": "Function IUraniumERC20.PERMIT_TYPEHASH() (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#36) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 145,
+            "message": "Function IUraniumPair.PERMIT_TYPEHASH() (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#145) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "impact": "Informational",
+            "line": 197,
+            "message": "Variable UraniumERC20.DOMAIN_SEPARATOR (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#197) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 35,
+            "message": "Function IUraniumERC20.DOMAIN_SEPARATOR() (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#35) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 144,
+            "message": "Function IUraniumPair.DOMAIN_SEPARATOR() (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "impact": "Informational",
+            "line": 338,
+            "message": "Parameter UraniumPair.initialize(address,address)._token0 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#338) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "impact": "Informational",
+            "line": 338,
+            "message": "Parameter UraniumPair.initialize(address,address)._token1 (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#338) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 162,
+            "message": "Function IUraniumPair.MINIMUM_LIQUIDITY() (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#162) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "impact": "Informational",
+            "line": 298,
+            "message": "Variable UraniumPair.price0CumulativeLast (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#298) is too similar to UraniumPair.price1CumulativeLast (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#299)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/bsc/sol/0x0fbb9456e929f66853973ba12109d9569d2d4966.sol",
+            "impact": "Informational",
+            "line": 452,
+            "message": "Variable UraniumPair.swap(uint256,uint256,address,bytes).balance0Adjusted (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#452) is too similar to UraniumPair.swap(uint256,uint256,address,bytes).balance1Adjusted (../..0x0fbb9456e929f66853973ba12109d9569d2d4966.sol#453)\n",
+            "name": "similar-names"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}

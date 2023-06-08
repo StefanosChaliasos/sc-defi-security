@@ -1,0 +1,462 @@
+{
+    "errors": [
+        "EXIT_CODE_49"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapETHForExactTokens",
+            "impact": "High",
+            "line": 749,
+            "line_end": 765,
+            "message": "Reentrancy in UniswapV2Router02.swapETHForExactTokens(uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#749-765):\n\tExternal calls:\n\t- _transferInETH(UniswapV2Library.pairFor(factory,path[0],path[1]),amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#760)\n\t\t- IWETH(WETH).deposit{value: amount}() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#478)\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#762)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- IUniswapV2Pair(pair).swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#676-678)\n\tExternal calls sending eth:\n\t- _transferInETH(UniswapV2Library.pairFor(factory,path[0],path[1]),amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#760)\n\t\t- IWETH(WETH).deposit{value: amount}() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#478)\n\tState variables written after the call(s):\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#762)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOut) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#674)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapExactETHForTokensSupportingFeeOnTransferTokens",
+            "impact": "High",
+            "line": 807,
+            "line_end": 829,
+            "message": "Reentrancy in UniswapV2Router02.swapExactETHForTokensSupportingFeeOnTransferTokens(uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#807-829):\n\tExternal calls:\n\t- _transferInETH(UniswapV2Library.pairFor(factory,path[0],path[1]),amountIn) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#821)\n\t\t- IWETH(WETH).deposit{value: amount}() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#478)\n\t- _swapSupportingFeeOnTransferTokens(path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#824)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- pair.swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#789)\n\tExternal calls sending eth:\n\t- _transferInETH(UniswapV2Library.pairFor(factory,path[0],path[1]),amountIn) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#821)\n\t\t- IWETH(WETH).deposit{value: amount}() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#478)\n\tState variables written after the call(s):\n\t- _swapSupportingFeeOnTransferTokens(path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#824)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOutput) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#787)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapExactETHForTokens",
+            "impact": "High",
+            "line": 706,
+            "line_end": 720,
+            "message": "Reentrancy in UniswapV2Router02.swapExactETHForTokens(uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#706-720):\n\tExternal calls:\n\t- _transferInETH(UniswapV2Library.pairFor(factory,path[0],path[1]),amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#717)\n\t\t- IWETH(WETH).deposit{value: amount}() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#478)\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#719)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- IUniswapV2Pair(pair).swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#676-678)\n\tExternal calls sending eth:\n\t- _transferInETH(UniswapV2Library.pairFor(factory,path[0],path[1]),amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#717)\n\t\t- IWETH(WETH).deposit{value: amount}() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#478)\n\tState variables written after the call(s):\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#719)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOut) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#674)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "removeLiquidity",
+            "impact": "High",
+            "line": 551,
+            "line_end": 569,
+            "message": "UniswapV2Router02.removeLiquidity(address,address,uint256,uint256,uint256,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#551-569) ignores return value by IUniswapV2Pair(pair).transferFrom(msg.sender,pair,liquidity) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#561)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapExactTokensForETHSupportingFeeOnTransferTokens",
+            "impact": "Medium",
+            "line": 830,
+            "line_end": 851,
+            "message": "Reentrancy in UniswapV2Router02.swapExactTokensForETHSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#830-851):\n\tExternal calls:\n\t- _transferIn(msg.sender,pair,path[0],amountIn) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#844)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\t- _swapSupportingFeeOnTransferTokens(path,address(this)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#846)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- pair.swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#789)\n\tState variables written after the call(s):\n\t- _swapSupportingFeeOnTransferTokens(path,address(this)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#846)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOutput) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#787)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "_swap",
+            "impact": "Medium",
+            "line": 662,
+            "line_end": 680,
+            "message": "Reentrancy in UniswapV2Router02._swap(uint256[],address[],address) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#662-680):\n\tExternal calls:\n\t- _transferOut(pair,output,amountOut,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#671)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\tState variables written after the call(s):\n\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOut) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#674)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapTokensForExactTokens",
+            "impact": "Medium",
+            "line": 694,
+            "line_end": 705,
+            "message": "Reentrancy in UniswapV2Router02.swapTokensForExactTokens(uint256,uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#694-705):\n\tExternal calls:\n\t- _transferIn(msg.sender,UniswapV2Library.pairFor(factory,path[0],path[1]),path[0],amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#703)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#704)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- IUniswapV2Pair(pair).swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#676-678)\n\tState variables written after the call(s):\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#704)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOut) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#674)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapExactTokensForTokensSupportingFeeOnTransferTokens",
+            "impact": "Medium",
+            "line": 792,
+            "line_end": 806,
+            "message": "Reentrancy in UniswapV2Router02.swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#792-806):\n\tExternal calls:\n\t- _transferIn(msg.sender,UniswapV2Library.pairFor(factory,path[0],path[1]),path[0],amountIn) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#799)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\t- _swapSupportingFeeOnTransferTokens(path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#801)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- pair.swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#789)\n\tState variables written after the call(s):\n\t- _swapSupportingFeeOnTransferTokens(path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#801)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOutput) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#787)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "addLiquidity",
+            "impact": "Medium",
+            "line": 510,
+            "line_end": 525,
+            "message": "Reentrancy in UniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#510-525):\n\tExternal calls:\n\t- (amountA,amountB) = _addLiquidity(tokenA,tokenB,amountADesired,amountBDesired,amountAMin,amountBMin) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#520)\n\t\t- IUniswapV2Factory(factory).createPair(tokenA,tokenB) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#492)\n\t- _transferIn(msg.sender,pair,tokenA,amountA) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#522)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\t- _transferIn(msg.sender,pair,tokenB,amountB) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#523)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\tState variables written after the call(s):\n\t- _transferIn(msg.sender,pair,tokenB,amountB) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#523)\n\t\t- _pools[pair][token] = _pools[pair][token].add(IERC20(token).balanceOf(address(this))).sub(beforeBalance) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#474)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapExactTokensForTokens",
+            "impact": "Medium",
+            "line": 682,
+            "line_end": 693,
+            "message": "Reentrancy in UniswapV2Router02.swapExactTokensForTokens(uint256,uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#682-693):\n\tExternal calls:\n\t- _transferIn(msg.sender,UniswapV2Library.pairFor(factory,path[0],path[1]),path[0],amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#691)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#692)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- IUniswapV2Pair(pair).swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#676-678)\n\tState variables written after the call(s):\n\t- _swap(amounts,path,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#692)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOut) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#674)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "removeLiquidity",
+            "impact": "Medium",
+            "line": 551,
+            "line_end": 569,
+            "message": "Reentrancy in UniswapV2Router02.removeLiquidity(address,address,uint256,uint256,uint256,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#551-569):\n\tExternal calls:\n\t- IUniswapV2Pair(pair).transferFrom(msg.sender,pair,liquidity) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#561)\n\t- (amount0,amount1) = IUniswapV2Pair(pair).burn(to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#562)\n\t- _transferOut(pair,tokenA,amountA,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#565)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t- _transferOut(pair,tokenB,amountB,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#566)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\tState variables written after the call(s):\n\t- _transferOut(pair,tokenB,amountB,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#566)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapExactTokensForETH",
+            "impact": "Medium",
+            "line": 735,
+            "line_end": 748,
+            "message": "Reentrancy in UniswapV2Router02.swapExactTokensForETH(uint256,uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#735-748):\n\tExternal calls:\n\t- _transferIn(msg.sender,UniswapV2Library.pairFor(factory,path[0],path[1]),path[0],amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#745)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\t- _swap(amounts,path,address(this)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#746)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- IUniswapV2Pair(pair).swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#676-678)\n\tState variables written after the call(s):\n\t- _swap(amounts,path,address(this)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#746)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOut) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#674)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "_swapSupportingFeeOnTransferTokens",
+            "impact": "Medium",
+            "line": 769,
+            "line_end": 791,
+            "message": "Reentrancy in UniswapV2Router02._swapSupportingFeeOnTransferTokens(address[],address) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#769-791):\n\tExternal calls:\n\t- _transferOut(address(pair),output,amountOutput,to) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#784)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\tState variables written after the call(s):\n\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOutput) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#787)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "swapTokensForExactETH",
+            "impact": "Medium",
+            "line": 721,
+            "line_end": 734,
+            "message": "Reentrancy in UniswapV2Router02.swapTokensForExactETH(uint256,uint256,address[],address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#721-734):\n\tExternal calls:\n\t- _transferIn(msg.sender,UniswapV2Library.pairFor(factory,path[0],path[1]),path[0],amounts[0]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#731)\n\t\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n\t- _swap(amounts,path,address(this)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#732)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n\t\t- ISashimiInvestment(vault).withdrawWithReBalance(token,amount.sub(balance)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#449)\n\t\t- TransferHelper.safeTransfer(token,to,amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#451)\n\t\t- IUniswapV2Pair(pair).swap(amount0Out,amount1Out,to,new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#676-678)\n\tState variables written after the call(s):\n\t- _swap(amounts,path,address(this)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#732)\n\t\t- _pools[pair][token] = _pools[pair][token].sub(amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#445)\n\t\t- _pools[nextPair][output] = _pools[nextPair][output].add(amountOut) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#674)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Medium",
+            "line": 663,
+            "message": "UniswapV2Router02._swap(uint256[],address[],address).i (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#663) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Medium",
+            "line": 350,
+            "message": "UniswapV2Library.getAmountsOut(address,uint256,address[]).i (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#350) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Medium",
+            "line": 770,
+            "message": "UniswapV2Router02._swapSupportingFeeOnTransferTokens(address[],address).i (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#770) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "_addLiquidity",
+            "impact": "Medium",
+            "line": 482,
+            "line_end": 509,
+            "message": "UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#482-509) ignores return value by IUniswapV2Factory(factory).createPair(tokenA,tokenB) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#492)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Low",
+            "line": 864,
+            "message": "UniswapV2Router02.setVault(address).vaultAddress (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#864) lacks a zero-check on :\n\t\t- vault = vaultAddress (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#870)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Low",
+            "line": 854,
+            "message": "UniswapV2Router02.changeOwner(address)._owner (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#854) lacks a zero-check on :\n\t\t- owner = _owner (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#860)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Low",
+            "line": 433,
+            "message": "UniswapV2Router02.constructor(address,address)._factory (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#433) lacks a zero-check on :\n\t\t- factory = _factory (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#434)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Low",
+            "line": 433,
+            "message": "UniswapV2Router02.constructor(address,address)._WETH (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#433) lacks a zero-check on :\n\t\t- WETH = _WETH (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#436)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "_transferIn",
+            "impact": "Low",
+            "line": 471,
+            "line_end": 475,
+            "message": "Reentrancy in UniswapV2Router02._transferIn(address,address,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#471-475):\n\tExternal calls:\n\t- TransferHelper.safeTransferFrom(token,from,address(this),amount) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#473)\n\tState variables written after the call(s):\n\t- _pools[pair][token] = _pools[pair][token].add(IERC20(token).balanceOf(address(this))).sub(beforeBalance) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#474)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 29,
+            "line_end": 33,
+            "message": "TransferHelper.safeApprove(address,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#29-33) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 29,
+            "line_end": 33,
+            "message": "Low level call in TransferHelper.safeApprove(address,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#29-33):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#31)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 35,
+            "line_end": 39,
+            "message": "Low level call in TransferHelper.safeTransfer(address,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#35-39):\n\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#37)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 47,
+            "line_end": 50,
+            "message": "Low level call in TransferHelper.safeTransferETH(address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#47-50):\n\t- (success) = to.call{value: value}(new bytes(0)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#48)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 41,
+            "line_end": 45,
+            "message": "Low level call in TransferHelper.safeTransferFrom(address,address,address,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#41-45):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#43)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 230,
+            "message": "Function IUniswapV2Pair.PERMIT_TYPEHASH() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#230) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 247,
+            "message": "Function IUniswapV2Pair.MINIMUM_LIQUIDITY() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#247) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 229,
+            "message": "Function IUniswapV2Pair.DOMAIN_SEPARATOR() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#229) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 423,
+            "message": "Variable UniswapV2Router02.WETH (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#423) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 854,
+            "message": "Parameter UniswapV2Router02.changeOwner(address)._owner (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#854) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "WETH",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Function IUniswapV2Router01.WETH() (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 513,
+            "message": "Variable UniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#513) is too similar to UniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#514)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 485,
+            "message": "Variable UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#485) is too similar to IUniswapV2Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#65)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 64,
+            "message": "Variable IUniswapV2Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#64) is too similar to UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#486)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 513,
+            "message": "Variable UniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#513) is too similar to IUniswapV2Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#65)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 503,
+            "message": "Variable UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountAOptimal (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#503) is too similar to UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountBOptimal (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#498)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 485,
+            "message": "Variable UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#485) is too similar to UniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#514)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 64,
+            "message": "Variable IUniswapV2Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#64) is too similar to IUniswapV2Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#65)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 485,
+            "message": "Variable UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#485) is too similar to UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#486)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 513,
+            "message": "Variable UniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#513) is too similar to UniswapV2Router02._addLiquidity(address,address,uint256,uint256,uint256,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#486)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "impact": "Informational",
+            "line": 64,
+            "message": "Variable IUniswapV2Router01.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountADesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#64) is too similar to UniswapV2Router02.addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256).amountBDesired (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#514)\n",
+            "name": "similar-names"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "getAmountIn",
+            "impact": "Optimization",
+            "line": 906,
+            "line_end": 914,
+            "message": "getAmountIn(uint256,uint256,uint256) should be declared external:\n\t- UniswapV2Router02.getAmountIn(uint256,uint256,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#906-914)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "getAmountsOut",
+            "impact": "Optimization",
+            "line": 916,
+            "line_end": 924,
+            "message": "getAmountsOut(uint256,address[]) should be declared external:\n\t- UniswapV2Router02.getAmountsOut(uint256,address[]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#916-924)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "quote",
+            "impact": "Optimization",
+            "line": 892,
+            "line_end": 894,
+            "message": "quote(uint256,uint256,uint256) should be declared external:\n\t- UniswapV2Router02.quote(uint256,uint256,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#892-894)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "getAmountsIn",
+            "impact": "Optimization",
+            "line": 926,
+            "line_end": 934,
+            "message": "getAmountsIn(uint256,address[]) should be declared external:\n\t- UniswapV2Router02.getAmountsIn(uint256,address[]) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#926-934)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "filename": "../retrospective-sc-analysis/data/sources/eth/sol/0xe4fe6a45f354e845f954cddee6084603cedb9410.sol",
+            "function": "getAmountOut",
+            "impact": "Optimization",
+            "line": 896,
+            "line_end": 904,
+            "message": "getAmountOut(uint256,uint256,uint256) should be declared external:\n\t- UniswapV2Router02.getAmountOut(uint256,uint256,uint256) (../..0xe4fe6a45f354e845f954cddee6084603cedb9410.sol#896-904)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither",
+        "mode": "solidity",
+        "version": "2022/11/14"
+    }
+}
