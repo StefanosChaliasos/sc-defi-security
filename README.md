@@ -17,6 +17,9 @@ The `dataset` directory contains all the raw data used to perform the empirical 
 ### Analysis
 
 The `security-tools-analysis` directory comprises scripts that can be used to process the results of the tools on the dataset. The analysis relies on the `dataset/database/retro.db` file.
+
+### Survey
+
 The `survey` directory contains the questionnaires sent to developers and auditors, the raw data from the surveys, and scripts to analyze the data.
 
 ## Contributing
