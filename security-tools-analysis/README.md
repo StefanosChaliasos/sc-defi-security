@@ -21,9 +21,9 @@ pip install pandas tabulate
 First, we need to execute the scripts to generate the respective latex code.
 
 ```
-python3 scripts/attack_descriptive_statistics.py ../dataset/database/retro.db latexcode/descriptive_statistics.tex
-python3 scripts/tool_effectiveness_and_damage.py ../dataset/database/retro.db latexcode/tool_effectiveness_and_damage.tex
-python3 scripts/summary_of_tool_results.py ../dataset/database/retro.db latexcode/summary_of_tools.tex
+python scripts/attack_descriptive_statistics.py ../dataset/database/retro.db latexcode/descriptive_statistics.tex
+python scripts/tool_effectiveness_and_damage.py ../dataset/database/retro.db latexcode/tool_effectiveness_and_damage.tex
+python scripts/summary_of_tool_results.py ../dataset/database/retro.db latexcode/summary_of_tools.tex
 ```
 
 The three .tex files produced by the scripts are exported in the latexcode directory. 

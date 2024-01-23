@@ -154,7 +154,7 @@ sqlite3 database/retro.db < scripts/amendments.sql
 Next, we'll update the `VulnerableContract` table with`is_proxy` and `has_source`.
 
 ```
-python3 scripts/update_db_vulnerable_contracts.py \
+python scripts/update_db_vulnerable_contracts.py \
     data/proxy/eth.txt data/proxy/bsc.txt \
     data/sources/eth.txt data/sources/bsc.txt \
     data/vyper/eth.txt data/vyper/bsc.txt \
@@ -166,7 +166,7 @@ rm update_commands.sql
 Then we need to parse the results and generate CSV files with the results.
 
 ```
-python3 scripts/parser.py db database/retro.db csvs \
+python scripts/parser.py db database/retro.db csvs \
     results/results_bytecode_bsc results/results_bytecode_eth \
     results/results_source_bsc results/results_source_eth
 ```
@@ -183,7 +183,7 @@ Finally, we need to import the mapping between `Cause`,
 This script will also perform various sanity checks.
 
 ```
-python3 scripts/import_mapping.py \
+python scripts/import_mapping.py \
     data/cause_to_vuln_map.csv \
     data/sc_vuln_to_vuln_map.csv \
     database/retro.db
